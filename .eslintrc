@@ -52,6 +52,7 @@
   "plugins": ["react"],
   "globals": {
     "module": true,
-    "__dirname": true
+    "__dirname": true,
+    "require": true
   }
 }
