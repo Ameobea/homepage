@@ -1,4 +1,10 @@
+window.vizStarted = false;
 export const onClientEntry = () => {
+  if (window.vizStarted) {
+    return;
+  }
+  window.vizStarted = true;
+
   const wasm = import('./src/engine');
   wasm.then(engine => {
     engine.init(window.innerWidth, window.innerHeight);

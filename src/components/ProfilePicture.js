@@ -28,7 +28,7 @@ const ProfilePicture = ({ size = 150 }) => (
             clipPath: 'circle(46% at center 50%)',
             objectPosition: 'center 37%',
           }}
-          style={{ height: size, display: 'flex', flex: 1 }}
+          style={{ height: size, display: 'flex', flex: 1, minWidth: 110 }}
         />
       </div>
     )}

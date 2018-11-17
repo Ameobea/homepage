@@ -1,0 +1,69 @@
+[
+  {
+    "name": "Robintrack",
+    "description": "A tool for viewing data about the popularity of various stocks on the Robinhood brokerage. Allows users to view the most (and least) popular stocks held by its users and view trends over time.",
+    "projectUrl": "https://robintrack.net/",
+    "srcUrl": "https://github.com/ameobea/robintrack/",
+    "technologies": [
+      "JavaScript",
+      "React",
+      "Redux",
+      "Echarts",
+      "Ruby",
+      "Rails",
+      "Redis",
+      "RabbitMQ",
+      "Python",
+      "MongoDB",
+      "Docker"
+    ],
+    "pageUrl": "/robintrack/",
+    "image": "robintrack.png",
+    "startDate": "Mar. 2017",
+    "endDate": "Apr. 2017"
+  },
+  {
+    "name": "phost",
+    "description": "Small project hoster. Can deploy static websites, share files, and manage existing deployments via a convenient TUI.  Deployments are created as subdomains of a hosting domain, allowing a director of static files (such as one produced by `yarn build` or a similar command) can go from your computer to being hosted at `project.ameo.design` with a single command.",
+    "projectUrl": null,
+    "srcUrl": "https://github.com/ameobea/phost/",
+    "technologies": ["Python", "Docker", "Apache2", "Django"],
+    "pageUrl": "/phost/",
+    "image": "phost.png",
+    "startDate": "Sep. 2018",
+    "endDate": "Sep. 2018"
+  },
+  {
+    "name": "Cryptoviz",
+    "description": "A live Depth-Of-Market (DOM) web-based visualization for live orderbook data from the Poloniex cryptocurrency exchange. Allows traders and and quantitative analysts to gain unique insight into the current state of the market.",
+    "projectUrl": "https://cryptoviz.net/",
+    "srcUrl": "https://github.com/ameobea/cryptoviz/",
+    "technologies": [],
+    "pageUrl": "/cryptoviz/",
+    "image": "cryptoviz.png",
+    "startDate": "Apr. 2018",
+    "endDate": "Jun. 2018"
+  },
+  {
+    "name": "Polotrack",
+    "description": "PoloTrack is designed to provide an overview of portfolios on the Poloniex cryptocurrency exchange. It shows detailed visualizations of current holdings, demonstrates how portfolio value has changed over time, and provides a variety of advanced analytics detailing a user's trading history and account activity.",
+    "projectUrl": "https://ameo.link/polotrack/",
+    "srcUrl": "https://github.com/ameobea/polotrack/",
+    "technologies": [],
+    "pageUrl": "/polotrack/",
+    "image": "polotrack.png",
+    "startDate": "Apr. 2017",
+    "endDate": "May 2017"
+  },
+  {
+    "name": "osu!track",
+    "description": "Self-developed application to allow “osu!” players to track their progress and view detailed information about their skill level over time.",
+    "projectUrl": "https://ameobea.me/osutrack/",
+    "srcUrl": null,
+    "technologies": [],
+    "pageUrl": "/osutrack/",
+    "image": "osutrack.png",
+    "startDate": "Jul. 2014",
+    "endDate": "Feb. 2015"
+  }
+]

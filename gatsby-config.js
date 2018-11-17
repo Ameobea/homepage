@@ -5,11 +5,19 @@ module.exports = {
   plugins: [
     'gatsby-plugin-typescript',
     'gatsby-plugin-react-helmet',
+    'gatsby-transformer-json',
     {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'images',
         path: `${__dirname}/src/images`,
+      },
+    },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'projectManifest',
+        path: `${__dirname}/src/projectManifest.json`,
       },
     },
     'gatsby-transformer-sharp',

@@ -5410,6 +5410,14 @@ gatsby-source-filesystem@^2.0.4:
     valid-url "^1.0.9"
     xstate "^3.1.0"
 
+gatsby-transformer-json@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/gatsby-transformer-json/-/gatsby-transformer-json-2.1.5.tgz#55b383ac0481d6eef5d6e869eef79789df7fe3fa"
+  integrity sha512-B5eVIN/JddJnAOpeHt5tyu+czeP0pe//3tG16R1E62MdP5zddCFH2Qi2o0N6xwKHI8tCitfJgTKsNCmqkPAR5Q==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    bluebird "^3.5.0"
+
 gatsby-transformer-sharp@^2.1.4:
   version "2.1.8"
   resolved "https://registry.yarnpkg.com/gatsby-transformer-sharp/-/gatsby-transformer-sharp-2.1.8.tgz#d217af1e6ebdb0882764c5e4efd068755ad43f49"
@@ -9627,6 +9635,11 @@ querystringify@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.1.0.tgz#7ded8dfbf7879dcc60d0a644ac6754b283ad17ef"
   integrity sha512-sluvZZ1YiTLD5jsqZcDmFyV2EwToyXZBfpoVOmktMmW+VEnhgakFHnasVph65fOjGPTWN0Nw3+XQaSeMayr0kg==
+
+ramda@^0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.25.0.tgz#8fdf68231cffa90bc2f9460390a0cb74a29b29a9"
+  integrity sha512-GXpfrYVPwx3K7RQ6aYT8KPS8XViSXUVJT1ONhoKPE9VAleW42YE+U+8VEyGWt41EnEQW7gwecYJriTI0pKoecQ==
 
 randomatic@^3.0.0:
   version "3.1.1"
