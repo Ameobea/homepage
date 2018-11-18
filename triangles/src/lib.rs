@@ -316,7 +316,7 @@ pub fn init(canvas_width: usize, canvas_height: usize) {
     unsafe { ENVS = Box::into_raw(box mem::uninitialized()) };
 
     let default_conf = Conf {
-        prng_seed: 9909.2338,
+        prng_seed: 9209.2338,
         canvas_width,
         canvas_height,
         triangle_size: 12.25,
@@ -331,6 +331,8 @@ pub fn init(canvas_width: usize, canvas_height: usize) {
         ("rgb(81, 12, 84)".into(), "rgb(226, 12, 163)".into()),
         ("rgb(9, 89, 135)".into(), "rgb(15, 190, 230)".into()),
         ("rgb(9, 112, 5)".into(), "rgb(36, 189, 6)".into()),
+        // ("rgb(135, 63, 22)".into(), "rgb(255, 144, 6)".into()),
+        // ("rgb(125, 33, 33)".into(), "rgb(255, 6, 6)".into()),
     ];
     for (i, (triangle_color, triangle_border_color)) in colors.iter().enumerate() {
         let mut conf = default_conf.clone();

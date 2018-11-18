@@ -19,6 +19,6 @@ export const onClientEntry = () => {
       engine.render(i);
     }
 
-    setInterval(genAllChains, 1000.0 / 35.0);
+    setInterval(genAllChains, 1000.0 / 24.0);
   });
 };

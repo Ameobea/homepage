@@ -18,10 +18,11 @@ const styles = {
     flexWrap: 'wrap',
   },
   headline: { paddingLeft: '1.25rem', textAlign: 'center' },
+  tagLine: { fontSize: 16 },
 };
 
 const TagLine = () => (
-  <div style={{ fontFamily: 'monospace', fontSize: 16 }}>
+  <div style={styles.tagLine}>
     {"I'm a software developer or whatever I feel would be good to put here."}
   </div>
 );

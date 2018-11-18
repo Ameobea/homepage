@@ -42,7 +42,7 @@
 
 .portfolio-project-info-link {
   display: flex;
-  font-family: monospace;
+  font-family: 'Oxygen Mono', monospace;
   color: #999;
   padding-right: 10px;
 }

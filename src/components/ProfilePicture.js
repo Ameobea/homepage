@@ -26,17 +26,15 @@ const ProfilePicture = ({ size = 150 }) => (
         }
       }
     `}
-    render={data =>
-      console.log(data.placeholderImage.childImageSharp.fluid) || (
-        <div style={{ ...styles.root, flexBasis: size }}>
-          <Img
-            fluid={data.placeholderImage.childImageSharp.fluid}
-            imgStyle={styles.imageStyle}
-            style={{ ...styles.imageContainer, height: size }}
-          />
-        </div>
-      )
-    }
+    render={data => (
+      <div style={{ ...styles.root, flexBasis: size }}>
+        <Img
+          fluid={data.placeholderImage.childImageSharp.fluid}
+          imgStyle={styles.imageStyle}
+          style={{ ...styles.imageContainer, height: size }}
+        />
+      </div>
+    )}
   />
 );
 export default ProfilePicture;
