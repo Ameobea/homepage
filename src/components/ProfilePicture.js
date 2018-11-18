@@ -2,6 +2,17 @@ import React from 'react';
 import { StaticQuery, graphql } from 'gatsby';
 import Img from 'gatsby-image';
 
+const styles = {
+  root: {
+    marginBottom: '1.45rem',
+  },
+  imageContainer: { display: 'flex', flex: 1, minWidth: 110 },
+  imageStyle: {
+    clipPath: 'circle(46% at center 50%)',
+    objectPosition: 'center 37%',
+  },
+};
+
 const ProfilePicture = ({ size = 150 }) => (
   <StaticQuery
     query={graphql`
@@ -15,23 +26,17 @@ const ProfilePicture = ({ size = 150 }) => (
         }
       }
     `}
-    render={data => (
-      <div
-        style={{
-          flexBasis: size,
-          marginBottom: '1.45rem',
-        }}
-      >
-        <Img
-          fluid={data.placeholderImage.childImageSharp.fluid}
-          imgStyle={{
-            clipPath: 'circle(46% at center 50%)',
-            objectPosition: 'center 37%',
-          }}
-          style={{ height: size, display: 'flex', flex: 1, minWidth: 110 }}
-        />
-      </div>
-    )}
+    render={data =>
+      console.log(data.placeholderImage.childImageSharp.fluid) || (
+        <div style={{ ...styles.root, flexBasis: size }}>
+          <Img
+            fluid={data.placeholderImage.childImageSharp.fluid}
+            imgStyle={styles.imageStyle}
+            style={{ ...styles.imageContainer, height: size }}
+          />
+        </div>
+      )
+    }
   />
 );
 export default ProfilePicture;

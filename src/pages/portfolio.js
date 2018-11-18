@@ -1,59 +1,10 @@
 import React from 'react';
 import { Link, StaticQuery, graphql } from 'gatsby';
+import Img from 'gatsby-image';
 import * as R from 'ramda';
 
 import Layout from '../components/layout';
-
-const styles = {
-  root: {
-    display: 'block',
-    width: '100%',
-    columnCount: 2,
-    columnWidth: 400,
-    columnGap: 0,
-  },
-  projectWrapper: {
-    breakInside: 'avoid',
-    display: 'flex',
-    flexDirection: 'column',
-    paddingTop: 12,
-    paddingLeft: 5,
-    paddingRight: 5,
-  },
-  projectOverview: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  projectHeader: {
-    paddingBottom: 6,
-  },
-  projectTitle: {
-    marginBottom: 4,
-  },
-  projectOverviewContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    flex: 1,
-    minWidth: 250,
-  },
-  projectOverviewImage: {
-    display: 'flex',
-    minWidth: 250,
-  },
-  projectInfo: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  projectInfoLink: {
-    fontFamily: 'monospace',
-    color: '#999',
-    display: 'flex',
-    paddingRight: 10,
-    minWidth: 100,
-  },
-  projectDescription: { paddingTop: 10 },
-};
+import './portfolio.css';
 
 const ProjectInfoLink = ({ text, url }) => {
   if (!url) {
@@ -61,7 +12,7 @@ const ProjectInfoLink = ({ text, url }) => {
   }
 
   return (
-    <i style={styles.projectInfoLink}>
+    <i className="portfolio-project-info-link">
       <a href={url}>{text}</a>
     </i>
   );
@@ -76,28 +27,41 @@ const ProjectOverview = ({
   pageUrl,
   startDate,
   endDate,
-  imageSrc,
+  fluidImage,
+  even,
 }) => (
-  <div style={styles.projectWrapper}>
-    <div style={styles.projectHeader}>
-      <h2 style={styles.projectTitle}>
-        <Link to={`/projects/${pageUrl}`}>{name}</Link>
-      </h2>
-      <i style={styles.projectInfoLink}>{`${startDate} - ${endDate}`}</i>
-      <div style={styles.projectInfo}>
-        <ProjectInfoLink text="Project URL" url={projectUrl} />
-        <ProjectInfoLink text="Source Code" url={srcUrl} />
+  <div
+    className={`portfolio-root ${
+      even ? 'portfolio-root-even' : 'portfolio-root-odd'
+    }`}
+  >
+    <div className="portfolio-project-overview-content">
+      <div className="portfolio-project-header">
+        <h2 className="portfolio-project-title">
+          <Link to={`/projects/${pageUrl}`}>{name}</Link>
+        </h2>
+        <i className="portfolio-project-info-link">{`${startDate} - ${endDate}`}</i>
+        <div className="portfolio-project-info">
+          <ProjectInfoLink text="Website" url={projectUrl} />
+          <ProjectInfoLink text="Source Code" url={srcUrl} />
+        </div>
       </div>
+      <p className="portfolio-project-description">{description}</p>
     </div>
-
-    <div style={styles.projectOverview}>
-      <Link to={`/projects/${pageUrl}`} style={styles.projectOverviewImage}>
-        <img src={imageSrc} />
+    {fluidImage ? (
+      <Link
+        to={`/projects/${pageUrl}`}
+        style={{
+          minWidth: 320,
+          display: 'flex',
+          flex: 1,
+          paddingLeft: even ? 0 : 15,
+          paddingRight: even ? 15 : 0,
+        }}
+      >
+        <Img fluid={fluidImage} imgStyle={{ objectPosition: 'top center' }} />
       </Link>
-      <div style={styles.projectOverviewContent}>
-        <p style={styles.projectDescription}>{description}</p>
-      </div>
-    </div>
+    ) : null}
   </div>
 );
 
@@ -121,9 +85,9 @@ const getProjectFilesQuery = graphql`
     allImageSharp {
       edges {
         node {
-          fluid {
+          fluid(maxWidth: 1200, quality: 85) {
             originalName
-            src
+            ...GatsbyImageSharpFluid_noBase64
           }
         }
       }
@@ -135,21 +99,23 @@ const IndexInner = data => {
   const projects = data.allProjectManifestJson.edges.map(R.prop('node'));
   const imageList = data.allImageSharp.edges.map(R.path(['node', 'fluid']));
   const imageMap = imageList.reduce(
-    (acc, { originalName, src }) => ({ ...acc, [originalName]: src }),
+    (acc, fluid) => ({ ...acc, [fluid.originalName]: fluid }),
     {}
   );
+
   return (
     <Layout>
-      <div style={styles.root}>
-        {projects.map((props, i) => (
-          <ProjectOverview
-            key={i}
-            {...props}
-            even={i % 2 == 0}
-            imageSrc={imageMap[props.image]}
-          />
-        ))}
-      </div>
+      <center>
+        <h1>Software Project Portfolio</h1>
+      </center>
+      {projects.map((props, i) => (
+        <ProjectOverview
+          key={i}
+          even={i % 2 == 0}
+          {...props}
+          fluidImage={imageMap[props.image]}
+        />
+      ))}
     </Layout>
   );
 };
