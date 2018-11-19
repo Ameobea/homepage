@@ -40,7 +40,8 @@ const ProjectOverview = ({
         <h2 className="portfolio-project-title">
           <Link to={`/projects/${pageUrl}`}>{name}</Link>
         </h2>
-        <i className="portfolio-project-info-link">{`${startDate} - ${endDate}`}</i>
+        <i className="portfolio-project-info-link">{`${startDate} - ${endDate ||
+          '(under development)'}`}</i>
         <div className="portfolio-project-info">
           <ProjectInfoLink text="Website" url={projectUrl} />
           <ProjectInfoLink text="Source Code" url={srcUrl} />
@@ -50,16 +51,17 @@ const ProjectOverview = ({
     </div>
     {fluidImage ? (
       <Link
+        className={`portfolio-image-wrapper ${
+          even
+            ? 'portfolio-image-wrapper-left'
+            : 'portfolio-image-wrapper-right'
+        }`}
         to={`/projects/${pageUrl}`}
-        style={{
-          minWidth: 320,
-          display: 'flex',
-          flex: 1,
-          paddingLeft: even ? 0 : 15,
-          paddingRight: even ? 15 : 0,
-        }}
       >
-        <Img fluid={fluidImage} imgStyle={{ objectPosition: 'top center' }} />
+        <Img
+          fluid={fluidImage}
+          imgStyle={{ objectPosition: 'center center', objectFit: 'contain' }}
+        />
       </Link>
     ) : null}
   </div>
@@ -108,6 +110,15 @@ const IndexInner = data => {
       <center>
         <h1>Software Project Portfolio</h1>
       </center>
+      <p>
+        Writing software is my passion. Building web applications, websites,
+        tools, utilities, or artsy code sketches is what I do in my free time
+        and want to do for my career as well. Here is a collection of the
+        notable software projects that I've undertaken and published. The list
+        isn't comprehensive and is always growing.
+      </p>
+      <hr />
+
       {projects.map((props, i) => (
         <ProjectOverview
           key={i}

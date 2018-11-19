@@ -1,5 +1,16 @@
 [
   {
+    "name": "Web-Based MIDI Editor + Synthesizer",
+    "description": "",
+    "projectUrl": "https://notes.ameo.design/",
+    "srcUrl": "https://github.com/ameobea/web-synth/",
+    "technologies": ["Rust", "WebAssembly", "WebAudio"],
+    "pageUrl": "/notes/",
+    "image": "notes.png",
+    "startDate": "Sep. 2018",
+    "endDate": null
+  },
+  {
     "name": "Robintrack",
     "description": "A tool for viewing data about the popularity of various stocks on the Robinhood brokerage. Allows users to view the most (and least) popular stocks held by its users and view trends over time.",
     "projectUrl": "https://robintrack.net/",
@@ -24,7 +35,7 @@
   },
   {
     "name": "phost",
-    "description": "Small project hoster. Can deploy static websites, share files, and manage existing deployments via a convenient TUI.  Deployments are created as subdomains of a hosting domain, allowing a directory of static files (such as one produced by `yarn build` or a similar command) can go from your computer to being hosted at `project.ameo.design` with a single command.",
+    "description": "Server and TUI manage and deploy static websites and files.  Deployments are created as subdomains, allowing a directory of static files (such as one produced by `yarn build`) to go from your computer to being hosted at `project.ameo.design` with a single command.",
     "projectUrl": null,
     "srcUrl": "https://github.com/ameobea/phost/",
     "technologies": ["Python", "Docker", "Apache2", "Django"],
@@ -32,6 +43,39 @@
     "image": "phost.png",
     "startDate": "Sep. 2018",
     "endDate": "Sep. 2018"
+  },
+  {
+    "name": "Noise Function Compositor",
+    "description": "A web application developed using Rust + WebAssembly for creating and visualizing compositions of noise functions.  3D noise functions are projected onto a 2D canvas after being mapped through a colorizer function, creating intricate and psychadelic effects.  Includes a web backend for sharing + browsing compositions from other users.",
+    "projectUrl": "https://noise.ameo.design/",
+    "srcUrl": "https://github.com/ameobea/noise-asmjs",
+    "technologies": [
+      "Rust",
+      "WebAssembly/Asm.JS",
+      "JavaScript",
+      "React",
+      "Redux",
+      "HTML",
+      "MySQL",
+      "Semantic UI",
+      "Diesel",
+      "Rocket"
+    ],
+    "pageUrl": "/noise/",
+    "image": "noise.png",
+    "startDate": "Jun. 2017",
+    "endDate": "Sep. 2017"
+  },
+  {
+    "name": "Minutiae",
+    "description": "A simulation engine that operates on a finite 2-dimensional universe populated by cells and entities. It is designed to provide a modular system on top of which simulations of various types can be designed.  Can be compiled into WebAssembly and run in the browser, optionally including client/server funcationality.",
+    "projectUrl": null,
+    "srcUrl": "https://github.com/ameobea/minutiae/",
+    "technologies": ["Rust", "WebSocket"],
+    "pageUrl": "/minutiae/",
+    "image": "minutiae.png",
+    "startDate": "May 2017",
+    "endDate": null
   },
   {
     "name": "Cryptoviz",
@@ -54,6 +98,17 @@
     "image": "polotrack.png",
     "startDate": "Apr. 2017",
     "endDate": "May 2017"
+  },
+  {
+    "name": "TickGrinder",
+    "description": "TickGrinder is a high performance algorithmic trading platform written primarily in Rust.  It is designed with the goal of efficiently processing event-based market data as quickly as possible in order to automatically place and manage trades.",
+    "projectUrl": null,
+    "srcUrl": "https://github.com/ameobea/tickgrinder/",
+    "technologies": ["Rust", "React", "C++", "Boost", "Java", "Tantivy"],
+    "pageUrl": "/tickgrinder/",
+    "image": "tickgrinder.png",
+    "startDate": "Aug. 2016",
+    "endDate": "Mar. 2017"
   },
   {
     "name": "osu!track",

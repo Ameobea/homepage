@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'gatsby';
 
+import { ANewTab } from './util';
 import githubLogo from '../images/social/github.svg';
 import redditLogo from '../images/social/reddit.svg';
 import twitterLogo from '../images/social/twitter.svg';
@@ -18,12 +18,6 @@ const styles = {
   logoLink: { display: 'inline', paddingLeft: 6, paddingRight: 6 },
   logo: { marginBottom: 0, marginTop: 6 },
 };
-
-const ANewTab = ({ href, children, ...props }) => (
-  <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
-    {children}
-  </a>
-);
 
 const LogoLink = ({ logoImage, url, alt = '' }) => (
   <div style={styles.logoLink}>

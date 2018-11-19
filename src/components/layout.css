@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Oxygen+Mono');
+@import url('https://fonts.googleapis.com/css?family=Oxygen+Mono|IBM+Plex+Sans');
 
 html {
   -ms-text-size-adjust: 100%;
@@ -104,11 +104,6 @@ samp {
 figure {
   margin: 1em 40px;
 }
-hr {
-  box-sizing: content-box;
-  height: 0;
-  overflow: visible;
-}
 button,
 input,
 optgroup,
@@ -206,7 +201,7 @@ body {
   margin: 0;
   background-color: rgb(16, 16, 16);
   color: #dcdcdc;
-  font-family: 'Oxygen Mono', monospace;
+  font-family: 'IBM Plex Sans', sans-serif;
   font-weight: normal;
   word-wrap: break-word;
   font-kerning: normal;
@@ -429,7 +424,12 @@ hr {
   padding-right: 0;
   padding-top: 0;
   margin-bottom: calc(1.45rem - 1px);
-  background: hsla(0, 0%, 0%, 0.2);
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
+  color: #aaa;
+  border-color: #aaa;
+  background-color: #aaa;
   border: none;
   height: 1px;
 }

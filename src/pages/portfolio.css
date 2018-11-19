@@ -26,12 +26,41 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-width: 320px;
 }
 
 .gatsby-image-wrapper {
   display: flex;
   flex: 1;
+}
+
+.portfolio-image-wrapper {
+  display: flex;
+  flex: 1;
+  flex-basis: 360px;
+}
+
+@media only screen and (max-width: 600px) {
+  .portfolio-image-wrapper {
+    min-width: 80vw;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .portfolio-image-wrapper {
+    min-width: 450px;
+  }
+
+  .portfolio-image-wrapper-left {
+    padding-right: 14px;
+  }
+
+  .portfolio-image-wrapper-right {
+    padding-left: 14px;
+  }
+
+  .portfolio-project-overview-content {
+    min-width: 300px;
+  }
 }
 
 .portfolio-project-info {
@@ -44,9 +73,11 @@
   display: flex;
   font-family: 'Oxygen Mono', monospace;
   color: #999;
+  font-size: 14px;
+  line-height: 1.4em;
   padding-right: 10px;
 }
 
 .portfolio-project-description {
-  padding-top: 10px;
+  padding-top: 4px;
 }

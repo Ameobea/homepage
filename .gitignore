@@ -71,3 +71,4 @@ yarn-error.log
 dist/*
 src/engine*
 node_modules/
+*.wat
