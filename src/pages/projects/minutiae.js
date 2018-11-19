@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '../../components/layout';
 
-const Robintrack = () => <Layout>TODO</Layout>;
+const Minutiae = () => <Layout>TODO</Layout>;
 
-export default Robintrack;
+export default Minutiae;
