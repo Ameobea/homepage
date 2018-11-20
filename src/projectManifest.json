@@ -1,18 +1,19 @@
 [
   {
     "name": "Web-Based MIDI Editor + Synthesizer",
-    "description": "",
+    "description": "The goal of this project is to create a web-based music creation application that can be used entirely within the browser.  Since the modern WebAudio API provides everything necessary to create complicated synthesizers and perform advanced audio processing, I believed that the web could work as an accessible environment in which to build this.",
     "projectUrl": "https://notes.ameo.design/",
     "srcUrl": "https://github.com/ameobea/web-synth/",
     "technologies": ["Rust", "WebAssembly", "WebAudio"],
     "pageUrl": "/notes/",
     "image": "notes.png",
+    "imageAlt": "A screenshot of my online MIDI editor's UI showcasing drawn MIDI notes and controls for the synthesizer that plays when they are drawn and selected.",
     "startDate": "Sep. 2018",
     "endDate": null
   },
   {
     "name": "Robintrack",
-    "description": "A tool for viewing data about the popularity of various stocks on the Robinhood brokerage. Allows users to view the most (and least) popular stocks held by its users and view trends over time.",
+    "description": "A tool for viewing data about the popularity of various stocks on the Robinhood brokerage. Allows users to view the most (and least) popular stocks held by its users and view trends over time.  Robintrack gained significant popularity, with several people reaching out to use the data it collected for school or personal research and the Robinhood team reaching out to me directly about it.",
     "projectUrl": "https://robintrack.net/",
     "srcUrl": "https://github.com/ameobea/robintrack/",
     "technologies": [
@@ -30,6 +31,7 @@
     ],
     "pageUrl": "/robintrack/",
     "image": "robintrack.png",
+    "imageAlt": "A screenshot of the \"Popularity Changes\" page from Robintrack, showing the table of stocks with large recent popularity changes and a chart plotting the popularity vs price of the NVDA stock.",
     "startDate": "Mar. 2017",
     "endDate": "Apr. 2017"
   },
@@ -41,12 +43,33 @@
     "technologies": ["Python", "Docker", "Apache2", "Django"],
     "pageUrl": "/phost/",
     "image": "phost.png",
+    "imageAlt": "A screenshot of the command line after running two phost commands for listing existing deployments and updating the deployment for the development version of this website.",
     "startDate": "Sep. 2018",
     "endDate": "Sep. 2018"
   },
   {
+    "name": ".io-style Game",
+    "description": "A friend and I wanted to work on a game together, trying out some tech that we were interested in and building up all parts of a game from scratch.  I handled the frontend and the physics while my friend focused on setting up the backend server.  At the end, we came up with a networked physics engine based on a popular Rust physics framework that runs the same code on both the client and the server.\n\nA variety of techniques were used for handling network delay, synchronizing state, and keeping track of game data both internally on the client as well as on the server.",
+    "projectUrl": "https://io.ameo.design/",
+    "srcUrl": "https://github.com/ameobea/io-game/",
+    "technologies": [
+      "Elixir",
+      "Phoenix",
+      "Rust",
+      "WebAssembly",
+      "nphysics",
+      "Protocol Buffers",
+      "WebSockets"
+    ],
+    "pageUrl": "/io-game/",
+    "image": "io.png",
+    "imageAlt": "A screenshot of the .io-style game that I created, showing created \"asteroids\", a player entity with a rotateable beam, and a procedurally generated background.",
+    "startDate": "Jul. 2018",
+    "endDate": "Aug. 2018"
+  },
+  {
     "name": "Noise Function Compositor",
-    "description": "A web application developed using Rust + WebAssembly for creating and visualizing compositions of noise functions.  3D noise functions are projected onto a 2D canvas after being mapped through a colorizer function, creating intricate and psychadelic effects.  Includes a web backend for sharing + browsing compositions from other users.",
+    "description": "A web application developed using Rust + WebAssembly for creating and visualizing compositions of noise functions.  3D noise functions are projected onto a 2D canvas after being mapped through a colorizer function, creating intricate and psychedelic effects.  Includes a web backend for sharing + browsing compositions from other users.",
     "projectUrl": "https://noise.ameo.design/",
     "srcUrl": "https://github.com/ameobea/noise-asmjs",
     "technologies": [
@@ -63,28 +86,31 @@
     ],
     "pageUrl": "/noise/",
     "image": "noise.png",
+    "imageAlt": "A screenshot of the noise compositor UI showing the composition tree, settings for an input transformation that zooms and scales its input, and the output of the composited and colorized noise function.",
     "startDate": "Jun. 2017",
     "endDate": "Sep. 2017"
   },
   {
     "name": "Minutiae",
-    "description": "A simulation engine that operates on a finite 2-dimensional universe populated by cells and entities. It is designed to provide a modular system on top of which simulations of various types can be designed.  Can be compiled into WebAssembly and run in the browser, optionally including client/server funcationality.",
+    "description": "A simulation engine that operates on a finite 2-dimensional universe populated by cells and entities. It is designed to provide a modular system on top of which simulations of various types can be designed.  Can be compiled into WebAssembly and run in the browser, optionally including client/server functionality.  Minutiae is used in several of my other projects.",
     "projectUrl": null,
     "srcUrl": "https://github.com/ameobea/minutiae/",
     "technologies": ["Rust", "WebSocket"],
     "pageUrl": "/minutiae/",
     "image": "minutiae.png",
+    "imageAlt": "A minutiae simulation in which particles (colorized by a hidden noise function composition) are intermittently attracted to or repelled by each other, producing a dynamic scene reminiscent of sand in low gravity.",
     "startDate": "May 2017",
     "endDate": null
   },
   {
     "name": "Cryptoviz",
-    "description": "A live Depth-Of-Market (DOM) web-based visualization for live orderbook data from the Poloniex cryptocurrency exchange. Allows traders and and quantitative analysts to gain unique insight into the current state of the market by viewing complex market activity in real time.",
+    "description": "A live Depth-Of-Market (DOM) web-based visualization for live orderbook data from the Poloniex cryptocurrency exchange. Allows traders and quantitative analysts to gain unique insight into the current state of the market by viewing complex market activity in real time.",
     "projectUrl": "https://cryptoviz.net/",
     "srcUrl": "https://github.com/ameobea/cryptoviz/",
     "technologies": ["JavaScript", "React", "WebSocket", "Paper.JS"],
     "pageUrl": "/cryptoviz/",
     "image": "cryptoviz.png",
+    "imageAlt": "A screenshot of a Cryptoviz visualization demonstrating orderbook activity in Litecoin (LTC) on Poloniex.  Notably evident is an occurance where a large sell order caused the market price to drop quickly and significantly.",
     "startDate": "Apr. 2017",
     "endDate": "Jun. 2017"
   },
@@ -104,6 +130,7 @@
     ],
     "pageUrl": "/polotrack/",
     "image": "polotrack.png",
+    "imageAlt": "A screenshot of the overview page of the Polotrack UI, demonstrating a listing of current holdings and their value, a pie chart visualizing those listings, and several other data fields showing information about the current portfolio and its performance.",
     "startDate": "Apr. 2017",
     "endDate": "May 2017"
   },
@@ -123,28 +150,39 @@
     ],
     "pageUrl": "/tickgrinder/",
     "image": "tickgrinder.png",
+    "imageAlt": "A screenshot of the work-in-progress TickGrinder control UI, showing a list of spawned instances managed by the platform as well as a dropdown that can be used to spawn new instances.",
     "startDate": "Aug. 2016",
     "endDate": "Mar. 2017"
   },
   {
     "name": "Elotrack",
-    "description": "Site that tracked the gameplay statistics of League of Legends players.  Users could view as their rank changed as they played and view a variety of other statistics about their gameplay habits.",
+    "description": "Site that tracked the gameplay statistics of League of Legends players.  Users could view as their rank changed as they played and view a variety of other statistics about their gameplay habits.  Elotrack was eventually taken offline due to the League of Legends API that it made use of being discontinued.",
     "projectUrl": null,
     "srcUrl": null,
     "technologies": ["Ruby", "Sinatra", "MySQL", "JQuery", "Highcharts"],
     "pageUrl": "/elotrack/",
     "image": "elotrack.png",
+    "imageAlt": "A screenshot of the UI of the Elotrack website, showing a user's statistics page including several charts plotting how their statistics have changed over time as well as figures detailing their recent performance in ranked.",
     "startDate": "Jan. 2015",
     "endDate": "May 2015"
   },
   {
     "name": "osu!track",
-    "description": "Site where players of the game \"osu!\" can track their progress and view the progression of others.  Pulls data from the osu! API, storing timeseries and creating a variety of charts, plots, statistics, and other visualizations for a variety of different metrics.",
+    "description": "Site where players of the game osu! can track their progress and view the progression of others.  Pulls data from the osu! API, storing time series data and creating a variety of charts, plots, statistics, and other visualizations for a variety of different metrics.  An in-game chat bot and Discord bot were also written to allow users to update their stats from in-game.  Thousands of players a month continue to use osu!track.",
     "projectUrl": "https://ameobea.me/osutrack/",
     "srcUrl": null,
-    "technologies": ["PHP", "MySQL", "JQuery", "Bootstrap", "Highcharts"],
+    "technologies": [
+      "PHP",
+      "MySQL",
+      "JQuery",
+      "Bootstrap",
+      "Highcharts",
+      "Node.JS",
+      "Python"
+    ],
     "pageUrl": "/osutrack/",
     "image": "osutrack.png",
+    "imageAlt": "A screenshot of a user's osu!track profile, showing statistics about their account and a scatter plot showing the scores on their best plays over time.",
     "startDate": "Jul. 2014",
     "endDate": "Feb. 2015"
   }

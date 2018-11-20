@@ -25,6 +25,7 @@ const ProjectOverview = ({
   srcUrl,
   technologies,
   pageUrl,
+  imageAlt,
   startDate,
   endDate,
   fluidImage,
@@ -61,6 +62,7 @@ const ProjectOverview = ({
         <Img
           fluid={fluidImage}
           imgStyle={{ objectPosition: 'center center', objectFit: 'contain' }}
+          alt={imageAlt}
         />
       </Link>
     ) : null}
@@ -79,6 +81,7 @@ const getProjectFilesQuery = graphql`
           technologies
           pageUrl
           image
+          imageAlt
           startDate
           endDate
         }
