@@ -72,3 +72,4 @@ dist/*
 src/engine*
 node_modules/
 *.wat
+package_hash

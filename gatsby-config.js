@@ -20,6 +20,13 @@ module.exports = {
         path: `${__dirname}/src/projectManifest.json`,
       },
     },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'licenses',
+        path: `${__dirname}/src/licenses.csv`,
+      },
+    },
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
     {
@@ -34,5 +41,6 @@ module.exports = {
         icon: 'src/images/favicon.png', // This path is relative to the root of the site.
       },
     },
+    'gatsby-transformer-csv',
   ],
 };
