@@ -20,7 +20,7 @@ const ProfilePicture = ({ size = 150 }) => (
         placeholderImage: file(relativePath: { eq: "face.jpg" }) {
           childImageSharp {
             fluid(maxWidth: 250, quality: 85) {
-              ...GatsbyImageSharpFluid
+              ...GatsbyImageSharpFluid_withWebp
             }
           }
         }

@@ -9,7 +9,7 @@ const Contact = () => (
       <h1>Contact Info</h1>
     </center>
     <p>
-      There are plenty of ways of contacting me! The best ones are below; pick
+      There are plenty of ways to contact me! The best ones are below; pick
       whichever one works best for you.
     </p>
     <ul>

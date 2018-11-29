@@ -92,7 +92,7 @@ const getProjectFilesQuery = graphql`
         node {
           fluid(maxWidth: 1200, quality: 85) {
             originalName
-            ...GatsbyImageSharpFluid_noBase64
+            ...GatsbyImageSharpFluid_withWebp
           }
         }
       }
@@ -107,6 +107,7 @@ const IndexInner = data => {
     (acc, fluid) => ({ ...acc, [fluid.originalName]: fluid }),
     {}
   );
+  console.log(imageMap);
 
   return (
     <Layout>
