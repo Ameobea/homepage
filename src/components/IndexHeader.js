@@ -11,6 +11,7 @@ const styles = {
   headerWrapper: {
     background: 'rgb(44, 44, 44)',
     marginBottom: '0',
+    display: 'flex',
   },
   header: {
     margin: '0 auto',
@@ -20,9 +21,13 @@ const styles = {
     flexDirection: 'row',
     justifyItems: 'space-between',
   },
-  textLink: { fontSize: 16, textDecoration: 'none', paddingRight: 4 },
+  textLink: {
+    fontSize: 16,
+    paddingLeft: 4,
+    paddingRight: 4,
+  },
+  logoLinks: { paddingRight: 2 },
   logoLink: { display: 'inline', paddingLeft: 6, paddingRight: 6 },
-  logoLinks: { paddingRight: 6 },
   logo: { marginBottom: 0, marginTop: 6 },
   leftLinks: {
     display: 'flex',
@@ -41,6 +46,10 @@ const LogoLink = ({ logoImage, url, alt = '', style = {} }) => (
       <img src={logoImage} alt={alt} height={16} style={styles.logo} />
     </ANewTab>
   </div>
+);
+
+const NonLogoLink = ({ url, text }) => (
+  <ANewTab href={url} style={styles.textLink} text={text} />
 );
 
 const LogoLinks = () => (
@@ -74,12 +83,8 @@ const Header = ({ siteTitle }) => (
     <div style={styles.header}>
       <div style={styles.leftLinks}>
         <LogoLinks />
-        <ANewTab href="https://ameo.link/blog/" style={styles.textLink}>
-          Blog
-        </ANewTab>
-        <ANewTab href="https://ameo.link/resume" style={styles.textLink}>
-          Résumé
-        </ANewTab>
+        <NonLogoLink url="https://ameo.link/blog/" text="Blog" />
+        <NonLogoLink url="https://ameo.link/resume" text="Résume" />
       </div>
 
       <div style={styles.rightLinks}>

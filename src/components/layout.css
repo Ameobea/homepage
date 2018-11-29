@@ -41,10 +41,7 @@ template {
 a {
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
-  color: #ccc;
-}
-a:visited {
-  color: #999;
+  color: rgb(65, 131, 196);
 }
 a:active,
 a:hover {
@@ -565,5 +562,15 @@ pre tt:after {
 @media only screen and (max-width: 480px) {
   html {
     font-size: 100%;
+  }
+}
+
+@media only screen and (max-width: 776px) {
+  .header {
+    display: none !important;
+  }
+
+  .header-mobile {
+    display: flex !important;
   }
 }

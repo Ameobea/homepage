@@ -107,7 +107,6 @@ const IndexInner = data => {
     (acc, fluid) => ({ ...acc, [fluid.originalName]: fluid }),
     {}
   );
-  console.log(imageMap);
 
   return (
     <Layout>

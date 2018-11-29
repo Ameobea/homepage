@@ -19,6 +19,7 @@ const styles = {
     fontSize: 24,
     display: 'flex',
     flex: 0,
+    color: '#aaa',
   },
   block: {
     display: 'flex',
@@ -36,6 +37,7 @@ const styles = {
     paddingLeft: 12,
     paddingRight: 12,
     fontFamily: "'Oxygen Mono', monospace",
+    color: '#aaa',
   },
 };
 

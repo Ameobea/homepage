@@ -6,6 +6,7 @@ import {
   IndexLinkBlock,
   IndexLinkBlockSet,
 } from '../components/IndexLinkBlock';
+import IndexHeader from '../components/IndexHeader';
 
 const styles = {
   title: {
@@ -18,7 +19,7 @@ const styles = {
     flexWrap: 'wrap',
   },
   headline: { paddingLeft: '1.25rem', textAlign: 'center' },
-  tagLine: { fontSize: 16 },
+  tagLine: { fontSize: 16, fontFamily: "'Oxygen Mono', monospace" },
 };
 
 const TagLine = () => (
@@ -28,20 +29,23 @@ const TagLine = () => (
 );
 
 const IndexPage = () => (
-  <Layout>
-    <div style={styles.title}>
-      <h1 style={styles.headline}>Casey Primozic - Ameo</h1>
-      <ProfilePicture size={125} />
-    </div>
+  <React.Fragment>
+    <IndexHeader />
+    <Layout showHeader={false}>
+      <div style={styles.title}>
+        <h1 style={styles.headline}>Casey Primozic - Ameo</h1>
+        <ProfilePicture size={125} />
+      </div>
 
-    <TagLine />
+      <TagLine />
 
-    <IndexLinkBlockSet>
-      <IndexLinkBlock to="/portfolio/" text="Projects + Work Portfolio" />
-      <IndexLinkBlock to="/contact/" text="Contact" />
-      <IndexLinkBlock to="/about/" text="About Me" />
-    </IndexLinkBlockSet>
-  </Layout>
+      <IndexLinkBlockSet>
+        <IndexLinkBlock to="/portfolio/" text="Projects + Work Portfolio" />
+        <IndexLinkBlock to="/contact/" text="Contact" />
+        <IndexLinkBlock to="/about/" text="About Me" />
+      </IndexLinkBlockSet>
+    </Layout>
+  </React.Fragment>
 );
 
 export default IndexPage;
