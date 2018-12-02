@@ -35,6 +35,24 @@ const LinkedinIconCredit = () => (
   </React.Fragment>
 );
 
+const HamburgerIconCredit = () => (
+  <React.Fragment>
+    Hamburger menu icon made by{' '}
+    <ANewTab to="https://www.iconfinder.com/tmthymllr" text="Timothy Miller" />{' '}
+    and licensed by licensed by{' '}
+    <a
+      href="http://creativecommons.org/licenses/by/3.0/"
+      title="Creative Commons BY 3.0"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      CC 3.0 BY
+    </a>
+    . I changed the color to white, so the derivative work is also licensed
+    under CC 3.0 BY.
+  </React.Fragment>
+);
+
 const ImprintContent = ({ licenses }) => (
   <Layout>
     <div>
@@ -45,6 +63,7 @@ const ImprintContent = ({ licenses }) => (
       <h2>Licenses of dependencies used on the site</h2>
       <Licenses licenses={licenses} />
       <LinkedinIconCredit />
+      <HamburgerIconCredit />
     </div>
   </Layout>
 );

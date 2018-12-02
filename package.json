@@ -17,8 +17,8 @@
     "gatsby-transformer-json": "^2.1.5",
     "gatsby-transformer-sharp": "^2.1.4",
     "ramda": "^0.25.0",
-    "react": "^16.5.1",
-    "react-dom": "^16.5.1",
+    "react": "^16.7.0-alpha",
+    "react-dom": "^16.7.0-alpha",
     "react-helmet": "^5.2.0"
   },
   "keywords": [
