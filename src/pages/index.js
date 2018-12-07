@@ -19,7 +19,7 @@ const styles = {
     flexWrap: 'wrap',
   },
   headline: { paddingLeft: '1.25rem', textAlign: 'center' },
-  tagLine: { fontSize: 16, fontFamily: "'Oxygen Mono', monospace" },
+  tagLine: { fontSize: 18, paddingBottom: 14 },
 };
 
 const TagLine = () => (

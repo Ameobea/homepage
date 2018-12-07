@@ -8,7 +8,6 @@ const styles = {
     height: 0,
     backgroundColor: 'rgba(36, 36, 36, 0.92)',
     paddingBottom: 30,
-    display: 'flex',
     flexDirection: 'row',
     display: 'none',
   },
@@ -69,7 +68,6 @@ const HeaderMenuExpanded = ({ setMenuOpen }) => (
 
 const HeaderMobile = () => {
   const [menuOpen, setMenuOpen] = useState(0);
-  console.log(menuOpen);
 
   return (
     <div style={styles.root} className="header-mobile">
@@ -87,7 +85,7 @@ const HeaderMobile = () => {
         }}
         onClick={() => setMenuOpen(!menuOpen)}
       />
-      <div style={styles.title}>Casey Primozic's Homepage</div>
+      <div style={styles.title}>Casey Primozic&apos;s Homepage</div>
 
       {menuOpen ? <HeaderMenuExpanded /> : null}
     </div>

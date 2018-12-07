@@ -8,7 +8,7 @@ const styles = {
     backgroundColor: '#333',
     paddingLeft: 12,
     paddingTop: 4,
-    paddingBottom: 4,
+    paddingBottom: 8,
     paddingright: 12,
     fontFamily: "'Oxygen Mono', monospace",
   },
@@ -23,11 +23,12 @@ const styles = {
     display: 'flex',
     flex: 1,
     justifyContent: 'center',
+    marginTop: 2,
   },
   navLink: {
     fontSize: 14,
-    paddingLeft: 6,
-    paddingRight: 6,
+    paddingLeft: 8,
+    paddingRight: 8,
   },
 };
 

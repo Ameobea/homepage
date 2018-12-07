@@ -22,7 +22,7 @@ const styles = {
     justifyItems: 'space-between',
   },
   textLink: {
-    fontSize: 16,
+    paddingTop: 1,
     paddingLeft: 4,
     paddingRight: 4,
   },
@@ -89,9 +89,9 @@ const Header = ({ siteTitle }) => (
 
       <div style={styles.rightLinks}>
         <i>
-          <Link to="/imprint/" style={styles.textLink}>
+          <a href="/imprint/" style={styles.textLink}>
             Imprint
-          </Link>
+          </a>
         </i>
       </div>
     </div>

@@ -1,9 +1,9 @@
 name,version,directory,repository,summary,from package.json,from license,from readme
 @babel/code-frame,7.0.0-beta.44,/Users/casey/homepage/node_modules/babel-eslint/node_modules/@babel/code-frame,(none),MIT,MIT,,
 @babel/code-frame,7.0.0,/Users/casey/homepage/node_modules/@babel/code-frame,(none),MIT,MIT,MIT,
-@babel/core,7.1.5,/Users/casey/homepage/node_modules/@babel/core,(none),MIT,MIT,MIT,
+@babel/core,7.1.6,/Users/casey/homepage/node_modules/@babel/core,(none),MIT,MIT,MIT,
 @babel/generator,7.0.0-beta.44,/Users/casey/homepage/node_modules/babel-eslint/node_modules/@babel/generator,(none),MIT,MIT,,
-@babel/generator,7.1.5,/Users/casey/homepage/node_modules/@babel/generator,(none),MIT,MIT,MIT,
+@babel/generator,7.1.6,/Users/casey/homepage/node_modules/@babel/generator,(none),MIT,MIT,MIT,
 @babel/helper-annotate-as-pure,7.0.0,/Users/casey/homepage/node_modules/@babel/helper-annotate-as-pure,(none),MIT,MIT,MIT,
 @babel/helper-builder-binary-assignment-operator-visitor,7.1.0,/Users/casey/homepage/node_modules/@babel/helper-builder-binary-assignment-operator-visitor,(none),MIT,MIT,MIT,
 @babel/helper-builder-react-jsx,7.0.0,/Users/casey/homepage/node_modules/@babel/helper-builder-react-jsx,(none),MIT,MIT,MIT,
@@ -30,7 +30,7 @@ name,version,directory,repository,summary,from package.json,from license,from re
 @babel/helpers,7.1.5,/Users/casey/homepage/node_modules/@babel/helpers,(none),MIT,MIT,MIT,
 @babel/highlight,7.0.0-beta.44,/Users/casey/homepage/node_modules/babel-eslint/node_modules/@babel/highlight,(none),MIT,MIT,,
 @babel/highlight,7.0.0,/Users/casey/homepage/node_modules/@babel/highlight,(none),MIT,MIT,MIT,
-@babel/parser,7.1.5,/Users/casey/homepage/node_modules/@babel/parser,(none),MIT,MIT,,
+@babel/parser,7.1.6,/Users/casey/homepage/node_modules/@babel/parser,(none),MIT,MIT,,
 @babel/plugin-proposal-async-generator-functions,7.1.0,/Users/casey/homepage/node_modules/@babel/plugin-proposal-async-generator-functions,(none),MIT,MIT,MIT,
 @babel/plugin-proposal-class-properties,7.1.0,/Users/casey/homepage/node_modules/@babel/plugin-proposal-class-properties,(none),MIT,MIT,MIT,
 @babel/plugin-proposal-json-strings,7.0.0,/Users/casey/homepage/node_modules/@babel/plugin-proposal-json-strings,(none),MIT,MIT,MIT,
@@ -66,7 +66,7 @@ name,version,directory,repository,summary,from package.json,from license,from re
 @babel/plugin-transform-object-super,7.1.0,/Users/casey/homepage/node_modules/@babel/plugin-transform-object-super,(none),MIT,MIT,MIT,
 @babel/plugin-transform-parameters,7.1.0,/Users/casey/homepage/node_modules/@babel/plugin-transform-parameters,(none),MIT,MIT,MIT,
 @babel/plugin-transform-react-display-name,7.0.0,/Users/casey/homepage/node_modules/@babel/plugin-transform-react-display-name,(none),MIT,MIT,MIT,
-@babel/plugin-transform-react-jsx,7.0.0,/Users/casey/homepage/node_modules/@babel/plugin-transform-react-jsx,(none),MIT,MIT,MIT,
+@babel/plugin-transform-react-jsx,7.1.6,/Users/casey/homepage/node_modules/@babel/plugin-transform-react-jsx,(none),MIT,MIT,MIT,
 @babel/plugin-transform-react-jsx-self,7.0.0,/Users/casey/homepage/node_modules/@babel/plugin-transform-react-jsx-self,(none),MIT,MIT,MIT,
 @babel/plugin-transform-react-jsx-source,7.0.0,/Users/casey/homepage/node_modules/@babel/plugin-transform-react-jsx-source,(none),MIT,MIT,MIT,
 @babel/plugin-transform-regenerator,7.0.0,/Users/casey/homepage/node_modules/@babel/plugin-transform-regenerator,(none),MIT,MIT,MIT,
@@ -79,16 +79,17 @@ name,version,directory,repository,summary,from package.json,from license,from re
 @babel/plugin-transform-typescript,7.1.0,/Users/casey/homepage/node_modules/@babel/plugin-transform-typescript,(none),MIT,MIT,MIT,
 @babel/plugin-transform-unicode-regex,7.0.0,/Users/casey/homepage/node_modules/@babel/plugin-transform-unicode-regex,(none),MIT,MIT,MIT,
 @babel/polyfill,7.0.0,/Users/casey/homepage/node_modules/@babel/polyfill,(none),MIT,MIT,MIT,
-@babel/preset-env,7.1.5,/Users/casey/homepage/node_modules/@babel/preset-env,(none),MIT,MIT,MIT,
+@babel/preset-env,7.1.6,/Users/casey/homepage/node_modules/@babel/preset-env,(none),MIT,MIT,MIT,
 @babel/preset-react,7.0.0,/Users/casey/homepage/node_modules/@babel/preset-react,(none),MIT,MIT,MIT,
 @babel/preset-typescript,7.1.0,/Users/casey/homepage/node_modules/@babel/preset-typescript,(none),MIT,MIT,MIT,
 @babel/runtime,7.1.5,/Users/casey/homepage/node_modules/@babel/runtime,(none),MIT,MIT,MIT,
 @babel/template,7.0.0-beta.44,/Users/casey/homepage/node_modules/babel-eslint/node_modules/@babel/template,(none),MIT,MIT,,
 @babel/template,7.1.2,/Users/casey/homepage/node_modules/@babel/template,(none),MIT,MIT,MIT,
 @babel/traverse,7.0.0-beta.44,/Users/casey/homepage/node_modules/babel-eslint/node_modules/@babel/traverse,(none),MIT,MIT,,
-@babel/traverse,7.1.5,/Users/casey/homepage/node_modules/@babel/traverse,(none),MIT,MIT,MIT,
+@babel/traverse,7.1.6,/Users/casey/homepage/node_modules/@babel/traverse,(none),MIT,MIT,MIT,
 @babel/types,7.0.0-beta.44,/Users/casey/homepage/node_modules/babel-eslint/node_modules/@babel/types,(none),MIT,MIT,,
-@babel/types,7.1.5,/Users/casey/homepage/node_modules/@babel/types,(none),MIT,MIT,MIT,
+@babel/types,7.1.6,/Users/casey/homepage/node_modules/@babel/types,(none),MIT,MIT,MIT,
+@moocar/lokijs,1.0.1,/Users/casey/homepage/node_modules/@moocar/lokijs,https://github.com/Moocar/LokiJS,MIT,MIT,,MIT
 @mrmlnc/readdir-enhanced,2.2.1,/Users/casey/homepage/node_modules/@mrmlnc/readdir-enhanced,https://github.com/bigstickcarpet/readdir-enhanced,MIT,MIT,MIT,
 @nodelib/fs.stat,1.1.3,/Users/casey/homepage/node_modules/@nodelib/fs.stat,(none),MIT,MIT,,MIT
 @reach/router,1.2.1,/Users/casey/homepage/node_modules/@reach/router,https://github.com/reach/router,MIT,MIT,MIT,MIT
@@ -101,11 +102,11 @@ name,version,directory,repository,summary,from package.json,from license,from re
 @types/history,4.7.2,/Users/casey/homepage/node_modules/@types/history,https://github.com/DefinitelyTyped/DefinitelyTyped,MIT,MIT,MIT,
 @types/minimatch,3.0.3,/Users/casey/homepage/node_modules/@types/minimatch,https://wwwhub.com/DefinitelyTyped/DefinitelyTyped.git,MIT,MIT,MIT,
 @types/mkdirp,0.3.29,/Users/casey/homepage/node_modules/@types/mkdirp,https://wwwhub.com/DefinitelyTyped/DefinitelyTyped.git,MIT,MIT,,
-@types/node,7.10.1,/Users/casey/homepage/node_modules/devcert-san/node_modules/@types/node,(none),MIT,MIT,MIT,
-@types/node,10.12.5,/Users/casey/homepage/node_modules/@types/node,https://github.com/DefinitelyTyped/DefinitelyTyped,MIT,MIT,MIT,
+@types/node,7.10.2,/Users/casey/homepage/node_modules/devcert-san/node_modules/@types/node,(none),MIT,MIT,MIT,
+@types/node,10.12.11,/Users/casey/homepage/node_modules/@types/node,https://github.com/DefinitelyTyped/DefinitelyTyped,MIT,MIT,MIT,
 @types/prop-types,15.5.6,/Users/casey/homepage/node_modules/@types/prop-types,https://github.com/DefinitelyTyped/DefinitelyTyped,MIT,MIT,MIT,
 @types/reach__router,1.2.2,/Users/casey/homepage/node_modules/@types/reach__router,https://github.com/DefinitelyTyped/DefinitelyTyped,MIT,MIT,MIT,
-@types/react,16.7.3,/Users/casey/homepage/node_modules/@types/react,https://github.com/DefinitelyTyped/DefinitelyTyped,MIT,MIT,MIT,
+@types/react,16.7.11,/Users/casey/homepage/node_modules/@types/react,https://github.com/DefinitelyTyped/DefinitelyTyped,MIT,MIT,MIT,
 @types/tmp,0.0.32,/Users/casey/homepage/node_modules/@types/tmp,https://wwwhub.com/DefinitelyTyped/DefinitelyTyped.git,MIT,MIT,,
 @webassemblyjs/ast,1.7.11,/Users/casey/homepage/node_modules/@webassemblyjs/ast,https://github.com/xtuc/webassemblyjs,MIT,MIT,MIT,
 @webassemblyjs/floating-point-hex-parser,1.7.11,/Users/casey/homepage/node_modules/@webassemblyjs/floating-point-hex-parser,https://github.com/xtuc/webassemblyjs,MIT,MIT,MIT,
@@ -136,7 +137,7 @@ acorn-jsx,3.0.1,/Users/casey/homepage/node_modules/acorn-jsx,https://github.com/
 address,1.0.3,/Users/casey/homepage/node_modules/address,http://github.com/node-modules/address,MIT,MIT,MIT,
 after,0.8.2,/Users/casey/homepage/node_modules/after,(none),MIT,MIT,,MIT
 ajv,5.5.2,/Users/casey/homepage/node_modules/eslint/node_modules/ajv,(none),MIT,MIT,MIT,
-ajv,6.5.5,/Users/casey/homepage/node_modules/ajv,https://github.com/epoberezkin/ajv,MIT,MIT,MIT,
+ajv,6.6.1,/Users/casey/homepage/node_modules/ajv,https://github.com/epoberezkin/ajv,MIT,MIT,MIT,
 ajv-errors,1.0.0,/Users/casey/homepage/node_modules/ajv-errors,https://github.com/epoberezkin/ajv-errors,MIT,MIT,MIT,
 ajv-keywords,2.1.1,/Users/casey/homepage/node_modules/table/node_modules/ajv-keywords,(none),MIT,MIT,MIT,
 ajv-keywords,3.2.0,/Users/casey/homepage/node_modules/ajv-keywords,https://github.com/epoberezkin/ajv-keywords,MIT,MIT,MIT,
@@ -154,8 +155,8 @@ ansi-wrap,0.1.0,/Users/casey/homepage/node_modules/ansi-wrap,https://github.com/
 any-promise,1.3.0,/Users/casey/homepage/node_modules/any-promise,https://github.com/kevinbeaty/any-promise,MIT,MIT,,
 anymatch,1.3.2,/Users/casey/homepage/node_modules/gatsby-source-filesystem/node_modules/anymatch,(none),ISC,ISC,ISC,
 anymatch,2.0.0,/Users/casey/homepage/node_modules/anymatch,https://github.com/micromatch/anymatch,ISC,ISC,ISC,
-apollo-link,1.2.3,/Users/casey/homepage/node_modules/apollo-link,https://github.com/apollographql/apollo-link,MIT,MIT,,
-apollo-utilities,1.0.25,/Users/casey/homepage/node_modules/apollo-utilities,https://github.com/apollographql/apollo-client,MIT,MIT,MIT,
+apollo-link,1.2.4,/Users/casey/homepage/node_modules/apollo-link,https://github.com/apollographql/apollo-link,MIT,MIT,,
+apollo-utilities,1.0.26,/Users/casey/homepage/node_modules/apollo-utilities,https://github.com/apollographql/apollo-client,MIT,MIT,MIT,
 aproba,1.2.0,/Users/casey/homepage/node_modules/aproba,https://github.com/iarna/aproba,ISC,ISC,,
 arch,2.1.1,/Users/casey/homepage/node_modules/arch,http://github.com/feross/arch,MIT,MIT,MIT,
 archive-type,3.2.0,/Users/casey/homepage/node_modules/archive-type,(none),MIT,MIT,MIT,MIT
@@ -219,7 +220,7 @@ babel-plugin-add-module-exports,0.2.1,/Users/casey/homepage/node_modules/babel-p
 babel-plugin-check-es2015-constants,6.22.0,/Users/casey/homepage/node_modules/babel-plugin-check-es2015-constants,(none),MIT,MIT,,
 babel-plugin-dynamic-import-node,1.2.0,/Users/casey/homepage/node_modules/babel-plugin-dynamic-import-node,https://github.com/airbnb/babel-plugin-dynamic-import-node,MIT,MIT,MIT,
 babel-plugin-macros,2.4.2,/Users/casey/homepage/node_modules/babel-plugin-macros,https://github.com/kentcdodds/babel-plugin-macros,MIT,MIT,MIT,MIT
-babel-plugin-remove-graphql-queries,2.5.1,/Users/casey/homepage/node_modules/babel-plugin-remove-graphql-queries,(none),MIT,MIT,MIT,
+babel-plugin-remove-graphql-queries,2.5.2,/Users/casey/homepage/node_modules/babel-plugin-remove-graphql-queries,(none),MIT,MIT,MIT,
 babel-plugin-syntax-class-properties,6.13.0,/Users/casey/homepage/node_modules/babel-plugin-syntax-class-properties,(none),MIT,MIT,,
 babel-plugin-syntax-dynamic-import,6.18.0,/Users/casey/homepage/node_modules/babel-plugin-syntax-dynamic-import,(none),MIT,MIT,,
 babel-plugin-syntax-flow,6.18.0,/Users/casey/homepage/node_modules/babel-plugin-syntax-flow,(none),MIT,MIT,,
@@ -251,7 +252,7 @@ babel-plugin-transform-react-jsx,6.24.1,/Users/casey/homepage/node_modules/babel
 babel-plugin-transform-strict-mode,6.24.1,/Users/casey/homepage/node_modules/babel-plugin-transform-strict-mode,(none),MIT,MIT,,
 babel-polyfill,6.26.0,/Users/casey/homepage/node_modules/babel-polyfill,(none),MIT,MIT,,
 babel-preset-fbjs,2.3.0,/Users/casey/homepage/node_modules/babel-preset-fbjs,(none),MIT,MIT,MIT,
-babel-preset-gatsby,0.1.3,/Users/casey/homepage/node_modules/babel-preset-gatsby,(none),MIT,MIT,MIT,
+babel-preset-gatsby,0.1.6,/Users/casey/homepage/node_modules/babel-preset-gatsby,(none),MIT,MIT,MIT,
 babel-runtime,6.26.0,/Users/casey/homepage/node_modules/babel-runtime,(none),MIT,MIT,,
 babel-template,6.26.0,/Users/casey/homepage/node_modules/babel-template,(none),MIT,MIT,,
 babel-traverse,6.26.0,/Users/casey/homepage/node_modules/babel-traverse,(none),MIT,MIT,,
@@ -305,7 +306,7 @@ browserify-rsa,4.0.1,/Users/casey/homepage/node_modules/browserify-rsa,git@githu
 browserify-sign,4.0.4,/Users/casey/homepage/node_modules/browserify-sign,https://github.com/crypto-browserify/browserify-sign,ISC,ISC,,ISC
 browserify-zlib,0.2.0,/Users/casey/homepage/node_modules/browserify-zlib,https://github.com/devongovett/browserify-zlib,MIT,MIT,MIT,MIT
 browserslist,3.2.8,/Users/casey/homepage/node_modules/autoprefixer/node_modules/browserslist,(none),MIT,MIT,MIT,
-browserslist,4.3.4,/Users/casey/homepage/node_modules/browserslist,(none),MIT,MIT,MIT,
+browserslist,4.3.5,/Users/casey/homepage/node_modules/browserslist,(none),MIT,MIT,MIT,
 bser,2.0.0,/Users/casey/homepage/node_modules/bser,https://github.com/facebook/watchman,Apache-2.0,Apache-2.0,,
 buffer,3.6.0,/Users/casey/homepage/node_modules/buffer,http://github.com/feross/buffer,MIT,MIT,MIT,
 buffer,4.9.1,/Users/casey/homepage/node_modules/node-libs-browser/node_modules/buffer,(none),MIT,MIT,MIT,
@@ -321,7 +322,6 @@ buffer-xor,1.0.3,/Users/casey/homepage/node_modules/buffer-xor,https://github.co
 builtin-modules,1.1.1,/Users/casey/homepage/node_modules/builtin-modules,(none),MIT,MIT,MIT,MIT
 builtin-status-codes,3.0.0,/Users/casey/homepage/node_modules/builtin-status-codes,(none),MIT,MIT,MIT,MIT
 bytes,3.0.0,/Users/casey/homepage/node_modules/bytes,(none),MIT,MIT,MIT,
-cacache,10.0.4,/Users/casey/homepage/node_modules/uglifyjs-webpack-plugin/node_modules/cacache,(none),ISC,ISC,ISC,
 cacache,11.3.1,/Users/casey/homepage/node_modules/cacache,(none),ISC,ISC,ISC,
 cache-base,1.0.1,/Users/casey/homepage/node_modules/cache-base,(none),MIT,MIT,MIT,
 cache-manager,2.9.0,/Users/casey/homepage/node_modules/cache-manager,https://github.com/BryanDonovan/node-cache-manager,MIT,MIT,MIT,MIT
@@ -338,7 +338,7 @@ camelcase,2.1.1,/Users/casey/homepage/node_modules/camelcase-keys/node_modules/c
 camelcase,4.1.0,/Users/casey/homepage/node_modules/camelcase,(none),MIT,MIT,MIT,MIT
 camelcase-keys,2.1.0,/Users/casey/homepage/node_modules/camelcase-keys,(none),MIT,MIT,MIT,MIT
 caniuse-api,3.0.0,/Users/casey/homepage/node_modules/caniuse-api,(none),MIT,MIT,MIT,
-caniuse-lite,1.0.30000907,/Users/casey/homepage/node_modules/caniuse-lite,(none),CC-BY-4.0;Public Domain,CC-BY-4.0,Public Domain,
+caniuse-lite,1.0.30000912,/Users/casey/homepage/node_modules/caniuse-lite,(none),CC-BY-4.0;Public Domain,CC-BY-4.0,Public Domain,
 capture-stack-trace,1.0.1,/Users/casey/homepage/node_modules/capture-stack-trace,(none),MIT,MIT,MIT,MIT
 caseless,0.12.0,/Users/casey/homepage/node_modules/caseless,https://github.com/mikeal/caseless,Apache;Apache-2.0,Apache-2.0,Apache,
 caw,1.2.0,/Users/casey/homepage/node_modules/download/node_modules/caw,(none),MIT,MIT,MIT,MIT
@@ -383,7 +383,6 @@ colors,1.1.2,/Users/casey/homepage/node_modules/colors,http://github.com/Marak/c
 combined-stream,1.0.7,/Users/casey/homepage/node_modules/combined-stream,http://github.com/felixge/node-combined-stream,MIT,MIT,,MIT
 command-exists,1.2.8,/Users/casey/homepage/node_modules/command-exists,http://github.com/mathisonian/command-exists,MIT,MIT,MIT,
 commander,2.8.1,/Users/casey/homepage/node_modules/seek-bzip/node_modules/commander,(none),MIT,MIT,MIT,MIT
-commander,2.13.0,/Users/casey/homepage/node_modules/uglify-es/node_modules/commander,(none),MIT,MIT,MIT,MIT
 commander,2.17.1,/Users/casey/homepage/node_modules/terser/node_modules/commander,(none),MIT,MIT,MIT,MIT
 commander,2.19.0,/Users/casey/homepage/node_modules/commander,https://github.com/tj/commander.js,MIT,MIT,MIT,MIT
 common-tags,1.8.0,/Users/casey/homepage/node_modules/common-tags,https://github.com/declandewet/common-tags,MIT,MIT,MIT,
@@ -462,8 +461,9 @@ date-now,0.1.4,/Users/casey/homepage/node_modules/date-now,(none),MIT,MIT,,MIT
 dateformat,2.2.0,/Users/casey/homepage/node_modules/dateformat,https://github.com/felixge/node-dateformat,MIT,MIT,,MIT
 death,1.1.0,/Users/casey/homepage/node_modules/death,git@github.com:jprichardson/node-death,MIT,MIT,MIT,
 debug,2.6.9,/Users/casey/homepage/node_modules/debug,http://github.com/visionmedia/debug,MIT,MIT,MIT,MIT
-debug,3.1.0,/Users/casey/homepage/node_modules/socket.io/node_modules/debug,(none),MIT,MIT,MIT,MIT
+debug,3.1.0,/Users/casey/homepage/node_modules/socket.io-parser/node_modules/debug,(none),MIT,MIT,MIT,MIT
 debug,3.2.6,/Users/casey/homepage/node_modules/gatsby/node_modules/debug,(none),MIT,MIT,MIT,MIT
+debug,4.1.0,/Users/casey/homepage/node_modules/socket.io/node_modules/debug,(none),MIT,MIT,MIT,MIT
 decamelize,1.2.0,/Users/casey/homepage/node_modules/decamelize,(none),MIT,MIT,MIT,MIT
 decamelize,2.0.0,/Users/casey/homepage/node_modules/yargs/node_modules/decamelize,(none),MIT,MIT,MIT,MIT
 decode-uri-component,0.2.0,/Users/casey/homepage/node_modules/decode-uri-component,(none),MIT,MIT,MIT,MIT
@@ -499,7 +499,7 @@ detect-indent,4.0.0,/Users/casey/homepage/node_modules/detect-indent,(none),MIT,
 detect-indent,5.0.0,/Users/casey/homepage/node_modules/yurnalist/node_modules/detect-indent,(none),MIT,MIT,MIT,MIT
 detect-libc,1.0.3,/Users/casey/homepage/node_modules/detect-libc,http://github.com/lovell/detect-libc,Apache;Apache-2.0,Apache-2.0,Apache,
 detect-node,2.0.4,/Users/casey/homepage/node_modules/detect-node,https://github.com/iliakan/detect-node,ISC;MIT,ISC,MIT,
-detect-port,1.2.3,/Users/casey/homepage/node_modules/detect-port,http://github.com/node-modules/detect-port,MIT,MIT,MIT,
+detect-port,1.3.0,/Users/casey/homepage/node_modules/detect-port,http://github.com/node-modules/detect-port,MIT,MIT,MIT,
 detect-port-alt,1.1.3,/Users/casey/homepage/node_modules/detect-port-alt,http://github.com/node-modules/detect-port,MIT,MIT,MIT,
 devcert-san,0.3.3,/Users/casey/homepage/node_modules/devcert-san,https://github.com/davewasmer/devcert,MIT,MIT,,MIT
 diffie-hellman,5.0.3,/Users/casey/homepage/node_modules/diffie-hellman,https://github.com/crypto-browserify/diffie-hellman,MIT,MIT,,
@@ -536,15 +536,15 @@ duplexify,3.6.1,/Users/casey/homepage/node_modules/duplexify,http://github.com/m
 each-async,1.1.1,/Users/casey/homepage/node_modules/each-async,(none),MIT,MIT,MIT,MIT
 ecc-jsbn,0.1.2,/Users/casey/homepage/node_modules/ecc-jsbn,https://github.com/quartzjer/ecc-jsbn,MIT,MIT,MIT,
 ee-first,1.1.1,/Users/casey/homepage/node_modules/ee-first,(none),MIT,MIT,MIT,
-electron-to-chromium,1.3.84,/Users/casey/homepage/node_modules/electron-to-chromium,https://github.com/kilian/electron-to-chromium/,ISC,ISC,,
+electron-to-chromium,1.3.87,/Users/casey/homepage/node_modules/electron-to-chromium,https://github.com/kilian/electron-to-chromium/,ISC,ISC,,
 elliptic,6.4.1,/Users/casey/homepage/node_modules/elliptic,git@github.com:indutny/elliptic,MIT,MIT,,MIT
 emoji-regex,6.5.1,/Users/casey/homepage/node_modules/emoji-regex,https://github.com/mathiasbynens/emoji-regex,MIT,MIT,,
 emojis-list,2.1.0,/Users/casey/homepage/node_modules/emojis-list,https://github.com/kikobeats/emojis-list,MIT,MIT,MIT,MIT
 encodeurl,1.0.2,/Users/casey/homepage/node_modules/encodeurl,(none),MIT,MIT,MIT,
 encoding,0.1.12,/Users/casey/homepage/node_modules/encoding,(none),MIT,MIT,,
 end-of-stream,1.4.1,/Users/casey/homepage/node_modules/end-of-stream,http://github.com/mafintosh/end-of-stream,MIT,MIT,MIT,MIT
-engine.io,3.2.1,/Users/casey/homepage/node_modules/engine.io,git@github.com:socketio/engine.io,MIT,MIT,MIT,MIT
-engine.io-client,3.2.1,/Users/casey/homepage/node_modules/engine.io-client,https://github.com/socketio/engine.io-client,MIT,MIT,MIT,MIT
+engine.io,3.3.2,/Users/casey/homepage/node_modules/engine.io,git@github.com:socketio/engine.io,MIT,MIT,MIT,MIT
+engine.io-client,3.3.1,/Users/casey/homepage/node_modules/engine.io-client,https://github.com/socketio/engine.io-client,MIT,MIT,MIT,MIT
 engine.io-parser,2.1.3,/Users/casey/homepage/node_modules/engine.io-parser,git@github.com:socketio/engine.io-parser,MIT,MIT,MIT,MIT
 enhanced-resolve,4.1.0,/Users/casey/homepage/node_modules/enhanced-resolve,http://github.com/webpack/enhanced-resolve,MIT,MIT,,MIT
 entities,1.1.2,/Users/casey/homepage/node_modules/entities,http://github.com/fb55/entities,BSD-2-Clause,BSD-2-Clause,,
@@ -599,7 +599,7 @@ exif-parser,0.1.12,/Users/casey/homepage/node_modules/exif-parser,http://github.
 expand-brackets,0.1.5,/Users/casey/homepage/node_modules/gatsby-source-filesystem/node_modules/expand-brackets,(none),MIT,MIT,MIT,
 expand-brackets,2.1.4,/Users/casey/homepage/node_modules/expand-brackets,(none),MIT,MIT,MIT,
 expand-range,1.8.2,/Users/casey/homepage/node_modules/expand-range,(none),MIT,MIT,MIT,
-expand-template,1.1.1,/Users/casey/homepage/node_modules/expand-template,https://github.com/ralphtheninja/expand-template,WTFPL,WTFPL,,
+expand-template,2.0.3,/Users/casey/homepage/node_modules/expand-template,https://github.com/ralphtheninja/expand-template,(MIT OR WTFPL);MIT,(MIT OR WTFPL),MIT,
 expand-tilde,2.0.2,/Users/casey/homepage/node_modules/expand-tilde,(none),MIT,MIT,MIT,
 express,4.16.4,/Users/casey/homepage/node_modules/express,(none),MIT,MIT,MIT,
 express-graphql,0.6.12,/Users/casey/homepage/node_modules/express-graphql,http://github.com/graphql/express-graphql,BSD;BSD-3-Clause,BSD-3-Clause,BSD,
@@ -613,7 +613,7 @@ extglob,0.3.2,/Users/casey/homepage/node_modules/gatsby-source-filesystem/node_m
 extglob,2.0.4,/Users/casey/homepage/node_modules/extglob,(none),MIT,MIT,MIT,
 extsprintf,1.3.0,/Users/casey/homepage/node_modules/extsprintf,http://github.com/davepacheco/node-extsprintf,MIT,MIT,,
 extsprintf,1.4.0,/Users/casey/homepage/node_modules/verror/node_modules/extsprintf,(none),MIT,MIT,,
-fancy-log,1.3.2,/Users/casey/homepage/node_modules/fancy-log,(none),MIT,MIT,MIT,MIT
+fancy-log,1.3.3,/Users/casey/homepage/node_modules/fancy-log,(none),MIT,MIT,MIT,MIT
 fast-deep-equal,1.1.0,/Users/casey/homepage/node_modules/eslint/node_modules/fast-deep-equal,(none),MIT,MIT,MIT,
 fast-deep-equal,2.0.1,/Users/casey/homepage/node_modules/fast-deep-equal,https://github.com/epoberezkin/fast-deep-equal,MIT,MIT,MIT,
 fast-glob,2.2.4,/Users/casey/homepage/node_modules/fast-glob,(none),MIT,MIT,MIT,MIT
@@ -635,7 +635,7 @@ file-type,4.4.0,/Users/casey/homepage/node_modules/is-cwebp-readable/node_module
 file-type,5.2.0,/Users/casey/homepage/node_modules/pngquant-bin/node_modules/file-type,(none),MIT,MIT,MIT,MIT
 file-type,6.2.0,/Users/casey/homepage/node_modules/decompress-tarbz2/node_modules/file-type,(none),MIT,MIT,MIT,MIT
 file-type,8.1.0,/Users/casey/homepage/node_modules/imagemin/node_modules/file-type,(none),MIT,MIT,MIT,MIT
-file-type,10.4.0,/Users/casey/homepage/node_modules/gatsby-source-filesystem/node_modules/file-type,(none),MIT,MIT,MIT,MIT
+file-type,10.5.0,/Users/casey/homepage/node_modules/gatsby-source-filesystem/node_modules/file-type,(none),MIT,MIT,MIT,MIT
 filename-regex,2.0.1,/Users/casey/homepage/node_modules/filename-regex,(none),MIT,MIT,MIT,
 filename-reserved-regex,1.0.0,/Users/casey/homepage/node_modules/download/node_modules/filename-reserved-regex,(none),MIT,MIT,MIT,MIT
 filename-reserved-regex,2.0.0,/Users/casey/homepage/node_modules/filename-reserved-regex,(none),MIT,MIT,MIT,MIT
@@ -655,9 +655,9 @@ find-versions,1.2.1,/Users/casey/homepage/node_modules/find-versions,(none),MIT,
 find-versions,3.0.0,/Users/casey/homepage/node_modules/pngquant-bin/node_modules/find-versions,(none),MIT,MIT,MIT,MIT
 first-chunk-stream,1.0.0,/Users/casey/homepage/node_modules/first-chunk-stream,(none),MIT,MIT,,MIT
 flat,4.1.0,/Users/casey/homepage/node_modules/flat,http://github.com/hughsk/flat,BSD-3-Clause,BSD-3-Clause,,
-flat-cache,1.3.2,/Users/casey/homepage/node_modules/flat-cache,(none),MIT,MIT,MIT,MIT
+flat-cache,1.3.4,/Users/casey/homepage/node_modules/flat-cache,(none),MIT,MIT,MIT,MIT
 flush-write-stream,1.0.3,/Users/casey/homepage/node_modules/flush-write-stream,https://github.com/mafintosh/flush-write-stream,MIT,MIT,MIT,MIT
-follow-redirects,1.5.9,/Users/casey/homepage/node_modules/follow-redirects,git@github.com:olalonde/follow-redirects,MIT,MIT,,
+follow-redirects,1.5.10,/Users/casey/homepage/node_modules/follow-redirects,git@github.com:follow-redirects/follow-redirects,MIT,MIT,,
 for-each,0.3.3,/Users/casey/homepage/node_modules/for-each,(none),MIT,MIT,MIT,MIT
 for-in,1.0.2,/Users/casey/homepage/node_modules/for-in,(none),MIT,MIT,MIT,
 for-own,0.1.5,/Users/casey/homepage/node_modules/for-own,(none),MIT,MIT,MIT,
@@ -680,23 +680,23 @@ fs.realpath,1.0.0,/Users/casey/homepage/node_modules/fs.realpath,https://github.
 fsevents,1.2.4,/Users/casey/homepage/node_modules/fsevents,https://github.com/strongloop/fsevents,MIT,MIT,MIT,MIT
 function-bind,1.1.1,/Users/casey/homepage/node_modules/function-bind,(none),MIT,MIT,,MIT
 functional-red-black-tree,1.0.1,/Users/casey/homepage/node_modules/functional-red-black-tree,http://github.com/mikolalysenko/functional-red-black-tree,MIT,MIT,MIT,MIT
-gatsby,2.0.45,/Users/casey/homepage/node_modules/gatsby,https://github.com/gatsbyjs/gatsby,MIT,MIT,MIT,MIT
-gatsby-cli,2.4.5,/Users/casey/homepage/node_modules/gatsby-cli,(none),MIT,MIT,MIT,
-gatsby-image,2.0.20,/Users/casey/homepage/node_modules/gatsby-image,(none),MIT,MIT,MIT,
-gatsby-link,2.0.6,/Users/casey/homepage/node_modules/gatsby-link,(none),MIT,MIT,MIT,
-gatsby-plugin-manifest,2.0.8,/Users/casey/homepage/node_modules/gatsby-plugin-manifest,(none),MIT,MIT,MIT,
-gatsby-plugin-offline,2.0.13,/Users/casey/homepage/node_modules/gatsby-plugin-offline,(none),MIT,MIT,MIT,
-gatsby-plugin-page-creator,2.0.4,/Users/casey/homepage/node_modules/gatsby-plugin-page-creator,(none),MIT,MIT,MIT,
-gatsby-plugin-react-helmet,3.0.1,/Users/casey/homepage/node_modules/gatsby-plugin-react-helmet,(none),MIT,MIT,MIT,
-gatsby-plugin-sharp,2.0.12,/Users/casey/homepage/node_modules/gatsby-plugin-sharp,(none),MIT,MIT,MIT,
-gatsby-plugin-typescript,2.0.1,/Users/casey/homepage/node_modules/gatsby-plugin-typescript,(none),MIT,MIT,MIT,
-gatsby-plugin-typography,2.2.1,/Users/casey/homepage/node_modules/gatsby-plugin-typography,(none),MIT,MIT,MIT,
-gatsby-react-router-scroll,2.0.1,/Users/casey/homepage/node_modules/gatsby-react-router-scroll,(none),MIT,MIT,MIT,
-gatsby-source-filesystem,2.0.8,/Users/casey/homepage/node_modules/gatsby-source-filesystem,(none),MIT,MIT,MIT,
+gatsby,2.0.60,/Users/casey/homepage/node_modules/gatsby,https://github.com/gatsbyjs/gatsby,MIT,MIT,MIT,MIT
+gatsby-cli,2.4.6,/Users/casey/homepage/node_modules/gatsby-cli,(none),MIT,MIT,MIT,
+gatsby-image,2.0.22,/Users/casey/homepage/node_modules/gatsby-image,(none),MIT,MIT,MIT,
+gatsby-link,2.0.7,/Users/casey/homepage/node_modules/gatsby-link,(none),MIT,MIT,MIT,
+gatsby-plugin-manifest,2.0.11,/Users/casey/homepage/node_modules/gatsby-plugin-manifest,(none),MIT,MIT,MIT,
+gatsby-plugin-offline,2.0.18,/Users/casey/homepage/node_modules/gatsby-plugin-offline,(none),MIT,MIT,MIT,
+gatsby-plugin-page-creator,2.0.5,/Users/casey/homepage/node_modules/gatsby-plugin-page-creator,(none),MIT,MIT,MIT,
+gatsby-plugin-react-helmet,3.0.4,/Users/casey/homepage/node_modules/gatsby-plugin-react-helmet,(none),MIT,MIT,MIT,
+gatsby-plugin-sharp,2.0.14,/Users/casey/homepage/node_modules/gatsby-plugin-sharp,(none),MIT,MIT,MIT,
+gatsby-plugin-typescript,2.0.2,/Users/casey/homepage/node_modules/gatsby-plugin-typescript,(none),MIT,MIT,MIT,
+gatsby-plugin-typography,2.2.2,/Users/casey/homepage/node_modules/gatsby-plugin-typography,(none),MIT,MIT,MIT,
+gatsby-react-router-scroll,2.0.2,/Users/casey/homepage/node_modules/gatsby-react-router-scroll,(none),MIT,MIT,MIT,
+gatsby-source-filesystem,2.0.10,/Users/casey/homepage/node_modules/gatsby-source-filesystem,(none),MIT,MIT,MIT,
 gatsby-starter-default,1.0.0,/Users/casey/homepage,https://github.com/gatsbyjs/gatsby-starter-default,MIT;Public Domain,MIT,Public Domain,MIT
-gatsby-transformer-csv,2.0.4,/Users/casey/homepage/node_modules/gatsby-transformer-csv,(none),MIT,MIT,MIT,
-gatsby-transformer-json,2.1.5,/Users/casey/homepage/node_modules/gatsby-transformer-json,(none),MIT,MIT,MIT,
-gatsby-transformer-sharp,2.1.8,/Users/casey/homepage/node_modules/gatsby-transformer-sharp,(none),MIT,MIT,MIT,
+gatsby-transformer-csv,2.0.5,/Users/casey/homepage/node_modules/gatsby-transformer-csv,(none),MIT,MIT,MIT,
+gatsby-transformer-json,2.1.6,/Users/casey/homepage/node_modules/gatsby-transformer-json,(none),MIT,MIT,MIT,
+gatsby-transformer-sharp,2.1.9,/Users/casey/homepage/node_modules/gatsby-transformer-sharp,(none),MIT,MIT,MIT,
 gauge,2.7.4,/Users/casey/homepage/node_modules/gauge,https://github.com/iarna/gauge,ISC,ISC,,
 get-caller-file,1.0.3,/Users/casey/homepage/node_modules/get-caller-file,https://github.com/stefanpenner/get-caller-file,ISC,ISC,ISC,
 get-own-enumerable-property-symbols,3.0.0,/Users/casey/homepage/node_modules/get-own-enumerable-property-symbols,https://github.com/mightyiam/get-own-enumerable-property-symbols,ISC,ISC,,
@@ -722,7 +722,7 @@ global-dirs,0.1.1,/Users/casey/homepage/node_modules/global-dirs,(none),MIT,MIT,
 global-modules,1.0.0,/Users/casey/homepage/node_modules/global-modules,(none),MIT,MIT,MIT,
 global-prefix,1.0.2,/Users/casey/homepage/node_modules/global-prefix,(none),MIT,MIT,MIT,
 globals,9.18.0,/Users/casey/homepage/node_modules/babel-traverse/node_modules/globals,(none),MIT,MIT,MIT,MIT
-globals,11.8.0,/Users/casey/homepage/node_modules/globals,(none),MIT,MIT,MIT,MIT
+globals,11.9.0,/Users/casey/homepage/node_modules/globals,(none),MIT,MIT,MIT,MIT
 globby,6.1.0,/Users/casey/homepage/node_modules/globby,(none),MIT,MIT,MIT,MIT
 globby,8.0.1,/Users/casey/homepage/node_modules/imagemin/node_modules/globby,(none),MIT,MIT,MIT,MIT
 glogg,1.0.1,/Users/casey/homepage/node_modules/glogg,(none),MIT,MIT,MIT,MIT
@@ -737,7 +737,7 @@ graphql-config,2.2.1,/Users/casey/homepage/node_modules/graphql-config,https://g
 graphql-import,0.7.1,/Users/casey/homepage/node_modules/graphql-import,(none),MIT,MIT,MIT,
 graphql-relay,0.5.5,/Users/casey/homepage/node_modules/graphql-relay,http://github.com/graphql/graphql-relay-js,MIT,MIT,MIT,
 graphql-request,1.8.2,/Users/casey/homepage/node_modules/graphql-request,https://github.com/graphcool/graphql-request,MIT,MIT,MIT,
-graphql-skip-limit,2.0.1,/Users/casey/homepage/node_modules/graphql-skip-limit,(none),MIT,MIT,MIT,
+graphql-skip-limit,2.0.2,/Users/casey/homepage/node_modules/graphql-skip-limit,(none),MIT,MIT,MIT,
 graphql-tools,3.1.1,/Users/casey/homepage/node_modules/graphql-tools,https://github.com/apollostack/graphql-tools,MIT,MIT,MIT,
 graphql-type-json,0.2.1,/Users/casey/homepage/node_modules/graphql-type-json,https://github.com/taion/graphql-type-json,MIT,MIT,MIT,
 gud,1.0.0,/Users/casey/homepage/node_modules/gud,(none),MIT,MIT,,
@@ -766,7 +766,7 @@ has-values,0.1.4,/Users/casey/homepage/node_modules/unset-value/node_modules/has
 has-values,1.0.0,/Users/casey/homepage/node_modules/has-values,(none),MIT,MIT,MIT,
 hash-base,3.0.4,/Users/casey/homepage/node_modules/hash-base,https://github.com/crypto-browserify/hash-base,MIT,MIT,MIT,MIT
 hash-mod,0.0.5,/Users/casey/homepage/node_modules/hash-mod,(none),MIT,,,MIT
-hash.js,1.1.5,/Users/casey/homepage/node_modules/hash.js,git@github.com:indutny/hash.js,MIT,MIT,,MIT
+hash.js,1.1.7,/Users/casey/homepage/node_modules/hash.js,git@github.com:indutny/hash.js,MIT,MIT,,MIT
 hex-color-regex,1.1.0,/Users/casey/homepage/node_modules/hex-color-regex,(none),MIT,MIT,MIT,MIT
 hmac-drbg,1.0.1,/Users/casey/homepage/node_modules/hmac-drbg,ssh://git@github.com/indutny/hmac-drbg,MIT,MIT,,MIT
 hoek,4.2.1,/Users/casey/homepage/node_modules/hoek,(none),BSD-3-Clause,BSD-3-Clause,,
@@ -794,6 +794,7 @@ iconv-lite,0.4.23,/Users/casey/homepage/node_modules/raw-body/node_modules/iconv
 iconv-lite,0.4.24,/Users/casey/homepage/node_modules/iconv-lite,http://github.com/ashtuchkin/iconv-lite,MIT,MIT,,
 icss-replace-symbols,1.1.0,/Users/casey/homepage/node_modules/icss-replace-symbols,https://github.com/css-modules/icss-replace-symbols,ISC,ISC,,ISC
 icss-utils,2.1.0,/Users/casey/homepage/node_modules/icss-utils,https://github.com/css-modules/icss-utils,ISC,ISC,,ISC
+idb-keyval,3.1.0,/Users/casey/homepage/node_modules/idb-keyval,https://github.com/jakearchibald/idb-keyval,Apache-2.0,Apache-2.0,,
 ieee754,1.1.12,/Users/casey/homepage/node_modules/ieee754,http://github.com/feross/ieee754,BSD;BSD-3-Clause,BSD-3-Clause,,BSD
 iferr,0.1.5,/Users/casey/homepage/node_modules/iferr,https://github.com/shesek/iferr,MIT,MIT,MIT,MIT
 ignore,3.3.10,/Users/casey/homepage/node_modules/ignore,git@github.com:kaelzhang/node-ignore,MIT,MIT,,
@@ -937,10 +938,10 @@ json-schema-traverse,0.3.1,/Users/casey/homepage/node_modules/eslint/node_module
 json-schema-traverse,0.4.1,/Users/casey/homepage/node_modules/json-schema-traverse,https://github.com/epoberezkin/json-schema-traverse,MIT,MIT,MIT,
 json-stable-stringify,1.0.1,/Users/casey/homepage/node_modules/json-stable-stringify,http://github.com/substack/json-stable-stringify,MIT,MIT,MIT,MIT
 json-stable-stringify-without-jsonify,1.0.1,/Users/casey/homepage/node_modules/json-stable-stringify-without-jsonify,http://github.com/samn/json-stable-stringify,MIT,MIT,MIT,MIT
-json-stream-stringify,2.0.1,/Users/casey/homepage/node_modules/json-stream-stringify,https://github.com/Faleij/json-stream-stringify,MIT,MIT,MIT,
 json-stringify-safe,5.0.1,/Users/casey/homepage/node_modules/json-stringify-safe,http://github.com/isaacs/json-stringify-safe,ISC,ISC,ISC,
 json3,3.3.2,/Users/casey/homepage/node_modules/json3,http://github.com/bestiejs/json3,MIT,MIT,,
-json5,0.5.1,/Users/casey/homepage/node_modules/json5,https://github.com/aseemk/json5,MIT,MIT,MIT,
+json5,0.5.1,/Users/casey/homepage/node_modules/loader-utils/node_modules/json5,(none),MIT,MIT,MIT,
+json5,2.1.0,/Users/casey/homepage/node_modules/json5,https://github.com/json5/json5,MIT,MIT,MIT,
 jsonfile,4.0.0,/Users/casey/homepage/node_modules/jsonfile,git@github.com:jprichardson/node-jsonfile,MIT,MIT,MIT,
 jsonify,0.0.0,/Users/casey/homepage/node_modules/jsonify,http://github.com/substack/jsonify,Public Domain,Public Domain,,
 jsprim,1.4.1,/Users/casey/homepage/node_modules/jsprim,http://github.com/joyent/node-jsprim,MIT,MIT,,
@@ -970,7 +971,6 @@ locate-path,2.0.0,/Users/casey/homepage/node_modules/locate-path,(none),MIT,MIT,
 locate-path,3.0.0,/Users/casey/homepage/node_modules/terser-webpack-plugin/node_modules/locate-path,(none),MIT,MIT,MIT,MIT
 lockfile,1.0.4,/Users/casey/homepage/node_modules/lockfile,https://github.com/npm/lockfile,ISC,ISC,ISC,
 lodash,4.17.11,/Users/casey/homepage/node_modules/lodash,(none),MIT,MIT,,
-lodash-es,4.17.11,/Users/casey/homepage/node_modules/lodash-es,(none),MIT,MIT,,
 lodash._basecopy,3.0.1,/Users/casey/homepage/node_modules/lodash._basecopy,(none),MIT,MIT,,
 lodash._basetostring,3.0.1,/Users/casey/homepage/node_modules/lodash._basetostring,(none),MIT,MIT,,
 lodash._basevalues,3.0.0,/Users/casey/homepage/node_modules/lodash._basevalues,(none),MIT,MIT,,
@@ -1009,10 +1009,10 @@ lowercase-keys,1.0.0,/Users/casey/homepage/node_modules/cacheable-request/node_m
 lowercase-keys,1.0.1,/Users/casey/homepage/node_modules/lowercase-keys,(none),MIT,MIT,MIT,MIT
 lpad-align,1.1.2,/Users/casey/homepage/node_modules/lpad-align,(none),MIT,MIT,MIT,MIT
 lru-cache,4.0.0,/Users/casey/homepage/node_modules/cache-manager/node_modules/lru-cache,(none),ISC,ISC,ISC,
-lru-cache,4.1.3,/Users/casey/homepage/node_modules/lru-cache,(none),ISC,ISC,ISC,
+lru-cache,4.1.5,/Users/casey/homepage/node_modules/lru-cache,(none),ISC,ISC,ISC,
 ltcdr,2.2.1,/Users/casey/homepage/node_modules/ltcdr,https://github.com/calvinmetcalf/ltcdr,MIT,,,MIT
 make-dir,1.3.0,/Users/casey/homepage/node_modules/make-dir,(none),MIT,MIT,MIT,MIT
-map-age-cleaner,0.1.2,/Users/casey/homepage/node_modules/map-age-cleaner,(none),MIT,MIT,MIT,MIT
+map-age-cleaner,0.1.3,/Users/casey/homepage/node_modules/map-age-cleaner,(none),MIT,MIT,MIT,MIT
 map-cache,0.2.2,/Users/casey/homepage/node_modules/map-cache,(none),MIT,MIT,MIT,
 map-obj,1.0.1,/Users/casey/homepage/node_modules/map-obj,(none),MIT,MIT,MIT,MIT
 map-visit,1.0.0,/Users/casey/homepage/node_modules/map-visit,(none),MIT,MIT,MIT,
@@ -1035,14 +1035,14 @@ micromatch,3.1.10,/Users/casey/homepage/node_modules/micromatch,(none),MIT,MIT,M
 miller-rabin,4.0.1,/Users/casey/homepage/node_modules/miller-rabin,git@github.com:indutny/miller-rabin,MIT,MIT,,MIT
 mime,1.4.1,/Users/casey/homepage/node_modules/send/node_modules/mime,(none),MIT,MIT,MIT,
 mime,1.6.0,/Users/casey/homepage/node_modules/jimp/node_modules/mime,(none),MIT,MIT,MIT,
-mime,2.3.1,/Users/casey/homepage/node_modules/mime,https://github.com/broofa/node-mime,MIT,MIT,MIT,
+mime,2.4.0,/Users/casey/homepage/node_modules/mime,https://github.com/broofa/node-mime,MIT,MIT,MIT,
 mime-db,1.37.0,/Users/casey/homepage/node_modules/mime-db,(none),MIT,MIT,MIT,
 mime-types,2.1.21,/Users/casey/homepage/node_modules/mime-types,(none),MIT,MIT,MIT,
 mimic-fn,1.2.0,/Users/casey/homepage/node_modules/mimic-fn,(none),MIT,MIT,MIT,MIT
 mimic-response,1.0.1,/Users/casey/homepage/node_modules/mimic-response,(none),MIT,MIT,MIT,MIT
 min-document,2.19.0,/Users/casey/homepage/node_modules/min-document,(none),MIT,MIT,,MIT
-mini-css-extract-plugin,0.4.4,/Users/casey/homepage/node_modules/mini-css-extract-plugin,(none),MIT,MIT,,
-mini-svg-data-uri,1.0.1,/Users/casey/homepage/node_modules/mini-svg-data-uri,https://github.com/tigt/mini-svg-data-uri,MIT,MIT,MIT,
+mini-css-extract-plugin,0.4.5,/Users/casey/homepage/node_modules/mini-css-extract-plugin,(none),MIT,MIT,,
+mini-svg-data-uri,1.0.2,/Users/casey/homepage/node_modules/mini-svg-data-uri,https://github.com/tigt/mini-svg-data-uri,MIT,MIT,MIT,
 minimalistic-assert,1.0.1,/Users/casey/homepage/node_modules/minimalistic-assert,https://github.com/calvinmetcalf/minimalistic-assert,ISC,ISC,,
 minimalistic-crypto-utils,1.0.1,/Users/casey/homepage/node_modules/minimalistic-crypto-utils,ssh://git@github.com/indutny/minimalistic-crypto-utils,MIT,MIT,,MIT
 minimatch,3.0.3,/Users/casey/homepage/node_modules/recursive-readdir/node_modules/minimatch,(none),ISC,ISC,ISC,
@@ -1053,7 +1053,6 @@ minipass,2.2.4,/Users/casey/homepage/node_modules/fsevents/node_modules/minipass
 minipass,2.3.5,/Users/casey/homepage/node_modules/minipass,https://github.com/isaacs/minipass,ISC,ISC,ISC,
 minizlib,1.1.0,/Users/casey/homepage/node_modules/fsevents/node_modules/minizlib,(none),MIT,MIT,,
 minizlib,1.1.1,/Users/casey/homepage/node_modules/minizlib,https://github.com/isaacs/minizlib,MIT,MIT,,
-mississippi,2.0.0,/Users/casey/homepage/node_modules/uglifyjs-webpack-plugin/node_modules/mississippi,(none),BSD;BSD-2-Clause,BSD-2-Clause,,BSD
 mississippi,3.0.0,/Users/casey/homepage/node_modules/mississippi,https://github.com/maxogden/mississippi,BSD;BSD-2-Clause,BSD-2-Clause,,BSD
 mitt,1.1.3,/Users/casey/homepage/node_modules/mitt,(none),MIT,MIT,MIT,
 mixin-deep,1.3.1,/Users/casey/homepage/node_modules/mixin-deep,(none),MIT,MIT,MIT,
@@ -1088,7 +1087,7 @@ node-int64,0.4.0,/Users/casey/homepage/node_modules/node-int64,https://github.co
 node-libs-browser,2.1.0,/Users/casey/homepage/node_modules/node-libs-browser,https://github.com/webpack/node-libs-browser,MIT,MIT,MIT,MIT
 node-pre-gyp,0.10.0,/Users/casey/homepage/node_modules/fsevents/node_modules/node-pre-gyp,(none),BSD-3-Clause,BSD-3-Clause,,
 node-pre-gyp,0.10.3,/Users/casey/homepage/node_modules/node-pre-gyp,http://github.com/mapbox/node-pre-gyp,BSD-3-Clause,BSD-3-Clause,,
-node-releases,1.0.3,/Users/casey/homepage/node_modules/node-releases,https://github.com/chicoxyzzy/node-releases,CC-BY-4.0;Public Domain,CC-BY-4.0,Public Domain,
+node-releases,1.0.5,/Users/casey/homepage/node_modules/node-releases,https://github.com/chicoxyzzy/node-releases,CC-BY-4.0;Public Domain,CC-BY-4.0,Public Domain,
 node-status-codes,1.0.0,/Users/casey/homepage/node_modules/node-status-codes,(none),MIT,MIT,MIT,MIT
 noms,0.0.0,/Users/casey/homepage/node_modules/noms,(none),ISC,ISC,,
 noop-logger,0.1.1,/Users/casey/homepage/node_modules/noop-logger,(none),MIT,MIT,,MIT
@@ -1115,7 +1114,7 @@ object-assign,3.0.0,/Users/casey/homepage/node_modules/download/node_modules/caw
 object-assign,4.1.1,/Users/casey/homepage/node_modules/object-assign,(none),MIT,MIT,MIT,MIT
 object-component,0.0.3,/Users/casey/homepage/node_modules/object-component,(none),MIT,,,MIT
 object-copy,0.1.0,/Users/casey/homepage/node_modules/object-copy,(none),MIT,MIT,MIT,
-object-hash,1.3.0,/Users/casey/homepage/node_modules/object-hash,https://github.com/puleos/object-hash,MIT,MIT,MIT,MIT
+object-hash,1.3.1,/Users/casey/homepage/node_modules/object-hash,https://github.com/puleos/object-hash,MIT,MIT,MIT,MIT
 object-keys,1.0.12,/Users/casey/homepage/node_modules/object-keys,http://github.com/ljharb/object-keys,MIT,MIT,MIT,
 object-path,0.11.4,/Users/casey/homepage/node_modules/object-path,http://github.com/mariocasciaro/object-path,MIT,MIT,MIT,
 object-visit,1.0.1,/Users/casey/homepage/node_modules/object-visit,(none),MIT,MIT,MIT,
@@ -1164,7 +1163,7 @@ p-timeout,2.0.1,/Users/casey/homepage/node_modules/pngquant-bin/node_modules/p-t
 p-try,1.0.0,/Users/casey/homepage/node_modules/p-limit/node_modules/p-try,(none),MIT,MIT,MIT,MIT
 p-try,2.0.0,/Users/casey/homepage/node_modules/p-try,(none),MIT,MIT,MIT,MIT
 package-json,4.0.1,/Users/casey/homepage/node_modules/package-json,(none),MIT,MIT,MIT,MIT
-pako,1.0.6,/Users/casey/homepage/node_modules/pako,(none),(MIT AND Zlib);MIT,(MIT AND Zlib),MIT,MIT
+pako,1.0.7,/Users/casey/homepage/node_modules/pako,(none),(MIT AND Zlib);MIT,(MIT AND Zlib),MIT,MIT
 parallel-transform,1.1.0,/Users/casey/homepage/node_modules/parallel-transform,(none),MIT,MIT,,MIT
 parse-asn1,5.1.1,/Users/casey/homepage/node_modules/parse-asn1,http://github.com/crypto-browserify/parse-asn1,ISC,ISC,,
 parse-bmfont-ascii,1.0.6,/Users/casey/homepage/node_modules/parse-bmfont-ascii,http://github.com/mattdesl/parse-bmfont-ascii,MIT,MIT,,
@@ -1175,6 +1174,7 @@ parse-glob,3.0.4,/Users/casey/homepage/node_modules/parse-glob,(none),MIT,MIT,MI
 parse-headers,2.0.1,/Users/casey/homepage/node_modules/parse-headers,https://github.com/kesla/parse-headers,MIT,MIT,MIT,MIT
 parse-json,2.2.0,/Users/casey/homepage/node_modules/parse-json,(none),MIT,MIT,MIT,MIT
 parse-json,4.0.0,/Users/casey/homepage/node_modules/cosmiconfig/node_modules/parse-json,(none),MIT,MIT,MIT,MIT
+parse-node-version,1.0.0,/Users/casey/homepage/node_modules/parse-node-version,(none),MIT,MIT,MIT,MIT
 parse-passwd,1.0.0,/Users/casey/homepage/node_modules/parse-passwd,(none),MIT,MIT,MIT,
 parse5,3.0.3,/Users/casey/homepage/node_modules/parse5,http://github.com/inikulin/parse5,MIT,MIT,,
 parseqs,0.0.5,/Users/casey/homepage/node_modules/parseqs,https://github.com/get/querystring,MIT,MIT,MIT,
@@ -1212,10 +1212,10 @@ pkg-dir,3.0.0,/Users/casey/homepage/node_modules/terser-webpack-plugin/node_modu
 pluralize,7.0.0,/Users/casey/homepage/node_modules/pluralize,(none),MIT,MIT,MIT,MIT
 pngjs,3.3.3,/Users/casey/homepage/node_modules/pngjs,http://github.com/lukeapage/pngjs2,MIT,MIT,,MIT
 pngquant-bin,5.0.1,/Users/casey/homepage/node_modules/pngquant-bin,(none),MIT,MIT,MIT,MIT
-portfinder,1.0.19,/Users/casey/homepage/node_modules/portfinder,git@github.com:indexzero/node-portfinder,MIT,MIT,,
+portfinder,1.0.20,/Users/casey/homepage/node_modules/portfinder,git@github.com:indexzero/node-portfinder,MIT,MIT,,
 posix-character-classes,0.1.1,/Users/casey/homepage/node_modules/posix-character-classes,(none),MIT,MIT,MIT,
 postcss,6.0.23,/Users/casey/homepage/node_modules/postcss-flexbugs-fixes/node_modules/postcss,(none),MIT,MIT,MIT,
-postcss,7.0.5,/Users/casey/homepage/node_modules/postcss,(none),MIT,MIT,MIT,
+postcss,7.0.6,/Users/casey/homepage/node_modules/postcss,(none),MIT,MIT,MIT,
 postcss-calc,7.0.1,/Users/casey/homepage/node_modules/postcss-calc,(none),MIT,MIT,MIT,
 postcss-colormin,4.0.2,/Users/casey/homepage/node_modules/postcss-colormin,(none),MIT,MIT,,MIT
 postcss-convert-values,4.0.1,/Users/casey/homepage/node_modules/postcss-convert-values,(none),MIT,MIT,,MIT
@@ -1254,12 +1254,12 @@ postcss-svgo,4.0.1,/Users/casey/homepage/node_modules/postcss-svgo,(none),MIT,MI
 postcss-unique-selectors,4.0.1,/Users/casey/homepage/node_modules/postcss-unique-selectors,(none),MIT,MIT,,MIT
 postcss-value-parser,3.3.1,/Users/casey/homepage/node_modules/postcss-value-parser,https://github.com/TrySound/postcss-value-parser,MIT,MIT,,MIT
 potrace,2.1.1,/Users/casey/homepage/node_modules/potrace,https://github.com/tooolbox/node-potrace,GPL;GPL-2.0,GPL-2.0,,GPL
-prebuild-install,5.2.1,/Users/casey/homepage/node_modules/prebuild-install,https://github.com/prebuild/prebuild-install,MIT,MIT,MIT,MIT
+prebuild-install,5.2.2,/Users/casey/homepage/node_modules/prebuild-install,https://github.com/prebuild/prebuild-install,MIT,MIT,MIT,MIT
 prelude-ls,1.1.2,/Users/casey/homepage/node_modules/prelude-ls,http://github.com/gkz/prelude-ls,MIT,MIT,,
 prepend-http,1.0.4,/Users/casey/homepage/node_modules/url-parse-lax/node_modules/prepend-http,(none),MIT,MIT,MIT,MIT
 prepend-http,2.0.0,/Users/casey/homepage/node_modules/prepend-http,(none),MIT,MIT,MIT,MIT
 preserve,0.2.0,/Users/casey/homepage/node_modules/preserve,http://github.com/jonschlinkert/preserve,MIT,MIT,MIT,MIT
-prettier,1.15.2,/Users/casey/homepage/node_modules/prettier,(none),MIT,MIT,,
+prettier,1.15.3,/Users/casey/homepage/node_modules/prettier,(none),MIT,MIT,,
 pretty-bytes,4.0.2,/Users/casey/homepage/node_modules/pretty-bytes,(none),MIT,MIT,MIT,MIT
 pretty-error,2.1.1,/Users/casey/homepage/node_modules/pretty-error,https://github.com/AriaMinaei/pretty-error,MIT,MIT,MIT,MIT
 private,0.1.8,/Users/casey/homepage/node_modules/private,http://github.com/benjamn/private,MIT,MIT,,
@@ -1300,9 +1300,9 @@ raw-body,2.3.3,/Users/casey/homepage/node_modules/raw-body,(none),MIT,MIT,MIT,
 raw-loader,0.5.1,/Users/casey/homepage/node_modules/raw-loader,git@github.com:webpack/raw-loader,MIT,MIT,,MIT
 rc,1.2.7,/Users/casey/homepage/node_modules/fsevents/node_modules/rc,(none),(BSD-2-Clause OR MIT OR Apache-2.0);BSD;MIT,(BSD-2-Clause OR MIT OR Apache-2.0),MIT,BSD;MIT
 rc,1.2.8,/Users/casey/homepage/node_modules/rc,https://github.com/dominictarr/rc,(BSD-2-Clause OR MIT OR Apache-2.0);BSD;MIT,(BSD-2-Clause OR MIT OR Apache-2.0),MIT,BSD;MIT
-react,16.6.1,/Users/casey/homepage/node_modules/react,(none),MIT,MIT,MIT,
+react,16.7.0-alpha.2,/Users/casey/homepage/node_modules/react,(none),MIT,MIT,MIT,
 react-dev-utils,4.2.3,/Users/casey/homepage/node_modules/react-dev-utils,https://github.com/facebookincubator/create-react-app,MIT,MIT,,
-react-dom,16.6.1,/Users/casey/homepage/node_modules/react-dom,(none),MIT,MIT,MIT,
+react-dom,16.7.0-alpha.2,/Users/casey/homepage/node_modules/react-dom,(none),MIT,MIT,MIT,
 react-error-overlay,3.0.0,/Users/casey/homepage/node_modules/react-error-overlay,(none),MIT,MIT,,
 react-helmet,5.2.0,/Users/casey/homepage/node_modules/react-helmet,https://github.com/nfl/react-helmet,MIT,MIT,,MIT
 react-hot-loader,4.3.12,/Users/casey/homepage/node_modules/react-hot-loader,(none),MIT,MIT,MIT,MIT
@@ -1323,7 +1323,7 @@ readable-stream,3.0.6,/Users/casey/homepage/node_modules/htmlparser2/node_module
 readdirp,2.2.1,/Users/casey/homepage/node_modules/readdirp,http://github.com/paulmillr/readdirp,MIT,MIT,MIT,
 recursive-readdir,2.2.1,/Users/casey/homepage/node_modules/recursive-readdir,http://github.com/jergason/recursive-readdir,MIT,MIT,MIT,
 redent,1.0.0,/Users/casey/homepage/node_modules/redent,(none),MIT,MIT,MIT,MIT
-redux,3.7.2,/Users/casey/homepage/node_modules/redux,https://github.com/reactjs/redux,MIT,MIT,MIT,MIT
+redux,4.0.1,/Users/casey/homepage/node_modules/redux,(none),MIT,MIT,MIT,MIT
 regenerate,1.4.0,/Users/casey/homepage/node_modules/regenerate,https://github.com/mathiasbynens/regenerate,MIT,MIT,,
 regenerate-unicode-properties,7.0.0,/Users/casey/homepage/node_modules/regenerate-unicode-properties,https://github.com/mathiasbynens/regenerate-unicode-properties,MIT,MIT,,
 regenerator-runtime,0.10.5,/Users/casey/homepage/node_modules/babel-polyfill/node_modules/regenerator-runtime,(none),MIT,MIT,,
@@ -1379,7 +1379,7 @@ safe-buffer,5.1.2,/Users/casey/homepage/node_modules/safe-buffer,http://github.c
 safe-regex,1.1.0,/Users/casey/homepage/node_modules/safe-regex,http://github.com/substack/safe-regex,MIT,MIT,MIT,MIT
 safer-buffer,2.1.2,/Users/casey/homepage/node_modules/safer-buffer,https://github.com/ChALkeR/safer-buffer,MIT,MIT,MIT,
 sax,1.2.4,/Users/casey/homepage/node_modules/sax,(none),ISC;MIT,ISC,ISC;MIT,
-scheduler,0.11.0,/Users/casey/homepage/node_modules/scheduler,(none),MIT,MIT,MIT,
+scheduler,0.12.0-alpha.2,/Users/casey/homepage/node_modules/scheduler,(none),MIT,MIT,MIT,
 schema-utils,0.4.7,/Users/casey/homepage/node_modules/schema-utils,(none),MIT,MIT,,
 schema-utils,1.0.0,/Users/casey/homepage/node_modules/mini-css-extract-plugin/node_modules/schema-utils,(none),MIT,MIT,,
 scroll-behavior,0.9.9,/Users/casey/homepage/node_modules/scroll-behavior,https://github.com/taion/scroll-behavior,MIT,MIT,MIT,
@@ -1422,10 +1422,10 @@ slice-ansi,1.0.0,/Users/casey/homepage/node_modules/slice-ansi,(none),MIT,MIT,MI
 snapdragon,0.8.2,/Users/casey/homepage/node_modules/snapdragon,(none),MIT,MIT,MIT,
 snapdragon-node,2.1.1,/Users/casey/homepage/node_modules/snapdragon-node,(none),MIT,MIT,MIT,
 snapdragon-util,3.0.1,/Users/casey/homepage/node_modules/snapdragon-util,(none),MIT,MIT,MIT,
-socket.io,2.1.1,/Users/casey/homepage/node_modules/socket.io,http://github.com/socketio/socket.io,MIT,MIT,MIT,
+socket.io,2.2.0,/Users/casey/homepage/node_modules/socket.io,http://github.com/socketio/socket.io,MIT,MIT,MIT,
 socket.io-adapter,1.1.1,/Users/casey/homepage/node_modules/socket.io-adapter,http://github.com/socketio/socket.io-adapter,MIT,MIT,MIT,MIT
-socket.io-client,2.1.1,/Users/casey/homepage/node_modules/socket.io-client,https://github.com/Automattic/socket.io-client,MIT,MIT,MIT,
-socket.io-parser,3.2.0,/Users/casey/homepage/node_modules/socket.io-parser,https://github.com/Automattic/socket.io-parser,MIT,MIT,MIT,MIT
+socket.io-client,2.2.0,/Users/casey/homepage/node_modules/socket.io-client,https://github.com/Automattic/socket.io-client,MIT,MIT,MIT,
+socket.io-parser,3.3.0,/Users/casey/homepage/node_modules/socket.io-parser,https://github.com/Automattic/socket.io-parser,MIT,MIT,MIT,MIT
 sockjs,0.3.19,/Users/casey/homepage/node_modules/sockjs,https://github.com/sockjs/sockjs-node,MIT,MIT,MIT,
 sockjs-client,1.1.4,/Users/casey/homepage/node_modules/sockjs-client,https://github.com/sockjs/sockjs-client,MIT,MIT,MIT,
 sockjs-client,1.3.0,/Users/casey/homepage/node_modules/webpack-dev-server/node_modules/sockjs-client,(none),MIT,MIT,MIT,
@@ -1449,7 +1449,6 @@ split-string,3.1.0,/Users/casey/homepage/node_modules/split-string,(none),MIT,MI
 sprintf-js,1.0.3,/Users/casey/homepage/node_modules/sprintf-js,https://github.com/alexei/sprintf.js,BSD;BSD-3-Clause,BSD-3-Clause,,BSD
 squeak,1.3.0,/Users/casey/homepage/node_modules/squeak,(none),MIT,MIT,MIT,MIT
 sshpk,1.15.2,/Users/casey/homepage/node_modules/sshpk,https://github.com/joyent/node-sshpk,MIT,MIT,,
-ssri,5.3.0,/Users/casey/homepage/node_modules/uglifyjs-webpack-plugin/node_modules/ssri,(none),ISC,ISC,ISC,
 ssri,6.0.1,/Users/casey/homepage/node_modules/ssri,(none),ISC,ISC,ISC,
 stable,0.1.8,/Users/casey/homepage/node_modules/stable,https://github.com/Two-Screen/stable,MIT,MIT,,MIT
 stack-trace,0.0.10,/Users/casey/homepage/node_modules/stack-trace,http://github.com/felixge/node-stack-trace,MIT,MIT,,MIT
@@ -1470,8 +1469,9 @@ strict-uri-encode,1.1.0,/Users/casey/homepage/node_modules/strict-uri-encode,(no
 string-similarity,1.2.2,/Users/casey/homepage/node_modules/string-similarity,http://github.com/aceakash/string-similarity,ISC,ISC,,
 string-width,1.0.2,/Users/casey/homepage/node_modules/gauge/node_modules/string-width,(none),MIT,MIT,MIT,MIT
 string-width,2.1.1,/Users/casey/homepage/node_modules/string-width,(none),MIT,MIT,MIT,MIT
-string_decoder,0.10.31,/Users/casey/homepage/node_modules/noms/node_modules/string_decoder,(none),MIT,MIT,,
-string_decoder,1.1.1,/Users/casey/homepage/node_modules/string_decoder,http://github.com/nodejs/string_decoder,MIT,MIT,,
+string_decoder,0.10.31,/Users/casey/homepage/node_modules/string_decoder,http://github.com/rvagg/string_decoder,MIT,MIT,,
+string_decoder,1.1.1,/Users/casey/homepage/node_modules/readable-stream/node_modules/string_decoder,(none),MIT,MIT,,
+string_decoder,1.2.0,/Users/casey/homepage/node_modules/htmlparser2/node_modules/string_decoder,(none),MIT,MIT,,
 stringify-object,3.3.0,/Users/casey/homepage/node_modules/stringify-object,(none),BSD-2-Clause,BSD-2-Clause,,
 strip-ansi,3.0.1,/Users/casey/homepage/node_modules/strip-ansi,(none),MIT,MIT,MIT,MIT
 strip-ansi,4.0.0,/Users/casey/homepage/node_modules/inquirer/node_modules/strip-ansi,(none),MIT,MIT,MIT,MIT
@@ -1494,7 +1494,7 @@ svgo,0.7.2,/Users/casey/homepage/node_modules/svgo,http://github.com/svg/svgo,MI
 svgo,1.1.1,/Users/casey/homepage/node_modules/postcss-svgo/node_modules/svgo,(none),MIT,MIT,MIT,
 symbol-observable,1.2.0,/Users/casey/homepage/node_modules/symbol-observable,(none),MIT,MIT,MIT,MIT
 table,4.0.2,/Users/casey/homepage/node_modules/table,https://github.com/gajus/table,BSD-3-Clause,BSD-3-Clause,,
-tapable,1.1.0,/Users/casey/homepage/node_modules/tapable,http://github.com/webpack/tapable,MIT,MIT,MIT,
+tapable,1.1.1,/Users/casey/homepage/node_modules/tapable,http://github.com/webpack/tapable,MIT,MIT,MIT,
 tar,4.4.1,/Users/casey/homepage/node_modules/fsevents/node_modules/tar,(none),ISC,ISC,ISC,
 tar,4.4.8,/Users/casey/homepage/node_modules/tar,https://github.com/npm/node-tar,ISC,ISC,ISC,
 tar-fs,1.16.3,/Users/casey/homepage/node_modules/tar-fs,https://github.com/mafintosh/tar-fs,MIT,MIT,MIT,MIT
@@ -1503,7 +1503,7 @@ temp-dir,1.0.0,/Users/casey/homepage/node_modules/temp-dir,(none),MIT,MIT,MIT,MI
 tempfile,1.1.1,/Users/casey/homepage/node_modules/bin-build/node_modules/tempfile,(none),MIT,MIT,MIT,MIT
 tempfile,2.0.0,/Users/casey/homepage/node_modules/tempfile,(none),MIT,MIT,MIT,MIT
 term-size,1.2.0,/Users/casey/homepage/node_modules/term-size,(none),MIT,MIT,MIT,MIT
-terser,3.10.11,/Users/casey/homepage/node_modules/terser,(none),BSD;BSD-2-Clause,BSD-2-Clause,BSD,
+terser,3.11.0,/Users/casey/homepage/node_modules/terser,(none),BSD;BSD-2-Clause,BSD-2-Clause,BSD,
 terser-webpack-plugin,1.1.0,/Users/casey/homepage/node_modules/terser-webpack-plugin,(none),MIT,MIT,,
 text-table,0.2.0,/Users/casey/homepage/node_modules/text-table,http://github.com/substack/text-table,MIT,MIT,MIT,MIT
 through,2.3.8,/Users/casey/homepage/node_modules/through,https://github.com/dominictarr/through,MIT,MIT,MIT,MIT
@@ -1545,9 +1545,6 @@ type-is,1.6.16,/Users/casey/homepage/node_modules/type-is,(none),MIT,MIT,MIT,
 type-of,2.0.1,/Users/casey/homepage/node_modules/type-of,https://github.com/ForbesLindesay/type-of,MIT,MIT,,MIT
 typedarray,0.0.6,/Users/casey/homepage/node_modules/typedarray,http://github.com/substack/typedarray,MIT,MIT,,MIT
 ua-parser-js,0.7.19,/Users/casey/homepage/node_modules/ua-parser-js,https://github.com/faisalman/ua-parser-js,(GPL-2.0 OR MIT);GPL;MIT,(GPL-2.0 OR MIT),MIT,GPL;MIT
-uglify-es,3.3.9,/Users/casey/homepage/node_modules/uglify-es,(none),BSD;BSD-2-Clause,BSD-2-Clause,BSD,
-uglifyjs-webpack-plugin,1.3.0,/Users/casey/homepage/node_modules/uglifyjs-webpack-plugin,(none),MIT,MIT,,
-ultron,1.1.1,/Users/casey/homepage/node_modules/ultron,https://github.com/unshiftio/ultron,MIT,MIT,MIT,MIT
 unbzip2-stream,1.3.1,/Users/casey/homepage/node_modules/unbzip2-stream,https://github.com/regular/unbzip2-stream,MIT,MIT,,
 unc-path-regex,0.1.2,/Users/casey/homepage/node_modules/unc-path-regex,https://github.com/regexhq/unc-path-regex,MIT,MIT,MIT,MIT
 unicode-canonical-property-names-ecmascript,1.0.4,/Users/casey/homepage/node_modules/unicode-canonical-property-names-ecmascript,https://github.com/mathiasbynens/unicode-canonical-property-names-ecmascript,MIT,MIT,,
@@ -1604,7 +1601,7 @@ ware,1.3.0,/Users/casey/homepage/node_modules/ware,(none),MIT,MIT,,MIT
 warning,3.0.0,/Users/casey/homepage/node_modules/warning,https://github.com/BerkeleyTrue/warning,BSD;BSD-3-Clause,BSD-3-Clause,BSD,
 watchpack,1.6.0,/Users/casey/homepage/node_modules/watchpack,https://github.com/webpack/watchpack,MIT,MIT,,
 wbuf,1.7.3,/Users/casey/homepage/node_modules/wbuf,git@github.com:indutny/wbuf,MIT,MIT,,MIT
-webpack,4.25.1,/Users/casey/homepage/node_modules/webpack,https://github.com/webpack/webpack,MIT,MIT,,
+webpack,4.26.1,/Users/casey/homepage/node_modules/webpack,https://github.com/webpack/webpack,MIT,MIT,,
 webpack-dev-middleware,3.4.0,/Users/casey/homepage/node_modules/webpack-dev-middleware,(none),MIT,MIT,,
 webpack-dev-server,3.1.10,/Users/casey/homepage/node_modules/webpack-dev-server,(none),MIT,MIT,,
 webpack-hot-middleware,2.24.3,/Users/casey/homepage/node_modules/webpack-hot-middleware,https://github.com/webpack-contrib/webpack-hot-middleware,MIT,MIT,,
@@ -1644,7 +1641,7 @@ wrap-fn,0.1.5,/Users/casey/homepage/node_modules/wrap-fn,(none),MIT,MIT,,MIT
 wrappy,1.0.2,/Users/casey/homepage/node_modules/wrappy,https://github.com/npm/wrappy,ISC,ISC,ISC,
 write,0.2.1,/Users/casey/homepage/node_modules/write,(none),MIT,MIT,MIT,MIT
 write-file-atomic,2.3.0,/Users/casey/homepage/node_modules/write-file-atomic,git@github.com:iarna/write-file-atomic,ISC,ISC,,
-ws,3.3.3,/Users/casey/homepage/node_modules/ws,(none),MIT,MIT,MIT,
+ws,6.1.2,/Users/casey/homepage/node_modules/ws,(none),MIT,MIT,MIT,
 xdg-basedir,3.0.0,/Users/casey/homepage/node_modules/xdg-basedir,(none),MIT,MIT,MIT,MIT
 xhr,2.5.0,/Users/casey/homepage/node_modules/xhr,(none),MIT,MIT,,MIT
 xml-parse-from-string,1.0.1,/Users/casey/homepage/node_modules/xml-parse-from-string,http://github.com/Jam3/xml-parse-from-string,MIT,MIT,MIT,
@@ -1654,10 +1651,11 @@ xmlhttprequest-ssl,1.5.5,/Users/casey/homepage/node_modules/xmlhttprequest-ssl,h
 xregexp,4.0.0,/Users/casey/homepage/node_modules/xregexp,https://github.com/slevithan/xregexp,MIT,MIT,MIT,
 xstate,3.3.3,/Users/casey/homepage/node_modules/xstate,https://github.com/davidkpiano/xstate,MIT,MIT,MIT,
 xtend,4.0.1,/Users/casey/homepage/node_modules/xtend,(none),MIT,MIT,,MIT
-y18n,3.2.1,/Users/casey/homepage/node_modules/relay-compiler/node_modules/y18n,(none),ISC,ISC,,ISC
-y18n,4.0.0,/Users/casey/homepage/node_modules/y18n,git@github.com:yargs/y18n,ISC,ISC,,ISC
+y18n,3.2.1,/Users/casey/homepage/node_modules/y18n,git@github.com:yargs/y18n,ISC,ISC,,ISC
+y18n,4.0.0,/Users/casey/homepage/node_modules/cacache/node_modules/y18n,(none),ISC,ISC,,ISC
 yallist,2.1.2,/Users/casey/homepage/node_modules/yallist,https://github.com/isaacs/yallist,ISC,ISC,ISC,
-yallist,3.0.2,/Users/casey/homepage/node_modules/tar/node_modules/yallist,(none),ISC,ISC,ISC,
+yallist,3.0.2,/Users/casey/homepage/node_modules/fsevents/node_modules/yallist,(none),ISC,ISC,ISC,
+yallist,3.0.3,/Users/casey/homepage/node_modules/tar/node_modules/yallist,(none),ISC,ISC,ISC,
 yaml-loader,0.5.0,/Users/casey/homepage/node_modules/yaml-loader,https://github.com/okonet/yaml-loader,MIT,MIT,MIT,MIT
 yargs,9.0.1,/Users/casey/homepage/node_modules/relay-compiler/node_modules/yargs,(none),MIT,MIT,,
 yargs,11.1.0,/Users/casey/homepage/node_modules/gatsby-cli/node_modules/yargs,(none),MIT,MIT,,
@@ -1669,4 +1667,4 @@ yauzl,2.10.0,/Users/casey/homepage/node_modules/yauzl,https://github.com/thejosh
 yeast,0.1.2,/Users/casey/homepage/node_modules/yeast,https://github.com/unshiftio/yeast,MIT,MIT,MIT,
 yurnalist,0.2.1,/Users/casey/homepage/node_modules/yurnalist,(none),BSD;BSD-2-Clause,BSD-2-Clause,BSD,
 zen-observable,0.8.11,/Users/casey/homepage/node_modules/zen-observable,(none),MIT,MIT,,
-zen-observable-ts,0.8.10,/Users/casey/homepage/node_modules/zen-observable-ts,https://github.com/apollographql/apollo-link,MIT,MIT,MIT,
+zen-observable-ts,0.8.11,/Users/casey/homepage/node_modules/zen-observable-ts,https://github.com/apollographql/apollo-link,MIT,MIT,MIT,

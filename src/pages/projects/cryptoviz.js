@@ -50,11 +50,11 @@ const Cryptoviz = ({ bannerImage, algo1, algo2, evt1 }) => (
       <BannerImage img={bannerImage} />
       <h2 style={{ paddingTop: 28 }}>Overview</h2>
       <p>
-        In financial markets with buyers and sellers, there's something called
-        an <i>Order Book</i> which contains the number of units of all pending
-        offers to buy and sell assets at every price level. This order book can
-        be in many ways, but most only show the state of the book at a single
-        point in time.
+        In financial markets with buyers and sellers, there&apos;s something
+        called an <i>Order Book</i> which contains the number of units of all
+        pending offers to buy and sell assets at every price level. This order
+        book can be in many ways, but most only show the state of the book at a
+        single point in time.
       </p>
       <p>
         Cryptoviz allows users to visualize the state of the orderbook as it
@@ -83,14 +83,14 @@ const Cryptoviz = ({ bannerImage, algo1, algo2, evt1 }) => (
       </p>
       <p>
         For the data used to power the visualization, a direct WebSocket feed is
-        opened to the Poloniex exchange's orderbook update feed. To start, these
-        updates are recorded in an array and not applied to the visualization.
-        Once that happens, a HTTP request is made to their public REST API to
-        fetch the current state of the orderbook. The response from that
-        contains a sequence number which can be used to pick the exact point at
-        which to start applying orderbook updates; all recorded updates before
-        the sequence number of the orderbook snapshot are discarded, and the
-        ones after are applied.
+        opened to the Poloniex exchange&apos;s orderbook update feed. To start,
+        these updates are recorded in an array and not applied to the
+        visualization. Once that happens, a HTTP request is made to their public
+        REST API to fetch the current state of the orderbook. The response from
+        that contains a sequence number which can be used to pick the exact
+        point at which to start applying orderbook updates; all recorded updates
+        before the sequence number of the orderbook snapshot are discarded, and
+        the ones after are applied.
       </p>
       <p>
         By following this procedure, a virtual orderbook is maintained matching
@@ -108,9 +108,9 @@ const Cryptoviz = ({ bannerImage, algo1, algo2, evt1 }) => (
 
       <h2 style={{ paddingTop: 24 }}>Results + Interesting Observations</h2>
       <p>
-        I wasn't 100% sure what kind of results to expect when building this
-        tool. I had been interested in financial markets and in particular the
-        way in which automated strategies contribute to market activity, and
+        I wasn&apos;t 100% sure what kind of results to expect when building
+        this tool. I had been interested in financial markets and in particular
+        the way in which automated strategies contribute to market activity, and
         Cryptoviz makes these kinds of behaviors very clear. As it turned out,
         Cryptoviz was great at both visually analyzing activity that was
         difficult of impossible to see otherwise such as algorithmic trading
@@ -145,8 +145,8 @@ const Cryptoviz = ({ bannerImage, algo1, algo2, evt1 }) => (
         All in all, I see Cryptoviz as one of my most interesting and successful
         projects. Although based on tools that already existed for the stock
         market, I feel that I created something genuinely useful and did so
-        effectively. Data visualization is something I've always enjoyed, and
-        getting to do so in such a unique was was a great experience. Many
+        effectively. Data visualization is something I&apos;ve always enjoyed,
+        and getting to do so in such a unique was was a great experience. Many
         things I learned while building it have been useful for other projects,
         and the process introduced me to a lot of new ideas.
       </p>

@@ -117,8 +117,8 @@ const IndexInner = data => {
         Writing software is my passion. Building web applications, websites,
         tools, utilities, or artsy code sketches is what I do in my free time
         and want to do for my career as well. Here is a collection of the
-        notable software projects that I've undertaken and published. The list
-        isn't comprehensive and is always growing.
+        notable software projects that I&apos;ve undertaken and published. The
+        list isn&apos;t comprehensive and is always growing.
       </p>
       <hr />
 
