@@ -6,13 +6,16 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     backgroundColor: '#333',
-    paddingLeft: 12,
     paddingTop: 4,
     paddingBottom: 8,
     paddingright: 12,
     fontFamily: "'Oxygen Mono', monospace",
+    paddingLeft: 300,
+    paddingRight: 300,
+    flexWrap: 'wrap',
   },
   homeLink: {
+    left: 8,
     display: 'flex',
     flex: 1,
     fontSize: 16,
@@ -32,8 +35,8 @@ const styles = {
   },
 };
 
-const NavLink = ({ to, text }) => (
-  <Link to={to} style={styles.navLink}>
+const NavLink = ({ to, text, style = {} }) => (
+  <Link to={to} style={{ ...styles.navLink, ...style }}>
     {text}
   </Link>
 );
@@ -43,6 +46,11 @@ const NavLinks = () => (
     <NavLink to="/portfolio/" text="Portfolio" />
     <NavLink to="/contact/" text="Contact" />
     <NavLink to="/about/" text="About" />
+    <NavLink
+      to="/professional/"
+      text="Professional Experience"
+      style={{ flex: 1.5 }}
+    />
   </div>
 );
 

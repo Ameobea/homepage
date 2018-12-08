@@ -7,6 +7,16 @@ import './layout.css';
 import Header from '../components/Header';
 import HeaderMobile from '../components/HeaderMobile';
 
+const styles = {
+  root: {
+    margin: '0 auto',
+    maxWidth: 960,
+    padding: '0px 1.0875rem 1.45rem',
+    paddingTop: '1.45rem',
+    backgroundColor: 'rgba(36, 36, 36, 0.92)',
+  },
+};
+
 const Layout = ({ children, showHeader = true }) => (
   <StaticQuery
     query={graphql`
@@ -42,17 +52,7 @@ const Layout = ({ children, showHeader = true }) => (
           </React.Fragment>
         ) : null}
 
-        <div
-          style={{
-            margin: '0 auto',
-            maxWidth: 960,
-            padding: '0px 1.0875rem 1.45rem',
-            paddingTop: '1.45rem',
-            backgroundColor: 'rgba(36, 36, 36, 0.92)',
-          }}
-        >
-          {children}
-        </div>
+        <div style={styles.root}>{children}</div>
       </React.Fragment>
     )}
   />

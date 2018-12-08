@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'gatsby-link';
 
 import { ANewTab } from './util';
 import githubLogo from '../images/social/github.svg';
@@ -37,6 +36,7 @@ const styles = {
     display: 'flex',
     flex: 0.2,
     justifyContent: 'flex-end',
+    fontStyle: 'italic',
   },
 };
 
@@ -88,11 +88,9 @@ const Header = ({ siteTitle }) => (
       </div>
 
       <div style={styles.rightLinks}>
-        <i>
-          <a href="/imprint/" style={styles.textLink}>
-            Imprint
-          </a>
-        </i>
+        <a href="/imprint/" style={styles.textLink}>
+          Imprint
+        </a>
       </div>
     </div>
   </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'gatsby';
 
 import HamburgerMenuIcon from '../images/hamburgerMenu.svg';
@@ -24,8 +24,8 @@ const styles = {
     position: 'absolute',
     top: 8,
     left: 59,
-    width: 100,
-    height: 125,
+    width: 150,
+    height: 180,
     backgroundColor: 'rgba(45, 45, 45, 0.95)',
     borderStyle: 'solid',
     borderWidth: 1,
@@ -42,17 +42,24 @@ const styles = {
     display: 'flex',
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     width: '100%',
     borderBottomStyle: 'solid',
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(200,200,200,0.4)',
     textAlign: 'center',
   },
+  menuIcon: {
+    position: 'absolute',
+    cursor: 'pointer',
+    left: 7,
+    top: 4,
+    zIndex: 10,
+  },
 };
 
-const ExpandedLink = ({ to, text }) => (
-  <Link to={to} style={styles.expandedLink}>
+const ExpandedLink = ({ to, text, style = {} }) => (
+  <Link to={to} style={{ ...styles.expandedLink, ...style }}>
     {text}
   </Link>
 );
@@ -62,30 +69,44 @@ const HeaderMenuExpanded = ({ setMenuOpen }) => (
     <ExpandedLink to="/" text="Home" />
     <ExpandedLink to="/portfolio/" text="Portfolio" />
     <ExpandedLink to="/contact/" text="Contact" />
-    <ExpandedLink to="/about/" text="About" />
+    <ExpandedLink
+      to="/professional/"
+      text="Professional Experience"
+      style={{ flex: 1.5 }}
+    />
   </div>
 );
 
 const HeaderMobile = () => {
   const [menuOpen, setMenuOpen] = useState(0);
+  const hideMenu = evt => {
+    if (!evt.target.className.includes('menu-activator')) {
+      setMenuOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', hideMenu);
+
+    return () => {
+      document.removeEventListener('click', hideMenu);
+    };
+  });
 
   return (
     <div style={styles.root} className="header-mobile">
       <img
+        className="menu-activator"
         height={38}
         width={38}
         src={HamburgerMenuIcon}
-        alt="hamburger menu"
-        style={{
-          position: 'absolute',
-          cursor: 'pointer',
-          left: 7,
-          top: 4,
-          zIndex: 10,
-        }}
+        alt="hamburger menu icon"
+        style={styles.menuIcon}
         onClick={() => setMenuOpen(!menuOpen)}
       />
-      <div style={styles.title}>Casey Primozic&apos;s Homepage</div>
+      <div style={styles.title}>
+        <Link to="/">Casey Primozic&apos;s Homepage</Link>
+      </div>
 
       {menuOpen ? <HeaderMenuExpanded /> : null}
     </div>
@@ -94,4 +115,4 @@ const HeaderMobile = () => {
 
 // This is wrapped with `React.memo` in order to work around a bug in the hot reloader:
 // https://github.com/gatsbyjs/gatsby/issues/9489#issuecomment-433872202
-export default React.memo(HeaderMobile);
+export default HeaderMobile;

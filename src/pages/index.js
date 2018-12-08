@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'gatsby';
 
 import Layout from '../components/layout';
 import ProfilePicture from '../components/ProfilePicture';
@@ -24,7 +25,9 @@ const styles = {
 
 const TagLine = () => (
   <div style={styles.tagLine}>
-    {"I'm a software developer or whatever I feel would be good to put here."}
+    I&apos;m a software developer interested in all kinds of programming. I love
+    building <Link to="/portfolio/">websites</Link> and creating tools that
+    people find useful.
   </div>
 );
 
@@ -42,7 +45,10 @@ const IndexPage = () => (
       <IndexLinkBlockSet>
         <IndexLinkBlock to="/portfolio/" text="Projects + Work Portfolio" />
         <IndexLinkBlock to="/contact/" text="Contact" />
-        <IndexLinkBlock to="/about/" text="About Me" />
+        <IndexLinkBlock
+          to="/professional/"
+          text="Professional Skills and Experience"
+        />
       </IndexLinkBlockSet>
     </Layout>
   </React.Fragment>
