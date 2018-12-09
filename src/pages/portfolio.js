@@ -18,6 +18,33 @@ const ProjectInfoLink = ({ text, url }) => {
   );
 };
 
+const ProjectImage = ({ pageUrl, fluidImage, imageAlt, even }) => {
+  const wrapperClassname = `portfolio-image-wrapper ${
+    even ? 'portfolio-image-wrapper-left' : 'portfolio-image-wrapper-right'
+  }`;
+  const Wrapper = pageUrl
+    ? ({ children }) => (
+        <Link className={wrapperClassname} to={`/projects/${pageUrl}`}>
+          {children}
+        </Link>
+      )
+    : ({ children }) => <div className={wrapperClassname}>{children}</div>;
+
+  return (
+    <React.Fragment>
+      {fluidImage ? (
+        <Wrapper>
+          <Img
+            fluid={fluidImage}
+            imgStyle={{ objectPosition: 'center center', objectFit: 'contain' }}
+            alt={imageAlt}
+          />
+        </Wrapper>
+      ) : null}
+    </React.Fragment>
+  );
+};
+
 const ProjectOverview = ({
   name,
   description,
@@ -39,7 +66,7 @@ const ProjectOverview = ({
     <div className="portfolio-project-overview-content">
       <div className="portfolio-project-header">
         <h2 className="portfolio-project-title">
-          <Link to={`/projects/${pageUrl}`}>{name}</Link>
+          {pageUrl ? <Link to={`/projects/${pageUrl}`}>{name}</Link> : name}
         </h2>
         <i className="portfolio-project-info-link">{`${startDate} - ${endDate ||
           '(under development)'}`}</i>
@@ -50,22 +77,13 @@ const ProjectOverview = ({
       </div>
       <p className="portfolio-project-description">{description}</p>
     </div>
-    {fluidImage ? (
-      <Link
-        className={`portfolio-image-wrapper ${
-          even
-            ? 'portfolio-image-wrapper-left'
-            : 'portfolio-image-wrapper-right'
-        }`}
-        to={`/projects/${pageUrl}`}
-      >
-        <Img
-          fluid={fluidImage}
-          imgStyle={{ objectPosition: 'center center', objectFit: 'contain' }}
-          alt={imageAlt}
-        />
-      </Link>
-    ) : null}
+
+    <ProjectImage
+      pageUrl={pageUrl}
+      fluidImage={fluidImage}
+      imageAlt={imageAlt}
+      even={even}
+    />
   </div>
 );
 

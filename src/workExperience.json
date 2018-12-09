@@ -1,0 +1,62 @@
+[
+  {
+    "company": "FatWhale",
+    "website": null,
+    "location": "Remote",
+    "title": "Software Developer",
+    "startDate": "Sept. 2017",
+    "endDate": "Jul. 2018",
+    "descriptions": [
+      "Designed and developed software to aid with the collection, processing, and storage of cryptocurrency market data",
+      "Constructed a fully automated trading framework for trading on many cryptocurrency exchanges",
+      "Designed software applications and prepared documentation for other developers",
+      "Set up CI/CD pipelines using CircleCI, Kubernetes/GKE, and managed code reviews and version control"
+    ]
+  },
+  {
+    "company": "Trabian Technology",
+    "website": "https://www.trabian.com/",
+    "location": "Remote",
+    "title": "Software Developer",
+    "startDate": "Sept. 2017",
+    "endDate": "Jul. 2018",
+    "descriptions": [
+      "Stayed on remotely part-time after my internship working on on React applications for clients in the financial sector"
+    ]
+  },
+  {
+    "company": "Trabian Technology",
+    "website": "https://www.trabian.com/",
+    "location": "Indianaplis, IN",
+    "title": "Software Developer Intern",
+    "startDate": "May. 2017",
+    "endDate": "Aug. 2018",
+    "descriptions": [
+      "Worked on client projects including web and mobile applications for the financial sector",
+      "Implemented new features + fixed bugs using a Github-based workflow; React + React Native, Redux",
+      "Took part in code reviews and pair programming"
+    ]
+  },
+  {
+    "company": "Valparaiso University",
+    "website": "https://valpo.edu/",
+    "location": "Valparaiso, IN",
+    "title": "Undergraduate Researcher / Software Developer",
+    "startDate": "Jun. 2016",
+    "endDate": "Aug. 2016",
+    "descriptions": [
+      "Extended the Orange3 platform to allow for code exportation from visual programming workflows to Python scripts"
+    ]
+  },
+  {
+    "company": "Valparaiso University",
+    "website": "https://valpo.edu/",
+    "location": "Valparaiso, IN",
+    "title": "Undergraduate Researcher / Software Developer",
+    "startDate": "May. 2016",
+    "endDate": "Jun. 2016",
+    "descriptions": [
+      "Developed software for network research and analysis (https://github.com/Ameobea/network_research) and prototype network repository for storage of network data (https://github.com/Ameobea/network_database)"
+    ]
+  }
+]

@@ -23,6 +23,13 @@ module.exports = {
     {
       resolve: 'gatsby-source-filesystem',
       options: {
+        name: 'workExperience',
+        path: `${__dirname}/src/workExperience.json`,
+      },
+    },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
         name: 'licenses',
         path: `${__dirname}/src/licenses.csv`,
       },

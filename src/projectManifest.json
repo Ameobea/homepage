@@ -1,5 +1,17 @@
 [
   {
+    "name": "This Website!",
+    "description": "A homepage for myself with the primary purpose of showcasing my professional skills and achievements as well as personal projects and interests.  I aimed to create something that demonstrates my skills as a web developer as well as gives others insight into myself and what I do.",
+    "projectUrl": null,
+    "srcUrl": "https://github.com/ameobea/homepage/",
+    "technologies": ["GatsbyJS", "React"],
+    "pageUrl": null,
+    "image": "homepage.png",
+    "imageAlt": "A screenshot of the homepage of this website",
+    "startDate": "Nov. 2018",
+    "endDate": null
+  },
+  {
     "name": "Web-Based MIDI Editor + Synthesizer",
     "description": "The goal of this project is to create a web-based music creation application that can be used entirely within the browser.  Since the modern WebAudio API provides everything necessary to create complicated synthesizers and perform advanced audio processing, I believed that the web could work as an accessible environment in which to build this.",
     "projectUrl": "https://notes.ameo.design/",
@@ -37,7 +49,7 @@
   },
   {
     "name": "phost",
-    "description": "Server and TUI manage and deploy static websites and files.  Deployments are created as subdomains, allowing a directory of static files (such as one produced by `yarn build`) to go from your computer to being hosted at `project.ameo.design` with a single command.",
+    "description": "Server and TUI for managing and deploying static websites and files.  Deployments are created as subdomains, allowing a directory of static files (such as one produced by `yarn build`) to go from your computer to being hosted at `project.ameo.design` with a single command.",
     "projectUrl": null,
     "srcUrl": "https://github.com/ameobea/phost/",
     "technologies": ["Python", "Docker", "Apache2", "Django"],
