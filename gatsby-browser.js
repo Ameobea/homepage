@@ -1,3 +1,5 @@
+require('prismjs/themes/prism-funky.css');
+
 window.vizStarted = false;
 export const onClientEntry = () => {
   if (window.vizStarted) {

@@ -78,9 +78,9 @@ const HeaderMenuExpanded = ({ setMenuOpen }) => (
 );
 
 const HeaderMobile = () => {
-  const [menuOpen, setMenuOpen] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
   const hideMenu = evt => {
-    if (!evt.target.className.includes('menu-activator')) {
+    if (!(evt.target.className || '').includes('menu-activator')) {
       setMenuOpen(false);
     }
   };
@@ -115,4 +115,4 @@ const HeaderMobile = () => {
 
 // This is wrapped with `React.memo` in order to work around a bug in the hot reloader:
 // https://github.com/gatsbyjs/gatsby/issues/9489#issuecomment-433872202
-export default HeaderMobile;
+export default React.memo(HeaderMobile);

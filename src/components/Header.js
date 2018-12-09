@@ -6,7 +6,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     backgroundColor: '#333',
-    paddingTop: 4,
+    paddingTop: 8,
     paddingBottom: 8,
     paddingright: 12,
     fontFamily: "'Oxygen Mono', monospace",
@@ -46,6 +46,7 @@ const NavLinks = () => (
     <NavLink to="/portfolio/" text="Portfolio" />
     <NavLink to="/contact/" text="Contact" />
     <NavLink to="/about/" text="About" />
+    <NavLink to="/blog/" text="Blog" />
     <NavLink
       to="/professional/"
       text="Professional Experience"
