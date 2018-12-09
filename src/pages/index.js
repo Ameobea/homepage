@@ -45,6 +45,7 @@ const IndexPage = () => (
       <IndexLinkBlockSet>
         <IndexLinkBlock to="/portfolio/" text="Projects + Work Portfolio" />
         <IndexLinkBlock to="/contact/" text="Contact" />
+        <IndexLinkBlock to="/blog/" text="Blog" />
         <IndexLinkBlock
           to="/professional/"
           text="Professional Skills and Experience"

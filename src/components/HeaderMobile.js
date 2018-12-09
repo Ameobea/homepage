@@ -69,6 +69,7 @@ const HeaderMenuExpanded = ({ setMenuOpen }) => (
     <ExpandedLink to="/" text="Home" />
     <ExpandedLink to="/portfolio/" text="Portfolio" />
     <ExpandedLink to="/contact/" text="Contact" />
+    <ExpandedLink to="/blog/" text="Blog" />
     <ExpandedLink
       to="/professional/"
       text="Professional Experience"

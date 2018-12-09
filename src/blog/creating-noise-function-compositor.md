@@ -3,7 +3,7 @@ title: 'Creating a Noise Function Compositor'
 date: '2017-09-04'
 ---
 
-![](https://ameo.link/u/4nc.png)
+![A colorful noise composition](../images/blog/noise1.png)
 
 Over the past few months, I've been working on an application designed to create compositions of [noise functions](https://thebookofshaders.com/11/). While looking around for applications or utilities that accomplish this in the manner I envisioned, I couldn't find anything that did what I was looking for so I decided to build it myself!
 
@@ -25,7 +25,7 @@ Core to this application is the noise function composition tree itself. Every co
 
 On the frontend, this tree is stored in a modified form produced by [normalizr](https://github.com/paularmstrong/normalizr) inside [Redux](http://redux.js.org/) and is converted into the visible on the page by a recursive React component. Inside the Rust portions of the application, it's also stored as a tree structure using native Rust structs and enums as well as primitive `NoiseFn`s created using the [noise-rs](https://github.com/brendanzab/noise-rs) library.
 
-![](https://ameo.link/u/4n7.png)
+![A green noise composition resembling algae](../images/blog/noise2.png)
 
 ### Composition Format
 
@@ -105,7 +105,7 @@ The final step is to convert the `CompositionTreeNodeDefinition` into a proper `
 
 Each of the definition structs is built into functional component that's capable of doing the job its name implies. Information about the tree is lost at this stage as the individual noise function definitions (consisting of a function type and array of settings) are consumed to produce a true `NoiseFn`. Consequently, whenever a setting is changed on the frontend, the entire backend node must be rebuilt from scratch.
 
-![](https://ameo.link/u/4n4.png)
+![A blue noise composition that looks like the bottom of a pool under sunlight](../images/blog/noise3.png)
 
 ## Putting it Together
 

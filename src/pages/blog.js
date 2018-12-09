@@ -11,7 +11,7 @@ const styles = {
     paddingRight: 25,
     paddingTop: 10,
     paddingBottom: 10,
-    backgroundColor: '#161616',
+    backgroundColor: 'rgba(25,25,25,0.8)',
   },
   postLink: {
     paddingTop: 8,
