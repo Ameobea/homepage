@@ -81,7 +81,7 @@ const HeaderMenuExpanded = ({ setMenuOpen }) => (
 const HeaderMobile = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const hideMenu = evt => {
-    if (!(evt.target.className || '').includes('menu-activator')) {
+    if (!(evt.target.className || '').toString().includes('menu-activator')) {
       setMenuOpen(false);
     }
   };

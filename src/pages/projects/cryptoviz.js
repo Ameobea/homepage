@@ -45,7 +45,7 @@ const Cryptoviz = ({ bannerImage, algo1, algo2, evt1 }) => (
   <Layout>
     <div style={styles.root}>
       <center>
-        <h1>Cryptoviz</h1>
+        <h2>Cryptoviz</h2>
       </center>
       <BannerImage img={bannerImage} />
       <h2 style={{ paddingTop: 28 }}>Overview</h2>

@@ -3,6 +3,8 @@ title: 'Building Robintrack'
 date: '2018-09-03'
 ---
 
+![A screenshot of the RobinTrack UI showing the popularity changes page and a graph plotting the price and popularity of the NVDA stock over time](../images/projects/robintrack/robintrack.png)
+
 [Robintrack](https://robintrack.net/) is a website that I created to allow users to view how the popularity of various stocks held by [Robinhood](https://robinhood.com/) users change over time. I built the site along with [Alex J](https://github.com/dalexj) as a side project and launched it live in June 2018.
 
 ## Design + Rationale

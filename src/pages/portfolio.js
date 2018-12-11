@@ -24,7 +24,7 @@ const ProjectImage = ({ pageUrl, fluidImage, imageAlt, even }) => {
   }`;
   const Wrapper = pageUrl
     ? ({ children }) => (
-        <Link className={wrapperClassname} to={`/projects/${pageUrl}`}>
+        <Link className={wrapperClassname} to={pageUrl}>
           {children}
         </Link>
       )
