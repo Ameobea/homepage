@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import Prism from 'prismjs';
 const ControlPanel = React.lazy(() => import('react-control-panel'));
 
@@ -39,7 +39,28 @@ const settings = [
 ];
 
 const ReactControlPanel = () => {
+  const [panel, setPanel] = useState(null);
   useEffect(() => Prism.highlightAll());
+  useEffect(() => {
+    if (window && !panel) {
+      const newPanel = (
+        <Suspense fallback={<div />}>
+          <div
+            className="control-panel"
+            style={{ textAlign: 'center', paddingTop: 22 }}
+          >
+            <ControlPanel
+              width={272}
+              title="Example Panel"
+              settings={settings}
+            />
+          </div>
+        </Suspense>
+      );
+
+      setPanel(newPanel);
+    }
+  });
 
   return (
     <Layout>
@@ -66,14 +87,7 @@ const ReactControlPanel = () => {
         I&apos;ve included a demo panel below using the actual library.
       </p>
 
-      <Suspense fallback={<div />}>
-        <div
-          className="control-panel"
-          style={{ textAlign: 'center', paddingTop: 22 }}
-        >
-          <ControlPanel width={272} title="Example Panel" settings={settings} />
-        </div>
-      </Suspense>
+      {panel}
 
       <p>It was created with the following:</p>
       <pre className="language-javascript">
@@ -164,4 +178,4 @@ const DemoPanel = () => (
   );
 };
 
-export default React.memo(ReactControlPanel);
+export default ReactControlPanel;
