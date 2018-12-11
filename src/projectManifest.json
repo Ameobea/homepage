@@ -36,6 +36,18 @@
     "endDate": "Sep. 2018"
   },
   {
+    "name": "phost",
+    "description": "Server and TUI for managing and deploying static websites and files.  Deployments are created as subdomains, allowing a directory of static files (such as one produced by `yarn build`) to go from your computer to being hosted at `project.ameo.design` with a single command.",
+    "projectUrl": null,
+    "srcUrl": "https://github.com/ameobea/phost/",
+    "technologies": ["Python", "Docker", "Apache2", "Django"],
+    "pageUrl": "/projects/phost/",
+    "image": "phost.png",
+    "imageAlt": "A screenshot of the command line after running two phost commands for listing existing deployments and updating the deployment for the development version of this website.",
+    "startDate": "Sep. 2018",
+    "endDate": "Sep. 2018"
+  },
+  {
     "name": "Robintrack",
     "description": "A tool for viewing data about the popularity of various stocks on the Robinhood brokerage. Allows users to view the most (and least) popular stocks held by its users and view trends over time.  Robintrack gained significant popularity, with several people reaching out to use the data it collected for school or personal research and the Robinhood team reaching out to me directly about it.",
     "projectUrl": "https://robintrack.net/",
@@ -58,18 +70,6 @@
     "imageAlt": "A screenshot of the \"Popularity Changes\" page from Robintrack, showing the table of stocks with large recent popularity changes and a chart plotting the popularity vs price of the NVDA stock.",
     "startDate": "Mar. 2017",
     "endDate": "Apr. 2017"
-  },
-  {
-    "name": "phost",
-    "description": "Server and TUI for managing and deploying static websites and files.  Deployments are created as subdomains, allowing a directory of static files (such as one produced by `yarn build`) to go from your computer to being hosted at `project.ameo.design` with a single command.",
-    "projectUrl": null,
-    "srcUrl": "https://github.com/ameobea/phost/",
-    "technologies": ["Python", "Docker", "Apache2", "Django"],
-    "pageUrl": "/projects/phost/",
-    "image": "phost.png",
-    "imageAlt": "A screenshot of the command line after running two phost commands for listing existing deployments and updating the deployment for the development version of this website.",
-    "startDate": "Sep. 2018",
-    "endDate": "Sep. 2018"
   },
   {
     "name": ".io-style Game",
@@ -128,7 +128,7 @@
   },
   {
     "name": "Cryptoviz",
-    "description": "A live Depth-Of-Market (DOM) web-based visualization for live orderbook data from the Poloniex cryptocurrency exchange. Allows traders and quantitative analysts to gain unique insight into the current state of the market by viewing complex market activity in real time.",
+    "description": "A live depth-of-market (DOM) web-based visualization for live orderbook data from the Poloniex cryptocurrency exchange. Allows traders and quantitative analysts to gain unique insight into the current state of the market by viewing complex market activity in real time.",
     "projectUrl": "https://cryptoviz.net/",
     "srcUrl": "https://github.com/ameobea/cryptoviz/",
     "technologies": ["JavaScript", "React", "WebSocket", "Paper.JS"],

@@ -43,8 +43,10 @@ const WorkExperience = ({
     <span style={styles.company}>
       {website ? <ANewTab to={website} text={company} /> : company}
     </span>
-    , {location} - <i>{title}</i> - <span style={styles.date}>{startDate}</span>{' '}
-    - <span style={styles.date}>{endDate}</span>
+    , {location} - <i>{title}</i> -{' '}
+    <span style={styles.date}>
+      {startDate} - {endDate}
+    </span>
     <ul>
       {descriptions.map((description, i) => (
         <li key={i}>{description}</li>
@@ -67,7 +69,8 @@ const ProfessionalSkills = () => (
     <ProfessionalSkillsColumn
       title="Programming Languages"
       items={[
-        'JavaScript/Node.JS/React/Redux/ES6 + Babel',
+        'JavaScript/Node.JS/ES6 + Babel',
+        'React/Redux',
         'HTML/CSS',
         'TypeScript',
         'Rust',
@@ -79,7 +82,7 @@ const ProfessionalSkills = () => (
     <ProfessionalSkillsColumn
       title="Services and Utilities"
       items={[
-        'Relational Databases (MySQL/PostgreSQL/Sqlite/SQL',
+        'Relational Databases (SQL, MySQL, PostgreSQL, SQLite)',
         'Document and Key/Value Databases (MongoDB, Redis, CoucbDB, DynamoDB)',
         'WebAssembly + Asm.JS',
         'Docker/Docker Compose/Docker Swarm/Kubernetes',

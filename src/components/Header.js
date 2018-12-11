@@ -8,8 +8,6 @@ const styles = {
     backgroundColor: '#333',
     paddingTop: 8,
     paddingBottom: 8,
-    paddingright: 12,
-    fontFamily: "'Oxygen Mono', monospace",
     paddingLeft: 300,
     paddingRight: 300,
     flexWrap: 'wrap',
@@ -18,7 +16,7 @@ const styles = {
     left: 8,
     display: 'flex',
     flex: 1,
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 600,
     position: 'absolute',
   },
@@ -29,7 +27,7 @@ const styles = {
     marginTop: 2,
   },
   navLink: {
-    fontSize: 14,
+    fontSize: 18,
     paddingLeft: 8,
     paddingRight: 8,
   },
@@ -50,7 +48,7 @@ const NavLinks = () => (
     <NavLink
       to="/professional/"
       text="Professional Experience"
-      style={{ flex: 1.5 }}
+      style={{ flexBasis: 205 }}
     />
   </div>
 );
