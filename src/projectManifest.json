@@ -5,7 +5,7 @@
     "projectUrl": null,
     "srcUrl": "https://github.com/ameobea/homepage/",
     "technologies": ["GatsbyJS", "React"],
-    "pageUrl": null,
+    "pageUrl": "/projects/homepage/",
     "image": "homepage.png",
     "imageAlt": "A screenshot of the homepage of this website",
     "startDate": "Nov. 2018",
@@ -108,7 +108,7 @@
       "Diesel",
       "Rocket"
     ],
-    "pageUrl": "/projects/noise/",
+    "pageUrl": "/blog/creating-noise-function-compositor/",
     "image": "noise.png",
     "imageAlt": "A screenshot of the noise compositor UI showing the composition tree, settings for an input transformation that zooms and scales its input, and the output of the composited and colorized noise function.",
     "startDate": "Jun. 2017",

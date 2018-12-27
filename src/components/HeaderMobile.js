@@ -7,7 +7,7 @@ const styles = {
   root: {
     height: 0,
     backgroundColor: 'rgba(36, 36, 36, 0.92)',
-    paddingBottom: 30,
+    paddingBottom: 45,
     flexDirection: 'row',
     display: 'none',
   },
@@ -25,7 +25,7 @@ const styles = {
     top: 8,
     left: 59,
     width: 150,
-    height: 180,
+    height: 250,
     backgroundColor: 'rgba(45, 45, 45, 0.95)',
     borderStyle: 'solid',
     borderWidth: 1,
@@ -37,6 +37,7 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignItems: 'center',
+    zIndex: 200,
   },
   expandedLink: {
     display: 'flex',
@@ -44,6 +45,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
+    fontSize: 20,
     borderBottomStyle: 'solid',
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(200,200,200,0.4)',

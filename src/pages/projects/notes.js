@@ -9,6 +9,7 @@ const BannerImage = ({ img }) => (
   <Img
     style={{ maxWidth: 667, marginBottom: 40 }}
     fluid={img.childImageSharp.fluid}
+    alt="A screenshot of the notes application showing the MIDI editor with some drawn and selected notes"
   />
 );
 
@@ -148,19 +149,16 @@ const Notes = ({ bannerImage }) => (
   </Layout>
 );
 
-export default () => (
-  <StaticQuery
-    query={graphql`
-      query {
-        bannerImage: file(relativePath: { eq: "projects/notes/notes.png" }) {
-          childImageSharp {
-            fluid {
-              ...GatsbyImageSharpFluid_withWebp
-            }
-          }
+const query = graphql`
+  query {
+    bannerImage: file(relativePath: { eq: "projects/notes/notes.png" }) {
+      childImageSharp {
+        fluid {
+          ...GatsbyImageSharpFluid_withWebp
         }
       }
-    `}
-    render={Notes}
-  />
-);
+    }
+  }
+`;
+
+export default () => <StaticQuery query={query} render={Notes} />;

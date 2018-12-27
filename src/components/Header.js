@@ -43,7 +43,6 @@ const NavLinks = () => (
   <div style={styles.navLinks}>
     <NavLink to="/portfolio/" text="Portfolio" />
     <NavLink to="/contact/" text="Contact" />
-    <NavLink to="/about/" text="About" />
     <NavLink to="/blog/" text="Blog" />
     <NavLink
       to="/professional/"

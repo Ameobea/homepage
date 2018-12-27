@@ -156,7 +156,6 @@ const DemoPanel = () => (
     theme="dark"
     title="Demo Panel"
     initialState={initialState}
-    onChange={console.log}
     width={500}
     style={{ marginRight: 30 }}
   >

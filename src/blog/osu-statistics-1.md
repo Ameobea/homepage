@@ -10,6 +10,7 @@ _I've uploaded the full osu!track database [here](https://ameo.link/u/31w.gz) fo
 ---
 
 To start things off, here's how much PP you need to be rank 1 over the past 2 years:
+
 ![A chart plotting the amount of PP in osu! required to be rank 1 over the past 2 years](../images/blog/osu1.png)
 
 Pretty crazy! The top ranked player from 2 years ago wouldn't even make the top 200 of today.
