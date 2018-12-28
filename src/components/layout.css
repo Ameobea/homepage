@@ -124,6 +124,16 @@ code {
   font-size: 0.85rem;
   line-height: 1.45rem;
 }
+blockquote {
+  background-color: rgba(222, 222, 222, 0.08);
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  border-style: solid;
+  border-width: 0px;
+  border-left-width: 3px;
+}
 
 @media only screen and (max-width: 480px) {
   html {
