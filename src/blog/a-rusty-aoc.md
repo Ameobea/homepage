@@ -21,7 +21,7 @@ The first one was [Day 2](https://adventofcode.com/2018/day/2), which involved f
 
 At this point, everyone in the Rust Discord server was excited and motivated to find _the_ most optimal solution to the problem. Since the challenge itself was pretty simple (mostly just a loop comparing ASCII strings and counting characters), low-level optimization techniques became applicable. Eventually, it got to the point where the only way to make further progress was to use SIMD.
 
-Coincidentally, Rust had just recently added in stable support for safe (staticly verified by the compiler) SIMD via the `packed-simd` library. I'd never before worked with SIMD directly before and only had a surface level understanding of SIMD programming, but I decided to take the dive and try it out on the problem.
+Coincidentally, Rust has support for safe (staticly verified by the compiler) SIMD via the `packed-simd` library. I'd never before worked with SIMD directly before and only had a surface level understanding of SIMD programming, but I decided to take the dive and try it out on the problem.
 
 I dug through the library's documentation for a while, learning about how it was structured and finding some operations that I thought would be useful for the problem. The `packed-simd` library presented a variety of SIMD data types as normal Rust structs. For example, a vector containing 4 `i32` vars was named `i32x4`. I eventually settled on a solution that involved converting the input ASCII into 32-byte wide vectors padded with zeroes at the end, making them 256 bits wide. The code that I came up with for doing that looks like this (`get_shift_mask` is a function that returns a SIMD bitmask equivalent to `11111111111111111111111111100000`):
 
@@ -103,7 +103,7 @@ When I shared the results in the Discord server, several other users took my ini
 
 [Globi](https://github.com/globidev) was kind enough to create and host benchmarks for the various implementations of different users. They made use of the [`criterion`](https://github.com/japaric/criterion.rs) benchmarking suite to generate very nice visualizations of the performance of different users' solutions on various inputs, creating a [report](http://glo.bi/AoC/2018/day02.p2.ordered_by_input/report/) and this violin plot for Day 2 Part 2:
 
-![A violin plot of benchmark timings for various Rust programmers' implementations of Advent of Code Day 2 Part 2](./img/benchmarks.svg)
+![A violin plot of benchmark timings for various Rust programmers' implementations of Advent of Code Day 2 Part 2](../images/blog/aoc2018/benchmarks.png)
 
 `criterion` was included as part of the [`cargo-aoc`](https://github.com/gobanos/cargo-aoc) library created by [gobanos](https://github.com/gobanos) which included functionality for automatic input downloading, challenge organization, executing, and benchmarking. I didn't make use of `cargo-aoc` myself, but I know that several others in the Discord server did.
 
@@ -143,7 +143,7 @@ pub fn part2_simd<'a>(lines: impl Iterator<Item = &'a str>) -> Option<String> {
 }
 ```
 
-The performance is equivalent within the margin of error to any other solution using `unsafe` code, and the whole thing fits into just 30 lines of understandable code. I think that Rust's strengths are really demonstrated here; low-level SIMD logic is represented in an intuitive manner with self-explanatory data types like `u8x32` and operations like `.wrapping_sum()`. Everything is type-checked by the compiler, and Rust's iterators make both parsing the input and looping over it during comparison very explicit.
+The performance is equivalent within the margin of error to any other solution using `unsafe` code, and the whole thing fits into just 30 lines of understandable code. I think that Rust's strengths are really demonstrated here; low-level SIMD logic is represented in an intuitive manner with self-explanatory data types like `u8x32` and operations like `.wrapping_sum()`. Everything is type-checked by the compiler, and Rust's iterators make both parsing the input and looping over it during comparison very explicit. The generated assembly is also [downright beautiful](https://gist.github.com/CryZe/5895306177cc351b43e50ac7481bec90).
 
 ---
 
@@ -309,7 +309,7 @@ Although memoization is something that Rust is usually bad at due to lifetime co
 
 For part 2, the challenge required the optimal path between two coordinates in the world to be found. What complicated the situation was the face that the cost of moving from one square to the next was determined by some state that changed over time. This initially seemed very daunting, but I eventually figured out a solution using a custom coordinate type and the [`pathfinding`](https://docs.rs/pathfinding/1.1.10/pathfinding/) crate.
 
-Rather than keeping track of the secondary state somewhere else, I encoded it into the coordinates themselves. This produced, in essence a 3D world, where the third dimension was the possible states that the traveling entity could be at on any given coordinate. `pathfinding` allowed this to be done seamlessly:
+Rather than keeping track of the secondary state somewhere else, I encoded it into the coordinates themselves. This produced, in essence, a 3D world, where the third dimension was the possible states that the traveling entity could be at on any given coordinate. `pathfinding` allowed this to be represented seamlessly:
 
 ```rust
 pub fn part2() -> usize {
@@ -326,17 +326,17 @@ pub fn part2() -> usize {
 }
 ```
 
-Day 22 (along with several of the other later challenges) were where external crates really shone. So much of the heavy lifting was handled for me, allowing for very succinct code to be written. Having crates.io as a centralized package repository presents a distinct advantage over languages like C++ where I'd have to search Github or wherever, download the dependency myself, and deal with any setup scripts that they might entail myself. With Rust, it was as easy as adding a line to `Cargo.toml` and `main.rs`.
+Day 22 (along with several of the other later challenges) were where external crates really shone. So much of the heavy lifting was handled for me, allowing for very succinct code to be written. Having crates.io as a centralized package repository presents a distinct advantage over languages like C++ where I'd have to search Github or wherever, download the dependency myself, and deal with any setup scripts that they might entail manually. With Rust, it was as easy as adding a line to `Cargo.toml` and `main.rs`.
 
 ### Day 23: Using the Z3 SMT Solver
 
 [Day 23](https://adventofcode.com/2018/day/23) Part 2 was, in my opinion, the hardest one out of them all. 1000 nanobots were scattered out in a 3D world, each with a radius of effect as determined by the Manhattan distance, and the goal was to find the point in the world that 1) was within the radius of influence of the maximum number of nanobots and 2) was closest to the origin `(0, 0, 0)`.
 
-Solving this with brute-force was basically out of the question - the nanobots had coordinates like `<33185729,39147641,8791322>` and radiuses like `57429174`. Maybe it would be feasible to do it on a GPU, but certainly not on the CPU. My initial attempt to solve it by iterating over a coarse grid and periodically refining it was met with little success, and I largely gave up on it.
+Solving this with brute-force was out of the question - the nanobots had coordinates like `<33185729,39147641,8791322>` and radiuses like `57429174`. Maybe it would be feasible to do it on a GPU, but certainly not on the CPU. My initial attempt to solve it by iterating over a coarse grid and periodically refining it was met with little success, and I largely gave up on it.
 
 One of the moderators of the Discord server, [`tinaun`](https://github.com/tinaun), managed to come up with a [mathematical solution](https://gist.github.com/tinaun/d1cab9a048f88fbfb11d020adc703f96) (I really don't know how/why it works; something to do with solving for the equations of virtual planes), but aside from recursive partitioning the most common way to solve this among other AOC participants seems to have been using the [Z3 SMT Solver](https://github.com/Z3Prover/z3).
 
-I'd heard about Z3 in the past under the context of [a research paper](http://soarlab.org/publications/atva2018-bhr.pdf) where they used it to verify Rust programs as well as various blog posts that I happened across and vaguely understood, but it always seemed very academic and out of reach. I had pretty much given up on solving this one until I saw this [solution](https://gitlab.com/KonradBorowski/advent-of-code-2018/blob/master/src/day23/mod.rs) created by [xafi](https://gitlab.com/KonradBorowski/) in the Discord server. In addition to using some really nice tricks like `.ok_or("No nanobots")?;`, they used the [`z3`](https://docs.rs/z3/0.3.0/z3/) crate which wraps Z3 with Rust bindings to solve it.
+I'd heard about Z3 in the past under the context of [a research paper](http://soarlab.org/publications/atva2018-bhr.pdf) where they used it to verify Rust programs as well as various blog posts that I happened across and vaguely understood, but it always seemed very academic and out of reach. I had pretty much given up on solving this one until I saw this [solution](https://gitlab.com/KonradBorowski/advent-of-code-2018/blob/master/src/day23/mod.rs) created by [xfix](https://gitlab.com/KonradBorowski/) in the Discord server. In addition to using some really nice tricks like `.ok_or("No nanobots")?;`, they used the [`z3`](https://docs.rs/z3/0.3.0/z3/) crate which wraps Z3 with Rust bindings to solve it.
 
 SMT (standing for [Satisfiability Modulo Theories](https://en.wikipedia.org/wiki/Satisfiability_modulo_theories)) are logic statements that are expressed as equalities. Similarly to [SAT](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem), many NP-complete problems can be converted into this form. You express your model in terms of logic including quantifiers, mathematical operations, and comparisons and then pass it into Z3. Z3 allows problems of this form to be encoded and solved using a variety of statistics, heuristics, and other advanced algorithms, all of which is set up and run auto-magically inside of Z3. In addition, recent versions include support for optimization, minimizing or maximizing variables with regards to some function.
 
@@ -459,3 +459,5 @@ I completed the challenges without any outside help with a few exceptions:
 - On Day 21 Part 2, I ~~pretty much~~ just stole the algorithm for solving it from [/u/Morganmilo](https://www.reddit.com/r/adventofcode/comments/a86jgt/2018_day_21_solutions/ec8g4h2) on Reddit. My eyes just glazed over when staring at that ElfCode (even the decompiled version) and I just wanted it over with.
 - On Day 23 Part 2, I based my solution using the Z3 SMT solver largely off that of the user [xfix](https://gitlab.com/KonradBorowski/advent-of-code-2018/blob/master/src/day23/mod.rs). I originally tried to do some kind of rough search with slowly increasing granularity, but early results weren't looking promising so I abandonded it. I'm glad I did this though, because learning about Z3 and the incredible power it has was very valuable.
 - There were probably a few instances where users talking in the Discord server mentioned things while I was solving the challenges that helped me, but any full-blown spoilers were generally contained and I did my best to avoide them anyway.
+
+You can find all of my solutions here: [https://github.com/ameobea/advent-of-code-2018](https://github.com/ameobea/advent-of-code-2018). I used the [`structopt`](https://docs.rs/structopt/0.2.14/structopt/) crate to build a simple CLI around it, allowing for individual days to be executed by runnning commands like `cargo run --release -- --day 13`. Note that you'll need to have Z3 installed on your system in order to build it.
