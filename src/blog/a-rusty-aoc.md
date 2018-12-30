@@ -393,7 +393,7 @@ fn part2() -> i64 {
 }
 ```
 
-There's a lot to unpack here (it took me a good while to understand what was even going on in xafi's example; Z3's documentation was very sparse, and that of the `z3` crate was even more so). The basis is that you build up an expression (represented by the `Ast` type) which represents the system that you're modeling.
+There's a lot to unpack here (it took me a good while to understand what was even going on in xfix's example; Z3's documentation was very sparse, and that of the `z3` crate was even more so). The basis is that you build up an expression (represented by the `Ast` type) which represents the system that you're modeling.
 
 The implementation starts out by defining the variables that can be manipulated, the three coordinates of the point:
 

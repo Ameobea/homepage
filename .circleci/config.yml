@@ -1,0 +1,30 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: node:11.6.0-stretch
+    steps:
+      - run: >
+          apt-key adv --keyserver pgp.mit.edu --recv 9D41F3C3 &&
+          echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+      - run: apt-get update
+      - run: mkdir ~/.ssh
+      - run: chmod 700 ~/.ssh
+      - run: apt-get install libssl-dev python3 libpython3-dev yarn rsync -y
+      - run: "echo $SSH_KEY | base64 -d > ~/.ssh/id_rsa"
+      - run: chmod 600 ~/.ssh/id_rsa
+      - checkout
+      - run: yarn
+      - run: yarn build
+      - run: rsync -Prv -e "ssh -vv -i ~/.ssh/circleci -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -F /dev/null" --delete ./public circleci@ameo.link:/var/www/cprimozic/
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - master

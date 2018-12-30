@@ -3,6 +3,7 @@ import { graphql, StaticQuery } from 'gatsby';
 import Img from 'gatsby-image';
 
 import Layout from '../../components/layout';
+import { ANewTab } from '../../components/util';
 
 const BannerImage = ({ img, alt }) => (
   <center>
@@ -25,7 +26,10 @@ const Homepage = ({ bannerImage, oldHomepageImage }) => (
       alt="A screenshot of the homepage of cprimozic.net"
     />
 
-    <p>TODO</p>
+    <p>
+      This website was created with React and{' '}
+      <ANewTab to="https://www.gatsbyjs.org/" text="Gatsby" />
+    </p>
 
     <BannerImage
       img={oldHomepageImage}
