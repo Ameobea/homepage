@@ -34,14 +34,17 @@
     "start": "npm run develop",
     "format": "prettier --write \"src/**/*.js\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "gen-licenses": "nlf -c > ./src/licenses.csv"
   },
   "devDependencies": {
     "eslint": "^5.9.0",
     "eslint-config-prettier": "^3.3.0",
     "eslint-plugin-react": "^7.11.1",
+    "gatsby-cli": "^2.4.8",
     "gatsby-remark-prismjs": "^3.1.4",
     "gatsby-transformer-remark": "^2.1.15",
+    "nlf": "^2.0.1",
     "prettier": "^1.14.2"
   },
   "repository": {
