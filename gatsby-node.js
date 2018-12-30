@@ -13,23 +13,27 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
   }
 };
 
-exports.createPages = ({ graphql, actions }) => {
-  const { createPage } = actions;
-
-  return new Promise((resolve, reject) => {
-    graphql(`
-      {
-        allMarkdownRemark {
-          edges {
-            node {
-              fields {
-                slug
-              }
+const queryAllMarkdownRemark = graphql =>
+  graphql(`
+    {
+      allMarkdownRemark {
+        edges {
+          node {
+            fields {
+              slug
+            }
+            frontmatter {
+              title
             }
           }
         }
       }
-    `).then(result => {
+    }
+  `);
+
+exports.createPages = ({ graphql, actions: { createPage } }) =>
+  new Promise((resolve, reject) => {
+    queryAllMarkdownRemark(graphql).then(result => {
       result.data.allMarkdownRemark.edges.forEach(({ node }) => {
         createPage({
           path: `blog${node.fields.slug}`,
@@ -39,6 +43,7 @@ exports.createPages = ({ graphql, actions }) => {
             // Data passed to context is available
             // in page queries as GraphQL variables.
             slug: node.fields.slug,
+            title: node.frontmatter.title,
           },
         });
       });
@@ -46,4 +51,3 @@ exports.createPages = ({ graphql, actions }) => {
       resolve();
     });
   });
-};

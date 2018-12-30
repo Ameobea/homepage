@@ -1,22 +1,14 @@
 import React from 'react';
 import { graphql, StaticQuery, Link } from 'gatsby';
-import Img from 'gatsby-image';
 
 import Layout from '../../components/layout';
-import { ANewTab } from '../../components/util';
-
-const BannerImage = ({ img, alt }) => (
-  <center>
-    <Img
-      style={{ maxWidth: 667, marginBottom: 40 }}
-      fluid={img.childImageSharp.fluid}
-      alt={alt}
-    />
-  </center>
-);
+import { ANewTab, BannerImage } from '../../components/util';
 
 const Homepage = ({ bannerImage, oldHomepageImage, trianglesImage }) => (
-  <Layout>
+  <Layout
+    title="Building this Site"
+    description="Info about the design and development of this website"
+  >
     <center>
       <h1>Building This Site</h1>
     </center>

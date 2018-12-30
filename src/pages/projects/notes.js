@@ -1,23 +1,20 @@
 import React from 'react';
 import { graphql, StaticQuery, Link } from 'gatsby';
-import Img from 'gatsby-image';
 
 import Layout from '../../components/layout';
-import { ANewTab } from '../../components/util';
-
-const BannerImage = ({ img }) => (
-  <Img
-    style={{ maxWidth: 667, marginBottom: 40 }}
-    fluid={img.childImageSharp.fluid}
-    alt="A screenshot of the notes application showing the MIDI editor with some drawn and selected notes"
-  />
-);
+import { ANewTab, BannerImage } from '../../components/util';
 
 const Notes = ({ bannerImage }) => (
-  <Layout>
+  <Layout
+    title="Notes"
+    description="An overview of my web-based MIDI editor and synthesizer"
+  >
     <center>
       <h2>Web-based MIDI Editor and Synthesizer</h2>
-      <BannerImage img={bannerImage} />
+      <BannerImage
+        img={bannerImage}
+        alt="A screenshot of the notes application showing the MIDI editor with some drawn and selected notes"
+      />
     </center>
     <p>
       I&apos;d been exploring the{' '}

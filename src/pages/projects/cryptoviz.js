@@ -3,7 +3,7 @@ import { StaticQuery, graphql } from 'gatsby';
 import Img from 'gatsby-image';
 
 import Layout from '../../components/layout';
-import { ANewTab } from '../../components/util';
+import { ANewTab, BannerImage } from '../../components/util';
 
 const styles = {
   root: {
@@ -27,8 +27,6 @@ const styles = {
   },
 };
 
-const BannerImage = ({ img }) => <Img fluid={img.childImageSharp.fluid} />;
-
 const ColImage = ({ img, alt, text }) => (
   <div style={styles.imageRow}>
     <Img
@@ -42,12 +40,18 @@ const ColImage = ({ img, alt, text }) => (
 );
 
 const Cryptoviz = ({ bannerImage, algo1, algo2, evt1 }) => (
-  <Layout>
+  <Layout
+    title="Cryptoviz"
+    description="Cryptoviz - a live web-based depth-of-market visualization for cryptocurrency markets"
+  >
     <div style={styles.root}>
       <center>
         <h2>Cryptoviz</h2>
       </center>
-      <BannerImage img={bannerImage} />
+      <BannerImage
+        img={bannerImage}
+        alt="A screenshot of the Cryptoviz visualization showing price activity in the Ethereum market on Poloniex"
+      />
       <h2 style={{ paddingTop: 28 }}>Overview</h2>
       <p>
         In financial markets with buyers and sellers, there&apos;s something

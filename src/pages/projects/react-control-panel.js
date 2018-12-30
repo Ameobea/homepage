@@ -63,10 +63,14 @@ const ReactControlPanel = () => {
   });
 
   return (
-    <Layout>
+    <Layout
+      title="react-control-panel"
+      description="An overview of the development of the react-control-panel library"
+    >
       <center>
         <h2>react-control-panel</h2>
       </center>
+
       <p>
         <code>react-control-panel</code> is a direct port of the{' '}
         <ANewTab

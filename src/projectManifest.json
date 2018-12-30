@@ -41,7 +41,7 @@
     "projectUrl": null,
     "srcUrl": "https://github.com/ameobea/phost/",
     "technologies": ["Python", "Docker", "Apache2", "Django"],
-    "pageUrl": "/projects/phost/",
+    "pageUrl": "/blog/phost/",
     "image": "phost.png",
     "imageAlt": "A screenshot of the command line after running two phost commands for listing existing deployments and updating the deployment for the development version of this website.",
     "startDate": "Sep. 2018",

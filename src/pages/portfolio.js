@@ -127,7 +127,10 @@ const IndexInner = data => {
   );
 
   return (
-    <Layout>
+    <Layout
+      title="Portfolio"
+      description="Software development project portfolio of Casey Primozic / Ameo"
+    >
       <center>
         <h1>Software Project Portfolio</h1>
       </center>

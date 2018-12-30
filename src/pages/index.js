@@ -34,7 +34,10 @@ const TagLine = () => (
 const IndexPage = () => (
   <React.Fragment>
     <IndexHeader />
-    <Layout showHeader={false}>
+    <Layout
+      showHeader={false}
+      description="The homepage of Casey Primozic / Ameo"
+    >
       <div style={styles.title}>
         <h1 style={styles.headline}>Casey Primozic - Ameo</h1>
         <ProfilePicture size={125} />

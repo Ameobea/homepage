@@ -53,7 +53,10 @@ const PostLink = ({ title, date, slug }) => (
 );
 
 const BlogIndex = ({ allMarkdownRemark }) => (
-  <Layout>
+  <Layout
+    title="Blog"
+    description="The personal technical blog of Casey Primozic"
+  >
     <center>
       <h1>Technical Blog</h1>
     </center>

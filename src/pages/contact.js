@@ -4,7 +4,10 @@ import Layout from '../components/layout';
 import { ANewTab } from '../components/util';
 
 const Contact = () => (
-  <Layout>
+  <Layout
+    title="Contact Me"
+    description="Contact information for Casey Primozic / Ameo"
+  >
     <center>
       <h1>Contact Info</h1>
     </center>

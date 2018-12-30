@@ -54,7 +54,7 @@ const HamburgerIconCredit = () => (
 );
 
 const ImprintContent = ({ licenses }) => (
-  <Layout>
+  <Layout title="Imprint" description="Imprint + Credits for cprimozic.net">
     <div>
       <p>
         Full source code of this website is available{' '}

@@ -17,14 +17,24 @@ const styles = {
   },
 };
 
-const Layout = ({ showHeader = true, children, ...data }) => (
+const Layout = ({
+  showHeader = true,
+  children,
+  title,
+  description,
+  ...data
+}) => (
   <React.Fragment>
     <Helmet
-      title={data.site.siteMetadata.title}
+      title={
+        title
+          ? `${title} - ${data.site.siteMetadata.title}`
+          : data.site.siteMetadata.title
+      }
       meta={[
         {
           name: 'description',
-          content: 'Homepage of Casey Primozic (Ameo)',
+          content: description || 'Homepage of Casey Primozic (Ameo)',
         },
         {
           name: 'keywords',

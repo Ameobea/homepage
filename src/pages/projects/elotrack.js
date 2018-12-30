@@ -1,22 +1,14 @@
 import React from 'react';
 import { graphql, StaticQuery, Link } from 'gatsby';
-import Img from 'gatsby-image';
 
 import Layout from '../../components/layout';
-import { ANewTab } from '../../components/util';
-
-const BannerImage = ({ img }) => (
-  <center>
-    <Img
-      style={{ maxWidth: 667, marginBottom: 40 }}
-      fluid={img.childImageSharp.fluid}
-      alt="A screenshot of the Elotrack interface"
-    />
-  </center>
-);
+import { ANewTab, BannerImage } from '../../components/util';
 
 const Elotrack = ({ bannerImage }) => (
-  <Layout>
+  <Layout
+    title="Elotrack"
+    description="About Elotrack - a player statistics tracker application for League of Legends"
+  >
     <center>
       <h1>Elotrack</h1>
     </center>
@@ -49,7 +41,10 @@ const Elotrack = ({ bannerImage }) => (
       it has since expired and I&apos;ve not renewed it.
     </p>
 
-    <BannerImage img={bannerImage} />
+    <BannerImage
+      img={bannerImage}
+      alt="A screenshot of the Elotrack interface"
+    />
 
     <h2>Tech Stack</h2>
     <p>

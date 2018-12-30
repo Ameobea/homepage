@@ -135,7 +135,10 @@ const WorkExperience = ({ allWorkExperienceJson }) => (
 );
 
 const ProfessionalExperience = ({ allWorkExperienceJson }) => (
-  <Layout>
+  <Layout
+    title="Professional Experience"
+    description="Work experience and professional skills"
+  >
     <Education />
     <WorkExperience allWorkExperienceJson={allWorkExperienceJson} />
     <ProfessionalSkills />
