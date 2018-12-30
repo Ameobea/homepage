@@ -9,8 +9,6 @@ jobs:
           apt-key adv --keyserver pool.sks-keyservers.net --recv 9D41F3C3 &&
           echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
       - run: apt-get update
-      - run: mkdir ~/.ssh
-      - run: chmod 700 ~/.ssh
       - run: apt-get install libssl-dev python3 libpython3-dev rsync curl bash cmake git build-essential -y
       - run: curl https://sh.rustup.rs -sSf > /tmp/rustup.sh
       - run: chmod +x /tmp/rustup.sh
@@ -21,13 +19,13 @@ jobs:
       # install `wasm-opt`
       - run: git clone https://github.com/WebAssembly/binaryen.git /tmp/binaryen
       - run: cd /tmp/binaryen && cmake . && make install
-      - run: "echo $SSH_KEY | base64 -d > ~/.ssh/id_rsa"
-      - run: chmod 600 ~/.ssh/id_rsa
       - checkout
       - run: apt-get install yarn -y
       - run: yarn
       - run: bash ./build_all.sh
-      - run: rsync -Prv -e "ssh -vv -i ~/.ssh/circleci -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -F /dev/null" --delete ./public circleci@ameo.link:/var/www/cprimozic/
+      - run: "echo $SSH_KEY | base64 -d > ~/.ssh/id_rsa"
+      - run: chmod 600 ~/.ssh/id_rsa
+      - run: rsync -Prv -e "ssh -vv -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -F /dev/null" --delete ./public circleci@ameo.link:/var/www/cprimozic/
 
 workflows:
   version: 2
