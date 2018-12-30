@@ -6,7 +6,7 @@ jobs:
       - image: node:11.6.0-stretch
     steps:
       - run: >
-          apt-key adv --keyserver pgp.mit.edu --recv 9D41F3C3 &&
+          apt-key adv --keyserver pool.sks-keyservers.net --recv 9D41F3C3 &&
           echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
       - run: apt-get update
       - run: mkdir ~/.ssh
