@@ -6,7 +6,7 @@ import { ANewTab, BannerImage } from '../../components/util';
 
 const Homepage = ({ bannerImage, oldHomepageImage, trianglesImage }) => (
   <Layout
-    title="Building this Site"
+    title="Building This Site"
     description="Info about the design and development of this website"
   >
     <center>

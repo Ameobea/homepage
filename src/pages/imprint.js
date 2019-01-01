@@ -68,21 +68,23 @@ const ImprintContent = ({ licenses }) => (
   </Layout>
 );
 
-const Imprint = () => (
-  <StaticQuery
-    query={graphql`
-      {
-        allLicensesCsv {
-          edges {
-            node {
-              name
-              repository
-              summary
-            }
-          }
+const query = graphql`
+  {
+    allLicensesCsv {
+      edges {
+        node {
+          name
+          repository
+          summary
         }
       }
-    `}
+    }
+  }
+`;
+
+const Imprint = () => (
+  <StaticQuery
+    query={query}
     render={({ allLicensesCsv }) => {
       const licenses = allLicensesCsv.edges.map(R.prop('node'));
       const dedupedLicenses = R.dropRepeatsWith(

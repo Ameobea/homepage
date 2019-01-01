@@ -1,10 +1,11 @@
 import React from 'react';
 import Img from 'gatsby-image';
+import { OutboundLink } from 'gatsby-plugin-google-analytics';
 
 export const ANewTab = ({ to, children, text, ...props }) => (
-  <a href={to} target="_blank" rel="noopener noreferrer" {...props}>
+  <OutboundLink href={to} target="_blank" rel="noopener noreferrer" {...props}>
     {children || text || ''}
-  </a>
+  </OutboundLink>
 );
 
 export const BannerImage = ({ img, alt }) => (
