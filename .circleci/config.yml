@@ -12,7 +12,7 @@ jobs:
       - run: apt-get install libssl-dev python3 libpython3-dev rsync curl bash cmake git build-essential -y
       - run: curl https://sh.rustup.rs -sSf > /tmp/rustup.sh
       - run: chmod +x /tmp/rustup.sh
-      - run: /tmp/rustup.sh -y --default-toolchain nightly
+      - run: /tmp/rustup.sh -y --default-toolchain nightly-2019-02-15
       - run: echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
       - run: rustup target add wasm32-unknown-unknown
       - run: cargo install wasm-bindgen-cli
