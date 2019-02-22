@@ -1,5 +1,25 @@
 [
   {
+    "name": "Ant Colony Simulation",
+    "description": "An interactive ant colony simulation that I created as a project for my Simulation and Modeling class at school.  Made using my Minutiae simulation framework, ants lay pheromones and work together to gather food in a world full of obstacles.",
+    "projectUrl": "https://ants.ameo.design/",
+    "srcUrl": "https://github.com/Ameobea/sketches/tree/ants/ants",
+    "technologies": [
+      "Rust",
+      "WebAssembly",
+      "WebGL",
+      "Minutiae",
+      "JavaScript",
+      "TypeScript",
+      "React"
+    ],
+    "pageUrl": null,
+    "image": "ants.png",
+    "imageAlt": "A screenshot of the ant colony simulation showing ants (white), pheromone trails (pink/blue), food (green), and barriers (white).",
+    "startDate": "Nov. 2018",
+    "endDate": "Dec. 2018"
+  },
+  {
     "name": "This Website",
     "description": "A homepage for myself with the primary purpose of showcasing my professional skills and achievements as well as personal projects and interests.  I aimed to create something that demonstrates my skills as a web developer as well as gives others insight into myself and what I do.",
     "projectUrl": null,

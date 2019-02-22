@@ -77,7 +77,35 @@ const Minutiae = ({ fishImage }) => (
     <p>
       In addition to creating simulations that run locally, Minutiae also has
       support for creating networked simulations that run remotely and can be
-      connected to by multiple clients.
+      connected to by multiple clients. There are three supported
+      &quot;modes&quot; of server, each of which handles state synchronization
+      in a different way.
+    </p>
+    <p>
+      <b>Thin</b> mode sends raw pixel data to clients, performing no simulation
+      logic at all on the client side. This is the simplest to implement: just
+      serialize the rendered universe into bytes, optionally compress them, send
+      them over a WebSocket, and display them on the client. The downside is
+      that for simulations that change rapidly, the network bandwidth is often
+      infeasibly high. A potential solution is sending diffs rather than full
+      images, but I&apos;ve not yet implemented that.
+    </p>
+    <p>
+      The second is <b>hybrid</b>. In this mode, the client simulates the
+      simulation locally but doesn&apos;t actually run the ticks independently.
+      Instead, the client receives user-defined events from the server which it
+      applies to the universe. Combined with sequence numbers and snapshotting,
+      this allows an accurate version of the universe to be maintained by the
+      client that matches the root truth of the server.
+    </p>
+    <p>
+      The last mode is <b>fat</b>. I have never actually fully implemented this
+      mode, as it entails some complex synchronization logic and I haven&apos;t
+      really had a need for it myself. The premise is that the full simulation
+      is run locally by all users, independently from the server. It will model
+      the behavior of game engines, where clients communicate updates to the
+      server and the server aggregates them and responds to all clients with
+      updates that the clients then integrate into their versions of the world.
     </p>
 
     <h2>Interactive Simulations</h2>
