@@ -5,14 +5,14 @@ name = "engine"
 version = "0.1.0"
 
 [dependencies]
-nalgebra = "0.16.4"
-ncollide2d = "0.17"
-wasm-bindgen = "0.2.21"
-rand = "0.5.5"
+nalgebra = "0.17.2"
+ncollide2d = "0.18.2"
+wasm-bindgen = "=0.2.37"
+rand = "0.6.5"
 rand_pcg = "0.1.1"
-rand_core = "0.3.0"
+rand_core = "0.4.0"
 
-common = { git = "https://github.com/Ameobea/sketches.git" }
+common = { git = "https://github.com/Ameobea/sketches.git", rev = "master" }
 
 [lib]
 crate-type = ["cdylib"]

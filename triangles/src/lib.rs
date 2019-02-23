@@ -14,7 +14,7 @@ use std::usize;
 
 use nalgebra::{Isometry2, Point2, Vector2};
 use ncollide2d::bounding_volume::{aabb::AABB, BoundingVolume};
-use ncollide2d::partitioning::{BVTVisitor, DBVTLeaf, DBVTLeafId, DBVT};
+use ncollide2d::partitioning::{DBVTLeaf, DBVTLeafId, VisitStatus, Visitor, BVH, DBVT};
 use rand::Rng;
 use rand_core::SeedableRng;
 use rand_pcg::Pcg32;
@@ -403,25 +403,22 @@ struct TriangleCollisionVisitor<'a> {
     pub does_collide: &'a mut bool,
 }
 
-impl<'a> BVTVisitor<(usize, usize), AABB<f32>> for TriangleCollisionVisitor<'a> {
-    fn visit_internal(&mut self, bv: &AABB<f32>) -> bool {
-        if *self.does_collide {
-            return false;
-        }
-
-        self.triangle_bv.intersects(bv)
-    }
-
-    fn visit_leaf(&mut self, (chain_ix, triangle_ix): &(usize, usize), _bv: &AABB<f32>) {
-        if *self.does_collide {
-            return;
-        }
-
-        if check_triangle_collision(
-            &self.triangle,
-            &get_triangle(*chain_ix, *triangle_ix).geometry,
-        ) {
-            *self.does_collide = true;
+impl<'a> Visitor<(usize, usize), AABB<f32>> for TriangleCollisionVisitor<'a> {
+    fn visit(&mut self, bv: &AABB<f32>, data: Option<&(usize, usize)>) -> VisitStatus {
+        if let Some(&(chain_ix, triangle_ix)) = data {
+            if check_triangle_collision(
+                &self.triangle,
+                &get_triangle(chain_ix, triangle_ix).geometry,
+            ) {
+                *self.does_collide = true;
+                VisitStatus::ExitEarly
+            } else {
+                VisitStatus::Stop
+            }
+        } else if self.triangle_bv.intersects(bv) {
+            VisitStatus::Continue
+        } else {
+            VisitStatus::Stop
         }
     }
 }
