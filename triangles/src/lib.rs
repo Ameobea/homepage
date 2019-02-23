@@ -406,6 +406,7 @@ struct TriangleCollisionVisitor<'a> {
 impl<'a> Visitor<(usize, usize), AABB<f32>> for TriangleCollisionVisitor<'a> {
     fn visit(&mut self, bv: &AABB<f32>, data: Option<&(usize, usize)>) -> VisitStatus {
         if let Some(&(chain_ix, triangle_ix)) = data {
+            // We reached a leaf node, so we check to see if our candidate triangle collides with it
             if check_triangle_collision(
                 &self.triangle,
                 &get_triangle(chain_ix, triangle_ix).geometry,
@@ -416,8 +417,10 @@ impl<'a> Visitor<(usize, usize), AABB<f32>> for TriangleCollisionVisitor<'a> {
                 VisitStatus::Stop
             }
         } else if self.triangle_bv.intersects(bv) {
+            // The BV of our candidate triangle collides with the BV of this level of the BVH
             VisitStatus::Continue
         } else {
+            // Nothing collides, so we bail out of this branch of the tree
             VisitStatus::Stop
         }
     }

@@ -1,5 +1,17 @@
 [
   {
+    "company": "Stackline",
+    "website": "https://www.stackline.com/",
+    "location": "Seattle, WA",
+    "title": "Software Developer",
+    "startDate": "Feb. 2019",
+    "endDate": "Current",
+    "descriptions": [
+      "I work as a software developer at Stackline, working on their two flagship software offerings.",
+      "I primarily work using React/React Native, but I also contribute as a full stack developer to their backend and other codebases."
+    ]
+  },
+  {
     "company": "FatWhale",
     "website": null,
     "location": "Remote",
