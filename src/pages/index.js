@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import { Link } from 'gatsby';
 
 import Layout from '../components/layout';
@@ -34,35 +34,48 @@ const TagLine = () => (
   </div>
 );
 
-const IndexPage = () => (
-  <React.Fragment>
-    <IndexHeader />
-    <Layout
-      showHeader={false}
-      description="The homepage of Casey Primozic / Ameo"
-    >
-      <div style={styles.title}>
-        <h1 style={styles.headline}>Casey Primozic - Ameo</h1>
-        <ProfilePicture size={125} />
-      </div>
+const IndexPage = () => {
+  const [spotifyTops, setSpotifyTops] = useState(null);
+  useEffect(() => {
+    if (window && !spotifyTops) {
+      const newSpotifyTops = (
+        <Suspense fallback={null}>
+          <SpotifyFavorites />
+        </Suspense>
+      );
 
-      <TagLine />
+      setSpotifyTops(newSpotifyTops);
+    }
+  });
 
-      <IndexLinkBlockSet>
-        <IndexLinkBlock to="/portfolio/" text="Projects + Work Portfolio" />
-        <IndexLinkBlock to="/contact/" text="Contact" />
-        <IndexLinkBlock to="/blog/" text="Blog" />
-        <IndexLinkBlock
-          to="/professional/"
-          text="Professional Skills and Experience"
-        />
-      </IndexLinkBlockSet>
+  return (
+    <React.Fragment>
+      <IndexHeader />
+      <Layout
+        showHeader={false}
+        description="The homepage of Casey Primozic / Ameo"
+      >
+        <div style={styles.title}>
+          <h1 style={styles.headline}>Casey Primozic - Ameo</h1>
+          <ProfilePicture size={125} />
+        </div>
 
-      <Suspense fallback={null}>
-        <SpotifyFavorites />
-      </Suspense>
-    </Layout>
-  </React.Fragment>
-);
+        <TagLine />
+
+        <IndexLinkBlockSet>
+          <IndexLinkBlock to="/portfolio/" text="Projects + Work Portfolio" />
+          <IndexLinkBlock to="/contact/" text="Contact" />
+          <IndexLinkBlock to="/blog/" text="Blog" />
+          <IndexLinkBlock
+            to="/professional/"
+            text="Professional Skills and Experience"
+          />
+        </IndexLinkBlockSet>
+
+        {spotifyTops}
+      </Layout>
+    </React.Fragment>
+  );
+};
 
 export default IndexPage;

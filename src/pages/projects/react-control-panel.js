@@ -44,7 +44,7 @@ const ReactControlPanel = () => {
   useEffect(() => {
     if (window && !panel) {
       const newPanel = (
-        <Suspense fallback={<div />}>
+        <Suspense fallback={null}>
           <div
             className="control-panel"
             style={{ textAlign: 'center', paddingTop: 22 }}

@@ -69,7 +69,7 @@ const SpotifyFavorites = ({ topTracks, topArtists, playing, setPlaying }) => (
   </Fragment>
 );
 
-const pickedTopArtistFragment = graphql`
+export const pickedTopArtistFragment = graphql`
   fragment PickedTopArtist on SpotifyTopArtist {
     id
     name
@@ -87,7 +87,7 @@ const pickedTopArtistFragment = graphql`
   }
 `;
 
-const pickedTopTrackFragment = graphql`
+export const pickedTopTrackFragment = graphql`
   fragment PickedTopTrack on SpotifyTopTrack {
     id
     name
@@ -219,14 +219,6 @@ const SpotifyFavoritesWithQuery = () => {
       />
     );
   };
-
-  // We do this as a way to get the fragment queries executed.  Idk a better way to do this.
-  const lol = ( // eslint-disable-line no-unused-vars
-    <StaticQuery query={pickedTopArtistFragment} render={() => <span />} />
-  );
-  const lol2 = ( // eslint-disable-line no-unused-vars
-    <StaticQuery query={pickedTopTrackFragment} render={() => <span />} />
-  );
 
   return <StaticQuery query={topTracksQuery} render={ChildComponent} />;
 };
