@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Link } from 'gatsby';
 
 import Layout from '../components/layout';
@@ -8,6 +8,9 @@ import {
   IndexLinkBlockSet,
 } from '../components/IndexLinkBlock';
 import IndexHeader from '../components/IndexHeader';
+import './index.css';
+
+const SpotifyFavorites = React.lazy(() => import('../components/Spotify'));
 
 const styles = {
   title: {
@@ -54,6 +57,10 @@ const IndexPage = () => (
           text="Professional Skills and Experience"
         />
       </IndexLinkBlockSet>
+
+      <Suspense fallback={null}>
+        <SpotifyFavorites />
+      </Suspense>
     </Layout>
   </React.Fragment>
 );

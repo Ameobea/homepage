@@ -38,4 +38,5 @@ const ProfilePicture = ({ size = 150 }) => (
     )}
   />
 );
+
 export default ProfilePicture;

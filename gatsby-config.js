@@ -1,3 +1,8 @@
+const process = require('process');
+
+// Load environment variables from `.env`
+require('dotenv').config();
+
 module.exports = {
   siteMetadata: {
     title: 'Casey Primozic',
@@ -95,6 +100,16 @@ module.exports = {
         sampleRate: 100,
         siteSpeedSampleRate: 0,
         cookieDomain: 'cprimozic.net',
+      },
+    },
+    {
+      resolve: 'gatsby-source-spotify',
+      options: {
+        clientId: process.env.SPOTIFY_CLIENT_ID,
+        clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+        refreshToken: process.env.SPOTIFY_REFRESH_TOKEN,
+        fetchPlaylists: true, // optional. Set to false to disable fetching of your playlists
+        timeRanges: ['short_term', 'medium_term', 'long_term'], // optional. Set time ranges to be fetched
       },
     },
   ],

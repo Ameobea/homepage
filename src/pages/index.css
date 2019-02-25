@@ -1,0 +1,20 @@
+.track {
+  z-index: 1;
+}
+
+.track > .image-wrapper {
+  opacity: 0.35;
+  transition: opacity 0.4s;
+}
+
+.track:hover > .image-wrapper {
+  opacity: 1;
+}
+
+.track > div > .track-datum {
+  transition: mix-blend-mode 0.4s;
+}
+
+.track:hover > div > .track-datum {
+  mix-blend-mode: exclusion;
+}
