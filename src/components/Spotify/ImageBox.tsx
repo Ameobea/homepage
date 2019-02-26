@@ -1,10 +1,18 @@
-import React, { Fragment, useRef, useEffect, useState } from 'react';
+import React, {
+  Fragment,
+  useRef,
+  useEffect,
+  useState,
+  CSSProperties,
+} from 'react';
 import Img from 'gatsby-image';
 import * as R from 'ramda';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
 
-const styles = {
+import { ANewTab } from '../util';
+
+const styles: { [key: string]: CSSProperties } = {
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -62,6 +70,7 @@ const styles = {
     textDecoration: 'underline',
     cursor: 'pointer',
     fontSize: 21,
+    textAlign: 'center',
   },
 };
 
@@ -97,6 +106,11 @@ export const Track = ({
       return;
     }
 
+    audioElem.volume = 0.2;
+    if (!onended) {
+      audioElem.onended = () => setPlaying(false);
+    }
+
     if (isPlaying) {
       audioElem.play();
     } else {
@@ -106,7 +120,7 @@ export const Track = ({
 
   return (
     <ImageBox
-      imgA={`Album art for ${title} on ${album} by ${artists
+      imgAlt={`Album art for ${title} on ${album} by ${artists
         .map(R.prop('name'))
         .join(', ')}`}
       image={image}
@@ -127,10 +141,12 @@ export const Track = ({
         <audio preload="none" ref={audioTag} src={previewUrl} />
       </div>
 
-      <div style={{ display: 'flex', padding: 4 }}>
+      <div
+        style={{ display: 'flex', padding: 4 }}
+        onClick={() => setPlaying(isPlaying ? false : previewUrl)}
+      >
         <FontAwesomeIcon
           icon={isPlaying ? faPause : faPlay}
-          onClick={() => setPlaying(isPlaying ? false : previewUrl)}
           style={styles.playPauseButton}
         />
       </div>
@@ -148,7 +164,19 @@ const PREFERRED_GENRES = new Set([
   'chillwave',
 ]);
 
-export const Artist = ({ name, genres, image, uri }) => {
+type ArtistProps = {
+  name: string;
+  genres: string[];
+  image: object;
+  uri: string;
+};
+
+const Genre = ({ genre }: { genre: string }) => {
+  const to = `http://everynoise.com/engenremap-${genre.replace(' ', '')}.html`;
+  return <ANewTab to={to} text={genre} style={{ color: 'white' }} />;
+};
+
+export const Artist = ({ name, genres, image, uri }: ArtistProps) => {
   // Make sure that preferred genres show up and aren't trimmed off
   const [preferred, other] = R.partition(
     genre => PREFERRED_GENRES.has(genre),
@@ -164,7 +192,14 @@ export const Artist = ({ name, genres, image, uri }) => {
             {name}
           </a>
         </div>
-        <div>{trimmedGenres.join(', ')}</div>
+        <div>
+          {trimmedGenres.map((genre, i) => (
+            <Fragment>
+              <Genre genre={genre} />
+              {i !== trimmedGenres.length - 1 ? ', ' : null}
+            </Fragment>
+          ))}
+        </div>
       </div>
     </ImageBox>
   );
@@ -205,9 +240,9 @@ export const ImageBoxGrid = ({ renderItem, initialItems, maxItems, title }) => {
         {R.times(R.identity, itemCount).map(i => renderItem(i, timeframe))}
       </div>
       {!isExpanded ? (
-        <center onClick={() => setIsExpanded(true)} style={styles.showMore}>
+        <div onClick={() => setIsExpanded(true)} style={styles.showMore}>
           Show More
-        </center>
+        </div>
       ) : null}
     </Fragment>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { StaticQuery, graphql } from 'gatsby';
@@ -24,35 +24,40 @@ const Layout = ({
   description,
   ...data
 }) => (
-  <React.Fragment>
-    <Helmet
-      title={
-        title
-          ? `${title} - ${data.site.siteMetadata.title}`
-          : data.site.siteMetadata.title
-      }
-      meta={[
-        {
-          name: 'description',
-          content: description || 'Homepage of Casey Primozic (Ameo)',
-        },
-        {
-          name: 'keywords',
-          content: 'Casey Primozic, Ameo, homepage, AmeoBea',
-        },
-      ]}
-    >
-      <html lang="en" />
-    </Helmet>
+  <Fragment>
+    {/* Yeah this causes infinite recursion in dev mode due to some issues with the
+    `Suspense`/hooks used on the homepage. */}
+    {process.env.NODE_ENV !== 'development' ? (
+      <Helmet
+        title={
+          title
+            ? `${title} - ${data.site.siteMetadata.title}`
+            : data.site.siteMetadata.title
+        }
+        meta={[
+          {
+            name: 'description',
+            content: description || 'Homepage of Casey Primozic (Ameo)',
+          },
+          {
+            name: 'keywords',
+            content: 'Casey Primozic, Ameo, homepage, AmeoBea',
+          },
+        ]}
+      >
+        <html lang="en" />
+      </Helmet>
+    ) : null}
+
     {showHeader ? (
-      <React.Fragment>
+      <Fragment>
         <HeaderMobile />
         <Header />
-      </React.Fragment>
+      </Fragment>
     ) : null}
 
     <div style={styles.root}>{children}</div>
-  </React.Fragment>
+  </Fragment>
 );
 
 const query = graphql`

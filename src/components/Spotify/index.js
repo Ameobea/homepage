@@ -29,13 +29,14 @@ const mapTrackDataToTrackProps = ({
 const SpotifyFavorites = ({ topTracks, topArtists, playing, setPlaying }) => (
   <Fragment>
     <ImageBoxGrid
-      initialItems={8}
+      initialItems={5}
       maxItems={20}
       title="My Recent Favorite Tracks on Spotify"
       renderItem={(i, timeframe) => {
         const { id, ...props } = mapTrackDataToTrackProps(
           topTracks[timeframe][i]
         );
+
         return (
           <Track
             key={id}
@@ -49,12 +50,13 @@ const SpotifyFavorites = ({ topTracks, topArtists, playing, setPlaying }) => (
 
     <ImageBoxGrid
       title="My Recent Favorite Artists on Spotify"
-      initialItems={8}
+      initialItems={5}
       maxItems={20}
       renderItem={(i, timeframe) => {
         const {
           node: { name, genres, image, uri, id },
         } = topArtists[timeframe][i];
+
         return (
           <Artist
             key={id}
