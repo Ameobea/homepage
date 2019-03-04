@@ -2,8 +2,14 @@ import React from 'react';
 import { graphql, StaticQuery, Link } from 'gatsby';
 
 import Layout from '../components/layout';
+import RssIcon from '../images/rss.svg';
 
 const styles = {
+  header: {
+    display: 'flex',
+    alignItems: 'last baseline',
+    paddingBottom: 0,
+  },
   postLinks: {
     display: 'flex',
     flexDirection: 'column',
@@ -58,7 +64,12 @@ const BlogIndex = ({ allMarkdownRemark }) => (
     description="The personal technical blog of Casey Primozic"
   >
     <center>
-      <h1>Technical Blog</h1>
+      <h1 style={styles.header}>
+        <span style={{ paddingRight: 14 }}>Technical Blog </span>
+        <a href="/rss.xml" style={{ display: 'flex' }}>
+          <img src={RssIcon} style={{ height: 24, width: 24 }} />
+        </a>
+      </h1>
     </center>
 
     <ul style={styles.postLinks}>
@@ -69,4 +80,6 @@ const BlogIndex = ({ allMarkdownRemark }) => (
   </Layout>
 );
 
-export default () => <StaticQuery query={query} render={BlogIndex} />;
+const Blog = () => <StaticQuery query={query} render={BlogIndex} />;
+
+export default Blog;

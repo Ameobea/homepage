@@ -5,7 +5,9 @@ require('dotenv').config();
 
 module.exports = {
   siteMetadata: {
-    title: 'Casey Primozic',
+    title: "Casey Primozic's Homepage",
+    description: 'Personal website of Casey Primozic / Ameo',
+    siteUrl: 'https://cprimozic.net',
   },
   plugins: [
     'gatsby-plugin-typescript',
@@ -110,6 +112,69 @@ module.exports = {
         refreshToken: process.env.SPOTIFY_REFRESH_TOKEN,
         fetchPlaylists: true, // optional. Set to false to disable fetching of your playlists
         timeRanges: ['short_term', 'medium_term', 'long_term'], // optional. Set time ranges to be fetched
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-feed',
+      options: {
+        query: `
+          {
+            site {
+              siteMetadata {
+                title
+                description
+                siteUrl
+                site_url: siteUrl
+              }
+            }
+          }
+        `,
+        feeds: [
+          {
+            serialize: ({ query: { site, allMarkdownRemark } }) =>
+              allMarkdownRemark.edges.map(
+                ({
+                  node: {
+                    frontmatter: { date, title },
+                    excerpt,
+                    fields: { slug },
+                    html,
+                  },
+                }) => {
+                  const postUrl = `${site.siteMetadata.siteUrl}/blog${slug}`;
+                  return {
+                    description: excerpt,
+                    date,
+                    title,
+                    url: postUrl,
+                    guid: postUrl,
+                  };
+                }
+              ),
+            query: `
+              {
+                allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
+                  totalCount
+                  edges {
+                    node {
+                      fields {
+                        slug
+                      }
+                      id
+                      frontmatter {
+                        title
+                        date(formatString: "YYYY-MM-DD")
+                      }
+                      excerpt
+                    }
+                  }
+                }
+              }
+            `,
+            output: '/rss.xml',
+            title: 'Gatsby RSS Feed',
+          },
+        ],
       },
     },
   ],
