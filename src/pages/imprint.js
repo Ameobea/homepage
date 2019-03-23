@@ -1,5 +1,5 @@
 import React from 'react';
-import { StaticQuery, graphql } from 'gatsby';
+import { StaticQuery, graphql, Link } from 'gatsby';
 import * as R from 'ramda';
 
 import Layout from '../components/layout';
@@ -62,8 +62,14 @@ const ImprintContent = ({ licenses }) => (
       </p>
       <h2>Licenses of dependencies used on the site</h2>
       <Licenses licenses={licenses} />
+      <br />
       <LinkedinIconCredit />
+      <br />
+      <br />
       <HamburgerIconCredit />
+      <br />
+      <br />
+      <Link to="/text/">A1.362713562</Link>
     </div>
   </Layout>
 );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link, StaticQuery, graphql } from 'gatsby';
 import Img from 'gatsby-image';
 import * as R from 'ramda';
@@ -22,13 +22,17 @@ const ProjectImage = ({ pageUrl, fluidImage, imageAlt, even }) => {
   const wrapperClassname = `portfolio-image-wrapper ${
     even ? 'portfolio-image-wrapper-left' : 'portfolio-image-wrapper-right'
   }`;
-  const Wrapper = pageUrl
-    ? ({ children }) => (
-        <Link className={wrapperClassname} to={pageUrl}>
-          {children}
-        </Link>
-      )
-    : ({ children }) => <div className={wrapperClassname}>{children}</div>;
+  const Wrapper = useMemo(
+    () =>
+      pageUrl
+        ? ({ children }) => (
+            <Link className={wrapperClassname} to={pageUrl}>
+              {children}
+            </Link>
+          )
+        : ({ children }) => <div className={wrapperClassname}>{children}</div>,
+    [wrapperClassname, pageUrl]
+  );
 
   return (
     <React.Fragment>
@@ -118,9 +122,9 @@ const getProjectFilesQuery = graphql`
   }
 `;
 
-const IndexInner = data => {
-  const projects = data.allProjectManifestJson.edges.map(R.prop('node'));
-  const imageList = data.allImageSharp.edges.map(R.path(['node', 'fluid']));
+const IndexInner = ({ allProjectManifestJson, allImageSharp }) => {
+  const projects = allProjectManifestJson.edges.map(R.prop('node'));
+  const imageList = allImageSharp.edges.map(R.path(['node', 'fluid']));
   const imageMap = imageList.reduce(
     (acc, fluid) => ({ ...acc, [fluid.originalName]: fluid }),
     {}

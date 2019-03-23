@@ -22,6 +22,7 @@ const Layout = ({
   children,
   title,
   description,
+  style = {},
   ...data
 }) => (
   <Fragment>
@@ -56,7 +57,7 @@ const Layout = ({
       </Fragment>
     ) : null}
 
-    <div style={styles.root}>{children}</div>
+    <div style={{ ...styles.root, ...style }}>{children}</div>
   </Fragment>
 );
 
