@@ -40,7 +40,11 @@ const ProjectImage = ({ pageUrl, fluidImage, imageAlt, even }) => {
         <Wrapper>
           <Img
             fluid={fluidImage}
-            imgStyle={{ objectPosition: 'center center', objectFit: 'contain' }}
+            imgStyle={{
+              objectPosition: 'center center',
+              objectFit: 'contain',
+              maxHeight: 400,
+            }}
             alt={imageAlt}
           />
         </Wrapper>
@@ -73,7 +77,7 @@ const ProjectOverview = ({
           {pageUrl ? <Link to={`/projects/${pageUrl}`}>{name}</Link> : name}
         </h2>
         <i className="portfolio-project-info-link">{`${startDate} - ${endDate ||
-          '(under development)'}`}</i>
+          '(current)'}`}</i>
         <div className="portfolio-project-info">
           <ProjectInfoLink text="Website" url={projectUrl} />
           <ProjectInfoLink text="Source Code" url={srcUrl} />

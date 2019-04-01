@@ -68,6 +68,26 @@
     "endDate": "Sep. 2018"
   },
   {
+    "name": ".io-style Game",
+    "description": "A friend and I wanted to work on a game together, trying out some tech that we were interested in and building up all parts of a game from scratch.  I handled the frontend and the physics while my friend focused on setting up the backend server.  At the end, we came up with a networked physics engine based on a popular Rust physics framework that runs the same code on both the client and the server.\n\nA variety of techniques were used for handling network delay, synchronizing state, and keeping track of game data both internally on the client as well as on the server.",
+    "projectUrl": "https://io.ameo.design/",
+    "srcUrl": "https://github.com/ameobea/io-game/",
+    "technologies": [
+      "Elixir",
+      "Phoenix",
+      "Rust",
+      "WebAssembly",
+      "nphysics",
+      "Protocol Buffers",
+      "WebSockets"
+    ],
+    "pageUrl": "/projects/io-game/",
+    "image": "io.png",
+    "imageAlt": "A screenshot of the .io-style game that I created, showing created \"asteroids\", a player entity with a rotateable beam, and a procedurally generated background.",
+    "startDate": "Jul. 2018",
+    "endDate": "Aug. 2018"
+  },
+  {
     "name": "Robintrack",
     "description": "A tool for viewing data about the popularity of various stocks on the Robinhood brokerage. Allows users to view the most (and least) popular stocks held by its users and view trends over time.  Robintrack gained significant popularity, with several people reaching out to use the data it collected for school or personal research and the Robinhood team reaching out to me directly about it.",
     "projectUrl": "https://robintrack.net/",
@@ -88,28 +108,20 @@
     "pageUrl": "/blog/building-robintrack/",
     "image": "robintrack.png",
     "imageAlt": "A screenshot of the \"Popularity Changes\" page from Robintrack, showing the table of stocks with large recent popularity changes and a chart plotting the popularity vs price of the NVDA stock.",
-    "startDate": "Mar. 2017",
-    "endDate": "Apr. 2017"
+    "startDate": "Apr. 2018",
+    "endDate": "Jun. 2018"
   },
   {
-    "name": ".io-style Game",
-    "description": "A friend and I wanted to work on a game together, trying out some tech that we were interested in and building up all parts of a game from scratch.  I handled the frontend and the physics while my friend focused on setting up the backend server.  At the end, we came up with a networked physics engine based on a popular Rust physics framework that runs the same code on both the client and the server.\n\nA variety of techniques were used for handling network delay, synchronizing state, and keeping track of game data both internally on the client as well as on the server.",
-    "projectUrl": "https://io.ameo.design/",
-    "srcUrl": "https://github.com/ameobea/io-game/",
-    "technologies": [
-      "Elixir",
-      "Phoenix",
-      "Rust",
-      "WebAssembly",
-      "nphysics",
-      "Protocol Buffers",
-      "WebSockets"
-    ],
-    "pageUrl": "/projects/io-game/",
-    "image": "io.png",
-    "imageAlt": "A screenshot of the .io-style game that I created, showing created \"asteroids\", a player entity with a rotateable beam, and a procedurally generated background.",
-    "startDate": "Jul. 2018",
-    "endDate": "Aug. 2018"
+    "name": "Volumetric Rendering Experiment",
+    "description": "A small demo of volumetric rendering via raymarching in the web browser using Rust, Emscripten/asm.js, GPU.js, and Emscripten.  It creates a matrix of 3D noise and then pans around it, rendering the results to a canvas.  All of the raymarching algorithmic and linear algebra was implemented from scratch, and the idea for the project was for it to serve as an excercise forme to learn how the whole process works from start to finish.",
+    "projectUrl": "https://volumetric.ameo.design/",
+    "srcUrl": "https://github.com/Ameobea/minutiae/tree/master/volumetric",
+    "technologies": ["Rust", "asm.js", "Emscripten", "GPU.js", "JavaScript"],
+    "pageUrl": "/projects/volumetric/",
+    "image": "volumetric.png",
+    "imageAlt": "A view of the volumetric rendering output showing the generated 3D noise projected onto a canvas",
+    "startDate": "Aug. 2017",
+    "endDate": "Aug. 2017"
   },
   {
     "name": "Noise Function Compositor",

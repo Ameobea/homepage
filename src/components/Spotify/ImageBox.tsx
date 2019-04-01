@@ -10,7 +10,7 @@ import * as R from 'ramda';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
 
-import { ANewTab } from '../util';
+import { ANewTab, truncateWithElipsis } from '../util';
 
 const styles: { [key: string]: CSSProperties } = {
   root: {
@@ -126,7 +126,7 @@ export const Track = ({
       image={image}
     >
       <div style={styles.data} className="track-datum">
-        <div>{title}</div>
+        <div>{truncateWithElipsis(title, 50)}</div>
         <div>{album}</div>
         <span style={{ zIndex: 2 }}>
           {artists.map(({ name, uri }, i) => (
@@ -172,7 +172,7 @@ type ArtistProps = {
 };
 
 const Genre = ({ genre }: { genre: string }) => {
-  const to = `http://everynoise.com/engenremap-${genre.replace(' ', '')}.html`;
+  const to = `http://everynoise.com/engenremap-${genre.replace(/ /g, '')}.html`;
   return <ANewTab to={to} text={genre} style={{ color: 'white' }} />;
 };
 

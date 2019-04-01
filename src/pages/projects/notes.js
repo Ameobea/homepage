@@ -71,15 +71,15 @@ const Notes = ({ bannerImage }) => (
       skip list which is printed to the console in debug mode:{' '}
     </p>
     <pre style={{ overflow: 'hidden', maxWidth: '90vw' }}>
-      |15, 16|--------------------->|21, 21|--------------------->x
+      {'|15, 16|--------------------->|21, 21|--------------------->x'}
       <br />
-      |15, 16|->|17, 17|----------->|21, 21|--------------------->x
+      {'|15, 16|->|17, 17|----------->|21, 21|--------------------->x'}
       <br />
-      |15, 16|->|17, 17|----------->|21, 21|->|22, 23|----------->x
+      {'|15, 16|->|17, 17|----------->|21, 21|->|22, 23|----------->x'}
       <br />
-      |15, 16|->|17, 17|->|19, 20|->|21, 21|->|22, 23|->|25, 26|->x
+      {'|15, 16|->|17, 17|->|19, 20|->|21, 21|->|22, 23|->|25, 26|->x'}
       <br />
-      |15, 16|->|17, 17|->|19, 20|->|21, 21|->|22, 23|->|25, 26|->x
+      {'|15, 16|->|17, 17|->|19, 20|->|21, 21|->|22, 23|->|25, 26|->x'}
     </pre>
     <h2>Synthesizer Settings UI</h2>
     <p>
@@ -132,16 +132,16 @@ const Notes = ({ bannerImage }) => (
     </p>
     <h2>Future Work</h2>
     <p>
-      This project is still very much WIP, and there's a lot left to do. For
-      example, scrolling/zooming compsitions is still unimplemented (and may be
-      a possible performance bottleneck). As previously mentioned, import/export
-      to MIDI is missing as well. A help guide, more UI controls for stuff like
-      BPM, more ergonomic behavior for playback, and a variety of other things
-      are also missing. My goal with this isn&apos;t to create an all-inclusing
-      web-based music production environment; I want to create an effective MIDI
-      editor and synthesizer capable of allowing users to write and play back
-      compositions. I may embed it into a large application or add more features
-      later on.
+      This project is still very much WIP, and there&apos;s a lot left to do.
+      For example, scrolling/zooming compsitions is still unimplemented (and may
+      be a possible performance bottleneck). As previously mentioned,
+      import/export to MIDI is missing as well. A help guide, more UI controls
+      for stuff like BPM, more ergonomic behavior for playback, and a variety of
+      other things are also missing. My goal with this isn&apos;t to create an
+      all-inclusing web-based music production environment; I want to create an
+      effective MIDI editor and synthesizer capable of allowing users to write
+      and play back compositions. I may embed it into a large application or add
+      more features later on.
     </p>
   </Layout>
 );
@@ -158,4 +158,6 @@ const query = graphql`
   }
 `;
 
-export default () => <StaticQuery query={query} render={Notes} />;
+const NotesWithQuery = () => <StaticQuery query={query} render={Notes} />;
+
+export default NotesWithQuery;

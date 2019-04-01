@@ -14,12 +14,22 @@ export const ANewTab = ({ to, children, text, ...props }: ANewTabProps) => (
     {children || text || ''}
   </OutboundLink>
 );
-export const BannerImage = ({ img, alt }) => (
+
+export const BannerImage = ({ img, alt, style = {} }) => (
   <span style={{ textAlign: 'center' }}>
     <Img
-      style={{ maxWidth: 667, marginBottom: 40 }}
+      style={{ maxWidth: 667, marginBottom: 40, ...style }}
       fluid={img.childImageSharp.fluid}
       alt={alt}
     />
   </span>
 );
+
+export const truncateWithElipsis = (s: string, maxLength: number): string => {
+  let truncated = s.slice(0, maxLength);
+  if (truncated.length !== s.length) {
+    truncated += '…';
+  }
+
+  return truncated;
+};
