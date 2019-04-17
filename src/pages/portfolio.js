@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, Fragment } from 'react';
 import { Link, StaticQuery, graphql } from 'gatsby';
 import Img from 'gatsby-image';
 import * as R from 'ramda';
@@ -22,6 +22,7 @@ const ProjectImage = ({ pageUrl, fluidImage, imageAlt, even }) => {
   const wrapperClassname = `portfolio-image-wrapper ${
     even ? 'portfolio-image-wrapper-left' : 'portfolio-image-wrapper-right'
   }`;
+
   const Wrapper = useMemo(
     () =>
       pageUrl
@@ -35,7 +36,7 @@ const ProjectImage = ({ pageUrl, fluidImage, imageAlt, even }) => {
   );
 
   return (
-    <React.Fragment>
+    <Fragment>
       {fluidImage ? (
         <Wrapper>
           <Img
@@ -49,7 +50,7 @@ const ProjectImage = ({ pageUrl, fluidImage, imageAlt, even }) => {
           />
         </Wrapper>
       ) : null}
-    </React.Fragment>
+    </Fragment>
   );
 };
 
@@ -74,7 +75,7 @@ const ProjectOverview = ({
     <div className="portfolio-project-overview-content">
       <div className="portfolio-project-header">
         <h2 className="portfolio-project-title">
-          {pageUrl ? <Link to={`/projects/${pageUrl}`}>{name}</Link> : name}
+          {pageUrl ? <Link to={pageUrl}>{name}</Link> : name}
         </h2>
         <i className="portfolio-project-info-link">{`${startDate} - ${endDate ||
           '(current)'}`}</i>
