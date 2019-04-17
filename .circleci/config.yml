@@ -15,7 +15,7 @@ jobs:
       - run: /tmp/rustup.sh -y --default-toolchain nightly-2019-02-15
       - run: echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
       - run: rustup target add wasm32-unknown-unknown
-      - run: cargo install wasm-bindgen-cli
+      - run: cargo install wasm-bindgen-cli --version 0.2.42
       # install `wasm-opt`
       - run: git clone https://github.com/WebAssembly/binaryen.git /tmp/binaryen
       - run: cd /tmp/binaryen && cmake . && make install

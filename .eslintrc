@@ -1,6 +1,6 @@
 {
   "rules": {
-    "indent": [2, 2, { "SwitchCase": 1 }],
+    "indent": 0,
     "quotes": [2, "single", { "avoidEscape": true }],
     "react/display-name": 0,
     "react/forbid-component-props": 0,
@@ -9,7 +9,7 @@
       { "extensions": [".js", ".jsx", ".tsx"] }
     ],
     "react/jsx-handler-names": 0,
-    "react/jsx-indent": [1, 2],
+    "react/jsx-indent": 0,
     "react/jsx-indent-props": [1, 2],
     "react/jsx-max-props-per-line": [1, { "maximum": 3, "when": "multiline" }],
     "react/jsx-no-literals": 0,
