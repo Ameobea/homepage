@@ -1,5 +1,5 @@
 ---
-title: 'Deploying a Rust REST API with Diesel, Rocket, and MySQL on Google Cloud Run'
+title: 'Deploying a Rusty REST API with Diesel, Rocket, and MySQL on Google Cloud Run'
 date: '2019-04-23'
 ---
 
