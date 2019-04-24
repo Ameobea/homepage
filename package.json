@@ -17,6 +17,7 @@
     "gatsby-plugin-sharp": "^2.0.15",
     "gatsby-plugin-typescript": "^2.0.1",
     "gatsby-plugin-typography": "^2.2.1",
+    "gatsby-remark-autolink-headers": "^2.0.16",
     "gatsby-remark-images": "^3.0.1",
     "gatsby-source-filesystem": "^2.0.4",
     "gatsby-source-spotify": "^1.0.1",

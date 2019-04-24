@@ -38,7 +38,7 @@ exports.createPages = ({ graphql, actions: { createPage } }) =>
         createPage({
           path: `blog${node.fields.slug}`,
 
-          component: path.resolve('./src/components/BlogPost.js'),
+          component: path.resolve('./src/components/BlogPost.tsx'),
           context: {
             // Data passed to context is available
             // in page queries as GraphQL variables.
