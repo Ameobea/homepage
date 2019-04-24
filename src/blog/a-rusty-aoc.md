@@ -451,7 +451,7 @@ A big thanks to [Eric Wastl](https://twitter.com/ericwastl) for creating + manag
 
 I think it would be great to hear about other peoples' advent of code experiences with Rust. According to the survey, there were hundreds of people who participated in AOC that used it; I'd love to compare code and stories with other community members who also took part!
 
-# Disclaimer
+## Disclaimer
 
 I completed the challenges without any outside help with a few exceptions:
 
