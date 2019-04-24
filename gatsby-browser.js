@@ -1,4 +1,4 @@
-require('prismjs/themes/prism-funky.css');
+require('prismjs/themes/prism-okaidia.css');
 
 window.vizStarted = false;
 export const onClientEntry = () => {
