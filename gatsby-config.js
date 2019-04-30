@@ -78,7 +78,7 @@ module.exports = {
             },
           },
           {
-            resolve: 'gatsby-remark-prismjs',
+            resolve: 'gatsby-remark-prismjs-no-heading',
             options: {
               classPrefix: 'language-',
               inlineCodeMarker: null,
