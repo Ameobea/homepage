@@ -1,5 +1,29 @@
 [
   {
+    "name": "SpotifyTrack",
+    "description": "A Work-In-Progress personal homepage showing users' top songs and artists and listening patterns over time, providing a shareable link that they can use to show it off to friends.  May include features for tracking the popularity or artists/songs/etc. over time as well.",
+    "projectUrl": "https://spotify.ameo.design/",
+    "srcUrl": "https://github.com/Ameobea/spotify-homepage/",
+    "technologies": ["Rust", "TypeScript", "React", "Redux", "jantix"],
+    "pageUrl": null,
+    "image": "spotifytrack.png",
+    "imageAlt": "A very early view of the SpotifyTrack user stats page",
+    "startDate": "Apr. 2019",
+    "endDate": null
+  },
+  {
+    "name": "jantix",
+    "description": "A fully-featured TypeScript library defining a self-contained 100% type-safe Redux architecture.  Jantix staticly ensures the validity and cohesion of your actions/reducers/state and provides a very clean, 100% strictly typed interface through which to interact with them.",
+    "projectUrl": null,
+    "srcUrl": "https://github.com/Ameobea/jantix/",
+    "technologies": ["TypeScript", "Redux", "React"],
+    "pageUrl": null,
+    "image": "jantix.png",
+    "imageAlt": "A screenshot of the VS Code text editor demonstrating the type inference provided by the Jantix library",
+    "startDate": "May 2019",
+    "endDate": "May 2019"
+  },
+  {
     "name": "Ant Colony Simulation",
     "description": "An interactive ant colony simulation that I created as a project for my Simulation and Modeling class at school.  Made using my Minutiae simulation framework, ants lay pheromones and work together to gather food in a world full of obstacles.",
     "projectUrl": "https://ants.ameo.design/",
