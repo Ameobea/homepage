@@ -1,5 +1,5 @@
 ---
-title: 'Deploying a Rusty REST API with Diesel, Rocket, and MySQL on Google Cloud Run'
+title: 'Deploying a REST API with Rust, Diesel, Rocket, and MySQL on Google Cloud Run'
 date: '2019-04-23'
 ---
 
@@ -533,3 +533,5 @@ As you can see, the latency isn't perfect. Rocket is responding to these request
 Although there's a bit of legwork involved with getting Diesel set up and all of the supporting pieces (database schema and migrations, Dockerfile, etc.) in place, Cloud Run certainly presents a very compelling option for getting a web app from zero to deployed very quickly. When combined with a hosted database option, it allows full-fledged APIs and other extensive applications to be built without provisioning any virtual servers at all.
 
 Rust is a great fit for cloud run as well because the blazingly fast web servers such as Rocket allow full advantage to be taken of the per-100-ms billing that cloud run uses, making it possible to deploy web applications at incredibly low price points.
+
+Please feel free to leave questions and feedback on [Reddit](https://www.reddit.com/r/rust/comments/bgt267/deploying_a_rest_api_with_diesel_rocket_and_mysql/)!

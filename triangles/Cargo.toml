@@ -7,12 +7,14 @@ version = "0.1.0"
 [dependencies]
 nalgebra = "0.17.2"
 ncollide2d = "0.18.2"
-wasm-bindgen = "=0.2.42"
+wasm-bindgen = "=0.2.47"
 rand = "0.6.5"
 rand_pcg = "0.1.1"
 rand_core = "0.4.0"
-
-common = { git = "https://github.com/Ameobea/sketches.git", rev = "master" }
+console_error_panic_hook = "0.1.6"
 
 [lib]
 crate-type = ["cdylib"]
+
+[profile.release]
+panic = "abort"

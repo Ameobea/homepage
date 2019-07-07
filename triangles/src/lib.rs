@@ -1,6 +1,5 @@
 #![feature(box_syntax, const_fn)]
 
-extern crate common;
 extern crate nalgebra;
 extern crate ncollide2d;
 extern crate rand_core;
@@ -9,6 +8,7 @@ extern crate wasm_bindgen;
 
 use std::f32;
 use std::mem;
+use std::panic;
 use std::ptr;
 use std::usize;
 
@@ -290,7 +290,9 @@ fn world() -> &'static mut World {
 
 #[wasm_bindgen]
 pub fn init(canvas_width: usize, canvas_height: usize) {
-    common::set_panic_hook();
+    if cfg!(debug_assertions) {
+        panic::set_hook(Box::new(console_error_panic_hook::hook));
+    }
 
     let world: Box<World> = box DBVT::new();
     let p: *mut World = Box::into_raw(world);
