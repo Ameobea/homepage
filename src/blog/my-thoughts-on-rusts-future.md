@@ -1,13 +1,13 @@
 ---
 title: "My Thoughts on Rust's Future: A Positive Outlook"
-date: '2019-04-23'
+date: '2019-08-03'
 ---
 
 I'm feeling really positive about Rust's prospects of popularity and wide-spread adoption in the future. I've been a part of the Rust community for three years now, and it feels like the stars are starting to align in order to let Rust jump into a position of dominance in the programming language world. There are several different, wide-spread, and mostly unrelated trends that I've noticed are all coming together with positive implications for Rust:
 
 - Lots of focus on increased privacy/security with recent data breaches, hardware vulnerabilities, and software exploits. More and more people are starting to see memory safety and compile-time verification as more than a nice-to-have.
 - Pushback against Google Chrome with their adblocker nerfs may bring market share to Firefox, strengthening Mozilla in the process. (Personally, I feel that this is the beginning of the end for the online advertising industry as we know it and possibly the starting point for a shift in power within the tech world). Having Rust as a key part of an increasingly popular browser can only be good for the language + community.
-- WebAssembly adoption + popularity growing with WASI and friends; Rust is one of if not the best platforms for Wasm right now in my opinion. As the web increasingly escapes from the confines of HTML/CSS/JS websites, Rust + WebAssembly are perfectly positioned to serve the its new needs.
+- WebAssembly adoption + popularity growing with WASI and friends; Rust is one of if not the best platforms for Wasm right now in my opinion. As the web increasingly escapes from the confines of HTML/CSS/JS websites, Rust + WebAssembly are perfectly positioned to serve its new needs.
 - Mainstream adoption of typed languages in general. TypeScript adoption rates are [skyrocketing](https://np.reddit.com/r/typescript/comments/clnd1h/typescript_growth_is_exploding_yoy_github_issue/) and a lot of the dev community is coming around to the benefits of type-safe code.
 - This one's a bit of a reach, but I think we'll start to see a growth in how much zero-cost abstractions and optimized machine code matter in the future as Moore's law continues to slow down. People will turn to Rust and other compiled languages more and more as the ratio between saved dev time and server costs changes.
 
