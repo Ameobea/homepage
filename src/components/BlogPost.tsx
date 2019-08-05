@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { graphql } from 'gatsby';
 
 import Layout from './layout';
@@ -26,24 +26,34 @@ export const query = graphql`
 const fixTOCLinks = (htmlContent: string): string =>
   htmlContent.replace(/<a href="\//g, '<a href="/blog/');
 
-export default ({ data: { markdownRemark: post } }) => (
-  <Layout
-    title={post.frontmatter.title}
-    description={`${
-      post.frontmatter.title
-    } - Casey Primozic's Personal Technical Blog`}
-  >
-    <div>
-      <h1>{post.frontmatter.title}</h1>
-      <div className="markdown-remark-toc-wrapper">
-        <div
-          className="markdown-remark-toc"
-          dangerouslySetInnerHTML={{
-            __html: fixTOCLinks(post.tableOfContents),
-          }}
-        />
+export default ({ data: { markdownRemark: post } }) => {
+  useEffect(() => {
+    console.log('setting style');
+    document.getElementById('svg').style.visibility = 'hidden';
+
+    return () => {
+      console.log('unsetting style');
+      document.getElementById('svg').style.visibility = 'visible';
+    };
+  });
+
+  return (
+    <Layout
+      title={post.frontmatter.title}
+      description={`${post.frontmatter.title} - Casey Primozic's Personal Technical Blog`}
+    >
+      <div>
+        <h1>{post.frontmatter.title}</h1>
+        <div className="markdown-remark-toc-wrapper">
+          <div
+            className="markdown-remark-toc"
+            dangerouslySetInnerHTML={{
+              __html: fixTOCLinks(post.tableOfContents),
+            }}
+          />
+        </div>
+        <div dangerouslySetInnerHTML={{ __html: post.html }} />
       </div>
-      <div dangerouslySetInnerHTML={{ __html: post.html }} />
-    </div>
-  </Layout>
-);
+    </Layout>
+  );
+};

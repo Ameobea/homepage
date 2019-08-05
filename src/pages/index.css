@@ -18,3 +18,9 @@
 .track:hover > div > .track-datum {
   mix-blend-mode: exclusion;
 }
+
+@media screen and (prefers-reduced-motion: reduce) {
+  #svg {
+    display: none !important;
+  }
+}

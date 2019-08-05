@@ -15,7 +15,7 @@ const styles = {
     maxWidth: 960,
     padding: '0px 1.0875rem 1.45rem',
     paddingTop: '1.45rem',
-    backgroundColor: 'rgba(26, 26, 26, 0.94)',
+    backgroundColor: 'rgb(26, 26, 26)',
   },
 };
 
@@ -27,7 +27,7 @@ const Layout = ({
   style = {},
   ...data
 }) => (
-  <Fragment>
+  <>
     {/* Yeah this causes infinite recursion in dev mode due to some issues with the
     `Suspense`/hooks used on the homepage. */}
     {process.env.NODE_ENV !== 'development' ? (
@@ -53,14 +53,14 @@ const Layout = ({
     ) : null}
 
     {showHeader ? (
-      <Fragment>
+      <>
         <HeaderMobile />
         <Header />
-      </Fragment>
+      </>
     ) : null}
 
     <div style={{ ...styles.root, ...style }}>{children}</div>
-  </Fragment>
+  </>
 );
 
 const query = graphql`
