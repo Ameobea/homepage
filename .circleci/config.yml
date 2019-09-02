@@ -15,14 +15,15 @@ jobs:
       - run: /tmp/rustup.sh -y --default-toolchain nightly-2019-07-07
       - run: echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
       - run: rustup target add wasm32-unknown-unknown
-      - run: cargo install wasm-bindgen-cli --version 0.2.47
+      - run: cargo install -f --git https://github.com/rustwasm/wasm-bindgen.git wasm-bindgen-cli
+      - run: cargo install just
       # install `wasm-opt`
       - run: git clone https://github.com/WebAssembly/binaryen.git /tmp/binaryen
       - run: cd /tmp/binaryen && cmake . && make install
       - checkout
       - run: apt-get install yarn -y
       - run: yarn
-      - run: bash ./build_all.sh
+      - run: just build-all
       - run: "echo $SSH_KEY | base64 -d > ~/.ssh/id_rsa"
       - run: chmod 600 ~/.ssh/id_rsa
       - run: rsync -Prv -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -F /dev/null" --delete ./public/* circleci@ameo.link:/var/www/cprimozic/
