@@ -5,13 +5,13 @@ name = "engine"
 version = "0.1.0"
 
 [dependencies]
-nalgebra = "0.17.2"
-ncollide2d = "0.18.2"
-wasm-bindgen = "=0.2.47"
-rand = "0.6.5"
-rand_pcg = "0.1.1"
-rand_core = "0.4.0"
-console_error_panic_hook = "0.1.6"
+nalgebra = "0.18.1"
+ncollide2d = "0.20.1"
+wasm-bindgen = { git = "https://github.com/rustwasm/wasm-bindgen.git", rev = "fb0bbc00" }
+rand = "0.7.0"
+rand_pcg = "0.2.0"
+rand_core = "0.5.1"
+console_error_panic_hook = { git = "https://github.com/Ameobea/console_error_panic_hook.git" }
 
 [lib]
 crate-type = ["cdylib"]

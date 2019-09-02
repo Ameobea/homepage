@@ -53,9 +53,13 @@ const SpotifyFavorites = ({ topTracks, topArtists, playing, setPlaying }) => (
       initialItems={5}
       maxItems={20}
       renderItem={(i, timeframe) => {
+        const artist = topArtists[timeframe][i];
+        if (!artist) {
+          return null;
+        }
         const {
           node: { name, genres, image, uri, id },
-        } = topArtists[timeframe][i];
+        } = artist;
 
         return (
           <Artist
@@ -80,8 +84,8 @@ export const pickedTopArtistFragment = graphql`
     image {
       localFile {
         childImageSharp {
-          fluid(maxWidth: 220, maxHeight: 220) {
-            ...GatsbyImageSharpFluid_withWebp
+          fixed(width: 160, height: 160) {
+            ...GatsbyImageSharpFixed_withWebp_noBase64
           }
         }
       }
@@ -104,8 +108,8 @@ export const pickedTopTrackFragment = graphql`
     image {
       localFile {
         childImageSharp {
-          fluid(maxWidth: 220, maxHeight: 220) {
-            ...GatsbyImageSharpFluid_withWebp
+          fixed(width: 160, height: 160) {
+            ...GatsbyImageSharpFixed_withWebp_noBase64
           }
         }
       }

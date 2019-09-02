@@ -114,7 +114,9 @@ const getProjectFilesQuery = graphql`
         }
       }
     }
-    allImageSharp {
+    allImageSharp(
+      filter: { original: { src: { regex: "/^((?!spotify-).)*$/" } } }
+    ) {
       edges {
         node {
           fluid(maxWidth: 1200, quality: 85) {

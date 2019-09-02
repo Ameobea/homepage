@@ -79,7 +79,7 @@ const ImageBox = ({ image, imgAlt, children }) => (
     <div className="track">
       <Img
         alt={imgAlt}
-        fluid={image.localFile.childImageSharp.fluid}
+        fixed={image.localFile.childImageSharp.fixed}
         style={styles.imageContainer}
         className="image-wrapper"
       />
@@ -194,7 +194,7 @@ export const Artist = ({ name, genres, image, uri }: ArtistProps) => {
         </div>
         <div>
           {trimmedGenres.map((genre, i) => (
-            <Fragment>
+            <Fragment key={genre}>
               <Genre genre={genre} />
               {i !== trimmedGenres.length - 1 ? ', ' : null}
             </Fragment>
