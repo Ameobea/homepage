@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { StaticQuery, graphql } from 'gatsby';
 
 import Layout from '../components/layout';
 import { ANewTab } from '../components/util';
 
-const styles = {
+const styles: { [key: string]: React.CSSProperties } = {
   infoSection: {
     marginBottom: 50,
   },
@@ -36,17 +36,20 @@ const styles = {
   },
 };
 
-const InfoSection = ({ title, children }) => (
-  <Fragment>
-    <center>
+const InfoSection: React.FC<{ title: React.ReactNode }> = ({
+  title,
+  children,
+}) => (
+  <>
+    <div style={{ textAlign: 'center' }}>
       <h2>{title}</h2>
-    </center>
+    </div>
 
     <div style={styles.infoSection}>{children}</div>
-  </Fragment>
+  </>
 );
 
-const Education = () => (
+const Education: React.FC<{}> = () => (
   <InfoSection title="Education">
     <p>
       Graduated from{' '}
@@ -60,7 +63,15 @@ const Education = () => (
   </InfoSection>
 );
 
-const WorkExperienceItem = ({
+const WorkExperienceItem: React.FC<{
+  company: string;
+  website: string;
+  location: string;
+  title: string;
+  startDate: string;
+  endDate: string;
+  descriptions: string[];
+}> = ({
   company,
   website,
   location,
@@ -85,27 +96,64 @@ const WorkExperienceItem = ({
   </div>
 );
 
-const ProfessionalSkillsColumn = ({ title, items }) => (
+const ProfessionalSkillsColumn: React.FC<{
+  title: string;
+  items: (string | { value: string; children: string[] })[];
+}> = ({ title, items }) => (
   <div style={styles.professionalSkillsColumn}>
     <div style={styles.professionalSkillsColumnTitle}>{title}</div>
-    {items.map((item, i) => (
-      <li key={i}>{item}</li>
-    ))}
+    <ul>
+      {items.map((item, i) =>
+        typeof item === 'string' ? (
+          <li key={i}>{item}</li>
+        ) : (
+          <>
+            <li key={i}>
+              {item.value}
+              <ul>
+                <li>
+                  {item.children.map(child => (
+                    <li key={i}>{child}</li>
+                  ))}
+                </li>
+              </ul>
+            </li>
+          </>
+        )
+      )}
+    </ul>
   </div>
 );
 
-const ProfessionalSkills = () => (
+const ProfessionalSkills: React.FC<{}> = () => (
   <InfoSection title="Professional Skills">
     <div style={styles.professionalSkills}>
       <ProfessionalSkillsColumn
         title="Programming Languages"
         items={[
-          'JavaScript/Node.JS/ES6 + Babel',
-          'React/Redux',
-          'HTML/CSS',
-          'TypeScript',
           'Rust',
-          'Python',
+          {
+            value: 'JavaScript Ecosystem',
+            children: [
+              'Node.JS',
+              'Modern lanauge features inc. ES6, Babel, etc.',
+              'Helper libs inc. Lodash, Ramda, funfix',
+            ],
+          },
+          {
+            value: 'TypeScript',
+            children: [
+              'Integration into React + Redux apps',
+              'Typesafe APIs',
+              'Advanced patterns inc. conditional types, mapped types, etc.',
+            ],
+          },
+          'React/Redux/Redux Thunk/Redux Saga/',
+          'HTML/CSS/SCSS',
+          {
+            value: 'Python',
+            children: ['NumPY', 'Pandas', 'Python Notebooks', 'TensorFlow'],
+          },
           'C/C++',
           'Ruby/Rails',
         ]}
@@ -113,11 +161,30 @@ const ProfessionalSkills = () => (
       <ProfessionalSkillsColumn
         title="Services and Utilities"
         items={[
-          'Relational Databases (SQL, MySQL, PostgreSQL, SQLite)',
-          'Document and Key/Value Databases (MongoDB, Redis, CoucbDB, DynamoDB)',
+          {
+            value: 'Relational Databases',
+            children: ['SQL', 'MySQL', 'PostgreSQL', 'SQLite'],
+          },
+          {
+            value: 'Document and Key/Value Database',
+            children: [
+              'ElasticSearch',
+              'MongoDB',
+              'Redis',
+              'CoucbDB',
+              'DynamoDB',
+            ],
+          },
           'WebAssembly + Asm.JS',
-          'Docker/Docker Compose/Docker Swarm/Kubernetes',
-          'NumPy/Pandas/Jupyter Notebook/Anaconda',
+          {
+            value: 'Docker + Containerization',
+            children: [
+              'Docker Compose',
+              'Kubernetes',
+              'Containerized CI/CD',
+              'Google Cloud Run + other Serverless',
+            ],
+          },
           'Linux Server Administration/System Administration',
           'Amazon Web Services + Google Cloud',
         ]}
@@ -126,7 +193,9 @@ const ProfessionalSkills = () => (
   </InfoSection>
 );
 
-const WorkExperience = ({ allWorkExperienceJson }) => (
+const WorkExperience: React.FC<{ allWorkExperienceJson: { edges: any[] } }> = ({
+  allWorkExperienceJson,
+}) => (
   <InfoSection title="Work Experience">
     {allWorkExperienceJson.edges.map(({ node }, i) => (
       <WorkExperienceItem {...node} key={i} />
@@ -134,14 +203,16 @@ const WorkExperience = ({ allWorkExperienceJson }) => (
   </InfoSection>
 );
 
-const ProfessionalExperience = ({ allWorkExperienceJson }) => (
+const ProfessionalExperience: React.FC<{
+  allWorkExperienceJson: { edges: any[] };
+}> = ({ allWorkExperienceJson }) => (
   <Layout
     title="Professional Experience"
     description="Work experience and professional skills"
   >
     <Education />
-    <WorkExperience allWorkExperienceJson={allWorkExperienceJson} />
     <ProfessionalSkills />
+    <WorkExperience allWorkExperienceJson={allWorkExperienceJson} />
   </Layout>
 );
 
@@ -163,6 +234,8 @@ const query = graphql`
   }
 `;
 
-export default () => (
+const Professional: React.FC<{}> = () => (
   <StaticQuery query={query} render={ProfessionalExperience} />
 );
+
+export default Professional;

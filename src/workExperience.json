@@ -7,8 +7,10 @@
     "startDate": "Feb. 2019",
     "endDate": "Current",
     "descriptions": [
-      "I work as a software developer at Stackline, working on their two flagship software offerings.",
-      "I primarily work using React/React Native, but I also contribute as a full stack developer to their backend and other codebases."
+      "I work as a software developer at Stackline, working on their three flagship software offerings.",
+      "I primarily work using React/React Native, but I also contribute as a full stack developer to various internal APIs, developer utilities (CI/CD, automated testing, etc.) and other projects.",
+      "Fleshed out an extensive testing solution from scratch for all web-facing products testing user interaction via Cypress, API response schema validation, and unit tests.",
+      "Led the effort to incrementally migrating our frontend codebases to TypeScript, creating a set of cohesive types shared between the frontend and backend."
     ]
   },
   {
