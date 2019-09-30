@@ -28,11 +28,9 @@ const fixTOCLinks = (htmlContent: string): string =>
 
 export default ({ data: { markdownRemark: post } }) => {
   useEffect(() => {
-    console.log('setting style');
     document.getElementById('svg').style.visibility = 'hidden';
 
     return () => {
-      console.log('unsetting style');
       document.getElementById('svg').style.visibility = 'visible';
     };
   });

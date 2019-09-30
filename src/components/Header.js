@@ -5,7 +5,7 @@ const styles = {
   root: {
     display: 'flex',
     flexDirection: 'row',
-    backgroundColor: '#333',
+    backgroundColor: 'transparent',
     paddingTop: 8,
     paddingBottom: 8,
     paddingLeft: 300,
