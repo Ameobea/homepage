@@ -23,7 +23,11 @@ My first thought when looking to parallelize something is usually to use [rayon]
 
 ## Solution: rayon::join
 
-Then, I found the `rayon::join` function in the docs. To quote from those docs, "Conceptually, calling join() is similar to spawning two threads, one executing each of the two closures. However, the implementation is quite different and incurs very low overhead." Seems just about perfect! Without rayon, my solution would be to spawn two threads, create a channel or a pair of channels to receive their results over, `.join()` them, and pull the results out of the channel. However, Rayon handles all of this transparently. The code that I came up with looks like this:
+Then, I found the [`rayon::join`](https://docs.rs/rayon/1.2.0/rayon/fn.join.html) function in the docs. To quote from those docs:
+
+> Conceptually, calling join() is similar to spawning two threads, one executing each of the two closures. However, the implementation is quite different and incurs very low overhead.
+
+Seems just about perfect! Without rayon, my solution would be to spawn two threads, create a channel or a pair of channels to receive their results over, `.join()` them, and pull the results out of the channel. However, Rayon handles all of this transparently. The code that I came up with looks like this:
 
 ```rs
 let (artist_stats, track_stats) = match rayon::join(
