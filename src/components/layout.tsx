@@ -12,7 +12,7 @@ const Helmet = _Helmet as any;
 const styles = {
   root: {
     margin: '0 auto',
-    maxWidth: 960,
+    maxWidth: 1080,
     padding: '0px 1.0875rem 1.45rem',
     paddingTop: '1.45rem',
     backgroundColor: 'rgb(26, 26, 26)',
