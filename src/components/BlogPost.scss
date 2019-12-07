@@ -1,6 +1,9 @@
 .markdown-remark-toc-wrapper {
   display: flex;
   flex: 1;
+  * {
+    font-size: 15px;
+  }
 }
 
 .markdown-remark-toc {
@@ -10,5 +13,61 @@
 
   p {
     margin: 0;
+  }
+}
+
+.blog-post {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: bold;
+
+    > .anchor {
+      margin-left: -24px !important;
+    }
+  }
+  h1 {
+    font-size: 1.3em;
+  }
+  h2 {
+    font-size: 1.1em;
+  }
+  h3 {
+    font-size: 1em;
+  }
+  h4 {
+    font-size: 0.9em;
+  }
+  h5 {
+    font-size: 0.82rem;
+  }
+  h1 > code {
+    font-size: 1.3em !important;
+  }
+  h2 > code {
+    font-size: 1.1rem !important;
+  }
+  h3 > code {
+    font-size: 1rem !important;
+  }
+  h4 > code {
+    font-size: 0.9rem !important;
+  }
+  h5 > code {
+    font-size: 0.82rem !important;
+  }
+
+  p {
+    font-size: 16.5px;
+  }
+
+  code {
+    font-size: 14.5px !important;
+    line-height: 1.65;
+  }
+
+  summary {
+    cursor: pointer;
   }
 }

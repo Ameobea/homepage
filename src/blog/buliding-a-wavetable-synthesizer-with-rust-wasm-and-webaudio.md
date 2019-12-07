@@ -5,6 +5,8 @@ date: '2019-12-04'
 
 TODO: Insert cool picture of wavetable synth visualization or something similar
 
+## Overview
+
 Wavetable Synthesis is a method for synthesizing audio by interpolating between different pre-sampled waveforms stored in a table. It's a very neat way to generate sounds that change over time, allowing the different waveforms to morph into each other slowly in order to create rich and complicated textures.
 
 I've been experimenting with synthesizing audio in the web browser via my [web synthesizer project](https://github.com/ameobea/web-synth), and figured that wavetable synthesis would be a cool addition to the platform. It seemed like a simple enough thing to implement from scratch and an awesome opportunity to put Rust and WebAssembly to work in a useful way! As it turns out, it's both a really well-fitting usecase for Rust/Wasm and terrific context for a tour of the broader WebAudio landscape.
@@ -85,14 +87,20 @@ pub struct WaveTable {
     pub samples: Vec<f32>,
 }
 
-TODO: Update this once we update the Rust code...
 /// Represents a single voice playing out of an attached `WaveTable`
 pub struct WaveTableHandle {
     pub table: &'static mut WaveTable,
-    pub frequency: f32,
+    /// The current horizontal index in the wavetable specifying the index in the waveforms from
+    /// samples will be retrieved
     pub sample_ix: f32,
+    /// Buffer into which mix values for each sample for each dimension are copied from JavaScript
     pub mixes: Vec<f32>,
+    /// Buffer to hold the mix values for each dimension and inter-dimensional mixes as well
+    pub mixes_for_sample: Vec<f32>,
+    /// The buffer into which the output from sampling the wavetable is written
     pub sample_buffer: Vec<f32>,
+    /// Stores the frequencies that each of the samples should play at
+    pub frequencies_buffer: Vec<f32>,
 }
 ```
 
@@ -546,6 +554,9 @@ In order to get the data out of our JavaScript arrays and into Wasm, we first ne
 
 `init_wavetable` creates a new empty wavetable instance with the provided settings:
 
+<details>
+<summary>Click to expand code</summary>
+
 ```rs
 impl WaveTable {
     pub fn new(settings: WaveTableSettings) -> Self {
@@ -576,6 +587,8 @@ pub fn init_wavetable(
     Box::into_raw(Box::new(WaveTable::new(settings)))
 }
 ```
+
+</details>
 
 It handles allocating the buffer into which the table's data will go. The return type of the function is `*mut WaveTable` which is a raw pointer to the allocated `WaveTable` struct on the Rust/Wasm heap. When this function is called, that pointer is returned to JavaScript as a normal number which serves as an index into the Wasm memory buffer for the wavetable module.
 
@@ -968,7 +981,10 @@ const workletHandle = new AudioWorkletNode(ctx, 'wavetable-node-processor');
 
 // Using those waveforms we generated earlier, construct a flat array of waveform samples with
 // which to fill the wavetable
-const wavetableDef = [[bufs[0], bufs[1]], [bufs[2], bufs[3]]];
+const wavetableDef = [
+  [bufs[0], bufs[1]],
+  [bufs[2], bufs[3]],
+];
 
 const dimensionCount = 2;
 const waveformsPerDimension = 2;
@@ -1054,3 +1070,5 @@ TODO
 ### Avoiding Aliasing in Higher Frequencies
 
 TODO
+
+### Re-Sampling

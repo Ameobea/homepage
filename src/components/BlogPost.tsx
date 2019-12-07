@@ -40,7 +40,7 @@ export default ({ data: { markdownRemark: post } }) => {
       title={post.frontmatter.title}
       description={`${post.frontmatter.title} - Casey Primozic's Personal Technical Blog`}
     >
-      <div>
+      <div className="blog-post">
         <h1>{post.frontmatter.title}</h1>
         <div className="markdown-remark-toc-wrapper">
           <div

@@ -110,29 +110,10 @@ h6 {
   font-size: 0.78405rem;
   line-height: 1.1;
 }
-h1 > code {
-  font-size: 2.25rem !important;
-}
-h2 > code {
-  font-size: 1.62671rem !important;
-}
-h3 > code {
-  font-size: 1.38316rem !important;
-}
-h4 > code {
-  font-size: 1rem !important;
-}
-h5 > code {
-  font-size: 0.85028rem !important;
-}
-h6 > code {
-  font-size: 0.78405rem !important;
-  line-height: 1.1;
-}
 pre {
   margin-bottom: 1.45rem;
   font-size: 0.85rem;
-  line-height: 1.6 !important;
+  line-height: 1.17 !important;
   background: hsla(0, 0%, 0%, 0.04);
   border-radius: 3px;
 }
