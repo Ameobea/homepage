@@ -1,1 +1,3 @@
-export * from './WavetableDemo';
+import WavetableDemo from './WavetableDemo';
+
+export default WavetableDemo;

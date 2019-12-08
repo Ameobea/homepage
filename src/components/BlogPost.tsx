@@ -1,13 +1,20 @@
 import React, { useEffect } from 'react';
 import { graphql } from 'gatsby';
+import rehypeReact from 'rehype-react';
 
+import WavetableDemo from './WavetableDemo';
 import Layout from './layout';
 import './BlogPost.scss';
+
+const renderAst = new rehypeReact({
+  createElement: React.createElement,
+  components: { 'wavetable-demo': WavetableDemo },
+}).Compiler;
 
 export const query = graphql`
   query($slug: String!) {
     markdownRemark(fields: { slug: { eq: $slug } }) {
-      html
+      htmlAst
       tableOfContents
       frontmatter {
         title
@@ -50,7 +57,7 @@ export default ({ data: { markdownRemark: post } }) => {
             }}
           />
         </div>
-        <div dangerouslySetInnerHTML={{ __html: post.html }} />
+        {renderAst(post.htmlAst)}
       </div>
     </Layout>
   );

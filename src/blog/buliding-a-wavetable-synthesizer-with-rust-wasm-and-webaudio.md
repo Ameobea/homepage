@@ -1069,6 +1069,12 @@ csn.connect(dimension0Mix);
 
 Now, the mix between the waveforms in the first dimension - a sine wave and a triangle wave - will be modulated between 0 and 1 two times a second. In the resulting audio, you should be able to hear the tone become a bit "harsher" as the extra harmonics introduced by the triangle wave getting mixed into the output become more apparent.
 
+## Demo
+
+Using all of the pieces that we put together along the way, I put together a small demo that shows everything off. The UI below controls the wavetable synthesizer, allowing you to play with different mix values between the dimensions. There's also the option to connect an oscillator to the param controlling the mix between the two dimensions.
+
+<wavetable-demo></wavetable-demo>
+
 ## Extra - Visualizing the Wavetable's Output
 
 TODO

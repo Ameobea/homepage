@@ -1,0 +1,19 @@
+.wavetable-demo {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: #323232;
+  margin-left: 40px;
+  margin-right: 40px;
+  padding: 10px;
+}
+
+.wavetable-viz-canvas {
+  background-color: #000;
+  min-width: 400px;
+  max-width: 400px;
+  margin: 8px;
+  margin-bottom: 8px !important;
+  flex: 1;
+}
