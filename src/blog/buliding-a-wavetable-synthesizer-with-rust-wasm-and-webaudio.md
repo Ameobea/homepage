@@ -3,11 +3,13 @@ title: 'Building a Wavetable Synthesizer with Rust, WebAssembly, and WebAudio'
 date: '2019-12-04'
 ---
 
-TODO: Insert cool picture of wavetable synth visualization or something similar
+![A spectrogram visualization of the output of a wavetable of which this article details the construction](./images/wavetable/spectrum.jpg)
+
+_A spectrogram visualization of the output of a wavetable of which this article details the construction_
 
 ## Overview
 
-Wavetable Synthesis is a method for synthesizing audio by interpolating between different pre-sampled waveforms stored in a table. It's a very neat way to generate sounds that change over time, allowing the different waveforms to morph into each other slowly in order to create rich and complicated textures.
+**Wavetable Synthesis** is a method for synthesizing audio by interpolating between different pre-sampled waveforms stored in a table. It's a very neat way to generate sounds that change over time, allowing the different waveforms to morph into each other slowly in order to create rich and complicated textures.
 
 I've been experimenting with synthesizing audio in the web browser via my [web synthesizer project](https://github.com/ameobea/web-synth), and figured that wavetable synthesis would be a cool addition to the platform. It seemed like a simple enough thing to implement from scratch and an awesome opportunity to put Rust and WebAssembly to work in a useful way! As it turns out, it's both a really well-fitting usecase for Rust/Wasm and terrific context for a tour of the broader WebAudio landscape.
 
@@ -29,7 +31,7 @@ Anyway, a wavetable just consists of a 2D array of samples. As we move through t
 
 If waveform A is at the beginning of the wavetable at position 0 and waveform B is at the end of the wavetable at position 1, then we would sample both waveforms at the same sample index and then mix those two samples together according to the position that we're at in the table. In this way, we can sample the table using a 2D coordinate of `(sample index, mix factor)`. In the visualization below, the red line represents the sample index, and the blue log represents the mix factor.
 
-![](./images/wavetable/wavetable_1.svg)
+![A diagram showing how samples are read out of a wavetable by interpolating between two different waveforms](./images/wavetable/wavetable_1.svg)
 
 Each time we take a sample, we increase our sample index by some amount in order to move through the wave. The amount that we move is equal to the ratio between the frequency of the waveforms in the wavetable and the desired output frequency of the wavetable. By increasing the number of samples that we advanced through the wavetable for each sample output, the pitch of the output is increased. The same goes in reverse. In order to support non-integer ratios, we interpolate between the samples along the x axis in the same way that we interpolate between waveforms on the y axis.
 
@@ -116,7 +118,7 @@ The WebAudio spec supports two methods for implementing custom DSP code: `Script
 
 ### Challenges Posed by `AudioWorkletProcessor`
 
-Naturally, there are a few trade-offs that come with using `AudioWorkletProcessor`. Any time more than one thread gets involved, complexity tends to go up quickly. That being said, there are certainly good ways to deal with those new challenges, and the resulting crisp jitter-free audio is well worth it.
+Naturally, there are a few trade-offs that come with using `AudioWorkletProcessor`. Any time more than one thread gets involved, complexity tends to go up quickly. That being said, there are certainly good ways to deal with those new challenges, and the resulting crisp, jitter-free audio is well worth it.
 
 When using WebAssembly from an `AudioWorkletProcessor`, we don't get a lot of the benefits of the modern JavaScript ecosystem that tools like [`webpack`](https://webpack.js.org/) bring us. Since the code in audio worklet processors runs on a separate thread than normal JavaScript, there are many restrictions put on the JavaScript code that executes there compared to what can be done on the main/UI thread. One of these limitations is that we are unable to make network requests to fetch things dynamically from within the processor - a reasonable limitation, all things considered. This poses a problem for using Rust-generated Wasm in audio worklet processors due to the way that `wasm-bindgen` works.
 
@@ -278,6 +280,9 @@ The interface that `AudioWorkletProcessor` provides us with for processing audio
 
 The API for defining these is a static getter. Here's the code that I came up with to create `AudioParam`s for each of the intra-dimensional mixes and inter-dimensional mixes for all but the first dimension:
 
+<details>
+<summary>Click to expand code</summary>
+
 ```ts
 const MAX_DIMENSION_COUNT = 16;
 
@@ -311,6 +316,8 @@ class WaveTableNodeProcessor extends AudioWorkletProcessor {
   }
 }
 ```
+
+</details>
 
 Since `parameterDescriptors` is a static getter, it must be supplied statically. That means we can't do anything like wait until we know how many dimensions this wavetable will have before creating the `AudioParam`s to control them, so we have to make sure we have as many as we'll ever need up front. I figured 16 dimensions is more than plenty, so I stuck with that. Plus, there's not really any cost associated with creating an `AudioParam` that's never used.
 
@@ -384,8 +391,9 @@ class WaveTableNodeProcessor extends AudioWorkletProcessor {
       data.baseFrequency
     );
 
-    // Wasm memory doesn't become available until after some function in the Wasm module has been called, apparently,
-    // so we wait to set this reference until after calling one of the Wasm functions.
+    // Wasm memory doesn't become available until after some function in the Wasm module has
+    // been called, apparently, so we wait to set this reference until after calling one of the
+    // Wasm functions.
     this.float32WasmMemory = new Float32Array(
       this.wasmInstance.exports.memory.buffer
     );
@@ -399,8 +407,8 @@ class WaveTableNodeProcessor extends AudioWorkletProcessor {
       throw new Error('Wavetable data array pointer is not 32-bit aligned');
     }
 
-    // We set a marker value into the data table on the Wasm side; we check that it matches here to ensure that
-    // we've got the correct pointer;
+    // We set a marker value into the data table on the Wasm side; we check that it matches here
+    // to ensure that we've got the correct pointer;
     if (this.float32WasmMemory[wavetableDataArrayOffset] !== -1) {
       throw new Error(
         'Marker value not set at initial wavetable sample data table pointer retrieved from Wasm'
@@ -415,7 +423,8 @@ class WaveTableNodeProcessor extends AudioWorkletProcessor {
       this.waveTablePtr
     );
 
-    // Grab a pointer to the buffer in which we'll store the mix parameters for the different dimensions
+    // Grab a pointer to the buffer in which we'll store the mix parameters for the different
+    // dimensions
     const mixesPtr = this.wasmInstance.exports.get_mixes_ptr(
       this.waveTableHandlePtr,
       FRAME_SIZE
@@ -427,8 +436,8 @@ class WaveTableNodeProcessor extends AudioWorkletProcessor {
   }
 
   process(_inputs, outputs, params) {
-    // Since the Wasm module and wavetable are all asynchronously loaded, we need to wait until after
-    // they're available to start outputting audio.  Until then, we just output silence.
+    // Since the Wasm module and wavetable are all asynchronously loaded, we need to wait until
+    // after they're available to start outputting audio.  Until then, we just output silence.
     if (!this.waveTableHandlePtr) {
       return true;
     }
@@ -440,6 +449,8 @@ class WaveTableNodeProcessor extends AudioWorkletProcessor {
 
 </details>
 
+<br>
+
 ## Constructing the Waveforms
 
 Taking a step back from the implementation of the wavetable itself, we need to generate some waveforms to seed it with!
@@ -448,7 +459,7 @@ For testing and demo purposes, I figured it would be a good idea to implement a 
 
 I decided to use a low frequency of 30hz for the wavetable in order to have as high of a resolution as possible when interpolating between samples when sampling at higher frequencies. On important property of the waveforms used to populate the wavetable is _periodicity_ - the waveforms need to be able to loop back to their beginnings smoothly without cutting off in the middle of a period. If a waveform used to build the wavetable is cut off, looping it will create outputs like this:
 
-![](./images/wavetable/clipped-waveform.svg)
+![A diagram showing a waveform that has been clipped due to it being cut off in the middle of a period](./images/wavetable/clipped-waveform.svg)
 
 Malformed waveforms like that will introduce clicking, buzzing, or other unwanted audio artifacts into the generated sound, so it's important to make sure that the waveforms used to build the wavetable really are periodic. Since the normal sample rate of audio used in WebAudio is 44100hz (44100 samples per second - very standard for computer audio), there are 44100/30 = 1470 samples in a single period of the wave. That means for for the 30hz waves we'll be generating, the waveforms will need to be arrays of 1470 samples.
 
@@ -518,7 +529,7 @@ for (let i = 0; i < waveformSampleCount; i++) {
 
 To help with debugging, I dumped the generated waveforms to CSV and plotted them:
 
-![](./images/wavetable/plotted-waveforms.png)
+![A single period of a sine wave, triangle wave, sawtooth wave, square wave plotted together](./images/wavetable/plotted-waveforms.png)
 
 Looks good! All of the periods line up and the waveforms look like we'd expect them to.
 
@@ -1069,6 +1080,20 @@ TODO
 
 ### Avoiding Aliasing in Higher Frequencies
 
-TODO
+One issue with wavetable synthesis is [aliasing](https://en.wikipedia.org/wiki/Aliasing). All sounds are made up of different combinations of sine waves set at different frequencies and intensities. As the frequency that the wavetable is sampled at goes up, it becomes possible for samples read from the table to pick up distortion due to high frequencies in their harmonic composition interacting with each other and interfering with the generated sound. The solution to this problem is to generate different wave tables for different frequency ranges and applying incrementally greater _bandlimiting filters_ as the sampled frequency goes up.
+
+Bandlimiting filters just chop off all harmonics that are above a certain frequency, reducing the aliasing problem by eliminating the high frequencies that interfere when signals are sampled at high rates. Although they can be computationally expensive to apply in real time, they can be applied when constructing the wavetable rather than when sampling it.
+
+If we wanted to implement this for our wavetable, it would be relatively straightforward: We'd just have to add one more array dimension to the dimensions of the wavetable, storing multiple copies of each dimension's waveforms with increasing levels of bandlimiting. Then, we'd select which one to use based off of the frequency that they are being sampled at.
+
+This would certainly be an important feature to implement if it was our goal to use this wavetable for any kind of serious synthesis, but it's not a necessity to get it working and sounding decent for most frequencies and involves a good deal of non-trivial digital signal processing knowledge.
 
 ### Re-Sampling
+
+**Re-Sampling** is a feature that many wavetable implementations provide which allows for the output of a wavetable to be captured and used as waveforms in a new wavetable. In a way, this is quite similar to the effect that is achieved via the multi-dimensional design of this wavetable - taking the full output of a wavetable and treating it as the input to a new wavetable. However, resampling provides a much higher degree of control and allows for sounds to be re-used between different wave tables more cleanly.
+
+It would also be very useful to add the ability to sample waveforms that are output from some other external WebAudio node and use them as waveforms in a wavetable. There would be some challenges involved with avoiding clipping, but at its core it's just a matter of reading in the samples and storing them in a buffer.
+
+## Conclusion
+
+TODO
