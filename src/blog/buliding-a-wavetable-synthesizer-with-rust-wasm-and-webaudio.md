@@ -267,7 +267,10 @@ const importObject = {
 };
 
 const compiledModule = await WebAssembly.compile(data.arrayBuffer);
-this.wasmInstance = await WebAssembly.instantiate(compiledModule, importObject);
+const wasmInstance = await WebAssembly.instantiate(
+  compiledModule,
+  importObject
+);
 ```
 
 Using this strategy, which brings the worst of both worlds from binary debugging with tools such as `gdb` and println-debugging, I was able to track the few off-by-one errors and other small bugs that existed in the Rust code.
@@ -343,8 +346,8 @@ On the main thread, that will look something like this:
 ```ts
 // Register our custom `AudioWorkletProcessor`, and create an `AudioWorkletNode` that serves as a
 // handle to an instance of one.
-await this.ctx.audioWorklet.addModule('/WaveTableNodeProcessor.js');
-this.workletHandle = new AudioWorkletNode(this.ctx, 'wavetable-node-processor');
+await ctx.audioWorklet.addModule('/WaveTableNodeProcessor.js');
+const workletHandle = new AudioWorkletNode(ctx, 'wavetable-node-processor');
 
 // ... Constructing settings + waveforms for the wavetable not shown
 
@@ -353,11 +356,11 @@ const res = await fetch('./wavetable.wasm');
 const moduleBytes = await res.arrayBuffer();
 
 // Send the Wasm module, waveform data, and wavetable settings over to the processor thread
-this.workletHandle!.port.postMessage({
+workletHandle.port.postMessage({
   arrayBuffer: moduleBytes,
   waveformsPerDimension,
   dimensionCount,
-  waveformLength,
+  waveformLength: waveformSampleCount,
   baseFrequency,
   tableSamples,
 });
@@ -387,7 +390,7 @@ class WaveTableNodeProcessor extends AudioWorkletProcessor {
     this.waveTablePtr = this.wasmInstance.exports.init_wavetable(
       data.waveformsPerDimension,
       data.dimensionCount,
-      data.waveformLength,
+      data.waveformSampleCount,
       data.baseFrequency
     );
 
@@ -543,15 +546,15 @@ Once we have out source waveforms, we now need to use them to build the `WaveTab
 // each other in memory.
 
 const wavetableData = new Float32Array(
-  dimensionCount * waveformsPerDimension * waveformLength
+  dimensionCount * waveformsPerDimension * waveformSampleCount
 );
 
 for (let dimensionIx = 0; dimensionIx < dimensionCount; dimensionIx++) {
   for (let waveformIx = 0; waveformIx < waveformsPerDimension; waveformIx++) {
-    for (let sampleIx = 0; sampleIx < waveformLength; sampleIx++) {
+    for (let sampleIx = 0; sampleIx < waveformSampleCount; sampleIx++) {
       const i =
         samplesPerDimension * dimensionIx +
-        waveformLength * waveformIx +
+        waveformSampleCount * waveformIx +
         sampleIx;
       wavetableData[i] = wavetableDef[dimensionIx][waveformIx][sampleIx];
     }
@@ -999,17 +1002,17 @@ const wavetableDef = [
 
 const dimensionCount = 2;
 const waveformsPerDimension = 2;
-const samplesPerDimension = waveformLength * waveformsPerDimension;
+const samplesPerDimension = waveformSampleCount * waveformsPerDimension;
 
 const tableSamples = new Float32Array(
-  dimensionCount * waveformsPerDimension * waveformLength
+  dimensionCount * waveformsPerDimension * waveformSampleCount
 );
 for (let dimensionIx = 0; dimensionIx < dimensionCount; dimensionIx++) {
   for (let waveformIx = 0; waveformIx < waveformsPerDimension; waveformIx++) {
-    for (let sampleIx = 0; sampleIx < waveformLength; sampleIx++) {
+    for (let sampleIx = 0; sampleIx < waveformSampleCount; sampleIx++) {
       tableSamples[
         samplesPerDimension * dimensionIx +
-          waveformLength * waveformIx +
+          waveformSampleCount * waveformIx +
           sampleIx
       ] = wavetableDef[dimensionIx][waveformIx][sampleIx];
     }
@@ -1025,7 +1028,7 @@ workletHandle.port.postMessage({
   arrayBuffer: moduleBytes,
   waveformsPerDimension,
   dimensionCount,
-  waveformLength,
+  waveformLength: waveformSampleCount,
   baseFrequency,
   tableSamples,
 });
