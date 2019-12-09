@@ -17,7 +17,7 @@ If you'd like to see the end result of this article, skip down to the [Demo Sect
 
 ### Agenda + Prerequisites
 
-This article takes a journey through the full process of implementing a wavetable synth from scratch. It goes through both the full process of writing the code to implement the synth's DSP code itself, applicable DSP and audio theory, as well as several extra pieces including ways of populating the wavetable and interacting with it programatically via the WebAudio API. There are also some sections in the middle that go rather deep into techniques for optimizing the generated WebAssembly module and working with Wasm.
+This article takes a journey through the full process of implementing a wavetable synth from scratch. It goes through both the full process of writing the code to implement the synth's DSP code itself, applicable DSP and audio theory, as well as several extra pieces including ways of populating the wavetable and interacting with it programmatically via the WebAudio API. There are also some sections in the middle that go rather deep into techniques for optimizing the generated WebAssembly module and working with Wasm.
 
 It assumes you're familiar with Rust and JavaScript, at least to some degree. It also assumes you know the basics of WebAssembly and the features it provides for computing in the browser. It will be incredibly helpful to know some of the [basics](https://rustwasm.github.io/book/) of working with Wasm from Rust - just flipping through the first few chapters of the linked book should be enough to get you going.
 
@@ -49,7 +49,7 @@ Each time we take a sample, we increase our sample index by some amount in order
 
 ### Adding More Dimensions
 
-A 1D wavetable (well, 2D if you count the waveforms themselves as having a dimension due to the fact that they're made up of many individual samples) is cool as it is - you can get a lot of neat effects out of just moving around between the different waveforms there. That being said, what's stopping us from adding more layers of interoplation with _other_ wave tables, mixing the interpolated result of the first dimension with the output of the second? Nothing, of course; computers are really really good at indexing into arrays of numbers in memory and mixing together floating point numbers.
+A 1D wavetable (well, 2D if you count the waveforms themselves as having a dimension due to the fact that they're made up of many individual samples) is cool as it is - you can get a lot of neat effects out of just moving around between the different waveforms there. That being said, what's stopping us from adding more layers of interpolation with _other_ wave tables, mixing the interpolated result of the first dimension with the output of the second? Nothing, of course; computers are really really good at indexing into arrays of numbers in memory and mixing together floating point numbers.
 
 In order to do that, we'll need to add two additional variables for each dimension: one to control the mix factor of the second dimension, and one to control the mix between that dimension and the previous dimension. So the total set of all inputs that we have when sampling our n-dimensional wavetable now look something like this:
 
@@ -64,7 +64,7 @@ And additionally, for each dimension after the first one:
 
 In a way, this can be thought of as constructing a chain of "virtual" wavetables, with the output of the previous wavetable serving as the input waveform for the _interdimensional wavetable_. Each wavetable is sampled independently and then mixed with the output of the previous dimension to yield its output, which can then be mixed again etc. It will probably be a good idea to use smaller mix factors for the higher dimensions in order to preserve the effects that the lower dimensions have on the sound; otherwise it's possible for a higher dimension with a high mix factor to almost entirely take over the generated sound.
 
-The alternative to this sort of chaining strategy would be to have a single mix factor for each dimension that all added up to 1.0 and then do a weighted average of the outputs from each of them according to their mix factor. The issue with this that I imagine, however, is that there are many more opportunities for signals to cancel themselves out of degrade to noise in that kind of environment. When we mix only two dimensions together at a time, the interactions are much more tightly controlled, and we get an aditional parameter with which to control the mix between dimensions.
+The alternative to this sort of chaining strategy would be to have a single mix factor for each dimension that all added up to 1.0 and then do a weighted average of the outputs from each of them according to their mix factor. The issue with this that I imagine, however, is that there are many more opportunities for signals to cancel themselves out of degrade to noise in that kind of environment. When we mix only two dimensions together at a time, the interactions are much more tightly controlled, and we get an additional parameter with which to control the mix between dimensions.
 
 ## Implementation Overview
 
@@ -149,7 +149,7 @@ However, since the only way to load the modules generated by `wasm-bindgen` is b
 
 Luckily, there is still a way to generate Wasm modules from Rust without having to use `wasm-bindgen` at all. Back in the early days of Rust's Wasm support before `wasm-bindgen` came into being, that was the only way to do it. What we lose with this approach is the ability to pass complicated data structures back and forth between Rust and JavaScript; the only data type that currently exists in Wasm is numbers. In our situation, that's not too bad: audio is just numbers, after all, so we should be able to get by reasonably well within that limitation.
 
-One of the nice abstractions that `wasm-bindgen` provides is the ability to pass arrays back and forth between JavaScript and Rust with ease. We'll have to do this ourselves, but the benefit is that we get to do delightfully low-level things to the Rust code running inside of Wasm. There's no feeling quite like that obtained from writing bytes directly into Rust's memory and watching as all of those beautiful safety guarentees it provides crumble:
+One of the nice abstractions that `wasm-bindgen` provides is the ability to pass arrays back and forth between JavaScript and Rust with ease. We'll have to do this ourselves, but the benefit is that we get to do delightfully low-level things to the Rust code running inside of Wasm. There's no feeling quite like that obtained from writing bytes directly into Rust's memory and watching as all of those beautiful safety guarantees it provides crumble:
 
 ![Writing bytes into the Rust heap from JavaScript and making Rust incredibly sad](https://ameo.link/u/58m.png)
 
@@ -228,13 +228,13 @@ Checking with Twiggy again, it looks like that did the trick:
 -rwxr-xr-x 1 casey casey 14700 Dec  6 09:06 dist/wavetable.wasm
 ```
 
-Our Wasm module now clocks in at a stunningly slim 14.7KB, dropping down to a miniscule 6.5KB after `gzip`. Now that's what I'm talking about!
+Our Wasm module now clocks in at a stunningly slim 14.7KB, dropping down to a minuscule 6.5KB after `gzip`. Now that's what I'm talking about!
 
 #### Debugging Without Strings or Dev Tools
 
 One additional challenge with working with Wasm without the help of `wasm-bindgen` is debugging. `wasm-bindgen` allows the use of crates like [`console-error-panic-hook`](https://github.com/rustwasm/console_error_panic_hook) which let you use normal `log` macros to print directly to the JavaScript console. However, we're stuck without such luxuries. In addition, the Google Chrome dev tools debugger isn't really any use to us; it will allow us to view stack traces when Wasm crashes and even step through code to a limited extent, but we can't actually see any of the state of Wasm memory (and it would be very hard to know what those values meant even if we could).
 
-Since we're doing some pretty `unsafe` things and dismissing most of Rust's safety guarentees by crossing the language barrier and playing with Rust's memory directly, it's very likely you'll encounter a crash like this at some point while working with Wasm:
+Since we're doing some pretty `unsafe` things and dismissing most of Rust's safety guarantees by crossing the language barrier and playing with Rust's memory directly, it's very likely you'll encounter a crash like this at some point while working with Wasm:
 
 ```
 wasm-0073919e-272:1 Uncaught RuntimeError: unreachable
@@ -559,7 +559,7 @@ Once we have out source waveforms, we now need to use them to build the `WaveTab
 
 ```ts
 // I felt that this would be more efficient than using a real multi-dimensional array
-// since all of the data is in the same allocation and the differnt waveforms are near
+// since all of the data is in the same allocation and the different waveforms are near
 // each other in memory.
 
 const wavetableData = new Float32Array(
@@ -1097,7 +1097,7 @@ There are a few different ways of visualizing audio. The two that I will focus o
 
 An oscilloscope is used to view the waveforms themselves, very similarly to the manual plotting that was done in the [Generating Waves](#generating-waves) section. I used a pre-made WebAudio oscilloscope called [Wavy Jones](https://github.com/stuartmemo/wavy-jones) in the demo below to visualize the generated waveforms. It works by using the WebAudio [`AnalyserNode`](https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode), a node that performs Fast Fourier Transforms on incoming audio signals to facilitate visualizations just like this.
 
-Here's an example of the output of the oscilloscope, showing how the waves morph between sine and square waves as the mix between the two dimensions is moduled up and down:
+Here's an example of the output of the oscilloscope, showing how the waves morph between sine and square waves as the mix between the two dimensions is modulated up and down:
 
 ![An oscilloscope animation showing the transformation of waveforms between sine and square waves as the wavetable mix is modulated](./images/wavetable/oscilloscope.gif)
 
@@ -1107,7 +1107,7 @@ All sound is made up of different combinations of sine waves - this is known as 
 
 ![A spectrogram showing the frequencies making up a synthesizer signal, demonstrating the signal's harmonics](./images/wavetable/spectrogram-2.jpg)
 
-In this spectogram, recorded from a synthesizer playing different notes, the frequency increases going from top to bottom. The top line is the _fundamental frequency_ - it's the frequency of the note that's being played. All of the lines below it are _harmonics_ - they are produced as a result of the non-sinusidal parts of the waveform. In most signals, there are an infinite number of harmonics, but they grow increasingly weak as they grow further from the fundamental.
+In this spectrogram, recorded from a synthesizer playing different notes, the frequency increases going from top to bottom. The top line is the _fundamental frequency_ - it's the frequency of the note that's being played. All of the lines below it are _harmonics_ - they are produced as a result of the non-sinusidal parts of the waveform. In most signals, there are an infinite number of harmonics, but they grow increasingly weak as they grow further from the fundamental.
 
 Spectrograms are useful for seeing these harmonics and visualizing the impact of filters and other digital signal processing effects. I implemented one from scratch as part of my web synth project - also using Rust/Wasm - and plan on releasing a blog post detailing how I did that soon, so stay tuned if you're interested!
 
@@ -1157,7 +1157,7 @@ const power = waveform.reduce(
 );
 ```
 
-All of this just means that the average absolute value of the derivate of a sound wave is equal to how loud it is. Since higher frequency waves change more rapidly, they have more energy. In order to make the volume of higher frequencies equal to that of lower ones, it would be necessary to manually reduce the amplitude of higher-frequency signals.
+All of this just means that the average absolute value of the derivative of a sound wave is equal to how loud it is. Since higher frequency waves change more rapidly, they have more energy. In order to make the volume of higher frequencies equal to that of lower ones, it would be necessary to manually reduce the amplitude of higher-frequency signals.
 
 ### Re-Sampling
 
@@ -1167,6 +1167,6 @@ It would also be very useful to add the ability to sample waveforms that are out
 
 ## Conclusion
 
-Well, if you made it this far, congratulations: You've conquered the full width of the stack - everything beyond this is just adding on top of these concepts. Using this same pattern of `AudioWorkletProcessor` combined with Rust-generated WebAssembly, any concievable digital signal processing algorithm can be implemented with incredible performance characteristics. Once [Wasm SIMD Support](https://github.com/WebAssembly/simd) lands, there will be little to no performance differences between Wasm code and native code remaining.
+Well, if you made it this far, congratulations: You've conquered the full width of the stack - everything beyond this is just adding on top of these concepts. Using this same pattern of `AudioWorkletProcessor` combined with Rust-generated WebAssembly, any conceivable digital signal processing algorithm can be implemented with incredible performance characteristics. Once [Wasm SIMD Support](https://github.com/WebAssembly/simd) lands, there will be little to no performance differences between Wasm code and native code remaining.
 
 As the web continues to move towards being the application platform of the future, I feel that WebAudio is a terrific example of what that kind of model can provide: A clean, language-agnostic, OS-agnostic, and hardware-agnostic API with native-level performance characteristics, generic enough to support anything imaginable with the common pieces pre-built. I hope that more and more systems are built which follow these kinds of patterns in the future, and I look forward to continuing to work with WebAudio as its use grows and its support becomes more complete across browsers.
