@@ -4,15 +4,21 @@
   flex-wrap: wrap;
   justify-content: center;
   background-color: #323232;
-  margin-left: 40px;
-  margin-right: 40px;
   padding: 10px;
 }
 
-.wavetable-viz-canvas {
+@media only screen and (min-width: 600px) {
+  .wavetable-demo {
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+}
+
+.wavyjones-viz {
   background-color: #000;
-  min-width: 400px;
+  min-width: 300px;
   max-width: 400px;
+  min-height: 250px;
   margin: 8px;
   margin-bottom: 8px !important;
   flex: 1;

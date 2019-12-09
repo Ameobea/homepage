@@ -13,6 +13,8 @@ _A spectrogram visualization of the output of a wavetable of which this article 
 
 I've been experimenting with synthesizing audio in the web browser via my [web synthesizer project](https://github.com/ameobea/web-synth), and figured that wavetable synthesis would be a cool addition to the platform. It seemed like a simple enough thing to implement from scratch and an awesome opportunity to put Rust and WebAssembly to work in a useful way! As it turns out, it's both a really well-fitting usecase for Rust/Wasm and terrific context for a tour of the broader WebAudio landscape.
 
+If you'd like to see the end result of this article, skip down to the [Demo Section](#demo)
+
 ## Prerequisites
 
 This article assumes you're familiar with Rust and JavaScript, at least to some degree. It also assumes you know the basics of WebAssembly and the features it provides for computing in the browser.
@@ -1070,12 +1072,6 @@ oscillatorGain.connect(dimension0Mix);
 
 Now, the mix between the waveforms in the first dimension - a sine wave and a triangle wave - will be modulated between 0 and 1 two times a second. In the resulting audio, you should be able to hear the tone become a bit "harsher" as the extra harmonics introduced by the triangle wave getting mixed into the output become more apparent.
 
-## Demo
-
-Using all of the pieces that we put together along the way, I put together a small demo that shows everything off. The UI below controls the wavetable synthesizer, allowing you to play with different mix values between the dimensions. There's also the option to connect an oscillator to the param controlling the mix between the two dimensions.
-
-<wavetable-demo></wavetable-demo>
-
 ## Extra - Visualizing the Wavetable's Output
 
 TODO
@@ -1083,6 +1079,16 @@ TODO
 ## Extra - FM Synthesis Using the Wavetable
 
 TODO
+
+## Demo
+
+Using all of the pieces that we put together along the way, I put together a small demo that shows everything off. The UI below controls the wavetable synthesizer, allowing you to play with different mix values between the dimensions. There's also the option to connect an oscillator to the param controlling the mix between the two dimensions.
+
+_NOTE: I'd avoid touching the frequency knob, at least right away; the oscilloscope implementation is tuned to lock to the frequency it's pre-set at; other frequencies will drift across and be difficult to see._
+
+<wavetable-demo></wavetable-demo>
+
+The full source code for the demo can be found here: [https://github.com/Ameobea/homepage/tree/master/src/components/WavetableDemo](https://github.com/Ameobea/homepage/tree/master/src/components/WavetableDemo)
 
 ## Potential Future Improvements + Enhancements
 

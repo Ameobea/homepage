@@ -8,11 +8,12 @@ import React, {
 import ControlPanel from 'react-control-panel';
 
 import waveforms, { waveformSampleCount, baseFrequency } from './waveforms';
+import WavyJones from './WavyJones';
 import './WavetableDemo.scss';
 
 const ctx = new AudioContext();
 const globalGain = new GainNode(ctx);
-globalGain.gain.value = 0.05;
+globalGain.gain.value = 5 / 150;
 globalGain.connect(ctx.destination);
 
 const oscillator = new OscillatorNode(ctx);
@@ -37,6 +38,7 @@ const initWavetable = async () => {
     'https://notes.ameo.design/WaveTableNodeProcessor.js'
   );
   const workletHandle = new AudioWorkletNode(ctx, 'wavetable-node-processor');
+  workletHandle.parameters.get('frequency')!.value = 516.41;
 
   // Using those waveforms we generated earlier, construct a flat array of waveform samples with
   // which to fill the wavetable
@@ -89,7 +91,7 @@ const handleSettingsChange = (
 ) => {
   switch (key) {
     case 'volume': {
-      globalGain.gain.value = val / 100;
+      globalGain.gain.value = val / 150;
       return;
     }
     case 'frequency': {
@@ -150,7 +152,7 @@ const getSettings = (toggleStarted: () => void) => [
     label: 'frequency',
     min: 10,
     max: 10000,
-    initial: 440,
+    initial: 516.41,
     scale: 'log',
     steps: 1000,
   },
@@ -210,7 +212,7 @@ const WavetableDemo: React.FC<{}> = () => {
     wavetableHandle,
     setWavetableHandle,
   ] = useState<AudioWorkletNode | null>(null);
-  const vizCanvas = useRef<HTMLCanvasElement | null>(null);
+  const wavyJonesInstance = useRef<AnalyserNode | null>(null);
   const isStarted = useRef(false);
 
   useEffect(() => {
@@ -227,13 +229,20 @@ const WavetableDemo: React.FC<{}> = () => {
     }
 
     if (isStarted.current) {
-      wavetableHandle.disconnect(globalGain);
+      wavetableHandle.disconnect(wavyJonesInstance.current);
       isStarted.current = false;
       return;
     }
 
     ctx.resume();
-    wavetableHandle.connect(globalGain);
+
+    // Initialize WavyJones Instance
+    if (!wavyJonesInstance.current) {
+      wavyJonesInstance.current = WavyJones(ctx, 'wavyjones-viz', 80);
+    }
+
+    wavetableHandle.connect(wavyJonesInstance.current);
+    wavyJonesInstance.current.connect(globalGain);
     isStarted.current = true;
   }, [wavetableHandle]);
 
@@ -260,7 +269,14 @@ const WavetableDemo: React.FC<{}> = () => {
   return (
     <div className="wavetable-demo">
       <ControlPanel
-        style={{ width: 400, margin: 8 }}
+        style={{
+          minWidth: 300,
+          maxWidth: 400,
+          margin: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          flexGrow: 1,
+        }}
         title="wavetable controls"
         onChange={(key, val, state) =>
           handleSettingsChange(wavetableHandle, key, val, state)
@@ -268,7 +284,7 @@ const WavetableDemo: React.FC<{}> = () => {
         settings={settings}
       />
 
-      <canvas className="wavetable-viz-canvas" ref={vizCanvas} />
+      <div id="wavyjones-viz" className="wavyjones-viz" />
     </div>
   );
 };
