@@ -12,8 +12,23 @@ import './WavetableDemo.scss';
 
 const ctx = new AudioContext();
 const globalGain = new GainNode(ctx);
-globalGain.gain.value = 0.1;
+globalGain.gain.value = 0.05;
 globalGain.connect(ctx.destination);
+
+const oscillator = new OscillatorNode(ctx);
+oscillator.frequency.value = 2;
+oscillator.start();
+
+// Map the oscillator's output range from [-1, 1] to [0, 1]
+const oscillatorCSN = new ConstantSourceNode(ctx);
+oscillatorCSN.offset.value = 1; // Add one to the output signals, making the range [0, 2]
+const oscillatorGain = new GainNode(ctx);
+oscillatorGain.gain.value = 0.5; // Divide the result by 2, making the range [0, 1]
+
+oscillator.connect(oscillatorCSN.offset);
+oscillatorCSN.connect(oscillatorGain);
+oscillatorCSN.start();
+// `gainNode` now outputs a signal in the proper range to modulate our mix param
 
 const initWavetable = async () => {
   // Register our custom `AudioWorkletProcessor`, and create an `AudioWorkletNode` that serves as a
@@ -69,23 +84,75 @@ const initWavetable = async () => {
 const handleSettingsChange = (
   wavetableHandle: AudioWorkletNode,
   key: string,
-  val: number
+  val: any,
+  state: { [key: string]: any }
 ) => {
-  if (key === 'volume') {
-    globalGain.gain.value = val / 100;
-    return;
+  switch (key) {
+    case 'volume': {
+      globalGain.gain.value = val / 100;
+      return;
+    }
+    case 'frequency': {
+      wavetableHandle.parameters.get('frequency').value = val;
+      return;
+    }
+    case 'dim 0 mix': {
+      wavetableHandle.parameters.get('dimension_0_mix').value = val;
+      return;
+    }
+    case 'dim 1 mix': {
+      wavetableHandle.parameters.get('dimension_1_mix').value = val;
+      return;
+    }
+    case 'dim 0x1 mix': {
+      if (!state['connect oscillator']) {
+        wavetableHandle.parameters.get('dimension_0x1_mix').value = val;
+      }
+      return;
+    }
+    case 'connect oscillator': {
+      const param = wavetableHandle.parameters.get('dimension_0x1_mix');
+
+      if (val) {
+        param.value = 0;
+        oscillatorGain.connect(param);
+      } else {
+        oscillatorGain.disconnect(param);
+        param.value = state['dim 0x1 mix'];
+      }
+      return;
+    }
+    case 'oscillator frequency': {
+      oscillator.frequency.value = val;
+      return;
+    }
+    case 'oscillator waveform': {
+      oscillator.type = val;
+      return;
+    }
+    default: {
+      throw new Error(`Unhandled key: "${key}"`);
+    }
   }
-  // TODO
 };
 
-const getSettings = (start: () => void) => [
+const getSettings = (toggleStarted: () => void) => [
   {
     type: 'range',
     label: 'volume',
     min: 0,
     max: 100,
-    initial: 10,
+    initial: 5,
     steps: 100,
+  },
+  {
+    type: 'range',
+    label: 'frequency',
+    min: 10,
+    max: 10000,
+    initial: 440,
+    scale: 'log',
+    steps: 1000,
   },
   {
     type: 'range',
@@ -126,9 +193,15 @@ const getSettings = (start: () => void) => [
     steps: 1000,
   },
   {
+    type: 'select',
+    label: 'oscillator waveform',
+    options: ['sine', 'triangle', 'sawtooth', 'square'],
+    initial: 'sine',
+  },
+  {
     type: 'button',
-    label: 'start',
-    action: start,
+    label: 'start/stop',
+    action: toggleStarted,
   },
 ];
 
@@ -148,8 +221,14 @@ const WavetableDemo: React.FC<{}> = () => {
     initWavetable().then(setWavetableHandle);
   }, []);
 
-  const start = useCallback(() => {
-    if (isStarted.current || !wavetableHandle) {
+  const toggleStarted = useCallback(() => {
+    if (!wavetableHandle) {
+      return;
+    }
+
+    if (isStarted.current) {
+      wavetableHandle.disconnect(globalGain);
+      isStarted.current = false;
       return;
     }
 
@@ -158,7 +237,7 @@ const WavetableDemo: React.FC<{}> = () => {
     isStarted.current = true;
   }, [wavetableHandle]);
 
-  const settings = useMemo(() => getSettings(start), [start]);
+  const settings = useMemo(() => getSettings(toggleStarted), [toggleStarted]);
 
   if (typeof AudioWorkletNode !== 'function') {
     return (
@@ -183,7 +262,9 @@ const WavetableDemo: React.FC<{}> = () => {
       <ControlPanel
         style={{ width: 400, margin: 8 }}
         title="wavetable controls"
-        onChange={(key, val) => handleSettingsChange(wavetableHandle, key, val)}
+        onChange={(key, val, state) =>
+          handleSettingsChange(wavetableHandle, key, val, state)
+        }
         settings={settings}
       />
 

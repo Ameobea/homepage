@@ -3,9 +3,13 @@ export const baseFrequency = 30; // 30hz
 
 export const waveformSampleCount = SAMPLE_RATE / baseFrequency;
 
-const bufs = new Array(4).fill(null).map((_, i) => new Float32Array());
+const bufs = new Array(4)
+  .fill(null)
+  .map((_, i) => new Float32Array(waveformSampleCount));
 
-for (let x = 0; x < 440; x++) {
+// sine wave.  The sine function has a period of 2π, and we need to scale that the range of
+// (sample_rage / desired_frequency)
+for (let x = 0; x < waveformSampleCount; x++) {
   bufs[0][x] = Math.sin(x * ((Math.PI * 2) / waveformSampleCount));
 }
 
@@ -14,10 +18,7 @@ for (let i = 0; i < waveformSampleCount; i++) {
   // Number of half-periods of this wave that this sample lies on.
   const halfPeriodIx = i / (waveformSampleCount / 2);
   const isClimbing = Math.floor(halfPeriodIx) % 2 == 0;
-  // `%1` is a trick to get the decimal part of a number in JS
   let val = 2 * (halfPeriodIx % 1) - 1;
-
-  // If we're on the second half of the waveform, we flip the sign
   if (!isClimbing) {
     val = -val;
   }
@@ -35,10 +36,8 @@ for (let i = 0; i < waveformSampleCount; i++) {
 
 // sawtooth; climb from -1 to 1 over 1 period
 for (let i = 0; i < waveformSampleCount; i++) {
-  // What fraction of the way we are through the current period
   const periodIxFract = (i / waveformSampleCount) % 1;
 
-  // Scale from [0, 1] to [-1, 1]
   bufs[3][i] = periodIxFract * 2 - 1;
 }
 

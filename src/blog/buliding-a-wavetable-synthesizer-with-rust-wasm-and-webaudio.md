@@ -480,7 +480,7 @@ const waveformSampleCount = SAMPLE_RATE / desiredFrequency;
 Sine waves are just the sine function. The sine function naturally has a period of 2π, and we need to scale that into a period of `(sample_rate / desired_frequency)`. So, the equation we use to generate the samples of our 30hz sine wave is `y = sin(x * (2π / (44100 / 30)))`:
 
 ```ts
-for (let x = 0; x < 440; x++) {
+for (let x = 0; x < waveformSampleCount; x++) {
   bufs[0][x] = Math.sin(x * ((Math.PI * 2) / waveformSampleCount));
 }
 ```
@@ -1054,17 +1054,18 @@ oscillator.type = 'triangle';
 oscillator.start();
 
 // Map the oscillator's output range from [-1, 1] to [0, 1]
-const csn = new ConstantSourceNode(ctx);
-csn.offset.value = 1; // Add one to the output signals, making the range [0, 2]
-const gainNode = new GainNode(ctx);
-gainNode.gain.value = 0.5; // Divide the result by 2, making the range [0, 1]
+const oscillatorCSN = new ConstantSourceNode(ctx);
+oscillatorCSN.offset.value = 1; // Add one to the output signals, making the range [0, 2]
+const oscillatorGain = new GainNode(ctx);
+oscillatorGain.gain.value = 0.5; // Divide the result by 2, making the range [0, 1]
 
 oscillator.connect(csn.offset);
-csn.offset.connect(gainNode);
-// `csn` now outputs a signal in the proper range to modulate our mix param
+oscillatorCSN.connect(oscillatorGain);
+oscillatorCSN.start();
+// `oscillatorGain` now outputs a signal in the proper range to modulate our mix param
 
 const dimension0Mix = workletHandle.parameters.get('dimension_0_mix');
-csn.connect(dimension0Mix);
+oscillatorGain.connect(dimension0Mix);
 ```
 
 Now, the mix between the waveforms in the first dimension - a sine wave and a triangle wave - will be modulated between 0 and 1 two times a second. In the resulting audio, you should be able to hear the tone become a bit "harsher" as the extra harmonics introduced by the triangle wave getting mixed into the output become more apparent.
