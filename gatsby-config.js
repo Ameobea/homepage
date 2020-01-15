@@ -105,22 +105,6 @@ module.exports = {
     },
     'gatsby-transformer-csv',
     {
-      resolve: 'gatsby-plugin-google-analytics',
-      options: {
-        trackingId: 'UA-131544751-1',
-        // Puts tracking script in the head instead of the body
-        head: false,
-        // Setting this parameter is optional
-        anonymize: false,
-        // Setting this parameter is also optional
-        respectDNT: true,
-        // Any additional create only fields (optional)
-        sampleRate: 100,
-        siteSpeedSampleRate: 0,
-        cookieDomain: 'cprimozic.net',
-      },
-    },
-    {
       resolve: 'gatsby-source-spotify',
       options: {
         clientId: process.env.SPOTIFY_CLIENT_ID,
