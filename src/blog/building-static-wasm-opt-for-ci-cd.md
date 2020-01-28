@@ -1,6 +1,6 @@
 ---
 title: 'Building a Statically Linked `wasm-opt` for Continuous Deployment'
-date: '2018-12-07'
+date: '2019-12-07'
 ---
 
 When deploying WebAssembly assets to production for use in the web browser, `wasm-opt` is an extremely valuable tool for generating Wasm binaries that are as small and performant as possible. However, since it like most Wasm tooling is still quite new and not yet commonplace, installing it and making use of it in an automated fashion can be a bit tricky.
