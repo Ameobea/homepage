@@ -139,4 +139,4 @@ I also plan on playing around with new noise functions, settings, transformation
 
 ---
 
-Thanks for reading! Please feel free to leave comments below and checkout the project [on Github](https://github.com/ameobea/rust-asmjs)!
+Thanks for reading! Please feel free to leave comments below and checkout the project [on Github](https://github.com/ameobea/noise-asmjs)!
