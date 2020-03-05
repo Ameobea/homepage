@@ -1,5 +1,24 @@
 [
   {
+    "name": "Project Sync^Up",
+    "description": "I helped out a team of people organizing a set of three simulatneous concerts in San Francicso, New York, connected by live stream and streaming online.  I built the website (https://syncup.world) and handled the technical side of the livestream and web experience.",
+    "projectUrl": "https://syncup.world",
+    "srcUrl": null,
+    "technologies": [
+      "GatsbyJS",
+      "React",
+      "JavaScript",
+      "ffmpeg",
+      "RTMP",
+      "NGINX"
+    ],
+    "pageUrl": null,
+    "image": "syncup.png",
+    "mageAlt": "A screenshot of the Project Sync^Up Website that I built to announce the event and provide links to buy tickets for the participating venues",
+    "startDate": "Jan. 2020",
+    "endDate": "Mar. 2020"
+  },
+  {
     "name": "SpotifyTrack",
     "description": "A Work-In-Progress personal homepage showing users' top songs and artists and listening patterns over time, providing a shareable link that they can use to show it off to friends.  May include features for tracking the popularity or artists/songs/etc. over time as well.",
     "projectUrl": "https://spotify.ameo.design/",
