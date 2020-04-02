@@ -1,26 +1,42 @@
 [
   {
-    "name": "Project Sync^Up",
-    "description": "I helped out a team of people organizing a set of three simulatneous concerts in San Francicso, New York, connected by live stream and streaming online.  I built the website (https://syncup.world) and handled the technical side of the livestream and web experience.",
+    "name": "SPF420 x SYNC^UP",
+    "description": "I built and managed all of the tech for the revival of online concert series SPF420. This consisted of a fully custom streaming setup through which multiple artists could stream to my server and be displayed side-by-side on an output livestream and a website featuring a fully custom-built chat with moderation and interactive cursor trails + stickers.  The first event on March 28 topped out at over 250 concurrent viewers and lasted nearly 6 hours.  More similar events are planned.",
+    "srcUrl": null,
+    "technologies": [
+      "FFMPEG",
+      "OBS",
+      "WebAssembly",
+      "Rust",
+      "NGINX-RTMP",
+      "WebSocket",
+      "TypeScript"
+    ],
+    "pageUrl": "/projects/spf420_x_syncup",
+    "image": "spf420_x_syncup.png",
+    "imageAlt": "A screenshot of the SPF420 x SYNC^UP website on which the concert took place.  Shows the livestream, custom chat, and interactive components.",
+    "startDate": "Mar. 2020",
+    "endDate": null
+  },
+  {
+    "name": "Project Sync^Up Website",
+    "description": "I helped out a team of people organizing a set of three simulatneous concerts in San Francicso, New York, and Chicago connected by live stream and streaming online.  I built the website (https://syncup.world) and handled the technical side of the livestream and web experience.  The website was fully responsive with advanced styling to maintain the look of a poster on devices of all sizes and aspect ratios.  However, all of the concerts were canceled due to COVID-19.  ",
     "projectUrl": "https://syncup.world",
     "srcUrl": null,
     "technologies": [
       "GatsbyJS",
       "React",
-      "JavaScript",
-      "ffmpeg",
-      "RTMP",
-      "NGINX"
+      "JavaScript"
     ],
     "pageUrl": null,
     "image": "syncup.png",
-    "mageAlt": "A screenshot of the Project Sync^Up Website that I built to announce the event and provide links to buy tickets for the participating venues",
+    "imageAlt": "A screenshot of the Project Sync^Up Website that I built to announce the event and provide links to buy tickets for the participating venues",
     "startDate": "Jan. 2020",
     "endDate": "Mar. 2020"
   },
   {
     "name": "SpotifyTrack",
-    "description": "A Work-In-Progress personal homepage showing users' top songs and artists and listening patterns over time, providing a shareable link that they can use to show it off to friends.  May include features for tracking the popularity or artists/songs/etc. over time as well.",
+    "description": "A Work-In-Progress site showing users' top songs and artists and listening patterns over time, providing a shareable link that they can use to show it off to friends.  May include features for tracking the popularity or artists/songs/etc. over time as well.",
     "projectUrl": "https://spotify.ameo.design/",
     "srcUrl": "https://github.com/Ameobea/spotify-homepage/",
     "technologies": ["Rust", "TypeScript", "React", "Redux", "jantix"],

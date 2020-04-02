@@ -5,9 +5,9 @@ name = "engine"
 version = "0.1.0"
 
 [dependencies]
-nalgebra = "0.19"
-ncollide2d = "0.21"
-wasm-bindgen = "=0.2.58"
+nalgebra = "0.20"
+ncollide2d = "0.22"
+wasm-bindgen = "=0.2.59"
 rand = "0.7.3"
 rand_pcg = "0.2.1"
 rand_core = "0.5.1"

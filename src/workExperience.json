@@ -1,16 +1,30 @@
 [
   {
+    "company": "42 Layers",
+    "website": "https://42layers.io",
+    "location": "Seattle, WA",
+    "title": "Software Developer",
+    "startDate": "Mar. 2020",
+    "endDate": "Current",
+    "descriptions": [
+      "Working to provide automation solutions to business to help cut down on menial work and connect isolated systems",
+      "Primarily writing in Rust; also using WebAssembly on the backend."
+    ]
+  },
+  {
     "company": "Stackline",
     "website": "https://www.stackline.com/",
     "location": "Seattle, WA",
     "title": "Software Developer",
     "startDate": "Feb. 2019",
-    "endDate": "Current",
+    "endDate": "Mar. 2020",
     "descriptions": [
-      "I work as a software developer at Stackline, working on their three flagship software offerings.",
-      "I primarily work using React/React Native, but I also contribute as a full stack developer to various internal APIs, developer utilities (CI/CD, automated testing, etc.) and other projects.",
+      "I workd as a full-stack software developer at Stackline, working on their three flagship software offerings.",
+      "I used React/Redux on the frontend, fixing bugs and adding new features.  I also contributed to various internal APIs, developer utilities (CI/CD, automated testing, etc.) and other projects.",
       "Fleshed out an extensive testing solution from scratch for all web-facing products testing user interaction via Cypress, API response schema validation, and unit tests.",
-      "Led the effort to incrementally migrating our frontend codebases to TypeScript, creating a set of cohesive types shared between the frontend and backend."
+      "Led the effort to incrementally migrating the codebase to TypeScript, creating a set of cohesive types shared between the frontend and backend.",
+      "Completely re-implemented the main search API (used to query business data for all user-facing services) from scratch.  Re-implemented additional services from existing C# monolith.",
+      "Created several tools for internal use, aiding other employees with report generation, data fetching, and task automation."
     ]
   },
   {
