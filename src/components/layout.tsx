@@ -1,13 +1,11 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import _Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import { StaticQuery, graphql } from 'gatsby';
 
 import './layout.css';
 import Header from '../components/Header';
 import HeaderMobile from '../components/HeaderMobile';
-
-const Helmet = _Helmet as any;
 
 const styles = {
   root: {
@@ -74,7 +72,10 @@ const query = graphql`
 `;
 
 const WrappedLayout = ({ ...props }) => (
-  <StaticQuery query={query} render={data => <Layout {...data} {...props} />} />
+  <StaticQuery
+    query={query}
+    render={(data) => <Layout {...data} {...props} />}
+  />
 );
 
 WrappedLayout.propTypes = {

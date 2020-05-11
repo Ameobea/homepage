@@ -27,12 +27,16 @@ const mapTrackDataToTrackProps = ({
 });
 
 const SpotifyFavorites = ({ topTracks, topArtists, playing, setPlaying }) => (
-  <Fragment>
+  <>
     <ImageBoxGrid
       initialItems={5}
       maxItems={20}
       title="My Recent Favorite Tracks on Spotify"
       renderItem={(i, timeframe) => {
+        if (!topTracks[timeframe][i]) {
+          return null;
+        }
+
         const { id, ...props } = mapTrackDataToTrackProps(
           topTracks[timeframe][i]
         );
@@ -72,7 +76,7 @@ const SpotifyFavorites = ({ topTracks, topArtists, playing, setPlaying }) => (
         );
       }}
     />
-  </Fragment>
+  </>
 );
 
 export const pickedTopArtistFragment = graphql`

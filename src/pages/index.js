@@ -56,7 +56,7 @@ const IndexPage = () => {
         description="The homepage of Casey Primozic / Ameo"
       >
         <div style={styles.title}>
-          <h1 style={styles.headline}>Casey Primozic - Ameo</h1>
+          <h1 style={styles.headline}>Casey Primozic // ameo</h1>
           <ProfilePicture size={125} />
         </div>
 

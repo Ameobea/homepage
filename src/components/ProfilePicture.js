@@ -26,7 +26,7 @@ const ProfilePicture = ({ size = 150 }) => (
         }
       }
     `}
-    render={data => (
+    render={(data) => (
       <div style={{ ...styles.root, flexBasis: size }}>
         <Img
           alt="A picture of Casey Primozic (Ameo)"
