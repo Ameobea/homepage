@@ -1,5 +1,16 @@
 [
   {
+    "name": "Circle Game",
+    "description": "A little toy game I'm building for fun based off an old idea from years ago.  It's a great opportunity to try out WebAssembly in the frontend, do some linear algebra and graphics programming, and do something creative.  It's mostly a fancy tech demo right now and may never be anything more, but it's a ton of fun to work on.",
+    "srcUrl": null,
+    "technologies": ["Rust", "WebAssembly", "GLSL"],
+    "pageUrl": null,
+    "image": "circle.png",
+    "imageAlt": "A screenshot of the game showing pathfinding debugging and some dynamically added user-created barriers",
+    "startDate": "Jun. 2020",
+    "endDate": "?"
+  },
+  {
     "name": "SPF420 x SYNC^UP",
     "description": "I built and managed all of the tech for the revival of online concert series SPF420. This consisted of a fully custom streaming setup through which multiple artists could stream to my server and be displayed side-by-side on an output livestream and a website featuring a fully custom-built chat with moderation and interactive cursor trails + stickers.  The first event on March 28 topped out at over 250 concurrent viewers and lasted nearly 6 hours.  More similar events are planned.",
     "srcUrl": null,
@@ -16,18 +27,14 @@
     "image": "spf420_x_syncup.png",
     "imageAlt": "A screenshot of the SPF420 x SYNC^UP website on which the concert took place.  Shows the livestream, custom chat, and interactive components.",
     "startDate": "Mar. 2020",
-    "endDate": null
+    "endDate": "?"
   },
   {
     "name": "Project Sync^Up Website",
     "description": "I helped out a team of people organizing a set of three simulatneous concerts in San Francicso, New York, and Chicago connected by live stream and streaming online.  I built the website (https://syncup.world) and handled the technical side of the livestream and web experience.  The website was fully responsive with advanced styling to maintain the look of a poster on devices of all sizes and aspect ratios.  However, all of the concerts were canceled due to COVID-19.  ",
     "projectUrl": "https://syncup.world",
     "srcUrl": null,
-    "technologies": [
-      "GatsbyJS",
-      "React",
-      "JavaScript"
-    ],
+    "technologies": ["GatsbyJS", "React", "JavaScript"],
     "pageUrl": null,
     "image": "syncup.png",
     "imageAlt": "A screenshot of the Project Sync^Up Website that I built to announce the event and provide links to buy tickets for the participating venues",

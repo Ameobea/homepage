@@ -8,7 +8,9 @@
     "endDate": "Current",
     "descriptions": [
       "Working to provide automation solutions to business to help cut down on menial work and connect isolated systems",
-      "Primarily writing in Rust; also using WebAssembly on the backend."
+      "Primarily writing in Rust; also using WebAssembly on the backend.",
+      "Full-Stack webdev and systems programming.  I build frontends using TypeScript+React, APIs with Rust/gRPC/PostgreSQL/BigQuery and other tech",
+      "Work on low-level optimization for a mission critical component of the system for which performance is critical"
     ]
   },
   {
