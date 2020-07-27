@@ -18,9 +18,7 @@ const Contact = () => (
     <ul>
       <li>
         Email:{' '}
-        <a href="mailto&#58;&#109;%6&#53;&#64;a%6De%&#54;F&#46;l%6&#57;%6&#69;k">
-          me&#64;a&#109;eo&#46;link
-        </a>
+        <a href='ma&#105;lt&#111;&#58;%63a&#115;e&#121;&#64;cp&#114;&#105;moz&#105;&#99;&#46;n%65&#116;'>cas&#101;y&#64;cpr&#105;mozic&#46;net</a>
       </li>
       <li>Discord: Ameo#0493</li>
       <li>
