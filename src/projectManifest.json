@@ -1,7 +1,26 @@
 [
   {
+    "name": "Quavertrack",
+    "description": "Built in a weekend, this website does the same thing as my previous project osu!track (which took me months to build).  It allows players of the rhythm game Quaver to track their progress and view how their stats progress over time as well as providing visualizations of their hiscore distribution and a few other features.",
+    "projectUrl": "https://quavertrack.net/",
+    "srcUrl": "https://github.com/ameobea/quavertrack",
+    "technologies": [
+      "Rust",
+      "TypeScript",
+      "PostgreSQL",
+      "React",
+      "Google Cloud Run"
+    ],
+    "pageUrl": null,
+    "image": "quavertrack.png",
+    "imageAlt": "A screenshot of the Quavertrack interface showing a scatter plot for my hiscores",
+    "startDate": "Aug. 2018",
+    "endDate": "Aug. 2018"
+  },
+  {
     "name": "Circle Game",
     "description": "A little toy game I'm building for fun based off an old idea from years ago.  It's a great opportunity to try out WebAssembly in the frontend, do some linear algebra and graphics programming, and do something creative.  It's mostly a fancy tech demo right now and may never be anything more, but it's a ton of fun to work on.",
+    "projectUrl": null,
     "srcUrl": null,
     "technologies": ["Rust", "WebAssembly", "GLSL"],
     "pageUrl": null,
