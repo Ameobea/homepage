@@ -3,7 +3,7 @@
  * song info, and other cool things.
  */
 
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import { StaticQuery, graphql } from 'gatsby';
 
 import { Track, Artist, ImageBoxGrid } from './ImageBox';

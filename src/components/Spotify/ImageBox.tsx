@@ -77,12 +77,23 @@ const styles: { [key: string]: CSSProperties } = {
 const ImageBox = ({ image, imgAlt, children }) => (
   <div style={styles.root}>
     <div className="track">
-      <Img
-        alt={imgAlt}
-        fixed={image.localFile.childImageSharp.fixed}
-        style={styles.imageContainer}
-        className="image-wrapper"
-      />
+      {image?.localFile.childImageSharp.fixed ? (
+        <Img
+          alt={imgAlt}
+          fixed={image?.localFile.childImageSharp.fixed}
+          style={styles.imageContainer}
+          className="image-wrapper"
+        />
+      ) : (
+        <div
+          style={{
+            ...styles.imageContainer,
+            width: 160,
+            height: 160,
+            backgroundColor: '#232323',
+          }}
+        />
+      )}
 
       <div style={styles.imageBoxContent}>{children}</div>
     </div>
@@ -179,7 +190,7 @@ const Genre = ({ genre }: { genre: string }) => {
 export const Artist = ({ name, genres, image, uri }: ArtistProps) => {
   // Make sure that preferred genres show up and aren't trimmed off
   const [preferred, other] = R.partition(
-    genre => PREFERRED_GENRES.has(genre),
+    (genre) => PREFERRED_GENRES.has(genre),
     genres
   );
   const trimmedGenres = [...preferred, ...other].slice(0, 6);
@@ -237,7 +248,7 @@ export const ImageBoxGrid = ({ renderItem, initialItems, maxItems, title }) => {
       <h3 style={styles.header}>{title}</h3>
       <TimeframeSelector timeframe={timeframe} setTimeframe={setTimeframe} />
       <div style={styles.imageBoxGrid}>
-        {R.times(R.identity, itemCount).map(i => renderItem(i, timeframe))}
+        {R.times(R.identity, itemCount).map((i) => renderItem(i, timeframe))}
       </div>
       {!isExpanded ? (
         <div onClick={() => setIsExpanded(true)} style={styles.showMore}>
