@@ -53,7 +53,7 @@ const query = graphql`
 
 const PostLink = ({ title, date, slug }) => (
   <li style={styles.postLink}>
-    <Link to={`blog${slug}`}>{title}</Link> -{' '}
+    <Link to={`/blog${slug}`.replace('/blog/blog/', '/blog/')}>{title}</Link> -{' '}
     <span style={styles.postDate}>{date}</span>
   </li>
 );
