@@ -1,4 +1,4 @@
-#![feature(box_syntax, const_fn)]
+#![feature(box_syntax, const_fn, const_fn_floating_point_arithmetic)]
 
 extern crate nalgebra;
 extern crate ncollide2d;
