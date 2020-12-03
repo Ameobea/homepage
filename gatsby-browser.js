@@ -8,7 +8,7 @@ export const onClientEntry = () => {
   window.vizStarted = true;
 
   const wasm = import('./src/engine');
-  wasm.then(engine => {
+  wasm.then((engine) => {
     engine.init(window.innerWidth, window.innerHeight);
 
     const genAllChains = () => {

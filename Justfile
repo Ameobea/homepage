@@ -29,4 +29,4 @@ run:
   gatsby develop
 
 deploy:
-  rsync -Prv -e "ssh -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -F /dev/null" --delete ./public/* root@cprimozic.net:/var/www/cprimozic/
+  rsync -Prv -e "ssh -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -F /dev/null" --delete ./public/* debian@cprimozic.ameo.dev:/var/www/cprimozic.net/
