@@ -1,5 +1,17 @@
 [
   {
+    "name": "Wasm-powered FM Synthesizer",
+    "description": "An 8-operator frequency modulation synthesizer built in Rust and WebAssembly with SIMD that runs 100% in the web browser via WebAudio.  Built as a standalone demo, it is also integrated into the full web-based audio synthesis and experimentation platform I'm building.",
+    "projectUrl": "https://notes.ameo.design/fm.html",
+    "srcUrl": "https://github.com/ameobea/web-synth/",
+    "technologies": ["Rust", "WebAssembly", "SIMD", "WebAudio"],
+    "pageUrl": null,
+    "image": "fm-synth.png",
+    "imageAlt": "A screenshot of the FM synth demo webpage",
+    "startDate": "Dec. 2020",
+    "endDate": "Jan. 2021"
+  },
+  {
     "name": "Quavertrack",
     "description": "Built in a weekend, this website does the same thing as my previous project osu!track (which took me months to build).  It allows players of the rhythm game Quaver to track their progress and view how their stats progress over time as well as providing visualizations of their hiscore distribution and a few other features.",
     "projectUrl": "https://quavertrack.net/",
