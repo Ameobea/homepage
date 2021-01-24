@@ -3,7 +3,7 @@ title: 'Deploying a REST API with Rust, Diesel, Rocket, and MySQL on Google Clou
 date: '2019-04-23'
 ---
 
-Google has recently released a beta of their new [Cloud Run](https://cloud.google.com/run/) service, a platform for running stateless webservers via containers in the cloud. It combines the best aspects of both serverless architecures and hosted container solutions such as Amazon's EKS, making the process of deploying stateless web applications to the cloud easier than ever before.
+Google Cloud has a service called [Cloud Run](https://cloud.google.com/run/), a platform for running stateless webservers via containers in the cloud. It combines the best aspects of both serverless architecures and hosted container solutions such as Amazon's EKS, making the process of deploying stateless web applications to the cloud easier than ever before.
 
 In addition, it's extremely flexible with regard to the actual implementation of the webserver, only requiring that it listens on a port provided by the `PORT` environment variable and responds to HTTP requests. Since the underlying platform doesn't care what actually goes on inside the server, running a Rust application is arguably the simplest option of all since it compiles into a single binary.
 
@@ -38,7 +38,7 @@ Create a database for the demo application. For this demo, I'm going to call it 
 You can create the user, create the database, and set up permissions by running these three simple SQL queries:
 
 ```sql
-CREATE USER 'rocket'@'%' IDENTIFIED BY 'password';
+CREATE USER 'rocket'@'%' IDENTIFIED BY 'your_password_here';
 
 CREATE DATABASE rocket_app;
 
@@ -59,7 +59,7 @@ Inside the created `rocket-app` directory, we'll add some dependencies to `Cargo
 [package]
 name = "rocket-app"
 version = "0.1.0"
-authors = ["Casey Primozic <me@ameo.link>"]
+authors = ["Casey Primozic <casey@cprimozic.net>"]
 edition = "2018"
 
 [dependencies]
@@ -101,7 +101,7 @@ file = "src/schema.rs"
 We need to first tell diesel how to connect to our database. To do this, export the `DATABASE_URL` environment variable with values changed to reflect your database:
 
 ```sh
-export DATABASE_URL="mysql://rocket:password@example.com/rocket_app"
+export DATABASE_URL="mysql://rocket:your_chosen_password@example.com/rocket_app"
 ```
 
 To get started on creating the migrations themselves, just run the following from your project's root directory:

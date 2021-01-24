@@ -2,7 +2,7 @@
   {
     "name": "Wasm-powered FM Synthesizer",
     "description": "An 8-operator frequency modulation synthesizer built in Rust and WebAssembly with SIMD that runs 100% in the web browser via WebAudio.  Built as a standalone demo, it is also integrated into the full web-based audio synthesis and experimentation platform I'm building.",
-    "projectUrl": "https://notes.ameo.design/fm.html",
+    "projectUrl": "https://synth.ameo.design/fm.html",
     "srcUrl": "https://github.com/ameobea/web-synth/",
     "technologies": ["Rust", "WebAssembly", "SIMD", "WebAudio"],
     "pageUrl": null,
@@ -75,7 +75,7 @@
   {
     "name": "SpotifyTrack",
     "description": "A Work-In-Progress site showing users' top songs and artists and listening patterns over time, providing a shareable link that they can use to show it off to friends.  May include features for tracking the popularity or artists/songs/etc. over time as well.",
-    "projectUrl": "https://spotify.ameo.design/",
+    "projectUrl": "https://spotifytrack.net/",
     "srcUrl": "https://github.com/Ameobea/spotify-homepage/",
     "technologies": ["Rust", "TypeScript", "React", "Redux", "jantix"],
     "pageUrl": null,

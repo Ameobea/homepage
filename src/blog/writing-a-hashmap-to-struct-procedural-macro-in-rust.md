@@ -3,6 +3,8 @@ title: 'Writing a Hashmap-to-Struct Procedural Macro in Rust'
 date: '2017-01-13'
 ---
 
+_ex0dus-0x has built a more complete library based off of this post that supports conversion both ways, check it out! <https://github.com/ex0dus-0x/structmap>_
+
 In one of my projects, I recently had the need to take a HashMap filled with settings and configuration options and use it to populate the fields of a struct. If a certain setting wasn't in the hashmap, then the default value for the struct was used.
 
 My first approach was to write a manual switch statement checking for the presence of each of the struct's fields in the hashmap and, if it was there, convert it to the proper type and insert it into the struct. However, as my work progressed and I began to add more and more values to the struct, I soon ended up with a whole lot of code looking like this:
