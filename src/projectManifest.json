@@ -1,5 +1,17 @@
 [
   {
+    "name": "Audio Synthesis Research Notes + Documentation",
+    "description": "As I've delved deeper into audio synthesis and DSP programming topics, I've started recording my findings and creating a personal knowledge repository using Foam, a personal knowledge management and sharing system for VSCode (https://github.com/foambubble/foam).  Topics range from FM synthesis to speech/singing synthesis as well as some documentation for my web synth project.  I plan to continue expanding this knowledge base and possibly extend it into other areas that I spend time learning about in the future.",
+    "projectUrl": "https://notes.ameo.design/docs/",
+    "srcUrl": "https://github.com/Ameobea/web-synth/tree/master/docs",
+    "technologies": ["Foam", "Markdown", "Gatsby"],
+    "pageUrl": null,
+    "image": "foam-graph.png",
+    "imageAlt": "A network visualization of my Foam repository so far showing links between pages as edges",
+    "startDate": "Feb. 2021",
+    "endDate": null
+  },
+  {
     "name": "Wasm-powered FM Synthesizer",
     "description": "An 8-operator frequency modulation synthesizer built in Rust and WebAssembly with SIMD that runs 100% in the web browser via WebAudio.  Built as a standalone demo, it is also integrated into the full web-based audio synthesis and experimentation platform I'm building.",
     "projectUrl": "https://synth.ameo.design/fm.html",
@@ -65,7 +77,7 @@
     "description": "I helped out a team of people organizing a set of three simulatneous concerts in San Francicso, New York, and Chicago connected by live stream and streaming online.  I built the website (https://syncup.world) and handled the technical side of the livestream and web experience.  The website was fully responsive with advanced styling to maintain the look of a poster on devices of all sizes and aspect ratios.  However, all of the concerts were canceled due to COVID-19.  ",
     "projectUrl": "https://syncup.world",
     "srcUrl": null,
-    "technologies": ["GatsbyJS", "React", "JavaScript"],
+    "technologies": ["Gatsby", "React", "JavaScript"],
     "pageUrl": null,
     "image": "syncup.png",
     "imageAlt": "A screenshot of the Project Sync^Up Website that I built to announce the event and provide links to buy tickets for the participating venues",
@@ -121,7 +133,7 @@
     "description": "A homepage for myself with the primary purpose of showcasing my professional skills and achievements as well as personal projects and interests.  I aimed to create something that demonstrates my skills as a web developer as well as gives others insight into myself and what I do.",
     "projectUrl": null,
     "srcUrl": "https://github.com/ameobea/homepage/",
-    "technologies": ["GatsbyJS", "React"],
+    "technologies": ["Gatsby", "React"],
     "pageUrl": "/projects/homepage/",
     "image": "homepage.png",
     "imageAlt": "A screenshot of the homepage of this website",
