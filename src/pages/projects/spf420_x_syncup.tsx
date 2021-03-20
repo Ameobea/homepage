@@ -1,6 +1,6 @@
 import React from 'react';
 import { StaticQuery, graphql } from 'gatsby';
-import Img from 'gatsby-image';
+import { GatsbyImage } from 'gatsby-plugin-image';
 
 import Layout from '../../components/layout';
 import { ANewTab, BannerImage } from '../../components/util';
@@ -130,8 +130,9 @@ const SPF420XSyncup: React.FC<{ stickerPicker: any; poster: any }> = ({
       </p>
 
       <div style={{ textAlign: 'center' }}>
-        <Img
-          fixed={stickerPicker.childImageSharp.fixed}
+        <GatsbyImage
+          formats={['auto', 'webp', 'avif']}
+          image={stickerPicker.childImageSharp.gatsbyImageData}
           alt="A screenshot of the UI for picking which sticker a user placed when they clicked on the background of the site"
         />
       </div>
@@ -140,22 +141,22 @@ const SPF420XSyncup: React.FC<{ stickerPicker: any; poster: any }> = ({
 };
 
 const query = graphql`
-  query {
+  {
     stickerPicker: file(
       relativePath: { eq: "projects/spf420_x_syncup/stickerpicker.png" }
     ) {
       childImageSharp {
-        fixed(width: 260, height: 260) {
-          ...GatsbyImageSharpFixed_withWebp_noBase64
-        }
+        gatsbyImageData(
+          width: 260
+          height: 260
+          placeholder: NONE
+          layout: FIXED
+        )
       }
     }
-
     poster: file(relativePath: { eq: "projects/spf420_x_syncup/poster.png" }) {
       childImageSharp {
-        fluid(quality: 85) {
-          ...GatsbyImageSharpFluid_withWebp
-        }
+        gatsbyImageData(quality: 85, layout: FULL_WIDTH)
       }
     }
   }

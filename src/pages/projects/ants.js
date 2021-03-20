@@ -1,16 +1,15 @@
 import React from 'react';
-import { graphql, StaticQuery } from 'gatsby';
 
 import Layout from '../../components/layout';
-import { ANewTab, BannerImage } from '../../components/util';
+import { ANewTab, StaticBannerImage } from '../../components/util';
 
-const Ants = ({ bannerImage }) => (
+const Ants = () => (
   <Layout
     title="Ant Colony Simulation"
     description="About my ant colony simulation project - an agent-based simulation built using Minutiae as a school project"
   >
-    <BannerImage
-      img={bannerImage}
+    <StaticBannerImage
+      src="projects/ants.png"
       alt="A screenshot of the ant colony simulation interface"
     />
     I created this ant colony simulation as my final project for the Simulation
@@ -26,18 +25,4 @@ const Ants = ({ bannerImage }) => (
   </Layout>
 );
 
-const query = graphql`
-  query {
-    bannerImage: file(relativePath: { eq: "projects/ants.png" }) {
-      childImageSharp {
-        fluid {
-          ...GatsbyImageSharpFluid_withWebp
-        }
-      }
-    }
-  }
-`;
-
-const AntsWithQuery = () => <StaticQuery query={query} render={Ants} />;
-
-export default AntsWithQuery;
+export default Ants;

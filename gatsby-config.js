@@ -63,6 +63,9 @@ module.exports = {
           maxDepth: 6,
         },
         plugins: [
+          `gatsby-plugin-image`,
+          `gatsby-plugin-sharp`,
+          `gatsby-transformer-sharp`,
           {
             resolve: 'gatsby-remark-images',
             options: {

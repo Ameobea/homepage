@@ -5,7 +5,7 @@ import React, {
   useState,
   CSSProperties,
 } from 'react';
-import Img from 'gatsby-image';
+import { GatsbyImage } from 'gatsby-plugin-image';
 import * as R from 'ramda';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
@@ -77,10 +77,10 @@ const styles: { [key: string]: CSSProperties } = {
 const ImageBox = ({ image, imgAlt, children }) => (
   <div style={styles.root}>
     <div className="track">
-      {image?.localFile.childImageSharp.fixed ? (
-        <Img
+      {image?.localFile.childImageSharp?.gatsbyImageData ? (
+        <GatsbyImage
+          image={image?.localFile?.childImageSharp?.gatsbyImageData}
           alt={imgAlt}
-          fixed={image?.localFile.childImageSharp.fixed}
           style={styles.imageContainer}
           className="image-wrapper"
         />
@@ -244,7 +244,7 @@ export const ImageBoxGrid = ({ renderItem, initialItems, maxItems, title }) => {
   const itemCount = isExpanded ? maxItems : initialItems;
 
   return (
-    <Fragment>
+    <>
       <h3 style={styles.header}>{title}</h3>
       <TimeframeSelector timeframe={timeframe} setTimeframe={setTimeframe} />
       <div style={styles.imageBoxGrid}>
@@ -255,6 +255,6 @@ export const ImageBoxGrid = ({ renderItem, initialItems, maxItems, title }) => {
           Show More
         </div>
       ) : null}
-    </Fragment>
+    </>
   );
 };

@@ -13,7 +13,7 @@ const styles = {
   },
   title: {
     fontSize: 18,
-    fontFamily: "'Oxygen Mono', monospace",
+    fontFamily: "'PT Sans', sans-serif",
     display: 'flex',
     flex: 1,
     justifyContent: 'center',
@@ -82,7 +82,7 @@ const HeaderMenuExpanded = ({ setMenuOpen }) => (
 
 const HeaderMobile = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const hideMenu = evt => {
+  const hideMenu = (evt) => {
     if (!(evt.target.className || '').toString().includes('menu-activator')) {
       setMenuOpen(false);
     }

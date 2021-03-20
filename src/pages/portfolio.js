@@ -1,6 +1,6 @@
 import React, { useMemo, Fragment } from 'react';
 import { Link, StaticQuery, graphql } from 'gatsby';
-import Img from 'gatsby-image';
+import { GatsbyImage } from 'gatsby-plugin-image';
 import * as R from 'ramda';
 
 import Layout from '../components/layout';
@@ -12,13 +12,13 @@ const ProjectInfoLink = ({ text, url }) => {
   }
 
   return (
-    <i className="portfolio-project-info-link">
+    <span className="portfolio-project-info-link">
       <a href={url}>{text}</a>
-    </i>
+    </span>
   );
 };
 
-const ProjectImage = ({ pageUrl, fluidImage, imageAlt, even }) => {
+const ProjectImage = ({ pageUrl, gatsbyImageData, imageAlt, even }) => {
   const wrapperClassname = `portfolio-image-wrapper ${
     even ? 'portfolio-image-wrapper-left' : 'portfolio-image-wrapper-right'
   }`;
@@ -37,10 +37,11 @@ const ProjectImage = ({ pageUrl, fluidImage, imageAlt, even }) => {
 
   return (
     <Fragment>
-      {fluidImage ? (
+      {gatsbyImageData ? (
         <Wrapper>
-          <Img
-            fluid={fluidImage}
+          <GatsbyImage
+            formats={['auto', 'webp', 'avif']}
+            image={gatsbyImageData}
             imgStyle={{
               objectPosition: 'center center',
               objectFit: 'contain',
@@ -64,7 +65,7 @@ const ProjectOverview = ({
   imageAlt,
   startDate,
   endDate,
-  fluidImage,
+  gatsbyImageData,
   even,
 }) => (
   <div
@@ -74,12 +75,12 @@ const ProjectOverview = ({
   >
     <div className="portfolio-project-overview-content">
       <div className="portfolio-project-header">
-        <h2 className="portfolio-project-title">
-          {pageUrl ? <Link to={pageUrl}>{name}</Link> : name}
-        </h2>
-        <i className="portfolio-project-info-link">{`${startDate} - ${endDate ||
-          '(current)'}`}</i>
+        <h2 className="portfolio-project-title">{name}</h2>
+        <i className="portfolio-project-info-link">{`${startDate} - ${
+          endDate || '(current)'
+        }`}</i>
         <div className="portfolio-project-info">
+          <ProjectInfoLink text="Details" url={pageUrl} />
           <ProjectInfoLink text="Website" url={projectUrl} />
           <ProjectInfoLink text="Source Code" url={srcUrl} />
         </div>
@@ -89,7 +90,7 @@ const ProjectOverview = ({
 
     <ProjectImage
       pageUrl={pageUrl}
-      fluidImage={fluidImage}
+      gatsbyImageData={console.log({ gatsbyImageData }) || gatsbyImageData}
       imageAlt={imageAlt}
       even={even}
     />
@@ -119,9 +120,9 @@ const getProjectFilesQuery = graphql`
     ) {
       edges {
         node {
-          fluid(maxWidth: 1200, quality: 85) {
-            originalName
-            ...GatsbyImageSharpFluid_withWebp
+          gatsbyImageData(quality: 85, layout: FULL_WIDTH)
+          original {
+            src
           }
         }
       }
@@ -131,9 +132,16 @@ const getProjectFilesQuery = graphql`
 
 const IndexInner = ({ allProjectManifestJson, allImageSharp }) => {
   const projects = allProjectManifestJson.edges.map(R.prop('node'));
-  const imageList = allImageSharp.edges.map(R.path(['node', 'fluid']));
+  const imageList = allImageSharp.edges.map(R.prop('node'));
+  console.log(allImageSharp);
   const imageMap = imageList.reduce(
-    (acc, fluid) => ({ ...acc, [fluid.originalName]: fluid }),
+    (acc, { original: { src }, gatsbyImageData }) => {
+      const [_prefix, filename] = src.split('/static/');
+      const nameParts = R.init(filename.split('-'));
+      const name = nameParts.join('-');
+
+      return { ...acc, [name]: gatsbyImageData };
+    },
     {}
   );
 
@@ -154,14 +162,18 @@ const IndexInner = ({ allProjectManifestJson, allImageSharp }) => {
       </p>
       <hr />
 
-      {projects.map((props, i) => (
-        <ProjectOverview
-          key={i}
-          even={i % 2 == 0}
-          {...props}
-          fluidImage={imageMap[props.image]}
-        />
-      ))}
+      {projects.map((props, i) => {
+        const imageNameWithoutExtension = props.image.split('.')[0];
+
+        return (
+          <ProjectOverview
+            key={i}
+            even={i % 2 == 0}
+            {...props}
+            gatsbyImageData={imageMap[imageNameWithoutExtension]}
+          />
+        );
+      })}
     </Layout>
   );
 };

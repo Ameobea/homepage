@@ -73,16 +73,13 @@ const Elotrack = ({ bannerImage }) => (
   </Layout>
 );
 
-const query = graphql`
-  query {
-    bannerImage: file(relativePath: { eq: "projects/elotrack/elotrack.png" }) {
-      childImageSharp {
-        fluid {
-          ...GatsbyImageSharpFluid_withWebp
-        }
-      }
+const query = graphql`{
+  bannerImage: file(relativePath: {eq: "projects/elotrack/elotrack.png"}) {
+    childImageSharp {
+      gatsbyImageData(layout: FULL_WIDTH)
     }
   }
+}
 `;
 
 const WrappedElotrack = () => <StaticQuery query={query} render={Elotrack} />;

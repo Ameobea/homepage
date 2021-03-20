@@ -79,46 +79,40 @@ const SpotifyFavorites = ({ topTracks, topArtists, playing, setPlaying }) => (
   </>
 );
 
-export const pickedTopArtistFragment = graphql`
-  fragment PickedTopArtist on SpotifyTopArtist {
-    id
-    name
-    genres
-    uri
-    image {
-      localFile {
-        childImageSharp {
-          fixed(width: 160, height: 160) {
-            ...GatsbyImageSharpFixed_withWebp_noBase64
-          }
-        }
+export const pickedTopArtistFragment = graphql`fragment PickedTopArtist on SpotifyTopArtist {
+  id
+  name
+  genres
+  uri
+  image {
+    localFile {
+      childImageSharp {
+        gatsbyImageData(width: 160, height: 160, placeholder: NONE, layout: FIXED)
       }
     }
   }
+}
 `;
 
-export const pickedTopTrackFragment = graphql`
-  fragment PickedTopTrack on SpotifyTopTrack {
-    id
+export const pickedTopTrackFragment = graphql`fragment PickedTopTrack on SpotifyTopTrack {
+  id
+  name
+  preview_url
+  artists {
     name
-    preview_url
-    artists {
-      name
-      uri
-    }
-    album {
-      name
-    }
-    image {
-      localFile {
-        childImageSharp {
-          fixed(width: 160, height: 160) {
-            ...GatsbyImageSharpFixed_withWebp_noBase64
-          }
-        }
+    uri
+  }
+  album {
+    name
+  }
+  image {
+    localFile {
+      childImageSharp {
+        gatsbyImageData(width: 160, height: 160, placeholder: NONE, layout: FIXED)
       }
     }
   }
+}
 `;
 
 const topTracksQuery = graphql`

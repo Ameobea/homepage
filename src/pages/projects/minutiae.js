@@ -1,10 +1,11 @@
 import React from 'react';
-import { graphql, StaticQuery, Link } from 'gatsby';
+import { Link } from 'gatsby';
 
 import Layout from '../../components/layout';
-import { BannerImage, ANewTab } from '../../components/util';
+import { ANewTab } from '../../components/util';
+import { StaticImage } from 'gatsby-plugin-image';
 
-const Minutiae = ({ fishImage }) => (
+const Minutiae = () => (
   <Layout
     title="Minutiae"
     description="An overview of the Minutiae simulation framework"
@@ -40,10 +41,15 @@ const Minutiae = ({ fishImage }) => (
       of one of these is this{' '}
       <ANewTab to="https://ameo.link/fish.html" text="fish sketch" />:
     </p>
-    <BannerImage
-      alt="A Minutiae simulation of fish showing blue pixels (fish) and green pixels which they seek out and consume (food)."
-      img={fishImage}
-    />
+
+    <span style={{ textAlign: 'center' }}>
+      <StaticImage
+        style={{ marginBottom: 40 }}
+        src="../../images/projects/minutiae/fish.png"
+        alt="A Minutiae simulation of fish showing blue pixels (fish) and green pixels which they seek out and consume (food)."
+        formats={['auto', 'webp', 'avif']}
+      />
+    </span>
 
     <p>
       The fish (blue pixels) move randomly until a food particle (green pixel)
@@ -107,27 +113,7 @@ const Minutiae = ({ fishImage }) => (
       server and the server aggregates them and responds to all clients with
       updates that the clients then integrate into their versions of the world.
     </p>
-
-    <h2>Interactive Simulations</h2>
-    <p>
-      Minutiae is capable of supporting more complex and interactive
-      simulations, such as{' '}
-    </p>
   </Layout>
 );
 
-const query = graphql`
-  query {
-    fishImage: file(relativePath: { eq: "projects/minutiae/fish.png" }) {
-      childImageSharp {
-        fluid {
-          ...GatsbyImageSharpFluid_withWebp
-        }
-      }
-    }
-  }
-`;
-
-const WrappedMinutiae = () => <StaticQuery query={query} render={Minutiae} />;
-
-export default WrappedMinutiae;
+export default Minutiae;

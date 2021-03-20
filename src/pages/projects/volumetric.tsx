@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, StaticQuery, graphql } from 'gatsby';
+import { StaticImage } from 'gatsby-plugin-image';
 
 import { ANewTab, BannerImage } from '../../components/util';
 import Layout from '../../components/layout';
@@ -13,7 +14,7 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
 };
 
-const Volumetric = ({ bannerImage }) => (
+const Volumetric = () => (
   <Layout
     title="Volumetric Rendering Experiment"
     description="An overview of my experiments in volumetric rendering via raymarching in the web browser"
@@ -22,11 +23,15 @@ const Volumetric = ({ bannerImage }) => (
       <h2>
         Experiments in Volumetric Rendering via Raymarching in the Browser
       </h2>
-      <BannerImage
-        img={bannerImage}
-        alt="A view of the volumetric rendering output showing the generated 3D noise projected onto a canvas"
-        style={{ width: 400, height: 400 }}
-      />
+
+      <span style={{ textAlign: 'center' }}>
+        <StaticImage
+          formats={['auto', 'webp', 'avif']}
+          style={{ marginBottom: 40, width: 400, height: 400 }}
+          src="../../images/projects/volumetric.png"
+          alt="A view of the volumetric rendering output showing the generated 3D noise projected onto a canvas"
+        />
+      </span>
     </div>
     After reading about and browsing many other peoples&apos; work in computer
     graphics, I decided to try to implement raymarching application in the web
@@ -108,20 +113,4 @@ const Volumetric = ({ bannerImage }) => (
   </Layout>
 );
 
-const query = graphql`
-  query {
-    bannerImage: file(relativePath: { eq: "projects/volumetric.png" }) {
-      childImageSharp {
-        fluid {
-          ...GatsbyImageSharpFluid_withWebp
-        }
-      }
-    }
-  }
-`;
-
-const VolumetricWithQuery = () => (
-  <StaticQuery query={query} render={Volumetric} />
-);
-
-export default VolumetricWithQuery;
+export default Volumetric;

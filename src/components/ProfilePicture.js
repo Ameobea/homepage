@@ -1,6 +1,5 @@
 import React from 'react';
-import { StaticQuery, graphql } from 'gatsby';
-import Img from 'gatsby-image';
+import { StaticImage } from 'gatsby-plugin-image';
 
 const styles = {
   root: {
@@ -13,30 +12,17 @@ const styles = {
   },
 };
 
-const ProfilePicture = ({ size = 150 }) => (
-  <StaticQuery
-    query={graphql`
-      query {
-        placeholderImage: file(relativePath: { eq: "face.jpg" }) {
-          childImageSharp {
-            fluid(maxWidth: 250, quality: 85) {
-              ...GatsbyImageSharpFluid_withWebp
-            }
-          }
-        }
-      }
-    `}
-    render={(data) => (
-      <div style={{ ...styles.root, flexBasis: size }}>
-        <Img
-          alt="A picture of Casey Primozic (Ameo)"
-          fluid={data.placeholderImage.childImageSharp.fluid}
-          imgStyle={styles.imageStyle}
-          style={{ ...styles.imageContainer, height: size }}
-        />
-      </div>
-    )}
-  />
+const ProfilePicture = () => (
+  <div style={{ ...styles.root, flexBasis: 125 }}>
+    <StaticImage
+      width={250}
+      height={250}
+      src="../images/face.jpg"
+      alt="A picture of Casey Primozic (Ameo)"
+      imgStyle={styles.imageStyle}
+      style={{ ...styles.imageContainer }}
+    />
+  </div>
 );
 
 export default ProfilePicture;

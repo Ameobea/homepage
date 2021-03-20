@@ -1,5 +1,5 @@
 import React from 'react';
-import Img from 'gatsby-image';
+import { GatsbyImage, StaticImage } from 'gatsby-plugin-image';
 
 type ANewTabProps = {
   to: string;
@@ -15,9 +15,10 @@ export const ANewTab = ({ to, children, text, ...props }: ANewTabProps) => (
 
 export const BannerImage = ({ img, alt, style = {} }) => (
   <span style={{ textAlign: 'center' }}>
-    <Img
+    <GatsbyImage
+      formats={['auto', 'webp', 'avif']}
+      image={img.childImageSharp.gatsbyImageData}
       style={{ maxWidth: 667, marginBottom: 40, ...style }}
-      fluid={img.childImageSharp.fluid}
       alt={alt}
     />
   </span>

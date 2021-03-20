@@ -1,9 +1,8 @@
 import React from 'react';
-import { StaticQuery, graphql } from 'gatsby';
-import Img from 'gatsby-image';
+import { StaticImage } from 'gatsby-plugin-image';
 
 import Layout from '../../components/layout';
-import { ANewTab, BannerImage } from '../../components/util';
+import { ANewTab, StaticBannerImage } from '../../components/util';
 
 const styles = {
   root: {
@@ -27,19 +26,16 @@ const styles = {
   },
 };
 
-const ColImage = ({ img, alt, text }) => (
+const ColImageWrapper = ({ text, children }) => (
   <div style={styles.imageRow}>
-    <Img
-      fluid={img.childImageSharp.fluid}
-      imgStyle={{ objectPosition: 'center center', objectFit: 'contain' }}
-    />
+    {children}
     <center style={{ color: '#aaa', fontStyle: 'italic', fontSize: 14 }}>
       {text}
     </center>
   </div>
 );
 
-const Cryptoviz = ({ bannerImage, algo1, algo2, evt1 }) => (
+const Cryptoviz = () => (
   <Layout
     title="Cryptoviz"
     description="Cryptoviz - a live web-based depth-of-market visualization for cryptocurrency markets"
@@ -48,10 +44,14 @@ const Cryptoviz = ({ bannerImage, algo1, algo2, evt1 }) => (
       <center>
         <h2>Cryptoviz</h2>
       </center>
-      <BannerImage
-        img={bannerImage}
-        alt="A screenshot of the Cryptoviz visualization showing price activity in the Ethereum market on Poloniex"
-      />
+      <span style={{ textAlign: 'center' }}>
+        <StaticImage
+          formats={['auto', 'webp', 'avif']}
+          style={{ marginBottom: 40 }}
+          src="../../images/projects/cryptoviz/cryptoviz.png"
+          alt="A screenshot of the Cryptoviz visualization showing price activity in the Ethereum market on Poloniex"
+        />
+      </span>
       <h2 style={{ paddingTop: 28 }}>Overview</h2>
       <p>
         In financial markets with buyers and sellers, there&apos;s something
@@ -68,7 +68,7 @@ const Cryptoviz = ({ bannerImage, algo1, algo2, evt1 }) => (
 
       <center>
         <iframe
-          width="560"
+          width={Math.min(window.screen.width - 40, 560)}
           height="315"
           src="https://www.youtube-nocookie.com/embed/H5JtKzw37rA"
           frameBorder="0"
@@ -128,21 +128,27 @@ const Cryptoviz = ({ bannerImage, algo1, algo2, evt1 }) => (
       </p>
 
       <div style={styles.imageRows}>
-        <ColImage
-          img={algo1}
-          alt="Screenshot of Cryptoviz showing clearly automated ask order activity over ~13 minutes"
-          text="Evenly placed descending sell orders over a 13-minute timeframe"
-        />
-        <ColImage
-          img={algo2}
-          alt="A screenshot of the Cryptoviz interface showing ascending buy offers one-up each other to remain at the top of the book over a very short timeframe"
-          text="Ascending buy offers one-up each other to remain at the top of the book over a very short timeframe"
-        />
-        <ColImage
-          img={evt1}
-          alt="A screenshot of the Cryptoviz interface showing a large market event where a long-standing buy wall was broken by an extremely large sell order"
-          text="A large market event where a long-standing buy wall was broken all at once by an extremely large sell order"
-        />
+        <ColImageWrapper text="Evenly placed descending sell orders over a 13-minute timeframe">
+          <StaticImage
+            formats={['auto', 'webp', 'avif']}
+            src="../../images/projects/cryptoviz/algo1.jpg"
+            alt="Screenshot of Cryptoviz showing clearly automated ask order activity over ~13 minutes"
+          />
+        </ColImageWrapper>
+        <ColImageWrapper text="Ascending buy offers one-up each other to remain at the top of the book over a very short timeframe">
+          <StaticImage
+            formats={['auto', 'webp', 'avif']}
+            src="../../images/projects/cryptoviz/algo2.jpg"
+            alt="A screenshot of the Cryptoviz interface showing ascending buy offers one-up each other to remain at the top of the book over a very short timeframe"
+          />
+        </ColImageWrapper>
+        <ColImageWrapper text="A large market event where a long-standing buy wall was broken all at once by an extremely large sell order">
+          <StaticImage
+            formats={['auto', 'webp', 'avif']}
+            src="../../images/projects/cryptoviz/market_evt1.png"
+            alt="A screenshot of the Cryptoviz interface showing a large market event where a long-standing buy wall was broken by an extremely large sell order"
+          />
+        </ColImageWrapper>
       </div>
 
       <p>
@@ -158,44 +164,4 @@ const Cryptoviz = ({ bannerImage, algo1, algo2, evt1 }) => (
   </Layout>
 );
 
-const WrappedCryptoviz = () => (
-  <StaticQuery
-    query={graphql`
-      query {
-        bannerImage: file(
-          relativePath: { eq: "projects/cryptoviz/cryptoviz.png" }
-        ) {
-          childImageSharp {
-            fluid {
-              ...GatsbyImageSharpFluid_withWebp
-            }
-          }
-        }
-        algo1: file(relativePath: { eq: "projects/cryptoviz/algo1.jpg" }) {
-          childImageSharp {
-            fluid(quality: 85) {
-              ...GatsbyImageSharpFluid_withWebp
-            }
-          }
-        }
-        algo2: file(relativePath: { eq: "projects/cryptoviz/algo2.jpg" }) {
-          childImageSharp {
-            fluid(quality: 85) {
-              ...GatsbyImageSharpFluid_withWebp
-            }
-          }
-        }
-        evt1: file(relativePath: { eq: "projects/cryptoviz/market_evt1.png" }) {
-          childImageSharp {
-            fluid(quality: 85) {
-              ...GatsbyImageSharpFluid_withWebp
-            }
-          }
-        }
-      }
-    `}
-    render={Cryptoviz}
-  />
-);
-
-export default WrappedCryptoviz;
+export default Cryptoviz;

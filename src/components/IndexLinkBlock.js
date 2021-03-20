@@ -36,7 +36,7 @@ const styles = {
     lineHeight: '1.25em',
     paddingLeft: 12,
     paddingRight: 12,
-    fontFamily: "'Oxygen Mono', monospace",
+    fontFamily: "'Input Mono', monospace",
     color: '#aaa',
   },
 };

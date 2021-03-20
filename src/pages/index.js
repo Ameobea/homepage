@@ -57,7 +57,7 @@ const IndexPage = () => {
       >
         <div style={styles.title}>
           <h1 style={styles.headline}>Casey Primozic // ameo</h1>
-          <ProfilePicture size={125} />
+          <ProfilePicture />
         </div>
 
         <TagLine />
