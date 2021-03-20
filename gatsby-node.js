@@ -13,7 +13,7 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
   }
 };
 
-const queryAllMarkdownRemark = graphql =>
+const queryAllMarkdownRemark = (graphql) =>
   graphql(`
     {
       allMarkdownRemark {
@@ -33,7 +33,7 @@ const queryAllMarkdownRemark = graphql =>
 
 exports.createPages = ({ graphql, actions: { createPage } }) =>
   new Promise((resolve, reject) => {
-    queryAllMarkdownRemark(graphql).then(result => {
+    queryAllMarkdownRemark(graphql).then((result) => {
       result.data.allMarkdownRemark.edges.forEach(({ node }) => {
         createPage({
           path: `blog${node.fields.slug}`,
@@ -50,4 +50,11 @@ exports.createPages = ({ graphql, actions: { createPage } }) =>
 
       resolve();
     });
+  });
+
+exports.onCreateWebpackConfig = ({ actions }) =>
+  actions.setWebpackConfig({
+    experiments: {
+      asyncWebAssembly: true,
+    },
   });

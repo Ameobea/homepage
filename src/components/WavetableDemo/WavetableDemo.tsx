@@ -36,15 +36,17 @@ const buildContext = () => {
   return { ctx, globalGain, oscillator, oscillatorGain };
 };
 
-const initWavetable = async (): Promise<ReturnType<typeof buildContext> & {
-  workletHandle: AudioWorkletNode;
-}> => {
+const initWavetable = async (): Promise<
+  ReturnType<typeof buildContext> & {
+    workletHandle: AudioWorkletNode;
+  }
+> => {
   const context = buildContext();
 
   // Register our custom `AudioWorkletProcessor`, and create an `AudioWorkletNode` that serves as a
   // handle to an instance of one.
   await context.ctx.audioWorklet.addModule(
-    'https://notes.ameo.design/WaveTableNodeProcessor.js'
+    'https://cprimozic.net/WaveTableNodeProcessor.js'
   );
   const workletHandle = new AudioWorkletNode(
     context.ctx,
@@ -79,7 +81,7 @@ const initWavetable = async (): Promise<ReturnType<typeof buildContext> & {
   }
 
   // Fetch the Wasm module as raw bytes
-  const res = await fetch('https://notes.ameo.design/wavetable.wasm');
+  const res = await fetch('https://cprimozic.net/wavetable.wasm');
   const moduleBytes = await res.arrayBuffer();
 
   // Send the Wasm module, waveform data, and wavetable settings over to the processor thread

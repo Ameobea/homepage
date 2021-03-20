@@ -158,7 +158,7 @@ const Cryptoviz = ({ bannerImage, algo1, algo2, evt1 }) => (
   </Layout>
 );
 
-export default () => (
+const WrappedCryptoviz = () => (
   <StaticQuery
     query={graphql`
       query {
@@ -197,3 +197,5 @@ export default () => (
     render={Cryptoviz}
   />
 );
+
+export default WrappedCryptoviz;

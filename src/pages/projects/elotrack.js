@@ -85,4 +85,6 @@ const query = graphql`
   }
 `;
 
-export default () => <StaticQuery query={query} render={Elotrack} />;
+const WrappedElotrack = () => <StaticQuery query={query} render={Elotrack} />;
+
+export default WrappedElotrack;

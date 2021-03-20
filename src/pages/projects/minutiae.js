@@ -128,4 +128,6 @@ const query = graphql`
   }
 `;
 
-export default () => <StaticQuery query={query} render={Minutiae} />;
+const WrappedMinutiae = () => <StaticQuery query={query} render={Minutiae} />;
+
+export default WrappedMinutiae;

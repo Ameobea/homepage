@@ -159,4 +159,6 @@ const query = graphql`
   }
 `;
 
-export default () => <StaticQuery query={query} render={Homepage} />;
+const WrappedHomepage = () => <StaticQuery query={query} render={Homepage} />;
+
+export default WrappedHomepage;
