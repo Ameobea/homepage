@@ -90,7 +90,7 @@ const ProjectOverview = ({
 
     <ProjectImage
       pageUrl={pageUrl}
-      gatsbyImageData={console.log({ gatsbyImageData }) || gatsbyImageData}
+      gatsbyImageData={gatsbyImageData}
       imageAlt={imageAlt}
       even={even}
     />
@@ -120,7 +120,11 @@ const getProjectFilesQuery = graphql`
     ) {
       edges {
         node {
-          gatsbyImageData(quality: 85, layout: FULL_WIDTH)
+          gatsbyImageData(
+            quality: 85
+            layout: FULL_WIDTH
+            formats: [AVIF, AUTO, WEBP]
+          )
           original {
             src
           }
@@ -133,7 +137,6 @@ const getProjectFilesQuery = graphql`
 const IndexInner = ({ allProjectManifestJson, allImageSharp }) => {
   const projects = allProjectManifestJson.edges.map(R.prop('node'));
   const imageList = allImageSharp.edges.map(R.prop('node'));
-  console.log(allImageSharp);
   const imageMap = imageList.reduce(
     (acc, { original: { src }, gatsbyImageData }) => {
       const [_prefix, filename] = src.split('/static/');

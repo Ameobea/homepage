@@ -50,10 +50,9 @@ const SPF420XSyncup: React.FC<{ stickerPicker: any; poster: any }> = ({
 
       <div style={{ textAlign: 'center' }}>
         <iframe
-          width="560"
-          height="315"
+          width="100%"
+          style={{ height: '50vh', outline: 'none', border: 'none' }}
           src="https://www.youtube-nocookie.com/embed/videoseries?list=PLKtSHnHH_YMcePyyNu3OF5IRLTik2QAdP"
-          style={{ outline: 'none', border: 'none' }}
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
           {...{ allowfullscreen: true }}
         ></iframe>
@@ -151,12 +150,17 @@ const query = graphql`
           height: 260
           placeholder: NONE
           layout: FIXED
+          formats: [AVIF, AUTO, WEBP]
         )
       }
     }
     poster: file(relativePath: { eq: "projects/spf420_x_syncup/poster.png" }) {
       childImageSharp {
-        gatsbyImageData(quality: 85, layout: FULL_WIDTH)
+        gatsbyImageData(
+          quality: 85
+          layout: FULL_WIDTH
+          formats: [AVIF, AUTO, WEBP]
+        )
       }
     }
   }

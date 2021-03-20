@@ -131,23 +131,26 @@ const Homepage = ({ bannerImage, oldHomepageImage, trianglesImage }) => (
   </Layout>
 );
 
-const query = graphql`{
-  bannerImage: file(relativePath: {eq: "projects/homepage/homepage.png"}) {
-    childImageSharp {
-      gatsbyImageData(layout: FULL_WIDTH)
+const query = graphql`
+  {
+    bannerImage: file(relativePath: { eq: "projects/homepage/homepage.png" }) {
+      childImageSharp {
+        gatsbyImageData(layout: FULL_WIDTH, formats: [AVIF, AUTO, WEBP])
+      }
+    }
+    oldHomepageImage: file(relativePath: { eq: "projects/homepage/old.png" }) {
+      childImageSharp {
+        gatsbyImageData(layout: FULL_WIDTH, formats: [AVIF, AUTO, WEBP])
+      }
+    }
+    trianglesImage: file(
+      relativePath: { eq: "projects/homepage/triangles.png" }
+    ) {
+      childImageSharp {
+        gatsbyImageData(layout: FULL_WIDTH, formats: [AVIF, AUTO, WEBP])
+      }
     }
   }
-  oldHomepageImage: file(relativePath: {eq: "projects/homepage/old.png"}) {
-    childImageSharp {
-      gatsbyImageData(layout: FULL_WIDTH)
-    }
-  }
-  trianglesImage: file(relativePath: {eq: "projects/homepage/triangles.png"}) {
-    childImageSharp {
-      gatsbyImageData(layout: FULL_WIDTH)
-    }
-  }
-}
 `;
 
 const WrappedHomepage = () => <StaticQuery query={query} render={Homepage} />;

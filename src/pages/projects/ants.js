@@ -1,16 +1,18 @@
+import { StaticImage } from 'gatsby-plugin-image';
 import React from 'react';
 
 import Layout from '../../components/layout';
-import { ANewTab, StaticBannerImage } from '../../components/util';
+import { ANewTab } from '../../components/util';
 
 const Ants = () => (
   <Layout
     title="Ant Colony Simulation"
     description="About my ant colony simulation project - an agent-based simulation built using Minutiae as a school project"
   >
-    <StaticBannerImage
-      src="projects/ants.png"
+    <StaticImage
+      src="../../images/projects/ants.png"
       alt="A screenshot of the ant colony simulation interface"
+      formats={['auto', 'webp', 'avif']}
     />
     I created this ant colony simulation as my final project for the Simulation
     and Modeling class that I took in my last year of college. It was written in

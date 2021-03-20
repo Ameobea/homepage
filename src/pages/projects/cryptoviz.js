@@ -68,8 +68,8 @@ const Cryptoviz = () => (
 
       <center>
         <iframe
-          width={Math.min(window.screen.width - 40, 560)}
-          height="315"
+          width="100%"
+          style={{ height: '50vh' }}
           src="https://www.youtube-nocookie.com/embed/H5JtKzw37rA"
           frameBorder="0"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
