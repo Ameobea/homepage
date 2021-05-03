@@ -31,4 +31,4 @@ export const render_triangle = (
 };
 
 export const delete_elem = (id: number) =>
-  document.getElementById(`poly-${id}`)!.remove();
+  document.getElementById(`poly-${id}`)?.remove();

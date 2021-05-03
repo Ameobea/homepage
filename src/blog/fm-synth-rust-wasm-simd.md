@@ -3,15 +3,13 @@ title: 'FM Synthesis in the Browser with Rust, Web Audio, and WebAssembly with S
 date: '2021-03-20'
 ---
 
-![A screenshot of the FM synthesizer's UI showing the modulation matrix, envelope generator, filter, on-screen keyboard, and oscilloscope](https://ameo.link/u/8uy.png)
-
 As web browsers have grown and evolved over the years, they've gained many APIs and functionalities that have made them into incredibly capable application platforms in addition to their original role of web page renderers.  One of the APIs that I've been particularly interested in is the Web Audio API and its capabilities as a foundation for browser-based audio synthesis and DSP programming.
 
 Using a variety of modern web technologies, I built a feature-rich FM (frequency modulation) synthesizer that runs completely in the browser and on pretty much any web-capable device, all while using the same code for all of them.  Building it using web technologies and the web browser as a base allows it loads instantly, require zero installation or setup, run securely within the browser sandbox, and be efficient on all kinds of devices with near-native performance.  There were certainly some roadblocks in the form of browser and operating system bugs/incompatiblies, but overall I found it to be a very well-designed and useful toolkit to build what turned into quite a complicated project.
 
 ----
 
-Before anything else, I highly suggest checking out the live demo and playing the synth for yourself: <https://notes.ameo.design/fm.html>
+**Before anything else, I highly suggest checking out the live demo and playing the synth for yourself**: <https://notes.ameo.design/fm.html>
 
 Notes are playable by clicking/tapping the on-screen keys or pressing the labeled keyboard keys.  Try a few of the different presets from the dropdown menu on the left to see some of the wide variety of sounds that FM synthesis is capable of producing.
 
@@ -130,7 +128,7 @@ Being able to rely on Web Audio to handle all of this was a massive help when bu
 
 All of the synthesizer's audio generation code is implemented in WebAssembly and runs on the audio rendering thread thanks to `AudioWorkletProcessor`.  `AudioWorkletProcessor`s (or AWPs as I often refer to them in my code and docs) are interfaces that allow programmers to define entirely custom DSP code for audio rendering; they even support compiling, instantiating, and running WebAssembly modules.  The source code for this synth's AWP is here: <https://github.com/Ameobea/web-synth/blob/master/public/FMSynthAWP.js>
 
-If you're interested in the nitty gritty of creating a WebAssembly-powered AWP, I created another blog post which goes into [further detail](https://cprimozic.net/blog/buliding-a-wavetable-synthesizer-with-rust-wasm-and-Web Audio/#audioworkletprocessor-implementation)
+If you're interested in the nitty gritty of creating a WebAssembly-powered AWP, I created another blog post which goes into [further detail](buliding-a-wavetable-synthesizer-with-rust-wasm-and-webaudio/#audioworkletprocessor-implementation)
 
 There are three ways of passing data between AWPs on the audio rendering thread and the main UI thread where the rest of the code runs:
   1) The audio graph via input/output buffers and parameters

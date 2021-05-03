@@ -1,5 +1,17 @@
 [
   {
+    "name": "MIDI Editor Web Application",
+    "description": "A fully in-browser MIDI editor built as a part of my broader browser-based audio synthesis platform (see below).  It's the second browser-based MIDI editor I've made, and fixes many of the issues from the first one.  It's currently only available as a module of the web synth platform, but I plan to make it into a standalone webapp as well.",
+    "projectUrl": null,
+    "srcUrl": "https://github.com/ameobea/web-synth",
+    "technologies": ["TypeScript", "PIXI.JS", "Rust", "WebAssembly"],
+    "pageUrl": null,
+    "image": "midi_editor.png",
+    "imagAlt": "A screenshot of the MIDI editor showing several notes on the grid with one of them selected, the cursor, the keyboard, and several other UI features",
+    "startDate": "Mar. 2021",
+    "endDate": null
+  },
+  {
     "name": "Audio Synthesis Research Notes + Documentation",
     "description": "As I've delved deeper into audio synthesis and DSP programming topics, I've started recording my findings and creating a personal knowledge repository using Foam, a personal knowledge management and sharing system for VSCode (https://github.com/foambubble/foam).  Topics range from FM synthesis to speech/singing synthesis as well as some documentation for my web synth project.  I plan to continue expanding this knowledge base and possibly extend it into other areas that I spend time learning about in the future.",
     "projectUrl": "https://notes.ameo.design/docs/",
@@ -16,12 +28,19 @@
     "description": "An 8-operator frequency modulation synthesizer built in Rust and WebAssembly with SIMD that runs 100% in the web browser via WebAudio.  Built as a standalone demo, it is also integrated into the full web-based audio synthesis and experimentation platform I'm building.",
     "projectUrl": "https://notes.ameo.design/fm.html",
     "srcUrl": "https://github.com/ameobea/web-synth/",
-    "technologies": ["Rust", "WebAssembly", "SIMD", "WebAudio"],
+    "technologies": [
+      "Rust",
+      "WebAssembly",
+      "SIMD",
+      "WebAudio",
+      "TypeScript",
+      "PIXI.JS"
+    ],
     "pageUrl": null,
     "image": "fm-synth.png",
     "imageAlt": "A screenshot of the FM synth demo webpage",
     "startDate": "Dec. 2020",
-    "endDate": "Jan. 2021"
+    "endDate": "Mar. 2021"
   },
   {
     "name": "Quavertrack",

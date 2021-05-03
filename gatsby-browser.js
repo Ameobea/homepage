@@ -11,19 +11,27 @@ const maybeInitTriangles = () => {
 
   const wasm = import('./src/engine');
   wasm.then((engine) => {
-    engine.init(window.innerWidth, window.innerHeight);
+    try {
+      engine.init(window.innerWidth, window.innerHeight);
 
-    const genAllChains = () => {
+      const genAllChains = () => {
+        try {
+          for (let i = 0; i < 3; i++) {
+            engine.generate(i);
+          }
+        } catch (err) {
+          // pass
+        }
+      };
+
       for (let i = 0; i < 3; i++) {
-        engine.generate(i);
+        engine.render(i);
       }
-    };
 
-    for (let i = 0; i < 3; i++) {
-      engine.render(i);
+      setInterval(genAllChains, 1000.0 / 24.0);
+    } catch (err) {
+      // pass
     }
-
-    setInterval(genAllChains, 1000.0 / 24.0);
   });
 };
 
