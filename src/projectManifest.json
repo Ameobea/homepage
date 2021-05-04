@@ -1,5 +1,17 @@
 [
   {
+    "name": "Spotify Related Artists Graph Visualization",
+    "description": "An interactive web-based visualization of related artists on Spotify based on data from the Spotify web API.  It allows patterns in music styles and artists to be seen in a way that moves beyond traditional genre classifications.  The visualization is integrated into my Spotifytrack project.",
+    "projectUrl": null,
+    "srcUrl": "https://github.com/ameobea/spotifytrack/",
+    "technologies": ["TypeScript", "React", "d3", "WebCola"],
+    "pageUrl": null,
+    "image": "spotify_related_artists_graph.png",
+    "imageAlt": "A screenshot of the spotify related artists graph visualization showing the network of my personal artists and their connections to each other based on user listening patterns",
+    "startDate": "May 2021",
+    "endDate": null
+  },
+  {
     "name": "MIDI Editor Web Application",
     "description": "A fully in-browser MIDI editor built as a part of my broader browser-based audio synthesis platform (see below).  It's the second browser-based MIDI editor I've made, and fixes many of the issues from the first one.  It's currently only available as a module of the web synth platform, but I plan to make it into a standalone webapp as well.",
     "projectUrl": null,
@@ -57,8 +69,8 @@
     "pageUrl": null,
     "image": "quavertrack.png",
     "imageAlt": "A screenshot of the Quavertrack interface showing a scatter plot for my hiscores",
-    "startDate": "Aug. 2018",
-    "endDate": "Aug. 2018"
+    "startDate": "Aug. 2020",
+    "endDate": "Aug. 2020"
   },
   {
     "name": "Circle Game",
