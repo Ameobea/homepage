@@ -48,7 +48,7 @@ html {
 }
 body {
   margin: 0;
-  background-color: rgb(16, 16, 16);
+  background-color: #060608;
   color: #dcdcdc;
   font-family: 'PT Sans', sans-serif;
   line-height: 1.4;
@@ -149,4 +149,22 @@ blockquote {
   .header-mobile {
     display: flex !important;
   }
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgb(27, 27, 27);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #424242;
+  outline: 1px solid #333;
+}
+
+* {
+  scrollbar-color: rgb(27, 27, 27);
 }

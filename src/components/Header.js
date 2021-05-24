@@ -6,10 +6,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     backgroundColor: 'transparent',
-    paddingTop: 8,
-    paddingBottom: 8,
-    paddingLeft: 300,
-    paddingRight: 300,
+    padding: '2px 300px 8px 300px',
     flexWrap: 'wrap',
   },
   homeLink: {
@@ -41,9 +38,9 @@ const NavLink = ({ to, text, style = {} }) => (
 
 const NavLinks = () => (
   <div style={styles.navLinks}>
-    <NavLink to="/portfolio/" text="Portfolio" />
-    <NavLink to="/contact/" text="Contact" />
-    <NavLink to="/blog/" text="Blog" />
+    <NavLink to="/portfolio/" text="Portfolio" />•
+    <NavLink to="/contact/" text="Contact" />•
+    <NavLink to="/blog/" text="Blog" />•
     <NavLink
       to="/professional/"
       text="Professional Experience"
@@ -55,7 +52,7 @@ const NavLinks = () => (
 const Header = () => (
   <div style={styles.root} className="header">
     <Link to="/" style={styles.homeLink}>
-      {"Casey Primozic's Homepage"}
+      {'Casey Primozic'}
     </Link>
     <NavLinks />
   </div>

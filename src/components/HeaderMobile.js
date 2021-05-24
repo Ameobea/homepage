@@ -26,7 +26,7 @@ const styles = {
     left: 59,
     width: 150,
     height: 250,
-    backgroundColor: 'rgba(45, 45, 45, 0.95)',
+    backgroundColor: 'rgb(45, 45, 45)',
     borderStyle: 'solid',
     borderWidth: 1,
     borderBottomWidth: 0,
@@ -108,7 +108,7 @@ const HeaderMobile = () => {
         onClick={() => setMenuOpen(!menuOpen)}
       />
       <div style={styles.title}>
-        <Link to="/">Casey Primozic&apos;s Homepage</Link>
+        <Link to="/">Casey Primozic</Link>
       </div>
 
       {menuOpen ? <HeaderMenuExpanded /> : null}

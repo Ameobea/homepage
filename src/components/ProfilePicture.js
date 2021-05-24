@@ -8,7 +8,7 @@ const styles = {
   imageContainer: { display: 'flex', flex: 1, minWidth: 110 },
   imageStyle: {
     clipPath: 'circle(49% at center 50%)',
-    objectPosition: '1px 46%',
+    objectPosition: '1px -1px',
   },
 };
 

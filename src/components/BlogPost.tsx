@@ -45,7 +45,8 @@ export default ({ data: { markdownRemark: post } }) => {
   return (
     <Layout
       title={post.frontmatter.title}
-      description={`${post.frontmatter.title} - Casey Primozic's Personal Technical Blog`}
+      description={`${post.frontmatter.title} - Casey Primozic's Blog`}
+      style={{ maxWidth: 880 }}
     >
       <div className="blog-post">
         <h1>{post.frontmatter.title}</h1>

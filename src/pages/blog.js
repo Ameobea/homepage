@@ -9,6 +9,7 @@ const styles = {
     display: 'flex',
     alignItems: 'last baseline',
     paddingBottom: 0,
+    marginBottom: 0,
   },
   postLinks: {
     display: 'flex',
@@ -17,12 +18,11 @@ const styles = {
     paddingRight: 25,
     paddingTop: 10,
     paddingBottom: 10,
-    backgroundColor: 'rgba(25,25,25,0.8)',
   },
   postLink: {
-    paddingTop: 8,
-    paddingBottom: 9,
-    fontSize: 21,
+    paddingTop: 3,
+    paddingBottom: 6,
+    fontSize: 17,
     listStyleType: 'square',
   },
   postDate: {
@@ -62,12 +62,18 @@ const BlogIndex = ({ allMarkdownRemark }) => (
   <Layout
     title="Blog"
     description="The personal technical blog of Casey Primozic"
+    style={{ maxWidth: 860 }}
   >
     <center>
       <h1 style={styles.header}>
-        <span style={{ paddingRight: 14 }}>Technical Blog </span>
+        <span style={{ paddingRight: 10, fontSize: 28, marginBottom: 0 }}>
+          Casey Primozic&apos;s Blog
+        </span>
         <a href="/rss.xml" style={{ display: 'flex' }}>
-          <img src={RssIcon} style={{ height: 24, width: 24 }} />
+          <img
+            src={RssIcon}
+            style={{ height: 24, width: 24, marginBottom: 5, marginTop: -13 }}
+          />
         </a>
       </h1>
     </center>

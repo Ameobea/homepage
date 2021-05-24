@@ -1,0 +1,69 @@
+MAIN GOAL: Explain the work I did optimizing the Webcola library, why I did it, and the process I took to get there.
+
+WHY ARE PEOPLE GOING TO CARE / HOW AM I GOING TO GET THEM TO CARE?
+
+ - Rust + Wasm for accelerating web application is a popular content.  It's interesting and enjoyable for a lot of people.  I very much enjoyed reading that one that was on Hackernews last week about optimizing a HTTP server across the whole kernel and Linux network stack.
+ - I want to embed a graph actually onto the post itself that people can play with; it can be the same graph that we end up putting on the standalone graph page or a slimmed-down version of it.  I thought that might serve as a good hook once people actually make it onto that page, but yeah that's not going to do much to actually get them there in the first place.
+
+I'm trying to decide how in-depth I want to go with this.  How much more engagement are we going to get from doing a big full step-by-step rundown vs. just a high-level overview of the process and --
+
+----
+
+OK I took a shower and thought about this.  I think I have a good idea of what I want to do.
+
+I am going to go towards list-style overview of the different things that I did to optimize it, both successful and unsuccessful.  I can then also list some other items that I could have done but didn't end up doing.
+
+1. Initial profiling to look for bottlenecks
+1. Removed SVG bounding box computations that were causing style re-calculations every frame
+2. Convert to typed arrays
+ - Didn't work out, probably due to either the fact that:
+  * Many of the arrays used were very small (2 elements, one per dimension) which made some kind of optimizations performed by V8
+  * The code was doing out-of-bounds reads/writes somewhere due to a bug that wasn't impacting its output which some articles said could cause de-optimization
+3. Re-writing some of the inner math to split it into multiple lines and figure out which ones were actually bottlenecking.
+ - The results of this made it seem that the slow part was simply reading data from memory, either the actual memory ops or bounds checks or other JS-related overhead.
+4. ** initial port of the `compute_derivatives` function into Rust
+ - Translate the function in question as closely 1-to-1 from JS to Rust as possible; was pretty easy considering that I was not familiar with the codebase and didn't understand anything at all going to with the actual algorithm it implemented
+ - Moved data buffers into Rust
+ - Made use of recently stabilized const generics to create optimized 2D and 3D versions of the functions to ensure that as much knowledge about the data and the program was made available to the compiler + optimizers as possible
+ - Created initialization functions and the actual function used to drive computation and 2D/3D versions
+ - Create shims on the JS side to make it work with the existing interface
+5. Custom canvas-based renderer
+ - Had planned to do this from the start; had noticed that DOM-based D3 renderer was spending a lot of time setting node properties and rendering
+ -
+6. Further optimization of the Rust code without changing large-scale control flow or code structure
+ - Unsafe code to elide bounds checks
+  * Used `wasm2wat` to look at the generated Wasm to find places where bounds checks were emitted
+ - Move `compute_step_size` into Rust/Wasm as well
+ - Change most of the data buffers from being `Vec<Vec<f32>>` to `Vec<f32>` to improve cache locality and reduce indirection
+  * This didn't have a big impact, possibly because the allocator for Wasm was putting the buffers close to each other already and possibly that the data accesses within the arrays weren't very good to begin with (data was laid out like `buf[dim][i]` rather than `buf[i][dim]`)/
+ - Tried to use `likely` intrinsics but the generated code was identical
+  * This has been my experience every time I've tried that
+7. Compute all distances and distances squared ahead of time, storing them in a scratch buffer and reading them out later
+8. Only check for the need to compute displacements after we compute all distances.
+ - Checking for displacements required some semi-complicated control flow to be introduced into the hottest part of the loop.
+  * For each distance computed, it checked if displacements needed to be applied.  If so, it ran some code which computed a random displacement and then re-computed the distance and checked again until either a displacement was no longer required or a max attempt count was exhausted.
+  * This required multiple comparisons and conditional jumps for the loop as well as the comparison generation code to be put into the same function.  By moving it out and limiting it to a single comparison, we simplify the hot loop and potentially make it easier for the various optimization steps to operate
+ - It's not likely that we'll need to compute displacements except on the first few iterations, but we have to check anyway.
+ - We do one check after every distance calculation, keeping a flag of whether or not any displacements need to be applied
+ - If any displacements need to be applied, we go through all distances and apply them.  We repeat this until no displacements need to be applied.  Since it's unlikely that any displacements will need to be applied, it's a big win.
+9. Use `#[inline(never)]` to enable profiling of the functions a bit more closely
+10. SIMD!
+ -
+11. Fine-tuning the canvas based renderer
+ - Use `cacheAsBitmap` on the nodes to avoid the need to re-draw them every frame
+ - Re-use the buffers for the lines drawn between the nodes if the node count remained the same to avoid the semi-expensive line drawing process
+ - Conditionally fall back to using native WebGL lines instead of PIXI's rectangle-based lines if the line count crossed a threshold
+
+extra:
+ - Packaging the whole thing into Webcola with minimal API changes; the only breaking change to the API was making `.start()` async to facilitate loading the Wasm
+ - Short note/warning about how bad the Wasm experience in Rollup is
+  * The broken Webpack compatibility of the Wasm plugin by default (link the PR I made)
+  * Bug in the older version of Rollup used by the project where binary assets are converted to JS strings and then incorrectly converted them back to binary before base64-encoding them
+  * Inability of Rollup to handle wasm-bindgen-generated Rust code with async Wasm imports no matter what I did; had to manually patch the `wasm-bindgen`-generated code and write custom code to inject the Wasm module into it in order to make it work
+
+possible future work:
+ - Improve data layout of the various buffers to improve locality
+ - Multi-threading of the processing
+  * One option would be to just move the computation itself off the main/render thread while keeping it single-threaded, freeing it up to do other things while a worker thread churns away on the math
+   ^ would require some non-trivial synchronization and bookkeeping and there would probably be some overhead involved with shuttling data back and forth between the threads
+  * Full multi-threading where the distance computation itself and maybe other stuff was is picked up by pools of worker threads or something similar.  However, due to the fact that the multiple outer iterations of the function call seem to be dependent on each other, I worry that the overhead of shuttling data around may outweigh the benefit, especially in small datasets like those I'm targeting.  Plus, bringing in SharedArrayBuffer immediately adds a ton of complexity and makes everything way less portable and generally takes a ton of effort.

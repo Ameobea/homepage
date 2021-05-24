@@ -72,3 +72,16 @@
     cursor: pointer;
   }
 }
+
+@media only screen and (max-width: 800px) {
+  .blog-post {
+    p {
+      font-size: 14px;
+    }
+
+    code {
+      font-size: 13.5px !important;
+      line-height: 1.65;
+    }
+  }
+}
