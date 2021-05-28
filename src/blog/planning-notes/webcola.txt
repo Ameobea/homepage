@@ -29,7 +29,7 @@ I am going to go towards list-style overview of the different things that I did 
  - Create shims on the JS side to make it work with the existing interface
 5. Custom canvas-based renderer
  - Had planned to do this from the start; had noticed that DOM-based D3 renderer was spending a lot of time setting node properties and rendering
- -
+ - Maybe go over some of the methods that I used to making it efficient
 6. Further optimization of the Rust code without changing large-scale control flow or code structure
  - Unsafe code to elide bounds checks
   * Used `wasm2wat` to look at the generated Wasm to find places where bounds checks were emitted
@@ -48,7 +48,9 @@ I am going to go towards list-style overview of the different things that I did 
  - If any displacements need to be applied, we go through all distances and apply them.  We repeat this until no displacements need to be applied.  Since it's unlikely that any displacements will need to be applied, it's a big win.
 9. Use `#[inline(never)]` to enable profiling of the functions a bit more closely
 10. SIMD!
- -
+ - Create SIMD versions of two different functions: Distance calculation and step size calculation
+  * Go over the methods that I used to perform the displacement need check with SIMD
+ - Compile two versions (with and without SIMD) and use runtime feature detection to select between them
 11. Fine-tuning the canvas based renderer
  - Use `cacheAsBitmap` on the nodes to avoid the need to re-draw them every frame
  - Re-use the buffers for the lines drawn between the nodes if the node count remained the same to avoid the semi-expensive line drawing process

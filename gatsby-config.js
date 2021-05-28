@@ -72,6 +72,7 @@ module.exports = {
               maxWidth: 840,
               withWebp: true,
               backgroundColor: 'rgba(36, 36, 36, 0.92)',
+              quality: 86,
             },
           },
           {
