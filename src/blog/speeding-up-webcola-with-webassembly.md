@@ -104,14 +104,453 @@ In any case, I abandonded this approach entirely and left the arrays as they wer
 
 ## Porting Webcola to Rust + WebAssembly
 
+Having run into a wall with optimizing the JavaScript itself for the WebCola engine, I turned to a more radical approach: Re-writing the hot loop in Rust / WebAssembly.
 
+Before going into details about the Wasm port itself, I want to provide a little bit of justification for this decision.  There are a [variety](https://surma.dev/things/js-to-asc/) [of](https://www.usenix.org/system/files/atc19-jangda.pdf) [writeups](https://mrale.ph/blog/2018/02/03/maybe-you-dont-need-rust-to-speed-up-your-js.html) that have pretty much the same message that about boils down to "writing things in Wasm doesn't automatically mean that they're going to be fast or faster than JavaScript."  This is a valid point for a lot of things; modern JS engines like V8 are almost miraculous in their performance and ability to optimize JavaScript execution.
+
+However, there are also many situations where WebAssembly is a much more appealing option than JavaScript due to the much higher degree of control it provides over things like memory layout, data types, and code layout behavior like inlining, monomophization, etc.  A tight, hot loop doing number crunching without touching the DOM or interoperating with JS data structures is a quite an ideal target for implementation in Wasm.
+
+### Initial Port
+
+My intention with the initial port was to re-write the `computeDerivatives` function in Rust and then make whatever other changes were necessary to glue it to the existing JavaScript code, leaving the bulk of the WebCola codebase as it is and limiting the surface area of the change.  That would make it easier to implement and test the port since less code changes would be necessary.  It also helps to keep changes to WebCola's APIs, both internal and external, as limited as possible.
+
+Since the `computeDerivates` function itself only really does some basic math and array shuffling, porting it to Rust was pretty trivial.  The complicated part, however, was managing access to the various input and output buffers that are used by it.  In the original WebCola library, those buffers live in arrays that are contained in the parent class of the `computeDerivates` method.
+
+In order for them to be accessed from WebAssembly, they either need to be copied into the WebAssembly heap as arguments or changed to live inside the Wasm heap by default.  The advantage of the first option is that code changes to the JS code are limited which makes the port easier to manage.  However, the tradeoff is that the buffers need to be copied into the JS heap every time the function is called.
+
+Moving the buffers into JS means they can be acessed very easily from the ported Rust code without needing to copy them around between JS and Wasm, at least not in order to run `computeDerivatives`.  The tradeoff for that is that setting/getting them from JS requires doing that copying and creating dedicated shim functions to facilitate that.
+
+I ended up doing a combination of both methods.  I moved all of the data buffers accessed by `computeDerivates` into Wasm memory, pre-allocating buffers for them.  I left one of the buffers in JS, the `x` vector which was passed as an argument to `computeDerivates`.  As it turned out, since the `computeDerivates` function is only called a few times per frame, the cost of copying these buffers is negligible compared to the cost of running the `computeDerivates` function itself, not even showing up on the profiler.
+
+Since some other WebCola internals access the buffers that were moved into Wasm, I created some shimmed getter and setter methods that pulled from the Wasm module's memory under the hood:
+
+```ts
+public get g(): Float32Array[] {
+   const memory: WebAssembly.Memory = this.wasm.get_memory();
+   const memoryView = new Float32Array(memory.buffer);
+
+   const gPtr = this.k === 2 ? this.wasm.get_g_2d(this.ctxPtr) : this.wasm.get_g_3d(this.ctxPtr);
+   const gOffset = gPtr / BYTES_PER_F32;
+   return new Array(this.k)
+       .fill(null)
+       .map((_, i) => memoryView.subarray(gOffset + i * this.n, gOffset + i * this.n + this.n));
+}
+```
+
+### Specialization for 2D and 3D Usage via Const Generics
+
+The WebCola library supports both 2D and 3D layout, using the `i` variable to indicate the number of dimensions.  Since this variable is static for a given graph and is known ahead of time, there is an opportunity to provide that information to the compiler at build-time in order to allow it to generate more efficient code that is specialized for either 2D or 3D usage.
+
+Rust has recently added support for [const generics](https://rust-lang.github.io/rfcs/2000-const-generics.html) in stable which suits this use-case perfectly.  Instead of storing `i` as a field and refering to it dynamically at runtime, it's encoded at the type level as a const generic.  Shim functions are then exported for both 2D and 3D versions which both call the same generic function but with a different value for the dimension parameter:
+
+```rs
+#[wasm_bindgen]
+pub fn compute_2d(ctx_ptr: *mut Context<2>, mut x: Vec<f32>) -> Vec<f32> {
+    let ctx: &mut Context<2> = unsafe { &mut *ctx_ptr };
+    ctx.compute(&mut x);
+    x
+}
+
+#[wasm_bindgen]
+pub fn compute_3d(ctx_ptr: *mut Context<3>, mut x: Vec<f32>) -> Vec<f32> {
+    let ctx: &mut Context<3> = unsafe { &mut *ctx_ptr };
+    ctx.compute(&mut x);
+    x
+}
+```
+
+This provides a variety of optimization opportunities that wouldn't otherwise be available:
+
+* The sizes of various buffers can be known statically which allows them to be created on the stack for free rather than having to be dynamically allocated.  This also facilitates automatic bounds check elision which means efficient code can be written without having to use `unsafe` memory accesses.
+* Various loops that run `i` times can be unrolled entirely, avoiding the loop control flow entirely
+* Various array accesses of data buffers can be made more efficient since their indexes involve multiplying things by `i` in some way or another
+
+### Performance Summary
+
+After performing the initial port and wiring it up to the existing JS code, this is what the profiler looked like:
 
 ![Screenshot of the Google Chrome profiler showing the performance of a single frame of the Webcola visualization after re-implementing the hottest part of the Webcola library in Rust + WebAssembly](./images/webcola/3_initial_wasm_webcola.png)
 
-![Screenshot of the Google Chrome Profiler showing the performance of a single frame of the Webcola visualization after pre-computing distances ahead of tim](./images/webcola/4_precompute_distances.png)
+It's clear that the WebAssembly port was very worth it!  The `rungeKutta` function which spends the vast majority of its time calling `computeDerivatives` went from taking ~18ms to just 9ms - a 2x speedup!  If I had to guess, I'd say that much of this improved performance comes from more efficient accesses to the data buffers and the benefits of making the dimension static at compile time listed above.
+
+Despite all of that, the actual code was a more or less 1-to-1 port; all of the performance improvements came from opportunities made possible by Rust/WebAssembly.  Although it would technically be possible to manually create separate 2D and 3D versions of the JS code, Rust allows it to be codified and made fuly automatic.
+
+## Improvements to the Wasm Port
+
+After having ported `computeDerivatives` to Wasm, I had started to become more familiar with how it worked and what it was actually doing.  At its core, it's computing the distance between each node in the graph and all other nodes, doing some math and other logic, and then writing results to output buffers.
+
+### Pre-Computing Distances
+
+One change to the code which sped things up a bit was to move the distance computations themselves out before the main loop.  The original code would compute the distance for each node-node pair in the graph and then immediately use that to perform some additional computations and write to output buffers.  By doing all the distance calculations up front, both code code paths become simpler and easier for the compiler to optimize.
+
+The cost is that the distances must be written into intermediate buffers and then read out again which puts pressure on the caches.  Despite that, I found that it resulted in a slight performance uptick overall:
+
+![Screenshot of the Google Chrome Profiler showing the performance of a single frame of the Webcola visualization after pre-computing distances ahead of time](./images/webcola/4_precompute_distances.png)
+
+Another change that I worked in around this time was converting some of the multi-dimensional arrays from `Vec<Vec<f32>>` and similar to `Vec<f32>`, storing elements contiguously and accessing them like `buf[u * n + v]` rather than `buf[u][v]`.
+
+Theoretically, doing this should improve the locality of data and reduce indirection by avoiding the need to do multiple steps of pointer arithmetic using dynamic pointers.  Flattening the arrays allows the index to be calculated statically and then added to the base of the array.
+
+In practice, I didn't really notice much of an improvement in performance after doing this.  It could be because the data access patterns for the arrays are bad enough that the cost of loading the data from memory itself outweighed the inefficient data structures or perhaps the fact that the allocator used by the application placed the sub-arrays close together in memory anyway.
+
+### Delay Displacement Checking
+
+There was some code included in the distance computation path that about boiled down to this:
+
+```py
+for node_a in nodes:
+    for node_b in nodes:
+        distance = compute_distance(node_a, node_b)
+        while distance < 0.000000001:
+            node_a.position += random_offset()
+            node_b.position += random_offset()
+
+            distance = compute_distance(node_a, node_b)
+```
+
+This is necessary to prevent dividing by zero from happening later on in the computation path if two nodes are at exactly or almost exactly the same point.  However, that realistically is only going to happen during the first few iterations of the computation; all nodes are initialized to the same point, but then the algorithm is designed to arrange them so that they're roughly equidistant from each other.  Additionally, if one node needs to be offset, it's likely that all other nodes need to be offset as well.
+
+In order to simplify the distance computation loop and remove as many branches from it as possible, I changed the code to something like this:
+
+```py
+while True:
+    needs_displace = false;
+    for node_a in nodes:
+        for node_b in nodes:
+            distance = compute_distance(node_a, node_b)
+
+            needs_displace = needs_displace || distance < 0.000000001
+
+    if not needs_displace:
+        break
+
+    for node_a in nodes:
+        for node_b in nodes:
+            distance = compute_distance(node_a, node_b)
+
+            if distance < 0.000000001:
+                node_a.position += random_offset()
+                node_b.position += random_offset()
+```
+
+Although this looks like a lot more code, it's important to note that most of it is only going to run the first few calls (or first call) to `computeDerivatives` when all the nodes are on top of each other.  The important change is that the conditional check is removed from each iteration of the main distance computation loop and all of the code responsible for applying the displacements is pulled out as well.
+
+Although it's true that modern CPU branch predictors are [extremely effective](https://blog.cloudflare.com/branch-predictor/) and adding branches can often be free up to a certain point, there is still the benefit of the code being simplified and a level of nesting from the hot loop being removed.
+
+All in all, making this change yielded another modest performance bump:
 
 ![Screenshot of the Google Chrome Profiler showing the performance of a single frame of the Webcola visualization after splitting displacement computation out of the distance calculation path](./images/webcola/5_optimize_displacement_checking.png)
 
-![](./images/webcola/6_fully_optimized_wasm.png)
+### Wasm SIMD + Other Misc. Optimizations
 
-![](./images/webcola/7_fully_optimized_after_sprite_caching.png)
+Among the final optimizations that I made to the Wasm was the addition of SIMD to accelerate the computation.  There were two places that I was able to apply it: the distance computation loop and some matrix multiplications used by a `computeStepSize` function that I also ported to Wasm.
+
+In both cases, the SIMD implementation was pretty straightforward, just doing 4 operations at once instead of 1.  The one place that was a bit interesting was the handling for the `needs_displace` flag that was maintained during each distance computation.  Since 4 distances were computed at once, the `needs_displace` variable was replaced with a SIMD vector holding 4 flags which were then extracted one by one and OR'd with each other after all distances were computed:
+
+```rs
+let mut needs_to_apply_displacements = unsafe { f32x4_splat(0.) };
+
+for i in 0..DIMS {
+    for u in 0..n {
+        let summed_distances_squared_v = ...;
+        let sqrted = f32x4_sqrt(summed_distances_squared_v);
+
+        // check here if we need to apply displacements
+        let any_under_displacement_threshold =
+            f32x4_lt(sqrted_distance, displacement_threshold);
+        needs_to_apply_displacements = f32x4_max(
+            needs_to_apply_displacements,
+            any_under_displacement_threshold,
+        );
+    }
+}
+
+let needs_displace = unsafe {
+    f32x4_extract_lane::<0>(needs_to_apply_displacements) != 0.
+      || f32x4_extract_lane::<1>(needs_to_apply_displacements) != 0.
+      || f32x4_extract_lane::<2>(needs_to_apply_displacements) != 0.
+      || f32x4_extract_lane::<3>(needs_to_apply_displacements) != 0.
+};
+```
+
+The `computeStepSize` function was actually the larger contributor to overall performance gain.  I hadn't mentioned it in the past because up until this point, it was a very small overall contributor to runtime.  However, since `computeDerivatives` had been optimized a good bit, it had become much more prominent.  That whole function is pretty much just matrix multiplication which not surprisingly is greatly accelerated by SIMD.
+
+As I always do when adding SIMD to wasm, I added a `simd` feature to the Rust project and created SIMD and non-SIMD functions that are conditionally compiled depending on whether it's enabled or not.  Running the SIMD version yielded the following results:
+
+![Screenshot of the Google Chrome Profiler showing the performance of a single frame of the Webcola visualization after all optimizations to the Wasm were completed](./images/webcola/6_fully_optimized_wasm.png)
+
+Although it may not have seemed like it from step to step, there's been a respectable performance bump between the initial Wasm port and this version after applying the various optimizations.  All of the small changes added up to give a significant overall result.
+
+I was pretty surprised to see that the SIMD-ification of the distance computation had such a tiny impact.  In the past, just adding SIMD bumped perfomance to 50%+ in compute-heavy code sections.  During the process of trying to figure out why this was, I set the `#[inline(never)]` attribute on the `compute_distances()` function where the SIMD happens and was very surprised to see this:
+
+![Screenshot of the Google Chrome Profiler showing the performance of a single frame of the Webcola visualization after the no-inline attribute was set on the compute_distances function](./images/webcola/non-inlined-compute-distances.png)
+
+This `compute_distances` function, which I had assumed was taking the majority of the runtime, is entirely contained within the small bottom-most segment of the profile and was only taking up a small percentage of the `computeDerivatives` function runtime.  That explains why adding SIMD to the distance computation didn't have a huge impact on overall performance; it just doesn't run long enough for improvements there to matter much overall.
+
+## Sprite Caching
+
+Now that the Wasm was optimized as far as I could get it (so far), I switched back to looking at the renderer since it had once again emerged as taking >50% of the CPU time.  I did some reading online one PixiJS forums and other places to see what kinds of things people did to speed up their applications.
+
+All the nodes in the graph were constructed from PIXI `Graphics` objects which supports rendering shapes, lines, and other graphics primitives and composing them to create more complex images.  Internally, `Graphics` build up a list of WebGL draw calls and submit them for rendering on the GPU every frame.  This is great for dynamic elements or animations where the draw calls need to change every frame.
+
+I used `Graphics` for the backgrounds of each node in the graph, meaning that each node was created dynamically every frame.  However, the actual shape of the nodes never changed at all other than color when they are de/selected.
+
+PixiJS has a feature where `Graphics` and other objects can be rendered to a `Texture`, bypassing the need to re-generate them each frame.  The `Texture` can then be used to build a `Sprite` which can be added to the scene and manipulated in the same way as `Graphics`.
+
+When populating the graph with nodes, I converted the `Graphics` to `Sprites` immediately.  The only other change that was required was changing the node background color from being set in the draw calls themselves to being set via `tint`, which can be changed every frame and applied for free without having to re-generate the texture.
+
+This resulted in a very significant (at this point) performance win, allowing the renderer itself to finish in just over 2 milliseconds on average.
+
+![Screenshot of the Google Chrome Profiler showing the performance of a single frame of the Webcola visualization after caching the nodes as textures rather than re-rendering them every frame](./images/webcola/7_fully_optimized_after_sprite_caching.png)
+
+## Going Deeper: Assembly-Level Profiling
+
+At this point, I had hit a wall.  Chrome's profiler showed that `compute_2d` was taking up all the Wasm runtime, and the vast majority of that was happening outside of the `compute_distances` function.  The whole rest of that function is just a loop over all node pairs, loading the pre-computed values from memory, doing some math, and storing the results back to memory.  I tried pulling various pieces of that loop out into other functions and marking them with `#[inline(never)]`, but the profiler yielded more or less random results.  The functions were simply too small to show up well with whatever the profiler's sample interval is, and I found no way to increase that sample rate.
+
+What I *really* needed was line-level profiling like Chrome provides for JS.  Unfortunately, that doesn't work for Wasm; it shows all of the runtime for the Wasm module on the first line.
+
+![A screenshot of the Google Chrome source view showing how all of the runtime for Wasm modules is attributed to the first line of the module](./images/webcola/wasm-line-level-profiling-fail.png)
+
+Luckily, there was one final option for figuring out where all the CPU time was going: the CPU itself.
+
+V8, Google Chrome/Chromium's JavaScript engine, [has support](https://v8.dev/docs/linux-perf) for integrating with Linux's `perf` profiling tool, allowing the JIT-compiled code it produces to be analyzed and instrumented at the CPU-instruction level.  After V8 parses, compiles, and optimizes WebAssembly or JavaScript source code, it uses [Turbofan](https://v8.dev/docs/turbofan) to generate actual machine code for the target system.  That code is then loaded into executable memory and executed just like a native executable would be.
+
+V8's perf integration allows for this JIT-compiled code to be labeled with function names and other information which makes it possible to match the generated assembly instructions to the JS or Wasm it was compiled from.  Getting it to work was surprisngly simple, just launch Chrome with some special flags, record the PID of the renderer process for the tab you want to profile which is listed in Chrome's built-in Task Manager and then run a `perf` command in the terminal while running the code you want to measure.
+
+After injecting the profile file with some additional data generated by Chrome and loading it up with `perf report`, it's possible to search for the actual name of the Wasm or JS function that ran:
+
+![A screenshot of the perf profile generated for the application, showing runtime of the JIT-compiled Wasm functions themselves](./images/webcola/v8-perf-top-level.png)
+
+The place where things get REALLY exciting is when you drill down into the function itself and get to look at the CPU instructions themselves:
+
+<iframe title="Perf Instruction Level View" src="https://ameo.link/u/91p.html" style="width: calc(100% - 40px); outline: none; border: none; margin-right: 20px; margin-left: 20px; height: 80vh; margin-top: 5px; margin-bottom: 0px;" />
+
+.
+
+This view shows all CPU instructions in the selected function along with the percentage of runtime that was spent executing (approximately) each one of them.  By default, it starts off pointing to the "hottest" instruction in the function, the one that the instruction pointer was pointing to for the largest number of samples.
+
+This is an incredibly useful tool; there is no "lower level" than this, at least not that can be reached with software.  We see, instruction for instruction, where the CPU is spending most of its time and what native code was generated from the WebAssembly module.  It's a beautiful reminder that no matter how many layers of abstraction, codegen, compilation, optimization, and sandboxing there are, it all ends with a CPU executing instructions.
+
+Using this information, it's possible to start digging into what parts of the code are the most expensive and optimizing them at an extremely granular level.
+
+### Avoiding Expensive `f32::is_finite()` Call
+
+I began at the most obvious starting point: the hottest instruction: `and $0x7fffffff,%r9d`.  According to perf, over 16% of the total execution time of the entire `compute_2d` function was spent on this single instruction!
+
+It is a binary AND with a constant that takes place in the middle of a bunch of comparisons and other logic involving floating-point numbers as indicated by the use of `xmm` registers.  Additionally, it requires the 32-bit float to be moved out of the `xmm` register and into a general purpose register and then loaded back which adds additional overhead.
+
+I'm not sure why exactly this instruction took so long to run compared to the others; it could be a cost of moving data between `xmm` and general purpose registers, or perhaps the binary operation screwed up pipelining in some way.  In any case, it seemed clear to me that improving this situation would likely speed things up significantly.
+
+I wasn't sure what was going on, so I googled the hex constant.  The [first Stackoverflow result](https://stackoverflow.com/questions/46625819/what-does-0x7fffffff-mean-in-inttime-time1000-0-0x7fffffff) made it clear that this has the effect of clearing out the sign bit of a 32-bit floating point number, taking the absolute value of it.
+
+Looking through the disassembled WebAssembly code producued using the `wasm2wat` tool from the [WebAssembly Binary Toolkit](https://github.com/WebAssembly/wabt), I found the place that generated these instructions:
+
+```wat
+local.get 25
+i32.reinterpret_f32
+i32.const 2147483647 (; This is our magical `0x7fff_ffff` constant ;)
+i32.and
+f32.reinterpret_i32
+f32.const inf (;=inf;)
+f32.lt
+i32.const 1
+i32.xor
+br_if 0 (;@5;)
+```
+
+The Rust code that generated these instructions maps back to this line:
+
+```rs
+if weight > 1. && distance > ideal_distance || !ideal_distance.is_finite() {
+```
+
+More specifically, the `f32::is_finite` function which has this source code:
+
+```rs
+self.abs_private() < Self::INFINITY
+```
+
+And `f32::abs_private()` is this:
+
+```rs
+f32::from_bits(self.to_bits() & 0x7fff_ffff)
+```
+
+The code makes sense; it sets the sign bit to 0 so that `-Infinity` is converted to `Infinity`, and then checks that the value is less than it and inverts the result with `xor 1`.
+
+However, in this particular situation, we know that `-Infinity` will never be produced for `ideal_distance` so we can avoid doing this check alltogether!
+
+Changing the Rust code to this:
+
+```rs
+if weight > 1. && distance > ideal_distance || ideal_distance == std::f32::INFINITY {
+```
+
+Produced the following WebAssembly:
+
+```wat
+...
+f32.load
+local.tee 25
+f32.const inf (;=inf;)
+f32.ne
+```
+
+And this the assembly that `perf` showed:
+
+<iframe title="Perf Instruction Level View After Optimization" src="https://ameo.link/u/91q.html" style="width: calc(100% - 40px); outline: none; border: none; margin-right: 20px; margin-left: 20px; height: 80vh; margin-top: 5px; margin-bottom: 0px;" />
+
+.
+
+That's much better; the most expensive instructions look to mostly be loads from memory and conditional branches.  The conditional branches being expensive makes sense since these conditions are largely random and don't follow a pattern that the CPU's branch predictor can easily learn.
+
+Making that tiny change actually made a detectable difference in performance for the whole function.  I'm still not sure exactly why doing that binary AND was that expensive, though, and I'd love to hear from anyone who does know!
+
+### Cheaper Alternative to `f32x4.max`
+
+When scrolling through the disassmbled code for `compute_2d`, I spotted a span of instructions that I didn't understand:
+
+<iframe title="Perf Instruction Level View of Weird SIMD Stuff" src="https://ameo.link/u/91s.html" style="width: calc(100% - 40px); outline: none; border: none; margin-right: 20px; margin-left: 20px; height: 200px; margin-top: 5px; margin-bottom: 0px;" />
+
+.
+
+Googling the names of some of these instructions, I really couldn't understand what was going on.  It didn't seem to correspond to any of my code.
+
+After a lot of looking around and reading various things, I finally found the answer.  This sequence of instructions is generated by V8 to implement the `f32x4.max` SIMD instruction.  Here's the spot in the Chromium source code where the actual instructions are emitted: <https://source.chromium.org/chromium/chromium/src/+/main:v8/src/compiler/backend/x64/code-generator-x64.cc;drc=8ab75a56a24f34d4f582261c99939ffa1446a3b7;l=2712>
+
+From what I could tell, the `f32x4.max` instruction guarentees that things like negative zeroes and NaNs are properly propagated through which is why it emits all of those weird instructions rather than just a single `vmaxps` instructions or similar.
+
+In my code, I was using the `f32x4.max` to combine bitflags created using `f32x4.lt`.  I switched to using `f32x4.or` which is actually the correct choice in that situation.  This successfully collapsed down all of those instructions.
+
+I also learned from someone in the WebAssembly Discord Server named Zhin (who just so happens to work on Wasm SIMD at Google) that some recently added Wasm SIMD instructions were added, one of which is `f32x4.pmax`.  `pmax` matches the behavior of `std::max` from C++ and would have been another valid option.
+
+### Better Array Indexing
+
+One change I made along the way here was altering the way I indexed into various data buffers.  The main loop of the function looked like this:
+
+```rs
+for u in 0..n {
+    for v in 0..n {
+        let _ = self.buffer[u * n + v];
+        let _ = self.other_buffer[u * n + v];
+    }
+}
+```
+
+Reading to or writing from any of those buffers required doing a multiplication and an addition in order to compute the correct index.  Although the various compilers and optimizers in the chain are almost certainly smart enough to optimize this pretty well, it still was more complex than it needed to be.
+
+I changed the indexing scheme to work like this:
+
+```rs
+let mut ix = 0;
+for u in 0..n {
+    for v in 0..n {
+        let _ = self.buffer[ix];
+        let _ = self.other_buffer[ix];
+
+        ix += 1;
+    }
+}
+```
+
+Although I didn't notice any direct improvement in performance from this change, the number of lines of decompiled WebAssembly generated went down and the number of locals used by the function also went down which is almost always a good thing.  The less code there is, the easier it is for the compilers to optimize it.
+
+### Manual Loop Unrolling for `compute_step_size`
+
+Profiling info was also available for the `compute_step_size` function.  Although `compute_step_size` only has ~13% of the runtime of `compute_2d`, it still deserved some attention using the info from `perf`.
+
+After opening the disassembly view, I was immediately impressed that:
+
+1. 50% of the total runtime was spent on only 3 instructions
+2. All of these instructions mapped one-to-one to Rust Wasm SIMD intrinsics
+
+Here's the Rust code, from the SIMD `dot_product` function inlined into `compute_step_size_2d`:
+
+```rs
+for chunk_ix in 0..chunk_count {
+    let i = chunk_ix * 4;
+    unsafe {
+        let a_n = v128_load(a.add(i) as *const v128);
+        let b_n = v128_load(b.add(i) as *const v128);
+        let multiplied = f32x4_mul(a_n, b_n);
+        vector_sum = f32x4_add(vector_sum, multiplied);
+    }
+}
+```
+
+And here's the generated x86 assembly:
+
+<iframe title="Perf Instruction Level View of SIMD Dot Product" src="https://ameo.link/u/91t.html" style="width: calc(100% - 40px); outline: none; border: none; margin-right: 20px; margin-left: 20px; height: 200px; margin-top: 5px; margin-bottom: 0px;" />
+
+.
+
+In this case, neither Rust/LLVM, `wasm-opt`, nor V8 did any unrolling on this very tight loop.  That means that for every element of the inputs, it needs to perform the index increment and comparison to see if it's done.  By performing multiple operations per iteration of the loop, the work to overhead ratio can be reduced.
+
+I manually unrolled the loop to perform 4 SIMD multiply-adds per iteration, processing a total of 16 elements from the input array:
+
+```rs
+let mut i = 0u64;
+let max_i = chunk_count * CHUNK_SIZE;
+while i != max_i {
+    unsafe {
+        let a_n = v128_load(a.add(i as usize) as *const v128);
+        let b_n = v128_load(b.add(i as usize) as *const v128);
+        let multiplied = f32x4_mul(a_n, b_n);
+        vector_sum = f32x4_add(vector_sum, multiplied);
+
+        let a_n = v128_load(a.add(i as usize + 4) as *const v128);
+        let b_n = v128_load(b.add(i as usize + 4) as *const v128);
+        let multiplied = f32x4_mul(a_n, b_n);
+        vector_sum = f32x4_add(vector_sum, multiplied);
+
+        let a_n = v128_load(a.add(i as usize + 8) as *const v128);
+        let b_n = v128_load(b.add(i as usize + 8) as *const v128);
+        let multiplied = f32x4_mul(a_n, b_n);
+        vector_sum = f32x4_add(vector_sum, multiplied);
+
+        let a_n = v128_load(a.add(i as usize + 12) as *const v128);
+        let b_n = v128_load(b.add(i as usize + 12) as *const v128);
+        let multiplied = f32x4_mul(a_n, b_n);
+        vector_sum = f32x4_add(vector_sum, multiplied);
+    }
+    i += CHUNK_SIZE;
+}
+```
+
+This resulted in `compute_step_size_2d` going from ~13% of the runtime of `compute_2d` to ~9%.
+
+#### Bad Register Allocation by V8?
+
+One thing I noticed is that the loop counter variable seemed to be needlessly spilled to the stack rather than just staying in a CPU register.  This required it to be loaded and stored every iteration of the loop which added cost.
+
+The WebAssembly instructions generated for that look like this:
+
+```wat
+local.get 1
+i32.const 1
+i32.sub
+local.tee 1
+br_if 0 (;@3;)
+```
+
+I'm not an expert on V8, JIT compilation, or assembly language, but it really seems that V8 could have done a better job here without too much effort.  However, no matter what I tried to get it to improve (changing the loop logic, using 64-bit loop counter variables, etc.), I couldn't get the generated assembly to change.
+
+## Off the Deep End
+
+TODO
+
+### Input Data
+
+TODO
+
+### Logic -> Math
+
+TODO
+
+### SIMD-ifying the Math
+
+TODO
+
+## Final Result
+
+TODO
