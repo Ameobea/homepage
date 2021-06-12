@@ -11,7 +11,7 @@ This is the story of how I took the initial unoptimized graph visualization - wh
 
 Since it is a web-based visualization and we are currently on the web, you can check it out right here for yourself, pre-populated with my personal top artists from Spotify!  Click and drag (or tap and drag if you're on mobile) to move around or pull on the nodes, mouse wheel (pinch on mobile) to zoom, and double-click/tap nodes to load additional additional artists that are connected but not in my top artists collection.
 
-<iframe title="Related Artists Graph Visualization Demo" src="http://localhost:9000/graph.html" loading="lazy" style="width: 100%; outline: none; border: none; margin-right: 0px; margin-left: 0px; height: 67vh; margin-top: 5px; margin-bottom: 0px;" />
+<iframe title="Related Artists Graph Visualization Demo" src="https://spotifytrack.net/graph.html" loading="lazy" style="width: 100%; outline: none; border: none; margin-right: 0px; margin-left: 0px; height: 67vh; margin-top: 5px; margin-bottom: 0px;" />
 
 .
 
