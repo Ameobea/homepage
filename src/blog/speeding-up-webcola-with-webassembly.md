@@ -5,15 +5,29 @@ date: '2021-05-24'
 
 For a recent project I've been working on, I wanted to include a graph showing the relationships between different artists on Spotify.  Spotify provides the data directly from their API, and I had everything set up to pull it for a user's top artists and into the browser.
 
-The final step - or so I thought - was to pick one of the available force-directed graph libraries, slap in some boilerplate code, and ship it.  If you're not familiar with them, [force-directed graphs](https://en.wikipedia.org/wiki/Force-directed_graph_drawing) are a visualization for graph data that lays out nodes in an easy-to-see way, avoiding edge crosses and trying to keep all edges to approximately the same length.
+This is the story of how I took the initial unoptimized graph visualization - which ran at <10 FPS on my powerful desktop - and optimized it to run at well over 60 FPS, even on weaker mobile devices.  I was inspired by [this HTTP server performance tuning writeup](https://talawah.io/blog/extreme-http-performance-tuning-one-point-two-million/) and kept track of the changes I made and their impact in a similar way.
+
+----
+
+Since it is a web-based visualization and we are currently on the web, you can check it out right here for yourself, pre-populated with my personal top artists from Spotify!  Click and drag (or tap and drag if you're on mobile) to move around or pull on the nodes, mouse wheel (pinch on mobile) to zoom, and double-click/tap nodes to load additional additional artists that are connected but not in my top artists collection.
+
+<iframe title="Related Artists Graph Visualization Demo" src="http://localhost:9000/graph.html" loading="lazy" style="width: 100%; outline: none; border: none; margin-right: 0px; margin-left: 0px; height: 67vh; margin-top: 5px; margin-bottom: 0px;" />
+
+.
+
+If you're using an embedded browser, it might not load.  You can view the full graph on [Spotifytrack](https://spotifytrack.net) and connect your Spotify account to see it personalized for your own top artists.
+
+## Force Directed Graphs
+
+If you're not familiar with them, [force-directed graphs](https://en.wikipedia.org/wiki/Force-directed_graph_drawing) are a visualization for graph data that lays out nodes in an easy-to-see way, avoiding edge crosses as much as possible and trying to keep all edges to approximately the same length.
 
 After a bit of research, I chose the [Webcola](https://ialab.it.monash.edu/webcola/) constraint-based graph layout library.  Webcola is itself a port/adapation of the C++ [libcola](http://www.adaptagrams.org/) library and it supports easy integration with D3 which I've worked with in the past.  It really was very simple to get a working force-directed graph rendered by adapting some code from their examples, and it actually looked pretty good!  The relationships between artists were apparent and I found myself spending a good amount of time just scrolling around it and exploring my own world of musical connections.
 
-There was one problem though: it was incredibly slow; slow to the tune of 8 FPS.  Obviously, that's not acceptable and it made using the graph very difficult.  To be fair, I had almost 400 nodes in my personal graph and ~1500 edges which was a lot more than any of the examples, but it felt like performance was an order of magnitude or two too low.
+## Initial Analysis
+
+There was one problem though: it was incredibly slow; slow to the tune of 8 FPS.  Obviously, that's not acceptable and it made using the graph very difficult.  To be fair, I had almost 400 nodes in my personal graph and ~1500 edges which was a lot more than any of the Webcola examples, but it felt like performance was an order of magnitude or two too low.
 
 What followed was an extensive journey of optimizing my application and all of the underlying layers to boost that 8 FPS to a consinstent 60, even on less powerful devices.
-
-## Initial Analysis
 
 The first step of all of my browser-based performance optimization starts with Google Chrome's excellent built-in profiler.  Here's what one frame of the animation looked like at the start before any changes were made:
 
@@ -301,9 +315,9 @@ When populating the graph with nodes, I converted the `Graphics` to `Sprites` im
 
 This resulted in a very significant (at this point) performance win, allowing the renderer itself to finish in just over 2 milliseconds on average.
 
-![Screenshot of the Google Chrome Profiler showing the performance of a single frame of the Webcola visualization after caching the nodes as textures rather than re-rendering them every frame](./images/webcola/7_fully_optimized_after_sprite_caching.png)
+![Screenshot of the Google Chrome Profiler showing the performance of a single frame of the Webcola visualization after caching the nodes as textures rather than re-rendering them every frame](./images/webcola/7_fully_optimized_after_sprite_caching__.png)
 
-## Going Deeper: Assembly-Level Profiling
+## Going Deeper: Assembly-Level Analysis
 
 At this point, I had hit a wall.  Chrome's profiler showed that `compute_2d` was taking up all the Wasm runtime, and the vast majority of that was happening outside of the `compute_distances` function.  The whole rest of that function is just a loop over all node pairs, loading the pre-computed values from memory, doing some math, and storing the results back to memory.  I tried pulling various pieces of that loop out into other functions and marking them with `#[inline(never)]`, but the profiler yielded more or less random results.  The functions were simply too small to show up well with whatever the profiler's sample interval is, and I found no way to increase that sample rate.
 
@@ -315,7 +329,7 @@ Luckily, there was one final option for figuring out where all the CPU time was 
 
 V8, Google Chrome/Chromium's JavaScript engine, [has support](https://v8.dev/docs/linux-perf) for integrating with Linux's `perf` profiling tool, allowing the JIT-compiled code it produces to be analyzed and instrumented at the CPU-instruction level.  After V8 parses, compiles, and optimizes WebAssembly or JavaScript source code, it uses [Turbofan](https://v8.dev/docs/turbofan) to generate actual machine code for the target system.  That code is then loaded into executable memory and executed just like a native executable would be.
 
-V8's perf integration allows for this JIT-compiled code to be labeled with function names and other information which makes it possible to match the generated assembly instructions to the JS or Wasm it was compiled from.  Getting it to work was surprisngly simple, just launch Chrome with some special flags, record the PID of the renderer process for the tab you want to profile which is listed in Chrome's built-in Task Manager and then run a `perf` command in the terminal while running the code you want to measure.
+V8's `perf` integration allows for this JIT-compiled code to be labeled with function names and other information which makes it possible to match the generated assembly instructions to the JS or Wasm it was compiled from.  Getting it to work was surprisngly simple, just launch Chrome with some special flags, record the PID of the renderer process for the tab you want to profile which is listed in Chrome's built-in Task Manager and then run a `perf` command in the terminal while running the code you want to measure.
 
 After injecting the profile file with some additional data generated by Chrome and loading it up with `perf report`, it's possible to search for the actual name of the Wasm or JS function that ran:
 
@@ -323,7 +337,7 @@ After injecting the profile file with some additional data generated by Chrome a
 
 The place where things get REALLY exciting is when you drill down into the function itself and get to look at the CPU instructions themselves:
 
-<iframe title="Perf Instruction Level View" src="https://ameo.link/u/91p.html" style="width: calc(100% - 40px); outline: none; border: none; margin-right: 20px; margin-left: 20px; height: 80vh; margin-top: 5px; margin-bottom: 0px;" />
+<iframe loading="lazy" title="Perf Instruction Level View" src="https://ameo.link/u/91p.html" style="width: calc(100% - 40px); outline: none; border: none; margin-right: 20px; margin-left: 20px; height: 80vh; margin-top: 5px; margin-bottom: 0px;" />
 
 .
 
@@ -398,7 +412,7 @@ f32.ne
 
 And this the assembly that `perf` showed:
 
-<iframe title="Perf Instruction Level View After Optimization" src="https://ameo.link/u/91q.html" style="width: calc(100% - 40px); outline: none; border: none; margin-right: 20px; margin-left: 20px; height: 80vh; margin-top: 5px; margin-bottom: 0px;" />
+<iframe loading="lazy" title="Perf Instruction Level View After Optimization" src="https://ameo.link/u/91q.html" style="width: calc(100% - 40px); outline: none; border: none; margin-right: 20px; margin-left: 20px; height: 80vh; margin-top: 5px; margin-bottom: 0px;" />
 
 .
 
@@ -410,7 +424,7 @@ Making that tiny change actually made a detectable difference in performance for
 
 When scrolling through the disassmbled code for `compute_2d`, I spotted a span of instructions that I didn't understand:
 
-<iframe title="Perf Instruction Level View of Weird SIMD Stuff" src="https://ameo.link/u/91s.html" style="width: calc(100% - 40px); outline: none; border: none; margin-right: 20px; margin-left: 20px; height: 200px; margin-top: 5px; margin-bottom: 0px;" />
+<iframe loading="lazy" title="Perf Instruction Level View of Weird SIMD Stuff" src="https://ameo.link/u/91s.html" style="width: calc(100% - 40px); outline: none; border: none; margin-right: 20px; margin-left: 20px; height: 200px; margin-top: 5px; margin-bottom: 0px;" />
 
 .
 
@@ -480,7 +494,7 @@ for chunk_ix in 0..chunk_count {
 
 And here's the generated x86 assembly:
 
-<iframe title="Perf Instruction Level View of SIMD Dot Product" src="https://ameo.link/u/91t.html" style="width: calc(100% - 40px); outline: none; border: none; margin-right: 20px; margin-left: 20px; height: 200px; margin-top: 5px; margin-bottom: 0px;" />
+<iframe loading="lazy" title="Perf Instruction Level View of SIMD Dot Product" src="https://ameo.link/u/91t.html" style="width: calc(100% - 40px); outline: none; border: none; margin-right: 20px; margin-left: 20px; height: 200px; margin-top: 5px; margin-bottom: 0px;" />
 
 .
 
@@ -519,38 +533,128 @@ while i != max_i {
 
 This resulted in `compute_step_size_2d` going from ~13% of the runtime of `compute_2d` to ~9%.
 
-#### Bad Register Allocation by V8?
+## Getting Creative
 
-One thing I noticed is that the loop counter variable seemed to be needlessly spilled to the stack rather than just staying in a CPU register.  This required it to be loaded and stored every iteration of the loop which added cost.
+Even after removing the `is_finite` call, the single line doing three conditional checks remained the most expensive one in the function.  When trying to figure out ways to optimize it, I realized that two of conditions could probably be collapsed into one.
 
-The WebAssembly instructions generated for that look like this:
+Here's the line again after making the change to remove the `is_finite` call:
 
-```wat
-local.get 1
-i32.const 1
-i32.sub
-local.tee 1
-br_if 0 (;@3;)
+```rs
+if weight > 1. && distance > ideal_distance || ideal_distance == std::f32::INFINITY {
 ```
 
-I'm not an expert on V8, JIT compilation, or assembly language, but it really seems that V8 could have done a better job here without too much effort.  However, no matter what I tried to get it to improve (changing the loop logic, using 64-bit loop counter variables, etc.), I couldn't get the generated assembly to change.
+In this application, there is no way for `distance` to ever be infinite, meaning that if `ideal_distance == std::f32::INFINITY`, then `distance > ideal_distance` must be false.  Given that info, this is the full set of possible values for these three conditions:
 
-## Off the Deep End
+| weight > 1 | distance > ideal_distance | ideal_distance == INFINITY |
+|------------|---------------------------|----------------------------|
+| T          | T                         | F                          |
+| T          | F                         | T                          |
+| T          | F                         | F                          |
+| F          | T                         | F                          |
+| F          | F                         | T                          |
+| F          | F                         | F                          |
 
-TODO
+And this is the full set of values for which the whole condition is true:
 
-### Input Data
+| weight > 1 | distance > ideal_distance | ideal_distance == INFINITY |
+|------------|---------------------------|----------------------------|
+| T          | T                         | F                          |
+| T          | F                         | T                          |
+| F          | F                         | T                          |
 
-TODO
+One thing to note at this point is that the `ideal_distance == INFINITY` check is basically just a flag.  If the ideal distance is infinite, all we do is zero out some indexes in a big array and continue on to the next node pair.  Additionally, `ideal_distance` is never below zero; it is always a positive number since it's computed as `sqrt((x1 - x2)^2 + (y1 - y2)^2)`.
 
-### Logic -> Math
+Using this knowledge, I added some code on the JS side before any of the Wasm code was ever called to look through the `ideal_distances` buffer, find all indexes where the ideal distance was `Infinity`, and set it to a negative number.  At the same time, I also changed `weight` to be a large positive number for that same index.  This is valid because for any index where `ideal_distance` is `Infinity`, it is skipped and the `weight` value isn't used.
 
-TODO
+That allows the truth table to be changed to this:
 
-### SIMD-ifying the Math
+| weight > 1 | distance > ideal_distance | ideal_distance < 0 |
+|------------|---------------------------|--------------------|
+| T          | T                         | T                  |
+| T          | T                         | F                  |
+| T          | F                         | T                  |
+| T          | F                         | F                  |
+| F          | T                         | T                  |
+| F          | T                         | F                  |
+| F          | F                         | T                  |
+| F          | F                         | F                  |
 
-TODO
+Since we changed the input data to enforce that if `ideal_distance < 0`, `weight` is guarenteed to be > 1 and `distance` is guarenteed to be greater than `ideal_distance`, we can reduce down to this:
+
+| weight > 1 | distance > ideal_distance | ideal_distance < 0 |
+|------------|---------------------------|--------------------|
+| T          | T                         | T                  |
+| T          | T                         | F                  |
+| T          | F                         | F                  |
+| F          | T                         | F                  |
+| F          | F                         | F                  |
+
+And from that, only these values satisfy the full condition which is now `(weight > 1 && ideal_distance > ideal_distance) || ideal_distance < 0`:
+
+| weight > 1 | distance > ideal_distance | ideal_distance < 0 |
+|------------|---------------------------|--------------------|
+| T          | T                         | T                  |
+| T          | T                         | F                  |
+
+This means that the `ideal_distance < 0` check goes away entirely, leaving our one and only condition as `weight > 1 && distance > ideal_distance`.  This is much easier to compute than the original and a big improvement!
+
+### SIMD-ifying the Comparison
+
+Since this comparison is so simple, I figured I would give a shot at lifting it up into the `compute_distances` function and compute it with SIMD.  It turned out to be very easy!  Here's the whole thing:
+
+```rs
+ let ideal_distances_v = v128_load(
+     self.D.get_unchecked(u * n + v_chunk_ix * 4) as *const f32
+         as *const _,
+ );
+ let weights_v = v128_load(self.G.get_unchecked(u * n + v_chunk_ix * 4)
+     as *const f32
+     as *const _);
+
+ let flags = v128_and(
+     f32x4_gt(sqrted, ideal_distances_v),
+     f32x4_gt(weights_v, f32x4_splat(1.)),
+ );
+ v128_store(
+     self.inner_condition_flags
+         .get_unchecked_mut(u * n + v_chunk_ix * 4)
+         as *mut f32 as *mut _,
+     flags,
+ );
+```
+
+The whole thing maps one to one to Wasm SIMD instructions, allowing us to compute 4 of these flags at once.  The result of each check is stored in a buffer and read out by the main loop.
+
+Although the most expensive part of the conditional - the conditional jump and associated branch predictor misses - still remained, almost all of the rest of the cost of that comparison was removed.  Memory loads from the buffers were performed more efficiently 4 elements at a time and could be skipped entirely if the condition was a hit, the comparisons themselves are done using SIMD, and the comparisons being performed were much simpler.
 
 ## Final Result
 
-TODO
+After everything, here's the final flame chart:
+
+![Screenshot of the Google Chrome Profiler showing the performance of a single frame of the Webcola visualization after all optimizations were applied including the most recent ones from assembly-level analysis](./images/webcola/8_final.png)
+
+Although frame times vary, they are almost always below 8 milliseconds and average something like 7.25ms.  Considering how things were when we started, this honestly feels somewhat miraculous.  I find myself looking at the various flame charts, assembly dumps, and other visualizations that were produced along the way and feeling like I've created a small gem of computational beauty.  The best part is that it all has a purpose - it creates a pretty, personalize, and interactive data visualization.
+
+Finally, for posterity, here's the full source code generated by V8 for the `compute_2d` function:
+
+<iframe loading="lazy" title="Perf Instruction Level View of Final compute_2d Function" src="https://ameo.link/u/91u.html" style="width: calc(100% - 40px); outline: none; border: none; margin-right: 20px; margin-left: 20px; height: 60vh; margin-top: 5px; margin-bottom: 0px;" />
+
+.
+
+If you're reading this using Google Chrome on an x86 CPU, something very similar to this is running on your CPU right now :)
+
+## Takeaways
+
+This whole experience served to reinforce my confidence in the power of the modern web as a flexible and fully-featured application platform.  You get all the existing benefits of instantly accessible content on any device written using rich and mature languages and tooling.  You get integration with all other sites using common protocols.  You get battle-hardened sandboxing and application-level security by default.  And now, you get incredibly granular control down to individual CPU instructions - if you want it.  And if you don't, you can import a library off of NPM and have a fully functional prototype running in a couple of hours.
+
+There's a reason I'm as obsessed with WebAsssembly as I am.  It really feels like missing piece that we've been searching for to help fix the issues with the web and help it grow into the future.  It hugely narrows the gap between the browser and the hardware making web applications as feel smooth and responsive as the native apps people love.  The fact that it's still growing and improving (Wasm SIMD was stabilized less than a week ago at the time of writing this) makes this possible.  As more Wasm features such as interface types and `anyref` continue to be built and deployed, it becomes even more powerful and gains exponentially more use-cases.
+
+For me personally, I got a huge amount of enjoyment out of tracing the whole thing through all the layers involved with making it happen.  Rust -> LLVM -> WebAssembly -> `wasm-opt` -> Chromium -> V8 -> TurboFan -> Machine Code is a hell of a journey, and the fact that beautiful, optimized CPU instructions is the result is nothing short of amazing.
+
+I was also fascinated by how addicting this optimization work was!  Seeing direct and measurable incremental progress is as good as it gets for this kind of work, and I was only able to stop once I couldn't scrape even the smallest additional improvement out of it.
+
+But what's most important was that it all had a purpose!  This wasn't optimizing an algorithm to theoretical perfection for its own sake.  Every bit of performance improvement made the visualization itself more pleasnt to use and provided a better experience to users on all kinds of devices.  I can drag around the nodes and watch them balance with each other and reach a locally optimal arrangement and know that underneath it all, my carefully crafted code was spinning away in my computer's CPU.
+
+----
+
+If you read down to here, even if you just skimmed, thank you for taking the time to read about my journey!  I hope this inspires you to build something of your own (as I was inspired by [this optimization saga](https://talawah.io/blog/extreme-http-performance-tuning-one-point-two-million/), if you missed it earlier), or gives you a chance to see the beauty and wonder again in the work we do as programmers.

@@ -71,6 +71,17 @@
   summary {
     cursor: pointer;
   }
+
+  table {
+    border-collapse: collapse;
+
+    td,
+    th {
+      border: 1px solid #ccc;
+      padding: 2px;
+      text-align: center;
+    }
+  }
 }
 
 @media only screen and (max-width: 800px) {
