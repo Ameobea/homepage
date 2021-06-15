@@ -6,6 +6,7 @@ import { StaticQuery, graphql } from 'gatsby';
 import './layout.css';
 import Header from '../components/Header';
 import HeaderMobile from '../components/HeaderMobile';
+import { filterNils } from 'ameo-utils';
 
 const styles = {
   root: {
@@ -23,6 +24,8 @@ const Layout = ({
   title,
   description,
   style = {},
+  image,
+  meta = [],
   ...data
 }) => (
   <>
@@ -35,16 +38,42 @@ const Layout = ({
             ? `${title} - ${data.site.siteMetadata.title}`
             : data.site.siteMetadata.title
         }
-        meta={[
+        meta={filterNils([
+          {
+            name: 'og:title',
+            content: title ? title : data.site.siteMetadata.title,
+          },
+          {
+            name: 'og:site_name',
+            content: 'Homepage of Casey Primozic / ameo',
+          },
+          {
+            name: 'og:description',
+            content: description || 'Homepage of Casey Primozic / ameo',
+          },
           {
             name: 'description',
-            content: description || 'Homepage of Casey Primozic (Ameo)',
+            content: description || 'Homepage of Casey Primozic / ameo',
           },
+          image ? { name: 'og:image', content: image } : null,
           {
             name: 'keywords',
             content: 'Casey Primozic, Ameo, homepage, AmeoBea',
           },
-        ]}
+          {
+            name: 'twitter:site',
+            content: 'ameobea10',
+          },
+          {
+            name: 'twitter:creator',
+            content: 'ameobea10',
+          },
+          {
+            name: 'twitter:title',
+            content: title ? title : data.site.siteMetadata.title,
+          },
+          ...meta,
+        ])}
       >
         <html lang="en" />
       </Helmet>

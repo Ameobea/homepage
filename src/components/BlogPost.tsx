@@ -47,6 +47,26 @@ export default ({ data: { markdownRemark: post } }) => {
       title={post.frontmatter.title}
       description={`${post.frontmatter.title} - Casey Primozic's Blog`}
       style={{ maxWidth: 880 }}
+      image={(() => {
+        if (post.frontmatter.title.includes('Webcola')) {
+          return 'https://ameo.link/u/921.png';
+        }
+
+        return null;
+      })()}
+      meta={
+        post.frontmatter.title.includes('Webcola')
+          ? [
+              { name: 'twitter:card', content: 'summary_large_image' },
+              { name: 'twitter:image', content: 'https://ameo.link/u/921.png' },
+              {
+                name: 'twitter:image:alt',
+                content:
+                  'A screenshot of the spotify artist relationship graph from my Spotifytrack site, which was produced using WebCola',
+              },
+            ]
+          : undefined
+      }
     >
       <div className="blog-post">
         <h1>{post.frontmatter.title}</h1>

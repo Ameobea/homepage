@@ -1,11 +1,13 @@
 ---
-title: 'Speeding Up the Webcola Force-Directed Graph Layout Library with Rust + WebAssembly'
+title: 'Speeding Up the Webcola Graph Viz Library with Rust + WebAssembly'
 date: '2021-05-24'
 ---
 
 For a recent project I've been working on, I wanted to include a graph showing the relationships between different artists on Spotify.  Spotify provides the data directly from their API, and I had everything set up to pull it for a user's top artists and into the browser.
 
 This is the story of how I took the initial unoptimized graph visualization - which ran at <10 FPS on my powerful desktop - and optimized it to run at well over 60 FPS, even on weaker mobile devices.  I was inspired by [this HTTP server performance tuning writeup](https://talawah.io/blog/extreme-http-performance-tuning-one-point-two-million/) and kept track of the changes I made and their impact in a similar way.
+
+As I went deeper pursuing ever more subtle optimizations, I was extremely impressed at just how much control over the finest details of code execution the modern browser provides - all the way down to individual CPU instructions.  Combined with a wide range of rich profiling and analysis tools, my work here made it clear to me that there really is nothing stopping today's web applications from running at native speeds and providing a native experience, all while still retaining all the benefits of the web platform.
 
 ----
 
@@ -88,6 +90,8 @@ The biggest drawback is that we have to do all of the interactive bits (hit-test
 
 The final step was to plug the renderer into Webcola.  Webcola was designed to be pluggable into various different rendering engines, so after looking at how the D3 shim was implemented getting it to work with the canvas-based renderer went pretty smoothly.
 
+Here's the full source code I ended up with for the canvas-based renderer: <https://github.com/Ameobea/spotifytrack/blob/main/frontend/src/components/RelatedArtistsGraph/CanvasRenderer.ts>
+
 After all of that effort, the reward was another massive bump in performance:
 
 ![Screenshot of the Google Chrome profiler showing the performance of a single frame of the Webcola visualization after switching to a custom canvas-based renderer implemented using PIXI.js](./images/webcola/2_canvas_renderer.png)
@@ -129,6 +133,8 @@ However, there are also many situations where WebAssembly is a much more appeali
 My intention with the initial port was to re-write the `computeDerivatives` function in Rust and then make whatever other changes were necessary to glue it to the existing JavaScript code, leaving the bulk of the WebCola codebase as it is and limiting the surface area of the change.  That would make it easier to implement and test the port since less code changes would be necessary.  It also helps to keep changes to WebCola's APIs, both internal and external, as limited as possible.
 
 Since the `computeDerivatives` function itself only really does some basic math and array shuffling, porting it to Rust was pretty trivial.  The complicated part, however, was managing access to the various input and output buffers that are used by it.  In the original WebCola library, those buffers live in arrays that are contained in the parent class of the `computeDerivatives` method.
+
+In fact, all the Rust code I wrote for this port is in a [single file](https://github.com/Ameobea/webcola-wasm/blob/master/src/wasm/src/lib.rs).  Note that the file I linked is the current/latest version of the code and contains a lot of changes (which I go into detail about later in this post) that don't correspond directly to the original JavaScript code.
 
 In order for them to be accessed from WebAssembly, they either need to be copied into the WebAssembly heap as arguments or changed to live inside the Wasm heap by default.  The advantage of the first option is that code changes to the JS code are limited which makes the port easier to manage.  However, the tradeoff is that the buffers need to be copied into the JS heap every time the function is called.
 
@@ -359,7 +365,7 @@ I wasn't sure what was going on, so I googled the hex constant.  The [first Stac
 
 Looking through the disassembled WebAssembly code produced using the `wasm2wat` tool from the [WebAssembly Binary Toolkit](https://github.com/WebAssembly/wabt), I found the place that generated these instructions:
 
-```wat
+```wasm
 local.get 25
 i32.reinterpret_f32
 i32.const 2147483647 (; This is our magical `0x7fff_ffff` constant ;)
@@ -402,7 +408,7 @@ if weight > 1. && distance > ideal_distance || ideal_distance == std::f32::INFIN
 
 Produced the following WebAssembly:
 
-```wat
+```wasm
 ...
 f32.load
 local.tee 25

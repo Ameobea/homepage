@@ -9,6 +9,7 @@
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@sentry/react": "^6.2.3",
     "@sentry/tracing": "^6.2.3",
+    "ameo-utils": "^0.7.2",
     "gatsby": "^3.1.1",
     "gatsby-image": "^3.1.0",
     "gatsby-plugin-feed": "^3.1.0",
