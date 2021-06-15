@@ -21,19 +21,19 @@ If you're using an embedded browser, it might not load.  You can view the full g
 
 If you're not familiar with them, [force-directed graphs](https://en.wikipedia.org/wiki/Force-directed_graph_drawing) are a visualization for graph data that lays out nodes in an easy-to-see way, avoiding edge crosses as much as possible and trying to keep all edges to approximately the same length.
 
-After a bit of research, I chose the [Webcola](https://ialab.it.monash.edu/webcola/) constraint-based graph layout library.  Webcola is itself a port/adapation of the C++ [libcola](http://www.adaptagrams.org/) library and it supports easy integration with D3 which I've worked with in the past.  It really was very simple to get a working force-directed graph rendered by adapting some code from their examples, and it actually looked pretty good!  The relationships between artists were apparent and I found myself spending a good amount of time just scrolling around it and exploring my own world of musical connections.
+After a bit of research, I chose the [Webcola](https://ialab.it.monash.edu/webcola/) constraint-based graph layout library.  Webcola is itself a port/adaptation of the C++ [libcola](http://www.adaptagrams.org/) library and it supports easy integration with D3 which I've worked with in the past.  It really was very simple to get a working force-directed graph rendered by adapting some code from their examples, and it actually looked pretty good!  The relationships between artists were apparent and I found myself spending a good amount of time just scrolling around it and exploring my own world of musical connections.
 
 ## Initial Analysis
 
 There was one problem though: it was incredibly slow; slow to the tune of 8 FPS.  Obviously, that's not acceptable and it made using the graph very difficult.  To be fair, I had almost 400 nodes in my personal graph and ~1500 edges which was a lot more than any of the Webcola examples, but it felt like performance was an order of magnitude or two too low.
 
-What followed was an extensive journey of optimizing my application and all of the underlying layers to boost that 8 FPS to a consinstent 60, even on less powerful devices.
+What followed was an extensive journey of optimizing my application and all of the underlying layers to boost that 8 FPS to a consistent 60, even on less powerful devices.
 
 The first step of all of my browser-based performance optimization starts with Google Chrome's excellent built-in profiler.  Here's what one frame of the animation looked like at the start before any changes were made:
 
 ![Screenshot of the Google Chrome profiler showing the initial performance of a single frame the Webcola visualization before any performance improvements were made at all](./images/webcola/initial_unoptimized.png)
 
-The whole frame took ~125ms, miles beyond the 16.5ms required for 60 FPS.  Ideally, we'll also want it to be even quicker than that since other code needs to run on the webpage as well.
+The whole frame took ~125ms, miles away from the 16.5ms required for 60 FPS.  Ideally, we'll also want it to be even quicker than that since other code needs to run on the webpage as well.
 
 Breaking down where most of the time was being spent, The `Descent.rungeKutta` function comes from the Webcola library and is used to compute new positions for all of the nodes based on the connections between them.  `D3StyleLayoutAdapter.trigger` is the rendering portion where the SVG nodes created by D3 are updated to match the newly computed positions of the nodes.  The `Run Microtasks` section at the end contains some extra D3 bookkeeping code, and finally the small (well, small compared to everything else right now) purple and green bars at the end were for browser-level layout and rendering.
 
@@ -74,15 +74,15 @@ Much better - already down to ~50ms for a frame.  Still a long way to go, though
 
 ## Custom Canvas-Based Renderer
 
-As a result of removing the horrible `getBBox` code, Webcola has moved up to taking around a third of the processing time of the frame with the D3 rendering and associated overhead taking up the rest.  One thing to notice is that the majority of `D3StyleLayoutAdapaptor.trigger` is now dominated by calls to [`setAttribute`](https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute), which is a browser built-in that is used by D3 under the hood to set the actual attribute on the `<line>` and `<rect>` nodes used to render the graph into the SVG.
+As a result of removing the horrible `getBBox` code, Webcola has moved up to taking around a third of the processing time of the frame with the D3 rendering and associated overhead taking up the rest.  One thing to notice is that the majority of `D3StyleLayoutAdapter.trigger` is now dominated by calls to [`setAttribute`](https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute), which is a browser built-in that is used by D3 under the hood to set the actual attribute on the `<line>` and `<rect>` nodes used to render the graph into the SVG.
 
 Unfortunately, this is a bit of a dead-end for D3; as far as I know, in order to animate the visualization according to the positions computed by Webcola, you need to actually change those attributes - there's no way getting around it.  I managed to improve the performance a bit by using some specialized SVG position setting APIs, but the mere act of setting the coordinates on the SVG elements was still taking up ~15ms, nearly the entire budget for the frame.  Besides that, the "Recalculate Styles", "Layout", and "Paint" boxes at the end had become much more prominent as well and were also seemingly unavoidable overhead of the SVG-based renderer.
 
 After trying a couple of other ideas in vain, I decided to bite the bullet and implement a fully custom renderer for the graph that used Canvas rather than SVG.  Although SVG is a terrific choice for many kinds of visualizations due to its rich API and direct integration into the DOM, there were some things that it doesn't perform very well with.
 
-I'd used the [PixiJS](https://www.pixijs.com/) library on [a](https://notes.ameo.design/fm.html) [few](https://github.com/ameobea/web-synth) [projects](https://cprimozic.net/projects/spf420_x_syncup) in the past and found it to be an extremely productive tool for buliding rich visualizations and interactive applications in the browser.  It's based on WebGL, but it provides a high-level API on top with lots of useful tools for building applications quickly without compromising performance.
+I'd used the [PixiJS](https://www.pixijs.com/) library on [a](https://notes.ameo.design/fm.html) [few](https://github.com/ameobea/web-synth) [projects](https://cprimozic.net/projects/spf420_x_syncup) in the past and found it to be an extremely productive tool for building rich visualizations and interactive applications in the browser.  It's based on WebGL, but it provides a high-level API on top with lots of useful tools for building applications quickly without compromising performance.
 
-Buliding out the initial renderer was actually pretty straightforward; the graph visualization only really consists of boxes, lines, and labels.  The biggest advantage over the D3/SVG-based renderer is that the nodes don't need to be managed individually and treated as fully-fledged DOM elements.  Instead, the whole visualization can be passed off to the GPU in one go which performs all of the rendering directly, giving us the equivalent of an image that can then be rendered into the canvas on the page.
+Building out the initial renderer was actually pretty straightforward; the graph visualization only really consists of boxes, lines, and labels.  The biggest advantage over the D3/SVG-based renderer is that the nodes don't need to be managed individually and treated as fully-fledged DOM elements.  Instead, the whole visualization can be passed off to the GPU in one go which performs all of the rendering directly, giving us the equivalent of an image that can then be rendered into the canvas on the page.
 
 The biggest drawback is that we have to do all of the interactive bits (hit-testing, clicking, dragging, hover, etc.) manually instead of relying on handy HTML event listeners and CSS to do it for us.  Thankfully, PIXI includes a ton of utilities to do most of this for us.
 
@@ -114,7 +114,7 @@ Surprisingly, after doing that, performance actually regressed!  This was the op
  2) The code was doing out-of-bounds reads somewhere in a way that didn't impact the correctness of the algorithm.  Some posts seemed to indicate that doing out-of-bounds reads on typed arrays caused code to be de-optimized worse than when doing them on normal arrays.
  3) Several of the arrays used in the algorithm were multi-dimensional, so switching them to typed arrays only actually changed the inner dimension.  It's possible that if the arrays were flattened to hold all their elements in a single buffer, the performance might be much better.
 
-In any case, I abandonded this approach entirely and left the arrays as they were.
+In any case, I abandoned this approach entirely and left the arrays as they were.
 
 ## Porting Webcola to Rust + WebAssembly
 
@@ -122,19 +122,19 @@ Having run into a wall with optimizing the JavaScript itself for the WebCola eng
 
 Before going into details about the Wasm port itself, I want to provide a little bit of justification for this decision.  There are a [variety](https://surma.dev/things/js-to-asc/) [of](https://www.usenix.org/system/files/atc19-jangda.pdf) [writeups](https://mrale.ph/blog/2018/02/03/maybe-you-dont-need-rust-to-speed-up-your-js.html) that have pretty much the same message that about boils down to "writing things in Wasm doesn't automatically mean that they're going to be fast or faster than JavaScript."  This is a valid point for a lot of things; modern JS engines like V8 are almost miraculous in their performance and ability to optimize JavaScript execution.
 
-However, there are also many situations where WebAssembly is a much more appealing option than JavaScript due to the much higher degree of control it provides over things like memory layout, data types, and code layout behavior like inlining, monomophization, etc.  A tight, hot loop doing number crunching without touching the DOM or interoperating with JS data structures is a quite an ideal target for implementation in Wasm.
+However, there are also many situations where WebAssembly is a much more appealing option than JavaScript due to the much higher degree of control it provides over things like memory layout, data types, and code layout behavior like inlining, monomorphization, etc.  A tight, hot loop doing number crunching without touching the DOM or interoperating with JS data structures is a quite an ideal target for implementation in Wasm.
 
 ### Initial Port
 
 My intention with the initial port was to re-write the `computeDerivatives` function in Rust and then make whatever other changes were necessary to glue it to the existing JavaScript code, leaving the bulk of the WebCola codebase as it is and limiting the surface area of the change.  That would make it easier to implement and test the port since less code changes would be necessary.  It also helps to keep changes to WebCola's APIs, both internal and external, as limited as possible.
 
-Since the `computeDerivates` function itself only really does some basic math and array shuffling, porting it to Rust was pretty trivial.  The complicated part, however, was managing access to the various input and output buffers that are used by it.  In the original WebCola library, those buffers live in arrays that are contained in the parent class of the `computeDerivates` method.
+Since the `computeDerivatives` function itself only really does some basic math and array shuffling, porting it to Rust was pretty trivial.  The complicated part, however, was managing access to the various input and output buffers that are used by it.  In the original WebCola library, those buffers live in arrays that are contained in the parent class of the `computeDerivatives` method.
 
 In order for them to be accessed from WebAssembly, they either need to be copied into the WebAssembly heap as arguments or changed to live inside the Wasm heap by default.  The advantage of the first option is that code changes to the JS code are limited which makes the port easier to manage.  However, the tradeoff is that the buffers need to be copied into the JS heap every time the function is called.
 
-Moving the buffers into JS means they can be acessed very easily from the ported Rust code without needing to copy them around between JS and Wasm, at least not in order to run `computeDerivatives`.  The tradeoff for that is that setting/getting them from JS requires doing that copying and creating dedicated shim functions to facilitate that.
+Moving the buffers into JS means they can be accessed very easily from the ported Rust code without needing to copy them around between JS and Wasm, at least not in order to run `computeDerivatives`.  The tradeoff for that is that setting/getting them from JS requires doing that copying and creating dedicated shim functions to facilitate that.
 
-I ended up doing a combination of both methods.  I moved all of the data buffers accessed by `computeDerivates` into Wasm memory, pre-allocating buffers for them.  I left one of the buffers in JS, the `x` vector which was passed as an argument to `computeDerivates`.  As it turned out, since the `computeDerivates` function is only called a few times per frame, the cost of copying these buffers is negligible compared to the cost of running the `computeDerivates` function itself, not even showing up on the profiler.
+I ended up doing a combination of both methods.  I moved all of the data buffers accessed by `computeDerivatives` into Wasm memory, pre-allocating buffers for them.  I left one of the buffers in JS, the `x` vector which was passed as an argument to `computeDerivatives`.  As it turned out, since the `computeDerivatives` function is only called a few times per frame, the cost of copying these buffers is negligible compared to the cost of running the `computeDerivatives` function itself, not even showing up on the profiler.
 
 Since some other WebCola internals access the buffers that were moved into Wasm, I created some shimmed getter and setter methods that pulled from the Wasm module's memory under the hood:
 
@@ -155,7 +155,7 @@ public get g(): Float32Array[] {
 
 The WebCola library supports both 2D and 3D layout, using the `i` variable to indicate the number of dimensions.  Since this variable is static for a given graph and is known ahead of time, there is an opportunity to provide that information to the compiler at build-time in order to allow it to generate more efficient code that is specialized for either 2D or 3D usage.
 
-Rust has recently added support for [const generics](https://rust-lang.github.io/rfcs/2000-const-generics.html) in stable which suits this use-case perfectly.  Instead of storing `i` as a field and refering to it dynamically at runtime, it's encoded at the type level as a const generic.  Shim functions are then exported for both 2D and 3D versions which both call the same generic function but with a different value for the dimension parameter:
+Rust has recently added support for [const generics](https://rust-lang.github.io/rfcs/2000-const-generics.html) in stable which suits this use-case perfectly.  Instead of storing `i` as a field and referring to it dynamically at runtime, it's encoded at the type level as a const generic.  Shim functions are then exported for both 2D and 3D versions which both call the same generic function but with a different value for the dimension parameter:
 
 ```rs
 #[wasm_bindgen]
@@ -187,7 +187,7 @@ After performing the initial port and wiring it up to the existing JS code, this
 
 It's clear that the WebAssembly port was very worth it!  The `rungeKutta` function which spends the vast majority of its time calling `computeDerivatives` went from taking ~18ms to just 9ms - a 2x speedup!  If I had to guess, I'd say that much of this improved performance comes from more efficient accesses to the data buffers and the benefits of making the dimension static at compile time listed above.
 
-Despite all of that, the actual code was a more or less 1-to-1 port; all of the performance improvements came from opportunities made possible by Rust/WebAssembly.  Although it would technically be possible to manually create separate 2D and 3D versions of the JS code, Rust allows it to be codified and made fuly automatic.
+Despite all of that, the actual code was a more or less 1-to-1 port; all of the performance improvements came from opportunities made possible by Rust/WebAssembly.  Although it would technically be possible to manually create separate 2D and 3D versions of the JS code, Rust allows it to be codified and made fully automatic.
 
 ## Improvements to the Wasm Port
 
@@ -295,7 +295,7 @@ As I always do when adding SIMD to wasm, I added a `simd` feature to the Rust pr
 
 Although it may not have seemed like it from step to step, there's been a respectable performance bump between the initial Wasm port and this version after applying the various optimizations.  All of the small changes added up to give a significant overall result.
 
-I was pretty surprised to see that the SIMD-ification of the distance computation had such a tiny impact.  In the past, just adding SIMD bumped perfomance to 50%+ in compute-heavy code sections.  During the process of trying to figure out why this was, I set the `#[inline(never)]` attribute on the `compute_distances()` function where the SIMD happens and was very surprised to see this:
+I was pretty surprised to see that the SIMD-ification of the distance computation had such a tiny impact.  In the past, just adding SIMD bumped performance to 50%+ in compute-heavy code sections.  During the process of trying to figure out why this was, I set the `#[inline(never)]` attribute on the `compute_distances()` function where the SIMD happens and was very surprised to see this:
 
 ![Screenshot of the Google Chrome Profiler showing the performance of a single frame of the Webcola visualization after the no-inline attribute was set on the compute_distances function](./images/webcola/non-inlined-compute-distances.png)
 
@@ -329,13 +329,13 @@ Luckily, there was one final option for figuring out where all the CPU time was 
 
 V8, Google Chrome/Chromium's JavaScript engine, [has support](https://v8.dev/docs/linux-perf) for integrating with Linux's `perf` profiling tool, allowing the JIT-compiled code it produces to be analyzed and instrumented at the CPU-instruction level.  After V8 parses, compiles, and optimizes WebAssembly or JavaScript source code, it uses [Turbofan](https://v8.dev/docs/turbofan) to generate actual machine code for the target system.  That code is then loaded into executable memory and executed just like a native executable would be.
 
-V8's `perf` integration allows for this JIT-compiled code to be labeled with function names and other information which makes it possible to match the generated assembly instructions to the JS or Wasm it was compiled from.  Getting it to work was surprisngly simple, just launch Chrome with some special flags, record the PID of the renderer process for the tab you want to profile which is listed in Chrome's built-in Task Manager and then run a `perf` command in the terminal while running the code you want to measure.
+V8's `perf` integration allows for this JIT-compiled code to be labeled with function names and other information which makes it possible to match the generated assembly instructions to the JS or Wasm it was compiled from.  Getting it to work was surprisingly simple, just launch Chrome with some special flags, record the PID of the renderer process for the tab you want to profile which is listed in Chrome's built-in Task Manager and then run a `perf` command in the terminal while running the code you want to measure.
 
 After injecting the profile file with some additional data generated by Chrome and loading it up with `perf report`, it's possible to search for the actual name of the Wasm or JS function that ran:
 
 ![A screenshot of the perf profile generated for the application, showing runtime of the JIT-compiled Wasm functions themselves](./images/webcola/v8-perf-top-level.png)
 
-The place where things get REALLY exciting is when you drill down into the function itself and get to look at the CPU instructions themselves:
+The place where things get REALLY exciting is when you drill down into the function itself and get to look at the CPU instructions that make it up:
 
 <iframe loading="lazy" title="Perf Instruction Level View" src="https://ameo.link/u/91p.html" style="width: calc(100% - 40px); outline: none; border: none; margin-right: 20px; margin-left: 20px; height: 80vh; margin-top: 5px; margin-bottom: 0px;" />
 
@@ -355,9 +355,9 @@ It is a binary AND with a constant that takes place in the middle of a bunch of 
 
 I'm not sure why exactly this instruction took so long to run compared to the others; it could be a cost of moving data between `xmm` and general purpose registers, or perhaps the binary operation screwed up pipelining in some way.  In any case, it seemed clear to me that improving this situation would likely speed things up significantly.
 
-I wasn't sure what was going on, so I googled the hex constant.  The [first Stackoverflow result](https://stackoverflow.com/questions/46625819/what-does-0x7fffffff-mean-in-inttime-time1000-0-0x7fffffff) made it clear that this has the effect of clearing out the sign bit of a 32-bit floating point number, taking the absolute value of it.
+I wasn't sure what was going on, so I googled the hex constant.  The [first Stack Overflow result](https://stackoverflow.com/questions/46625819/what-does-0x7fffffff-mean-in-inttime-time1000-0-0x7fffffff) made it clear that this has the effect of clearing out the sign bit of a 32-bit floating point number, taking the absolute value of it.
 
-Looking through the disassembled WebAssembly code producued using the `wasm2wat` tool from the [WebAssembly Binary Toolkit](https://github.com/WebAssembly/wabt), I found the place that generated these instructions:
+Looking through the disassembled WebAssembly code produced using the `wasm2wat` tool from the [WebAssembly Binary Toolkit](https://github.com/WebAssembly/wabt), I found the place that generated these instructions:
 
 ```wat
 local.get 25
@@ -392,7 +392,7 @@ f32::from_bits(self.to_bits() & 0x7fff_ffff)
 
 The code makes sense; it sets the sign bit to 0 so that `-Infinity` is converted to `Infinity`, and then checks that the value is less than it and inverts the result with `xor 1`.
 
-However, in this particular situation, we know that `-Infinity` will never be produced for `ideal_distance` so we can avoid doing this check alltogether!
+However, in this particular situation, we know that `-Infinity` will never be produced for `ideal_distance` so we can avoid doing this check altogether!
 
 Changing the Rust code to this:
 
@@ -422,7 +422,7 @@ Making that tiny change actually made a detectable difference in performance for
 
 ### Cheaper Alternative to `f32x4.max`
 
-When scrolling through the disassmbled code for `compute_2d`, I spotted a span of instructions that I didn't understand:
+When scrolling through the disassembled code for `compute_2d`, I spotted a span of instructions that I didn't understand:
 
 <iframe loading="lazy" title="Perf Instruction Level View of Weird SIMD Stuff" src="https://ameo.link/u/91s.html" style="width: calc(100% - 40px); outline: none; border: none; margin-right: 20px; margin-left: 20px; height: 200px; margin-top: 5px; margin-bottom: 0px;" />
 
@@ -432,7 +432,7 @@ Googling the names of some of these instructions, I really couldn't understand w
 
 After a lot of looking around and reading various things, I finally found the answer.  This sequence of instructions is generated by V8 to implement the `f32x4.max` SIMD instruction.  Here's the spot in the Chromium source code where the actual instructions are emitted: <https://source.chromium.org/chromium/chromium/src/+/main:v8/src/compiler/backend/x64/code-generator-x64.cc;drc=8ab75a56a24f34d4f582261c99939ffa1446a3b7;l=2712>
 
-From what I could tell, the `f32x4.max` instruction guarentees that things like negative zeroes and NaNs are properly propagated through which is why it emits all of those weird instructions rather than just a single `vmaxps` instructions or similar.
+From what I could tell, the `f32x4.max` instruction guarantees that things like negative zeroes and NaNs are properly propagated through which is why it emits all of those weird instructions rather than just a single `vmaxps` instructions or similar.
 
 In my code, I was using the `f32x4.max` to combine bitflags created using `f32x4.lt`.  I switched to using `f32x4.or` which is actually the correct choice in that situation.  This successfully collapsed down all of those instructions.
 
@@ -481,6 +481,8 @@ After opening the disassembly view, I was immediately impressed that:
 Here's the Rust code, from the SIMD `dot_product` function inlined into `compute_step_size_2d`:
 
 ```rs
+let mut vector_sum = unsafe { f32x4_splat(0.) };
+let chunk_count = (count - (count % 4)) / 4;
 for chunk_ix in 0..chunk_count {
     let i = chunk_ix * 4;
     unsafe {
@@ -579,7 +581,7 @@ That allows the truth table to be changed to this:
 | F          | F                         | T                  |
 | F          | F                         | F                  |
 
-Since we changed the input data to enforce that if `ideal_distance < 0`, `weight` is guarenteed to be > 1 and `distance` is guarenteed to be greater than `ideal_distance`, we can reduce down to this:
+Since we changed the input data to enforce that if `ideal_distance < 0`, `weight` is guaranteed to be > 1 and `distance` is guaranteed to be greater than `ideal_distance`, we can reduce down to this:
 
 | weight > 1 | distance > ideal_distance | ideal_distance < 0 |
 |------------|---------------------------|--------------------|
@@ -647,13 +649,13 @@ If you're reading this using Google Chrome on an x86 CPU, something very similar
 
 This whole experience served to reinforce my confidence in the power of the modern web as a flexible and fully-featured application platform.  You get all the existing benefits of instantly accessible content on any device written using rich and mature languages and tooling.  You get integration with all other sites using common protocols.  You get battle-hardened sandboxing and application-level security by default.  And now, you get incredibly granular control down to individual CPU instructions - if you want it.  And if you don't, you can import a library off of NPM and have a fully functional prototype running in a couple of hours.
 
-There's a reason I'm as obsessed with WebAsssembly as I am.  It really feels like missing piece that we've been searching for to help fix the issues with the web and help it grow into the future.  It hugely narrows the gap between the browser and the hardware making web applications as feel smooth and responsive as the native apps people love.  The fact that it's still growing and improving (Wasm SIMD was stabilized less than a week ago at the time of writing this) makes this possible.  As more Wasm features such as interface types and `anyref` continue to be built and deployed, it becomes even more powerful and gains exponentially more use-cases.
+There's a reason I'm as obsessed with WebAssembly as I am.  It really feels like the missing piece that we've been searching for to help fix the issues with the web and help it grow into the future.  It hugely narrows the gap between the browser and the hardware making web applications as feel smooth and responsive as the native apps people love.  The fact that it's still growing and improving (Wasm SIMD was stabilized less than a week ago at the time of writing this) makes this possible.  As more Wasm features such as interface types and `anyref` continue to be built and deployed, it becomes even more powerful and gains exponentially more use-cases.
 
 For me personally, I got a huge amount of enjoyment out of tracing the whole thing through all the layers involved with making it happen.  Rust -> LLVM -> WebAssembly -> `wasm-opt` -> Chromium -> V8 -> TurboFan -> Machine Code is a hell of a journey, and the fact that beautiful, optimized CPU instructions is the result is nothing short of amazing.
 
 I was also fascinated by how addicting this optimization work was!  Seeing direct and measurable incremental progress is as good as it gets for this kind of work, and I was only able to stop once I couldn't scrape even the smallest additional improvement out of it.
 
-But what's most important was that it all had a purpose!  This wasn't optimizing an algorithm to theoretical perfection for its own sake.  Every bit of performance improvement made the visualization itself more pleasnt to use and provided a better experience to users on all kinds of devices.  I can drag around the nodes and watch them balance with each other and reach a locally optimal arrangement and know that underneath it all, my carefully crafted code was spinning away in my computer's CPU.
+But what's most important was that it all had a purpose!  This wasn't optimizing an algorithm to theoretical perfection for its own sake.  Every bit of performance improvement made the visualization itself more pleasant to use and provided a better experience to users on all kinds of devices.  I can drag around the nodes and watch them balance with each other and reach a locally optimal arrangement and know that underneath it all, my carefully crafted code was spinning away in my computer's CPU.
 
 ----
 
