@@ -3,6 +3,46 @@ title: 'Building a Statically Linked `wasm-opt` for Continuous Deployment'
 date: '2019-12-07'
 ---
 
+## UPDATE 2021-06-26
+
+Binaryen, the repository that contains `wasm-opt`, actually builds `wasm-opt` for alpine/statically linked as part of its [CI Pipeline](https://github.com/WebAssembly/binaryen/runs/2919351777?check_suite_focus=true).  Stealing their code for that, here's a very simple script that handles building `wasm-opt` statically, no extra work required:
+
+```bash
+# Start a Docker container for doing the build
+docker run -w /src -dit --name alpine -v $PWD:/src node:lts-alpine
+
+# Create a helper script file to make running commands inside the alpine container easier
+echo 'docker exec alpine "$@";' > ./alpine.sh
+chmod +x ./alpine.sh
+
+# Prepare build environment + install dependencies
+./alpine.sh apk update
+./alpine.sh apk add build-base cmake git python3 clang ninja
+./alpine.sh pip3 install -r requirements-dev.txt
+
+# Build
+rm -f CMakeCache.txt CMakeFiles
+./alpine.sh cmake . -G Ninja -DCMAKE_CXX_FLAGS="-static" -DCMAKE_C_FLAGS="-static" -DCMAKE_BUILD_TYPE=Release -DBUILD_STATIC_LIB=ON -DCMAKE_INSTALL_PREFIX=install
+./alpine.sh ninja install
+
+# Copy our built `wasm-opt` binary out
+docker cp alpine:/src/install/bin/wasm-opt .
+
+# Clean up the docker container
+docker kill alpine && docker rm alpine
+```
+
+That's it!  Verifying that the generated `wasm-opt` binary is actually statically linked:
+
+```bash
+> file ./wasm-opt
+./wasm-opt: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, with debug_info, not stripped
+```
+
+----
+
+Here's the original blog post for posterity:
+
 When deploying WebAssembly assets to production for use in the web browser, `wasm-opt` is an extremely valuable tool for generating Wasm binaries that are as small and performant as possible. However, since it like most Wasm tooling is still quite new and not yet commonplace, installing it and making use of it in an automated fashion can be a bit tricky.
 
 ## Background on `wasm-opt`
