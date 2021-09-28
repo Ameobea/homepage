@@ -128,9 +128,10 @@ Being able to rely on Web Audio to handle all of this was a massive help when bu
 
 All of the synthesizer's audio generation code is implemented in WebAssembly and runs on the audio rendering thread thanks to `AudioWorkletProcessor`.  `AudioWorkletProcessor`s (or AWPs as I often refer to them in my code and docs) are interfaces that allow programmers to define entirely custom DSP code for audio rendering; they even support compiling, instantiating, and running WebAssembly modules.  The source code for this synth's AWP is here: <https://github.com/Ameobea/web-synth/blob/master/public/FMSynthAWP.js>
 
-If you're interested in the nitty gritty of creating a WebAssembly-powered AWP, I created another blog post which goes into [further detail](buliding-a-wavetable-synthesizer-with-rust-wasm-and-webaudio/#audioworkletprocessor-implementation)
+If you're interested in the nitty gritty of creating a WebAssembly-powered AWP, I created another blog post which goes into [further detail](../buliding-a-wavetable-synthesizer-with-rust-wasm-and-webaudio/#audioworkletprocessor-implementation)
 
 There are three ways of passing data between AWPs on the audio rendering thread and the main UI thread where the rest of the code runs:
+
   1) The audio graph via input/output buffers and parameters
   2) Message port
   3) `SharedArrayBuffer`

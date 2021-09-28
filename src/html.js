@@ -24,6 +24,12 @@ export default class HTML extends React.Component {
             gtag("config", "UA-131544751-1");`,
             }}
           ></script>
+          <script
+            async
+            defer
+            data-domain="cprimozic.net"
+            src="https://plausible.ameo.dev/js/plausible.js"
+          ></script>
           {this.props.headComponents}
         </head>
         <body {...this.props.bodyAttributes}>

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'gatsby';
+import { StaticImage } from 'gatsby-plugin-image';
 
 import Layout from '../../components/layout';
 import { ANewTab } from '../../components/util';
-import { StaticImage } from 'gatsby-plugin-image';
 
 const Minutiae = () => (
   <Layout

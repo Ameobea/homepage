@@ -9,9 +9,10 @@ const HEADER_LINK_SVG_CONTENT =
 module.exports = {
   siteMetadata: {
     title: "Casey Primozic's Homepage",
-    description: 'Personal website of Casey Primozic / Ameo',
+    description: 'Personal website of Casey Primozic / ameo',
     siteUrl: 'https://cprimozic.net',
   },
+  assetPrefix: 'https://cprimozic.b-cdn.net',
   plugins: [
     'gatsby-plugin-typescript',
     'gatsby-plugin-react-helmet',
@@ -55,6 +56,7 @@ module.exports = {
     },
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
+    'gatsby-plugin-image',
     {
       resolve: 'gatsby-transformer-remark',
       options: {

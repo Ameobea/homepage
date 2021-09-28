@@ -130,7 +130,6 @@ const SPF420XSyncup: React.FC<{ stickerPicker: any; poster: any }> = ({
 
       <div style={{ textAlign: 'center' }}>
         <GatsbyImage
-          formats={['auto', 'webp', 'avif']}
           image={stickerPicker.childImageSharp.gatsbyImageData}
           alt="A screenshot of the UI for picking which sticker a user placed when they clicked on the background of the site"
         />
