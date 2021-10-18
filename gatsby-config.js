@@ -65,14 +65,22 @@ module.exports = {
           maxDepth: 6,
         },
         plugins: [
-          `gatsby-plugin-image`,
-          `gatsby-plugin-sharp`,
           `gatsby-transformer-sharp`,
+          // There is a bug in `gatsby-transformer-remark` or whatever that makes plugin options not work.
+          //
+          // To work around, edit `node_modules/gatsby-transformer-remark/extend-node-type.js` and do a find-replace of:
+          //
+          // FROM: `plugin.pluginOptions`
+          // TO: `plugin.options ?? plugin.pluginOptions`
+          //
+          // It's probably some gatsby versioning thing or whatever.  Maybe someone responded to my question on Discord:
+          // https://discord.com/channels/484383807575687178/537691356487876624/899433884738002954
           {
             resolve: 'gatsby-remark-images',
             options: {
               maxWidth: 840,
               withWebp: true,
+              withAvif: true,
               backgroundColor: 'rgba(36, 36, 36, 0.92)',
               quality: 86,
             },

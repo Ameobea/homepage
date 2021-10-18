@@ -12,7 +12,7 @@ const renderAst = new rehypeReact({
 }).Compiler;
 
 export const query = graphql`
-  query($slug: String!) {
+  query ($slug: String!) {
     markdownRemark(fields: { slug: { eq: $slug } }) {
       htmlAst
       tableOfContents
@@ -31,7 +31,9 @@ export const query = graphql`
  * @param htmlContent The raw HTML of the TOC
  */
 const fixTOCLinks = (htmlContent: string): string =>
-  htmlContent.replace(/<a href="\//g, '<a href="/blog/');
+  htmlContent
+    ? htmlContent.replace(/<a href="\//g, '<a href="/blog/')
+    : htmlContent;
 
 export default ({ data: { markdownRemark: post } }) => {
   useEffect(() => {
@@ -70,15 +72,17 @@ export default ({ data: { markdownRemark: post } }) => {
     >
       <div className="blog-post">
         <h1>{post.frontmatter.title}</h1>
-        <div className="markdown-remark-toc-wrapper">
-          <div
-            className="markdown-remark-toc"
-            dangerouslySetInnerHTML={{
-              __html: fixTOCLinks(post.tableOfContents),
-            }}
-          />
-        </div>
-        {renderAst(post.htmlAst)}
+        {post.tableOfContents ? (
+          <div className="markdown-remark-toc-wrapper">
+            <div
+              className="markdown-remark-toc"
+              dangerouslySetInnerHTML={{
+                __html: fixTOCLinks(post.tableOfContents),
+              }}
+            />
+          </div>
+        ) : null}
+        {post.htmlAst ? renderAst(post.htmlAst) : null}
       </div>
     </Layout>
   );
