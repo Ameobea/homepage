@@ -1,5 +1,26 @@
 [
   {
+    "name": "Music Galaxy",
+    "description": "Music Galaxy is is the culmination of several months of work with artist relationship data from Spotify. It is an interative 3D visualization of the relationships between over 70,000 artists, positioning them in such a way that artists with similar audiences are positioned closer together in space. It also supports connecting to users' Spotify accounts to visualize where their personal favorite artists exist in context of the greater musical universe.",
+    "projectUrl": "https://galaxy.spotifytrack.net",
+    "srcUrl": "https://github.com/Ameobea/spotifytrack/tree/main/frontend/src/musicGalaxy",
+    "technologies": [
+      "TypeScript",
+      "Three.JS",
+      "WebGL",
+      "Rust",
+      "WebAssembly",
+      "Python",
+      "word2vec",
+      "node2vec"
+    ],
+    "pageUrl": "/blog/building-music-galaxy/",
+    "image": "music-galaxy-twtr.png",
+    "imageAlt": "A screenshot of music galaxy showing a zoomed-out view of the visualization with several labeled artists",
+    "startDate": "Aug 2021",
+    "endDate": "Oct 2021"
+  },
+  {
     "name": "Spotify Related Artists Graph Visualization",
     "description": "An interactive web-based visualization of related artists on Spotify based on data from the Spotify web API.  It allows patterns in music styles and artists to be seen in a way that moves beyond traditional genre classifications.  The visualization is integrated into my Spotifytrack project.",
     "projectUrl": null,
