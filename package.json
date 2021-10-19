@@ -63,7 +63,8 @@
     "gatsby-remark-prismjs": "^5.11.0",
     "gatsby-transformer-remark": "^4.11",
     "nlf": "^2.1.1",
-    "prettier": "^2.4.1"
+    "prettier": "^2.4.1",
+    "webpack-retry-chunk-load-plugin": "^2.2.0"
   },
   "repository": {
     "type": "git",
