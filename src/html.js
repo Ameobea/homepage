@@ -28,7 +28,7 @@ export default class HTML extends React.Component {
             async
             defer
             data-domain="cprimozic.net"
-            src="https://plausible.ameo.dev/js/plausible.js"
+            src="https://pause.ameo.dev/js/pause.js"
           ></script>
           {this.props.headComponents}
         </head>
