@@ -21,11 +21,43 @@
     "endDate": "Oct 2021"
   },
   {
+    "name": "Neural Network From Scratch",
+    "description": "A simple neural network framework written in Rust, compiled to WebAssembly with SIMD, and running in the browser.  It can learn arbitrary functions via randomly sampled examples, showing its progress on a 3D surface plot.  There is a UI for changing all network parameters like the number of layers, the activation function for each layer, learning rate, and more.",
+    "projectUrl": "https://nn-viz.ameo.design",
+    "srcUrl": "https://github.com/Ameobea/neural-network-from-scratch",
+    "technologies": ["Rust", "WebAssembly", "Wasm SIMD", "TypeScript"],
+    "pageUrl": null,
+    "image": "nn-viz.png",
+    "imageAlt": "A screenshot of the neural network web page showing the controls and a 3D surface plot of the function the network has learned",
+    "startDate": "Aug 2021",
+    "endDate": "Aug 2021"
+  },
+  {
+    "name": "Speeding up the `rnnoise` library with SIMD",
+    "description": "`rnnoise` is an open source noise suppression library based on a recurrent neural network.  It is used in various software, and I use it myself on my desktop as a part of `pulseeffects`.  I located a hot function in the application used for actually applying the neural network's weights which was taking up significant portion of its CPU time, and I realized it could be sped up significantly with SIMD. I converted the code to use SIMD intrinsics which yielded a huge reduction in CPU usage. I also contributed a pull request to the rnnoise repository with the changes.",
+    "projectUrl": "https://github.com/xiph/rnnoise/pull/191",
+    "technologies": ["C", "SIMD", "perf"],
+    "pageUrl": null,
+    "image": "rnnoise-godbolt.png",
+    "imageAlt": "A screenshot of the godbolt web interface showing the generated assembly from the code from rnnoise that I sped up with SIMD",
+    "startDate": "Jul 2021",
+    "endDate": "Jul 2021"
+  },
+  {
     "name": "Spotify Related Artists Graph Visualization",
     "description": "An interactive web-based visualization of related artists on Spotify based on data from the Spotify web API.  It allows patterns in music styles and artists to be seen in a way that moves beyond traditional genre classifications.  The visualization is integrated into my Spotifytrack project.",
     "projectUrl": null,
     "srcUrl": "https://github.com/ameobea/spotifytrack/",
-    "technologies": ["TypeScript", "React", "d3", "WebCola"],
+    "technologies": [
+      "TypeScript",
+      "React",
+      "d3",
+      "Rust",
+      "WebAssembly",
+      "Wasm SIMD",
+      "perf",
+      "WebCola"
+    ],
     "pageUrl": null,
     "image": "spotify_related_artists_graph.png",
     "imageAlt": "A screenshot of the spotify related artists graph visualization showing the network of my personal artists and their connections to each other based on user listening patterns",

@@ -158,7 +158,7 @@ The color of the other and connections is varied using a 3D noise function.  Thi
 
 When example music is played for artists while flying around the galaxy, I set the playing artist's sphere to pulse with the music.  This effect was achieved by using an `AnalyserNode` from WebAudio to look at raw samples as they streamed from the playing audio, find the sample with the largest value (highest gain/volume), and use that to determine the scale of the sphere.  The sphere size was low-pass filtered to prevent it from being too jumpy.
 
-<video style="display: flex; margin-left: auto; margin-right: auto; width: 500px; height: 500px;" controls src="https://ameo.link/u/9gz.mp4"></video>
+<video style="display: flex; margin-left: auto; margin-right: auto; width: 500px; height: 500px; max-width: 80vw; max-height: 80vw;" controls src="https://ameo.link/u/9gz.mp4"></video>
 
 ## Performance Tuning
 
