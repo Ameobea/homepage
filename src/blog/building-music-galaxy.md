@@ -49,7 +49,7 @@ https://spotifytrack.net/artist-averager.html
 
 I've personally found a few artists that I really like just by trying different combinations of artists I already know from different styles and genres.  For example, I put in two artists I listen to: PinocchioP (a Japanese Vocaloid producer) and ssshhhiiittt! (a Russian punk/rock band) and the result was an artist called Never Get Used To People (a Russian experimental electronic artist) which I really like and have listened to extensively since finding them through the tool.
 
-![A screenshot of the artist averager web interface showing "Never Get Used To People" as the average between "PinocchioP" and "ssshhhiiittt!"](images/music-galaxy/artist-averager-1.png)
+<a target="_blank" href="https://spotifytrack.net/artist-averager.html">![A screenshot of the artist averager web interface showing "Never Get Used To People" as the average between "PinocchioP" and "ssshhhiiittt!"](images/music-galaxy/artist-averager-1.png)</a>
 
 Via trial and error, I found that a vector size of 8 was best for the artist averager.  8 is a very low dimensionality for most embeddings you'll hear about, but the source data has some problems that need to be worked around.  The main issue is that connections lack weights and are capped at 20 related artists.  Also, the data set is much smaller than many that are used for these kinds of embeddings.  Having weighted edges (differentiating if two artists are only slightly related or extremely closely related) would add to the quality of the embedding, but that information isn't available through Spotify's API.
 
@@ -75,7 +75,7 @@ Generating higher-dimensional embeddings and projecting down to 3D via PCA had t
 
 ![A screenshot of an early galaxy embedding showing an amorphous blob with little defined structure](./images/music-galaxy/fuzzy-pca.png)
 
-4 -> 3 dimensions was the sweet spot; `word2vec` had enough space to lay things out well and the information loss from shaving just one dimension off was manageable.  In fact, I've found that the bit of noise that is added by the PCA is actually desirable; it helps to facilitate exploration and discovery by mixing in things you might not have seen normally.  This is a strategy used by some AI-powered recommendation engines; some percentage of their recommendations will be either partially or entirely random in order to expose users to fresh content and keep the model from over-saturating in one specific groove.
+4 -> 3 dimensions was the sweet spot; `node2vec` had enough space to lay things out well and the information loss from shaving just one dimension off was manageable.  In fact, I've found that the bit of noise that is added by the PCA is actually desirable; it helps to facilitate exploration and discovery by mixing in things you might not have seen normally.  This is a strategy used by some AI-powered recommendation engines; some percentage of their recommendations will be either partially or entirely random in order to expose users to fresh content and keep the model from over-saturating in one specific groove.
 
 ### Tweaking `node2vec` Hyperparameters
 
