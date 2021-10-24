@@ -179,7 +179,7 @@ module.exports = {
                         title
                         date(formatString: "YYYY-MM-DD")
                       }
-                      excerpt
+                      excerpt(pruneLength: 400)
                     }
                   }
                 }
