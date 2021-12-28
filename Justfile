@@ -1,3 +1,5 @@
+set dotenv-load := true
+
 build-all:
   #!/bin/bash
   # Check if our dependency license list needs to be refreshed

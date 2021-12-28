@@ -23,7 +23,7 @@ If you're already familiar with Rust/Rocket/Diesel, you may want to skip ahead t
 
 You'll need to install the `diesel-cli` program in order to facilitate automated database setup and migration generation. All you have to do is run:
 
-```sh
+```bash
 cargo install diesel_cli --no-default-features --features mysql
 ```
 
@@ -100,13 +100,13 @@ file = "src/schema.rs"
 
 We need to first tell diesel how to connect to our database. To do this, export the `DATABASE_URL` environment variable with values changed to reflect your database:
 
-```sh
+```bash
 export DATABASE_URL="mysql://rocket:your_chosen_password@example.com/rocket_app"
 ```
 
 To get started on creating the migrations themselves, just run the following from your project's root directory:
 
-```sh
+```bash
 diesel setup # Creates `migrations` directory + `src/schema.rs` file
 diesel migration generate initialize
 ```
@@ -135,7 +135,7 @@ DROP TABLE `rocket_app`.`pageviews`;
 
 These queries will be executed automatically by the `diesel` CLI program when running migrations. To actually go ahead and run them, just execute:
 
-```sh
+```bash
 diesel migration run
 ```
 
@@ -143,7 +143,7 @@ This, if successful, will execute the `up.sql` query and create the `pageviews` 
 
 To test the `down` stage of the migrations, you can tear it down and re-run it by running:
 
-```sh
+```bash
 diesel migration redo
 ```
 
@@ -372,7 +372,7 @@ This will make every route accessible from any web page, which makes sense since
 
 At this point, we've got all the pieces we need to actually run the webserver! The only thing left to do is tell Rocket how to access your database by exporting one last environment variable:
 
-```sh
+```bash
 export ROCKET_DATABASES="{ rocket_app = { url = \"$DATABASE_URL\" } }"
 ```
 
@@ -380,13 +380,13 @@ Then, just run `cargo run` and Rocket should launch your server on port 8000. Yo
 
 To create some sample page views, run the following `curl` command:
 
-```sh
+```bash
 curl -X POST -H "Content-Type: application/json" -d '{"url": "https://example.com/", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36", "referrer": "https://google.com/", "device_type": 0 }' http://localhost:8000/page_view
 ```
 
 You should see "Inserted 1 row(s)" print to the console as the response. To see the inserted page view, run:
 
-```sh
+```bash
 curl http://localhost:8000/page_view
 ```
 
@@ -406,7 +406,7 @@ In order to use cloud run, you'll need a Google Cloud account set up. It's free,
 
 The first step is creating a Docker container for our application. Luckly, this is extremely simple. Just create a `Dockerfile` in the project root with this content:
 
-```sh
+```bash
 FROM debian:jessie AS builder
 
 # You'll need to change `libmysqlclient-dev` to `libpq-dev` if you're using Postgres
@@ -442,19 +442,19 @@ Run `echo target >> .dockerignore` to speed up builds by keeping the `target` di
 
 To build the image, just run this command:
 
-```sh
+```bash
 docker build -t gcr.io/page-view-counter-01/rocket-app .
 ```
 
 If you haven't before, run this command to set up pushing to the Google Container Registry:
 
-```sh
+```bash
 gcloud auth configure-docker
 ```
 
 Once the build completes, push it to Google Container Registery with this command:
 
-```sh
+```bash
 docker push gcr.io/page-view-counter-01/rocket-app
 ```
 
@@ -466,7 +466,7 @@ We need to provide one environment variable, `ROCKET_DATABASES`, to the containe
 
 Run this command to create the deployment:
 
-```sh
+```bash
 gcloud beta run deploy --set-env-vars="ROCKET_DATABASES=$ROCKET_DATABASES" gcr.io/page-view-counter-01/rocket-app:latest
 ```
 
@@ -480,7 +480,7 @@ To test your deployment, just switch the URLs and `curl` commands from the **Lau
 
 As a fun activity, we can benchmark the created service using the [drill](https://github.com/fcsonline/drill) HTTP load testing application. Install drill by running:
 
-```sh
+```bash
 cargo install drill
 ```
 
@@ -501,7 +501,7 @@ plan:
 
 Then, run `drill` to initiate the benchmark:
 
-```sh
+```bash
 drill --benchmark benchmark.yml --stats
 ```
 

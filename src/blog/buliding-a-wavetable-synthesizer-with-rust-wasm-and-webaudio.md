@@ -151,7 +151,7 @@ Luckily, there is still a way to generate Wasm modules from Rust without having 
 
 One of the nice abstractions that `wasm-bindgen` provides is the ability to pass arrays back and forth between JavaScript and Rust with ease. We'll have to do this ourselves, but the benefit is that we get to do delightfully low-level things to the Rust code running inside of Wasm. There's no feeling quite like that obtained from writing bytes directly into Rust's memory and watching as all of those beautiful safety guarantees it provides crumble:
 
-![Writing bytes into the Rust heap from JavaScript and making Rust incredibly sad](https://ameo.link/u/58m.png)
+![Writing bytes into the Rust heap from JavaScript and making Rust incredibly sad](./images/wavetable/rust-wasm-heap-corruption.png)
 
 #### Manually Optimizing Generated Wasm
 
@@ -393,7 +393,7 @@ class WaveTableNodeProcessor extends AudioWorkletProcessor {
   constructor() {
     super();
 
-    this.port.onmessage = event => this.initWasmInstance(event.data);
+    this.port.onmessage = (event) => this.initWasmInstance(event.data);
   }
 
   initWasmInstance(data) {
@@ -671,9 +671,8 @@ Anyway, our `get_data_table_ptr` function takes the pointer to the `WaveTable` a
 
 ```ts
 const wavetablePtr = wasmModule.exports.init_wavetable(...args);
-const wavetableDataBufferPtr = wasmModule.exports.get_data_table_ptr(
-  wavetablePtr
-);
+const wavetableDataBufferPtr =
+  wasmModule.exports.get_data_table_ptr(wavetablePtr);
 ```
 
 Now that we've set up space for the wavetable's data in Wasm memory, we need to copy our waveforms in from JavaScript. The Wasm memory is available as an `ArrayBuffer` via `wasmModule.exports.memory.buffer`. However, this poses a problem: we have 32-bit numbers, but the only way to write into an `ArrayBuffer` is byte by byte. In order to copy full `f32`s, we need to create a typed array _view_ of that memory buffer:
@@ -978,9 +977,8 @@ const generatedSamplesArrayOffset = generatedSamplesPtr / BYTES_PER_F32;
 for (let outputIx = 0; outputIx < outputs.length; outputIx++) {
   for (let channelIx = 0; channelIx < outputs[outputIx].length; channelIx++) {
     for (let sampleIx = 0; sampleIx < FRAME_SIZE; sampleIx++) {
-      const sample = this.float32WasmMemory[
-        generatedSamplesArrayOffset + sampleIx
-      ];
+      const sample =
+        this.float32WasmMemory[generatedSamplesArrayOffset + sampleIx];
       outputs[outputIx][channelIx][sampleIx] = sample;
     }
   }

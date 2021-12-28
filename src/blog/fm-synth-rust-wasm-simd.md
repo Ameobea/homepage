@@ -72,7 +72,7 @@ Anything from the most delicate electric piano to the grittiest dubstep bassline
 
 This FM synth uses a **modulation matrix_** to visualize the FM synthesis graph and allow it to be controlled as precisely as possible.
 
-![A screenshot of the fm synthesizer's modulation matrix showing the degrees of modulation](https://ameo.link/u/3231ed816760fff965de1dd62c3b1c9eb9bfa196.png)
+![A screenshot of the fm synthesizer's modulation matrix showing the degrees of modulation](./images/fm-synth/modulation-matrix.png)
 
 Each cell in the matrix corresponds to the index of modulation between one operator and another.  The synth supports setting constant values, having the value be supplied by an envelope generator (explained later on in this post), or a being a multiplier of the frequency of the currently playing note.  This offers an enormous amount of control over the sound.
 
@@ -164,13 +164,13 @@ Web Audio provides an `AnalyserNode` which handles all of the heavy lifting for 
 
 ### Oscilloscope
 
-![A screenshot of the oscilloscope, visualizing the FM synthesizer's output waveform](https://ameo.link/u/8v2.png)
+![A screenshot of the oscilloscope, visualizing the FM synthesizer's output waveform](./images/fm-synth/oscilloscope.png)
 
 The oscilloscope I used is incredibly basic, based off of a library called [Wavy Jones](https://github.com/stuartmemo/wavy-jones).  It's the simplest audio visualization, just plotting the output samples as a line graph.  Nonetheless, it's still a useful tool to see exactly what is getting produced by the synthesizer.
 
 ### Spectrogram
 
-![A screenshot of the spectrogram, visualizing the harmonic content of FM synthesizer's output audio](https://ameo.link/u/8us.png)
+![A screenshot of the spectrogram, visualizing the harmonic content of FM synthesizer's output audio](./images/fm-synth/spectrogram.png)
 
 The spectrogram is a bit more involved.  All sound and in fact all signals are made up of a variety of sine waves of different frequencies and intensities.  The Fast Fourier Transform or FFT converts sound from an array of samples into an array of frequency values.  These frequency values can then be plotted on a heatmap to see which frequencies are most prevalent in the sound and how they change over time.
 

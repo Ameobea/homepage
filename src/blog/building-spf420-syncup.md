@@ -3,7 +3,7 @@ title: 'Building SPF420 x SYNC^UP - An Online Concert Experience'
 date: '2020-07-19'
 ---
 
-![A screen shot of the SPF420 website from the first concert in March 2020](https://ameo.link/u/89y.png)
+![A screen shot of the SPF420 website from the first concert in March 2020](./images/spf420-1.png)
 
 Back at the beginning of 2020, I become involved with the people who founded SPF420 - a group of musicians and artists who had started hosting live concerts over an ancient video chat application called TinyChat years before virtual concerts or online events were really even a thing. With the situation created by COVID-19, there was an explosion in activity in the digital events space and they wanted to bring SPF420 back after a several-year hiatus. Here's an idea of what the original SPF420 looked like:
 

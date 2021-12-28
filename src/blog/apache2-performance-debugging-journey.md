@@ -31,7 +31,7 @@ Crossing my fingers, I refreshed the image over and over, hoping for the immedia
 
 At this point, I was getting desperate and quite frustrated. I had been convinced that it was something to do with the TLS connections/handshakes, but none of my efforts had any effect. In an attempt to figure out more exactly which part of the request was taking so long, I pulled up Firefox dev tools and looked at the network timings for the request. Although I sadly don't have a screenshot from the actual timings for that request, this is what the visualization looks like:
 
-![A screenshot of the Firefox network timings inspector visualization](https://ameo.link/u/708.png)
+![A screenshot of the Firefox network timings inspector visualization](./images/firefox-network-inspector.png)
 
 In the case of my request for the uploaded screenshot, both the "Blocked" and "TLS Setup" bars had almost exactly 30 seconds each. I found that very strange and refreshed. The same exact timings, bar a few dozen milliseconds, showed up again!
 

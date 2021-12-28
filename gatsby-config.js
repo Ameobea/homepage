@@ -54,27 +54,24 @@ module.exports = {
         path: `${__dirname}/src/blog`,
       },
     },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'blog',
+        path: `${__dirname}/src/blog/images`,
+      },
+    },
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
     'gatsby-plugin-image',
     {
       resolve: 'gatsby-transformer-remark',
       options: {
-        tableOfContents: {
-          heading: null,
-          maxDepth: 6,
-        },
+        // tableOfContents: {
+        //   heading: null,
+        //   maxDepth: 6,
+        // },
         plugins: [
-          `gatsby-transformer-sharp`,
-          // There is a bug in `gatsby-transformer-remark` or whatever that makes plugin options not work.
-          //
-          // To work around, edit `node_modules/gatsby-transformer-remark/extend-node-type.js` and do a find-replace of:
-          //
-          // FROM: `plugin.pluginOptions`
-          // TO: `plugin.options ?? plugin.pluginOptions`
-          //
-          // It's probably some gatsby versioning thing or whatever.  Maybe someone responded to my question on Discord:
-          // https://discord.com/channels/484383807575687178/537691356487876624/899433884738002954
           {
             resolve: 'gatsby-remark-images',
             options: {
