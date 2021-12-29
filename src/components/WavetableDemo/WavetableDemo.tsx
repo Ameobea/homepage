@@ -234,8 +234,11 @@ const WavetableDemo: React.FC<{}> = () => {
   > | null>(null);
   const wavyJonesInstance = useRef<AnalyserNode | null>(null);
   const isStarted = useRef(false);
+  const [hasAWP, setHasAWP] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
+    setHasAWP(typeof AudioWorkletNode === 'function');
+
     if (typeof AudioWorkletNode !== 'function') {
       return;
     }
@@ -268,7 +271,7 @@ const WavetableDemo: React.FC<{}> = () => {
 
   const settings = useMemo(() => getSettings(toggleStarted), [toggleStarted]);
 
-  if (typeof AudioWorkletNode !== 'function') {
+  if (hasAWP === false) {
     return (
       <div className="wavetable-demo">
         <span>
@@ -282,7 +285,7 @@ const WavetableDemo: React.FC<{}> = () => {
     );
   }
 
-  if (!context) {
+  if (!hasAWP || !context) {
     return <div className="wavetable-demo">Loading...</div>;
   }
 

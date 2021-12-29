@@ -19,6 +19,7 @@ module.exports = {
     'gatsby-plugin-sass',
     'gatsby-transformer-json',
     'gatsby-plugin-sitemap',
+    'gatsby-plugin-image',
     {
       resolve: 'gatsby-source-filesystem',
       options: {
@@ -61,16 +62,9 @@ module.exports = {
         path: `${__dirname}/src/blog/images`,
       },
     },
-    'gatsby-transformer-sharp',
-    'gatsby-plugin-sharp',
-    'gatsby-plugin-image',
     {
       resolve: 'gatsby-transformer-remark',
       options: {
-        // tableOfContents: {
-        //   heading: null,
-        //   maxDepth: 6,
-        // },
         plugins: [
           {
             resolve: 'gatsby-remark-images',
@@ -102,6 +96,8 @@ module.exports = {
         ],
       },
     },
+    'gatsby-transformer-sharp',
+    'gatsby-plugin-sharp',
     {
       resolve: 'gatsby-plugin-manifest',
       options: {

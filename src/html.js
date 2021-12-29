@@ -12,7 +12,7 @@ export default class HTML extends React.Component {
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
           />
-          <script async src="https://robintrack.net/tag.js"></script>
+          {/* <script async src="https://robintrack.net/tag.js"></script>
           <script
             dangerouslySetInnerHTML={{
               __html: `window.dataLayer = window.dataLayer || [];
@@ -23,7 +23,7 @@ export default class HTML extends React.Component {
 
             gtag("config", "UA-131544751-1");`,
             }}
-          ></script>
+          ></script> */}
           <script
             async
             defer
@@ -45,7 +45,11 @@ export default class HTML extends React.Component {
               zIndex: -2,
             }}
           />
-          <div key="body" id="___gatsby" />
+          <div
+            key={`body`}
+            id="___gatsby"
+            dangerouslySetInnerHTML={{ __html: this.props.body }}
+          />
           {this.props.postBodyComponents}
         </body>
       </html>
