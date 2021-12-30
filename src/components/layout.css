@@ -8,6 +8,7 @@ a {
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
   color: rgb(65, 131, 196);
+  text-underline-offset: 0.5px;
 }
 a:active,
 a:hover {

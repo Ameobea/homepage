@@ -1,43 +1,48 @@
 import React from 'react';
 import { Link } from 'gatsby';
 
+import './Header.scss';
+
 const styles = {
   root: {
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: 'transparent',
-    padding: '2px 300px 8px 300px',
     flexWrap: 'wrap',
-  },
-  homeLink: {
-    left: 8,
-    display: 'flex',
-    flex: 1,
-    fontSize: 20,
-    fontWeight: 600,
-    position: 'absolute',
+    maxWidth: 880,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: 6,
+    paddingLeft: 8,
+    paddingRight: 2,
   },
   navLinks: {
     display: 'flex',
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     marginTop: 2,
-  },
-  navLink: {
-    fontSize: 18,
-    paddingLeft: 8,
-    paddingRight: 8,
+    textDecorationThickness: 1,
+    textUnderlineOffset: 2,
   },
 };
 
 const NavLink = ({ to, text, style = {} }) => (
-  <Link to={to} style={{ ...styles.navLink, ...style }}>
+  <Link className="nav-link" to={to} style={style}>
     {text}
   </Link>
 );
 
 const NavLinks = () => (
   <div style={styles.navLinks}>
+    <a
+      href="https://twitter.com/ameobea10/"
+      target="blank"
+      className="nav-link"
+    >
+      @ameobea10
+    </a>
+    •
     <NavLink to="/portfolio/" text="Portfolio" />•
     <NavLink to="/contact/" text="Contact" />•
     <NavLink to="/blog/" text="Blog" />•
@@ -51,8 +56,8 @@ const NavLinks = () => (
 
 const Header = () => (
   <div style={styles.root} className="header">
-    <Link to="/" style={styles.homeLink}>
-      {'Casey Primozic'}
+    <Link to="/" className="home-link">
+      <b>cprimozic.net</b>
     </Link>
     <NavLinks />
   </div>

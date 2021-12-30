@@ -1,0 +1,28 @@
+.home-link {
+  display: flex;
+  flex: 0.4 1 0%;
+  font-size: 30px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #17dccb;
+}
+
+.home-link:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+
+.nav-link {
+  font-size: 18px;
+  padding-left: 8px;
+  padding-right: 8px;
+  color: #17dccb;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 1px;
+}

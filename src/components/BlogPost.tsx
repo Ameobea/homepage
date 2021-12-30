@@ -4,6 +4,7 @@ import rehypeReact from 'rehype-react';
 
 import WavetableDemo from './WavetableDemo';
 import Layout from './layout';
+import RssIcon from '../images/rss.svg';
 import './BlogPost.scss';
 
 const renderAst = new rehypeReact({
@@ -52,6 +53,32 @@ const patchHTMLAST = (ast) => {
   return ast;
 };
 
+const AboveFoldContent: React.FC = () => (
+  <div className="above-fold-content">
+    <a
+      href="/rss.xml"
+      style={{
+        display: 'block',
+        marginTop: -18,
+        marginBottom: 4,
+        textAlign: 'right',
+      }}
+    >
+      Subscribe to Blog via RSS{' '}
+      <img
+        src={RssIcon}
+        style={{
+          height: 18,
+          width: 18,
+          marginBottom: -3,
+          marginTop: -21,
+          marginLeft: 6,
+        }}
+      />
+    </a>
+  </div>
+);
+
 export default ({ data: { markdownRemark: post } }) => {
   useEffect(() => {
     document.getElementById('svg').style.visibility = 'hidden';
@@ -89,6 +116,8 @@ export default ({ data: { markdownRemark: post } }) => {
     >
       <div className="blog-post">
         <h1>{post.frontmatter.title}</h1>
+        <AboveFoldContent />
+
         {post.tableOfContents ? (
           <div className="markdown-remark-toc-wrapper">
             <div

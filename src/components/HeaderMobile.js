@@ -5,21 +5,25 @@ import HamburgerMenuIcon from '../images/hamburgerMenu.svg';
 
 const styles = {
   root: {
-    height: 0,
     backgroundColor: 'rgba(36, 36, 36, 0.92)',
-    paddingBottom: 45,
-    flexDirection: 'row',
     display: 'none',
+    height: 45,
   },
-  title: {
-    fontSize: 18,
-    fontFamily: "'PT Sans', sans-serif",
+  links: {
+    paddingLeft: 40,
     display: 'flex',
+    flexDirection: 'row',
     flex: 1,
     justifyContent: 'center',
-    fontWeight: 600,
-    paddingTop: 10,
   },
+  title: {
+    display: 'flex',
+    alignItems: 'center',
+    fontSize: 24,
+    fontFamily: "'PT Sans', sans-serif",
+    fontWeight: 600,
+  },
+  link: { color: '#17dccb', textDecoration: 'none' },
   expanded: {
     position: 'absolute',
     top: 8,
@@ -107,8 +111,22 @@ const HeaderMobile = () => {
         style={styles.menuIcon}
         onClick={() => setMenuOpen(!menuOpen)}
       />
-      <div style={styles.title}>
-        <Link to="/">Casey Primozic</Link>
+      <div style={styles.links}>
+        <div style={styles.title}>
+          <Link style={{ ...styles.link, marginRight: 10 }} to="/">
+            cprimozic.net
+          </Link>
+        </div>
+        <div style={styles.title}>{' | '}</div>
+        <div style={styles.title}>
+          <a
+            style={{ ...styles.link, marginLeft: 10 }}
+            href="https://twitter.com/ameobea10/"
+            target="blank"
+          >
+            @ameobea10
+          </a>
+        </div>
       </div>
 
       {menuOpen ? <HeaderMenuExpanded /> : null}
