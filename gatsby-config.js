@@ -179,7 +179,7 @@ module.exports = {
               }
             `,
             output: '/rss.xml',
-            title: 'Gatsby RSS Feed',
+            title: 'cprimozic.net Blog',
           },
         ],
       },
