@@ -70,7 +70,7 @@ module.exports = {
             resolve: 'gatsby-remark-images',
             options: {
               maxWidth: 840,
-              withWebp: true,
+              withWebp: false,
               withAvif: true,
               backgroundColor: 'rgba(36, 36, 36, 0.92)',
               quality: 86,

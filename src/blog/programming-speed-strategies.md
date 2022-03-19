@@ -3,6 +3,8 @@ title: "Habits I've Developed for Fast + Efficient Programming"
 date:  '2021-10-24'
 ---
 
+There's been a lot of discussion recently about working fast and being productive in software development, and I thought I'd share some of my own strategies that I've developed for that purpose.
+
 There's a lot more than just writing code that goes into being an effective software developer, and there's naturally a lot of discussion that goes on about what those other things are.  However, **the core of software development is reading, navigating, understanding, and at the end of the day writing code**.
 
 The benefits of being fast and efficient at the actual mechanics of programming can have far-reaching benefits besides just the obvious ones of being able to do more work in less time.  Spending less mental resources on translating thoughts into characters in the text editor helps preserve complex mental state.  Developing better patterns for using your text editor or IDE reduces the amount of effort you have to spend getting to where you want to go in your codebase.  All of these things have the goal of freeing up your time and more importantly your mental bandwidth to focus on the algorithms, interactions, abstractions, and business problems instead.
@@ -107,3 +109,5 @@ Any overhead that may be caused by having to write out type annotations or appea
 ----
 
 This is by no means a complete list, and it's very possible some of them may not apply to you or that you may disagree with some of them.  That's fine!  Everyone is different, and you probably have things that make you a faster programmer that I don't use.
+
+Discussion on Hacker News: <https://news.ycombinator.com/item?id=28975714>

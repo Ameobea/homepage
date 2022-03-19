@@ -1,0 +1,25 @@
+Hierarchicality, graphs, nature of thought, information, and reality.
+
+Graphs contain information about the connections between things.  Relationships are the fundamental unit of information; atoms are meaningless on their own and don't represent facts.  Graph databases are becoming popular and powerful for search engines, most powerful information aggregation and retrieval systems created by humanity.  Ex Machina has AI come from the search engine company for a reason.
+
+Neural networks are graphs with conditionally connected edges depending on an incredibly complex and dynamic set of external state and internal feedback.  Lots of implementation details, but I've become convinced that concept is core to information processing and consciousness in general.
+
+Can talk about embeddings, how they relate to the brain  How word2vec -&gt; doc2vec, etc.  Embeddings are the physical embodiments (it's in the name, embedded in space) or graph data.  **graphs and space are intrinsically linked and deeply related.**  Hierarchicality maps directly to dimensionality; orders of magnitude of increases in complexity and information density as dimensionality goes up.  More ways for things to be related to each other.
+
+GEB/strange loop tie in.  All of the very deep ideas in those books revolve around self-referential, cyclical graphs that bring themselves into existence.  Tie-in with ontological proof for the existence of god; a profound concept that captures the human imagination.
+
+Any possible anything in which "things" exist (nouns, entities) depends on graphs/relationships to other things in order to function.  I think this is the lowest level of it all and perhaps should be the heart and core of this writeup.  Programming languages, ASTs, FSMs, turing machines boil down to graphs.
+
+Hierarchicality is one of if not the fundamental emergent property of graphs.  Fractals and self similarity are closely related to it.  Hierarchicality is present in systems of all kinds as well; humans naturally arrange themselves in to hierarchies as well.  Put forward some ideas about how it develops - graphs that grow?  Layers of abstraction.  Composition over inheritance follows this pattern. Systems are largely characterized by complex relationships between simpler parts; subgraphs within subgraphs.  The concept of "meta" itself,
+
+When more connections are created -- that may be it, it may be related to time.  As graphs evolve - are driven forward - in time, hierarchies form when more children are created than parents.  Time itself is graph-like; each infintesimal moment is connected to the next one as an infinitely long list of infinitely short time slices.  Any non-determinism can simply be represented by adding additional dimensions. Does this happen with spatial dimensions as well, where space itself is graph-like?  Movement through space is transitioning along graphs?
+
+Wolfram Physics (https://www.wolframphysics.org/) and their re-imagining of physics in terms of cellular automata (which naturally can be represented by graphs).  Tempting for programmers and similar to want to try to understand the universe in this way, but it fits so well.  It bridges between virtually every different area of research out there.  And of course, we have to make that point at least once in this writeup about how that in itself is a graph thing and how ridiculously meta thinking about this stuff gets.
+
+Maybe talk about knots in there somewhere.  Knots are a
+
+----
+
+Will have to figure out some unifying theme and a goal to work towards when writing this, otherwise it will just be a big scattering of random rants about graphs and connections.  Have to differentiate from wolfram physics which honestly backs up so much of this, but tbh only some parts of all of this directly relate to physics.  So much of this is intuitive and naturally follows (damn the level of meta is shocking) so we can take a more general and basic approach.
+
+Possible that we have a skewed view of all of this because we're perceiving the world and forming all of our thoughts from within brains constructed of hierarchical graphs of neurons in space.
