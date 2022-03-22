@@ -7,10 +7,10 @@ import React, {
 } from 'react';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import * as R from 'ramda';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
 
 import { ANewTab, truncateWithElipsis } from '../util';
+import PlayIcon from './PlayIcon.svg';
+import PauseIcon from './PauseIcon.svg';
 
 const styles: { [key: string]: CSSProperties } = {
   root: {
@@ -45,8 +45,10 @@ const styles: { [key: string]: CSSProperties } = {
   playPauseButton: {
     cursor: 'pointer',
     display: 'inline-block',
-    mixBlendMode: 'exclusion',
-    fontSize: 20,
+    width: 20,
+    height: 20,
+    margin: 0,
+    padding: 0,
   },
   link: {
     zIndex: 2,
@@ -156,8 +158,9 @@ export const Track = ({
         style={{ display: 'flex', padding: 4 }}
         onClick={() => setPlaying(isPlaying ? false : previewUrl)}
       >
-        <FontAwesomeIcon
-          icon={isPlaying ? faPause : faPlay}
+        <img
+          src={isPlaying ? PauseIcon : PlayIcon}
+          alt={isPlaying ? 'pause' : 'play'}
           style={styles.playPauseButton}
         />
       </div>

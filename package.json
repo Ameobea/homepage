@@ -4,9 +4,6 @@
   "version": "1.0.0",
   "author": "Casey Primozic <casey@cprimozic.net>",
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.36",
-    "@fortawesome/free-solid-svg-icons": "^5.15.4",
-    "@fortawesome/react-fontawesome": "^0.1.16",
     "@sentry/react": "^6.19.1",
     "@sentry/tracing": "^6.19.1",
     "ameo-utils": "^0.8.0",
@@ -22,7 +19,6 @@
     "gatsby-remark-autolink-headers": "^5.10.1",
     "gatsby-remark-copy-linked-files": "^5.10.0",
     "gatsby-remark-images": "^6.10.1",
-    "gatsby-remark-prismjs-no-heading": "d4rekanguok/gatsby-remark-prismjs-no-heading",
     "gatsby-source-filesystem": "^4.10.0",
     "gatsby-source-spotify": "^2.0.0",
     "gatsby-transformer-csv": "^4.10.0",

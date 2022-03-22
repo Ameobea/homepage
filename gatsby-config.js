@@ -16,7 +16,6 @@ module.exports = {
   plugins: [
     'gatsby-plugin-typescript',
     'gatsby-plugin-react-helmet',
-    'gatsby-plugin-sass',
     'gatsby-transformer-json',
     'gatsby-plugin-sitemap',
     'gatsby-plugin-image',
@@ -83,7 +82,7 @@ module.exports = {
             },
           },
           {
-            resolve: 'gatsby-remark-prismjs-no-heading',
+            resolve: 'gatsby-remark-prismjs',
             options: {
               classPrefix: 'language-',
               inlineCodeMarker: null,
