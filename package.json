@@ -31,7 +31,7 @@
     "gatsby-transformer-csv": "^4.10.0",
     "gatsby-transformer-json": "^4.10.0",
     "gatsby-transformer-sharp": "^4.10.0",
-    "node-sass": "6.0.1",
+    "node-sass": "7.0.0",
     "prismjs": "^1.27.0",
     "ramda": "^0.28.0",
     "react": "^17.0.2",
