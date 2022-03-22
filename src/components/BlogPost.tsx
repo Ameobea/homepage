@@ -5,7 +5,7 @@ import rehypeReact from 'rehype-react';
 import WavetableDemo from './WavetableDemo';
 import Layout from './layout';
 import RssIcon from '../images/rss.svg';
-import './BlogPost.scss';
+import './BlogPost.ccss';
 
 const renderAst = new rehypeReact({
   createElement: React.createElement,

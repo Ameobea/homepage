@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'gatsby';
 
-import './Header.scss';
+import './Header.css';
 
 const styles = {
   root: {

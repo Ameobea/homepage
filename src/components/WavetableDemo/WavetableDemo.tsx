@@ -10,7 +10,7 @@ const ControlPanel = React.lazy(() => import('react-control-panel'));
 
 import waveforms, { waveformSampleCount, baseFrequency } from './waveforms';
 import WavyJones from './WavyJones';
-import './WavetableDemo.scss';
+import './WavetableDemo.css';
 
 const buildContext = () => {
   const ctx = new AudioContext();
