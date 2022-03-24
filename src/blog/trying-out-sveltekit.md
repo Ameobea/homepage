@@ -3,31 +3,6 @@ title: 'My Evaluation of SvelteKit for Full-Stack Web App Development'
 date: '2022-01-04'
 ---
 
-<style>
-.good, .bad {
-  display: block;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
-  margin-inline-start: 10px;
-  margin-inline-end: 10px;
-  padding-left: 8px;
-  padding-right: 8px;
-  padding-top: 1px;
-  padding-bottom: 1px;
-  border-style: solid;
-  border-width: 0px;
-  border-left-width: 1.5px;
-  font-size: 16.5px;
-}
-
-.good {
-  background-color: #22bb2229;
-}
-.bad {
-  background-color: #bb222229;
-}
-</style>
-
 I recently tried out [SvelteKit](https://kit.svelte.dev/) for the first time.  This is a summary of my experience setting it up, some information I've collected while researching + learning it, and my thoughts on how it compares to other similar frameworks.
 
 If you're not familiar with it, SvelteKit is a framework for building full stack web apps.  It builds on top of [Svelte](https://svelte.dev/) and provides a Jamstack environment with support for modern features like server-side rendering, link pre-loading, and static page pre-rendering out of the box.  Similar frameworks include [Next.JS](https://nextjs.org/) and [Gatsby](https://www.gatsbyjs.com/) which both use React, and [Nuxt.js](https://nuxtjs.org/) which uses Vue.

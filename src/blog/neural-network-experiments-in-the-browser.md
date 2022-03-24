@@ -19,21 +19,29 @@ I find this tool to be unparalleled for learning how compilers work and understa
 
 ![A screenshot of Godbolt showing line-by-line mappings of a Rust function into x86 assembly code](images/neural_network_from_scratch/compiler_explorer.png)
 
-> This is what I wanted for neural networks: A constrained, simplified environment for experimenting with basic network topologies and experimenting live to see _visually_ how different layer counts, sizes, activation functions, hyperparameters, etc. impacted their functionality and performance.
+<div class="note">This is what I wanted for neural networks: A constrained, simplified environment for experimenting with basic network topologies and experimenting live to see <i>visually</i> how different layer counts, sizes, activation functions, hyperparameters, etc. impacted their functionality and performance.</div>
 
 ## My Attempt at a Solution
 
-With this goal in mind, I set out to try to build something that could vaguely approach the kind of experience I had playing with Godbolt.  I had just invested a bunch of time learning how neural networks work from the ground up, so I figured it would be a good way to exercise that knowledge a bit if nothing else.
+With this goal in mind, I set out to try to build something that could in some way approach the kind of experience I had playing around in Compiler Explorer.  I had just invested a bunch of time learning how neural networks work from the ground up, so I figured it would be a good way to exercise that knowledge a bit if nothing else.
 
-<iframe src="http://localhost:7000/" loading="lazy" style="position: relative; height: calc(min(800px, 80vh)); width: 100%; outline: none; border: none;"></iframe>
+<iframe src="http://localhost:7007/?constrainedLayout=1" loading="lazy" style="position: relative; height: calc(min(800px, 80vh)); width: 100%; outline: none; border: none;"></iframe>
 
 TODO: Explain the premise of the tool (input data and output functions that are modelled)
 
 ### Learnings + Observations
 
- * Using ReLU is by far the fastest for training.  This makes a lot of sense due to how incredibly simple it is.
+ * Using ReLU and ReLU-like activation functions is by far the fastest for training.  This makes a lot of sense due to how incredibly simple they are computationally.
  * When using ReLU as activation function for the output layer, learning rate needs to be set incredibly low in order for the model to not diverge.  As we add more layers, the effect is compounded.  This makes sense since ReLU is more or less linear for positive values; values need to be carefully balanced to make outputs fit the expected range of 0-1.  Using a nonlinear activation function for the output layer like sigmoid makes things a lot easier since values get clamped at the limits of the range.
- * Slowly reducing the learning rate while training can greatly benefit the fitness of
+ * Slowly reducing the learning rate while training can help models reach a lower loss by the end of training.  Another thing that sometimes works is increasing the learning rate for short periods of time to help break out of local maxima - but this can just as easily have a negative effect.
+ * Networks with more parameters (both wide and deep) seem to require more examples before converging.  This is partially due to the fact that lower training rates are needed to keep them stable during training, but it feels like more than that as well.  I saw some networks that still hadn't converged even after being trained with several million examples.
+ * The values that weights + biases are initialized to is critical for training performance and network stability.  Initializing weights or biases all to a constant value rarely seems to be the best option.  This is especially true for activation functions like ReLU which have gradients that behave badly at exactly zero due to the discontinuity at that point.  Additionally, initializing starting weights or biases to values that are too large can cause the training to fail to diverge immediately.
+ * Adding more layers can do things that just adding more neurons to a single layer cannot.  This is especially apparent on more complex target functions.  For the "Fancy Sine Thing", a 2-layer network with sizes of 24 and 12 far outperformed a single layer with 128 neurons.  This makes some sense since the number of parameters in a network increases as the product of the count of neurons in adjacent layers.
+ * Models have trouble dealing with sharp transitions in multiple dimensions between different domains.  They seems to require more "resources" (layer sizes/counts) to deal with these kinds of features.  They seem to like smoother functions best.
+
+ ![A screenshot of the neural network visualization tool showing how the network has difficulty dealing with sharp multidimensional transitions between different domains of a complex target function.  ](images/neural_network_from_scratch/multi_dimensional_domain_cutoff.png)
+
+Although experimenting with this tool doesn't give
 
 ### Technical Implementation
 
@@ -47,8 +55,8 @@ TODO
 
  * Examples are fed in one by one rather than in batches.  This is just a limitation of my implementation of the neural network's training; training efficiency and performance can often be greatly improved by using batches.
  * Since the target functions are so simple, most of these networks are heavily overfitting the target functions.  For real applications, the inputs and outputs often have orders of magnitude more dimensions which is where bigger and deeper networks shine.
-
-TODO
+ * Additionally, since these networks are so simple, there are likely differences between how they work compared to huge networks with billions of parameters.  I'd be interested to expand this neural network to support different kinds of input/output data types and sizes to see how the perform.
+ * All layers in the tool's networks are densely connected.  Lots of modern networks use sparsely connected layers and other complex layers to help improve performance or enhance the networks' capabilities.
 
 ## Other Useful Tools
 
