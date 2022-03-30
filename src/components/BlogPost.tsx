@@ -3,13 +3,17 @@ import { graphql } from 'gatsby';
 import rehypeReact from 'rehype-react';
 
 import WavetableDemo from './WavetableDemo';
+import CollapsableNNViz from './CollapsableNNViz';
 import Layout from './layout';
 import RssIcon from '../images/rss.svg';
 import './BlogPost.css';
 
 const renderAst = new rehypeReact({
   createElement: React.createElement,
-  components: { 'wavetable-demo': WavetableDemo },
+  components: {
+    'wavetable-demo': WavetableDemo,
+    'collapsable-nn-viz': CollapsableNNViz,
+  },
 }).Compiler;
 
 export const query = graphql`
@@ -79,6 +83,27 @@ const AboveFoldContent: React.FC = () => (
   </div>
 );
 
+const getPostMetadata = (
+  post: any
+): { image: string | null; meta: any } | null => {
+  if (post.frontmatter?.title.includes('Webcola')) {
+    return {
+      image: 'https://ameo.link/u/921.png',
+      meta: [
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:image', content: 'https://ameo.link/u/921.png' },
+        {
+          name: 'twitter:image:alt',
+          content:
+            'A screenshot of the spotify artist relationship graph from my Spotifytrack site, which was produced using WebCola',
+        },
+      ],
+    };
+  }
+
+  return null;
+};
+
 export default ({ data: { markdownRemark: post } }) => {
   useEffect(() => {
     document.getElementById('svg').style.visibility = 'hidden';
@@ -88,31 +113,15 @@ export default ({ data: { markdownRemark: post } }) => {
     };
   });
 
+  const metadata = getPostMetadata(post);
+
   return (
     <Layout
       title={post.frontmatter.title}
       description={`${post.frontmatter.title} - Casey Primozic's Blog`}
       style={{ maxWidth: 880 }}
-      image={(() => {
-        if (post.frontmatter.title.includes('Webcola')) {
-          return 'https://ameo.link/u/921.png';
-        }
-
-        return null;
-      })()}
-      meta={
-        post.frontmatter.title.includes('Webcola')
-          ? [
-              { name: 'twitter:card', content: 'summary_large_image' },
-              { name: 'twitter:image', content: 'https://ameo.link/u/921.png' },
-              {
-                name: 'twitter:image:alt',
-                content:
-                  'A screenshot of the spotify artist relationship graph from my Spotifytrack site, which was produced using WebCola',
-              },
-            ]
-          : undefined
-      }
+      image={metadata?.image ?? null}
+      meta={metadata?.meta}
     >
       <div className="blog-post">
         <h1>{post.frontmatter.title}</h1>

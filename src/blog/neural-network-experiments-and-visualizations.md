@@ -1,7 +1,9 @@
 ---
-title: 'Experimenting with Basic Neural Network Topologies in the Browser'
+title: 'Visualizing Neural Network Internals in the Browser'
 date: '2022-03-22'
 ---
+
+<img alt="A 4-second loop of the neural network visualization application training a network, showing both the response of the network as a whole, a cost plot, as well as a visualization of neuron weights and an individual neuron's response plot" src="https://nn.ameo.dev/nn-viz-demo-animation.webp" style="width: 80%; margin-left: auto; margin-right: auto; display: block;"></img>
 
 While teaching myself the basics of neural networks, I was finding it hard to bridge the gap between the foundational theory and a practical "feeling" of how neural networks function at a fundamental level.  I learned how pieces like gradient descent and activation functions worked and even played with building and training some networks in a [Google Colab](https://colab.research.google.com/) notebook.
 
@@ -11,25 +13,25 @@ Modern toolkits like Tensorflow handle the full pipeline from data preparation t
 
 ## The Problem
 
-Despite the richness of the ecosystem and the incredible ergonomics of the tools, I felt like I was missing a core piece of the puzzle in my understanding.  On one side, there are the very abstract concepts built on calculus and matrix multiplication which provide the underlying mechanism for how neural networks function.  On the other end, there are the extremely high-level software suites used to build neural networks for practical and research purposes.
+Despite the richness of the ecosystem and the incredible ergonomics of the tools, I felt like I was missing a core piece of the puzzle in my understanding.  On one side, there are the very abstract concepts built on calculus and matrix multiplication which provide the underlying mechanism for how neural networks function.  On the other end, there are the extremely high-level software suites used to work with neural networks for practical and research purposes.
 
-I come from a software background, and when I was learning how compilers and code generation worked one of my favorite tools was and still is [Compiler Explorer](https://godbolt.org/) aka Godbolt.  It's a web application where you can type in any code you want in a variety of compiled languages, choose a compiler and compilation options, and instantly view the generated assembly for a wide range of different hardware architectures.
-
-I find this tool to be unparalleled for learning how compilers work and understanding what kinds of assembly get generated for different kinds of code input.  It's dynamic and responds instantly as soon as you poke it.  It's an environment for experimentation rather than a static knowledge resource.  Crucially, it provides a visual mapping between the two sides of the extremely complex transformation taking place under the hood.
+I come from a software background, and when I was learning how compilers and code generation worked one of my favorite tools was and still is [Compiler Explorer](https://godbolt.org/) aka Godbolt.  It's a web application where you can type in any code you want in a variety of languages, choose a compiler and compilation options, and instantly view the disassembled output for a wide range of different hardware architectures.
 
 ![A screenshot of Godbolt showing line-by-line mappings of a Rust function into x86 assembly code](images/neural_network_from_scratch/compiler_explorer.png)
 
-<div class="note">This is what I wanted for neural networks: A constrained, simplified environment for experimenting with basic network topologies and experimenting live to see <i>visually</i> how different layer counts, sizes, activation functions, hyperparameters, etc. impacted their functionality and performance.</div>
+I find this tool to be unparalleled for learning how compilers work and understanding what kinds of assembly gets generated for different kinds of code input.  It's dynamic and responds instantly as soon as you poke it.  It's an environment for experimentation rather than a static knowledge resource.  Crucially, it provides a visual mapping between the two sides of the extremely complex transformation taking place under the hood.
 
-## My Attempt at a Solution
+<div class="note" style="padding-top: 4px; padding-bottom: 4px;">This is what I wanted for neural networks: A constrained, simplified environment for building basic network topologies and experimenting live to see <i>visually</i> how different layer counts, sizes, activation functions, hyperparameters, etc. impact their functionality and performance.</div>
 
-With this goal in mind, I set out to try to build something that could in some way approach the kind of experience I had playing around in Compiler Explorer.  I had just invested a bunch of time learning how neural networks work from the ground up, so I figured it would be a good way to exercise that knowledge a bit if nothing else.
+## Neural Network Playground Overview
 
-<iframe src="http://localhost:7007/?constrainedLayout=1" loading="lazy" style="position: relative; height: calc(min(800px, 80vh)); width: 100%; outline: none; border: none;"></iframe>
+With this goal in mind, I set out to try to build something that could approach the kind of experience I had playing around in Compiler Explorer.  I created a browser-based tool for building, training, visualizing, and experimenting with neural networks.  Since it runs on the web, I've embedded it directly in this post:
 
-TODO: Explain the premise of the tool (input data and output functions that are modelled)
+<collapsable-nn-viz defaultexpanded="true"></collapsable-nn-viz>
 
-### Learnings + Observations
+TODO: Describe
+
+## Learnings + Observations
 
  * Using ReLU and ReLU-like activation functions is by far the fastest for training.  This makes a lot of sense due to how incredibly simple they are computationally.
  * When using ReLU as activation function for the output layer, learning rate needs to be set incredibly low in order for the model to not diverge.  As we add more layers, the effect is compounded.  This makes sense since ReLU is more or less linear for positive values; values need to be carefully balanced to make outputs fit the expected range of 0-1.  Using a nonlinear activation function for the output layer like sigmoid makes things a lot easier since values get clamped at the limits of the range.
@@ -39,11 +41,11 @@ TODO: Explain the premise of the tool (input data and output functions that are 
  * Adding more layers can do things that just adding more neurons to a single layer cannot.  This is especially apparent on more complex target functions.  For the "Fancy Sine Thing", a 2-layer network with sizes of 24 and 12 far outperformed a single layer with 128 neurons.  This makes some sense since the number of parameters in a network increases as the product of the count of neurons in adjacent layers.
  * Models have trouble dealing with sharp transitions in multiple dimensions between different domains.  They seems to require more "resources" (layer sizes/counts) to deal with these kinds of features.  They seem to like smoother functions best.
 
- ![A screenshot of the neural network visualization tool showing how the network has difficulty dealing with sharp multidimensional transitions between different domains of a complex target function.  ](images/neural_network_from_scratch/multi_dimensional_domain_cutoff.png)
+ ![A screenshot of the neural network visualization tool showing how the network has difficulty dealing with sharp multidimensional transitions between different domains of a complex target function.](images/neural_network_from_scratch/multi_dimensional_domain_cutoff.png)
 
 Although experimenting with this tool doesn't give
 
-### Technical Implementation
+## Technical Implementation
 
 TODO
 

@@ -12,18 +12,6 @@ export default class HTML extends React.Component {
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
           />
-          {/* <script async src="https://robintrack.net/tag.js"></script>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `window.dataLayer = window.dataLayer || [];
-            function gtag() {
-              dataLayer.push(arguments);
-            }
-            gtag("js", new Date());
-
-            gtag("config", "UA-131544751-1");`,
-            }}
-          ></script> */}
           <script
             async
             defer

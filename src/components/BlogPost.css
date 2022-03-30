@@ -78,7 +78,16 @@
 }
 @media only screen and (max-width: 800px) {
   .blog-post p {
-    font-size: 14px;
+    font-size: 14.5px;
+  }
+  .blog-post .markdown-remark-toc ul {
+    padding-inline-start: 32px;
+  }
+  .blog-post ul {
+    padding-inline-start: 15px;
+  }
+  .blog-post li {
+    font-size: 14.5px;
   }
   .blog-post code {
     font-size: 13.5px !important;
@@ -110,6 +119,14 @@
   border-width: 0px;
   border-left-width: 1.5px;
   font-size: 16.5px;
+}
+
+@media only screen and (max-width: 800px) {
+  .blog-post .good,
+  .blog-post .bad,
+  .blog-post .note {
+    font-size: 14.5px;
+  }
 }
 
 .blog-post .good {
