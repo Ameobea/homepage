@@ -228,7 +228,7 @@ const getSettings = (toggleStarted: () => void) => [
 
 type PromiseResolveType<T> = T extends Promise<infer R> ? R : never;
 
-const WavetableDemo: React.FC<{}> = () => {
+const WavetableDemo: React.FC = () => {
   const [context, setContext] = useState<PromiseResolveType<
     ReturnType<typeof initWavetable>
   > | null>(null);

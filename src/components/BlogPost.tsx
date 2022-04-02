@@ -3,7 +3,7 @@ import { graphql } from 'gatsby';
 import rehypeReact from 'rehype-react';
 
 import WavetableDemo from './WavetableDemo';
-import CollapsableNNViz from './CollapsableNNViz';
+import CollapsibleNNViz from './CollapsibleNNViz';
 import Layout from './layout';
 import RssIcon from '../images/rss.svg';
 import './BlogPost.css';
@@ -12,7 +12,7 @@ const renderAst = new rehypeReact({
   createElement: React.createElement,
   components: {
     'wavetable-demo': WavetableDemo,
-    'collapsable-nn-viz': CollapsableNNViz,
+    'collapsible-nn-viz': CollapsibleNNViz,
   },
 }).Compiler;
 

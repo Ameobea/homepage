@@ -45,12 +45,12 @@ const ExpandVizButton: React.FC<ExpandVizButtonProps> = ({ onExpand }) => (
   </div>
 );
 
-interface CollapsableNNVizProps {
+interface CollapsibleNNVizProps {
   preset?: string;
   defaultexpanded?: 'true' | 'false';
 }
 
-const CollapsableNNViz: React.FC<CollapsableNNVizProps> = ({
+const CollapsibleNNViz: React.FC<CollapsibleNNVizProps> = ({
   preset,
   defaultexpanded = 'false',
 }) => {
@@ -61,7 +61,7 @@ const CollapsableNNViz: React.FC<CollapsableNNVizProps> = ({
       <>
         <HideButton onHide={() => setExpanded(false)} />
         <iframe
-          src={`http://localhost:7000/?constrainedLayout=1${
+          src={`http://localhost:7007/?constrainedLayout=1${
             preset ? `&preset=${preset}` : ''
           }`}
           loading="lazy"
@@ -83,4 +83,4 @@ const CollapsableNNViz: React.FC<CollapsableNNVizProps> = ({
   return <ExpandVizButton onExpand={() => setExpanded(true)} />;
 };
 
-export default CollapsableNNViz;
+export default CollapsibleNNViz;

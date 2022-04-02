@@ -121,6 +121,11 @@
   font-size: 16.5px;
 }
 
+.blog-post .padded {
+  padding-bottom: 6px;
+  padding-top: 6px;
+}
+
 @media only screen and (max-width: 800px) {
   .blog-post .good,
   .blog-post .bad,
