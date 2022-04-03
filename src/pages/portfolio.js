@@ -6,14 +6,16 @@ import * as R from 'ramda';
 import Layout from '../components/layout';
 import './portfolio.css';
 
-const ProjectInfoLink = ({ text, url }) => {
+const ProjectInfoLink = ({ text, url, newTab = true }) => {
   if (!url) {
     return null;
   }
 
   return (
     <span className="portfolio-project-info-link">
-      <a href={url}>{text}</a>
+      <a target={newTab ? '_blank' : undefined} href={url}>
+        {text}
+      </a>
     </span>
   );
 };
@@ -60,6 +62,7 @@ const ProjectOverview = ({
   description,
   projectUrl,
   srcUrl,
+  videoUrl,
   technologies,
   pageUrl,
   imageAlt,
@@ -80,9 +83,10 @@ const ProjectOverview = ({
           endDate || '(current)'
         }`}</i>
         <div className="portfolio-project-info">
-          <ProjectInfoLink text="Details" url={pageUrl} />
+          <ProjectInfoLink newTab={false} text="Details" url={pageUrl} />
           <ProjectInfoLink text="Website" url={projectUrl} />
           <ProjectInfoLink text="Source Code" url={srcUrl} />
+          <ProjectInfoLink text="Video" url={videoUrl} />
         </div>
       </div>
       <p className="portfolio-project-description">{description}</p>
@@ -106,6 +110,7 @@ const getProjectFilesQuery = graphql`
           description
           projectUrl
           srcUrl
+          videoUrl
           technologies
           pageUrl
           image

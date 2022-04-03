@@ -1,5 +1,45 @@
 [
   {
+    "name": "Browser-Based Neural Network Playground",
+    "description": "A browser-based tool for building, training, visualizing, and experimenting with neural networks.  Written in Rust, compiled to WebAssembly with SIMD.  It can learn arbitrary functions via randomly sampled examples, showing its progress on a 3D surface plot.  There is support for changing all network parameters like the number of layers, the activation function for each layer, learning rate, and more.  It also includes visualizations of individual neurons' responses to explore the internal workings of the network.",
+    "projectUrl": "https://nn-viz.ameo.design",
+    "srcUrl": "https://github.com/Ameobea/neural-network-from-scratch",
+    "technologies": [
+      "Rust",
+      "WebAssembly",
+      "Wasm SIMD",
+      "TypeScript",
+      "Machine Learning",
+      "React"
+    ],
+    "pageUrl": "/blog/neural-network-experiments-and-visualizations/",
+    "image": "nn-viz.jpg",
+    "imageAlt": "A screenshot of the neural network web application itself which shows the full UI, network response visualization, neuron output and response visualization, and costs plot",
+    "startDate": "Aug. 2021",
+    "endDate": "Apr. 2022"
+  },
+  {
+    "name": "Mini 3D World in the Browser",
+    "description": "A small 3D world built using Three.js and Blender that runs in the web browser.  Accompanied by a YouTube mini-series of short videos going over the process of creating it and explaining some of the background concepts.",
+    "projectUrl": "https://terrain.ameo.design/v4/",
+    "videoUrl": "https://www.youtube.com/playlist?list=PLbw41Lu0QRVunnfMe9ASp0XgGx-37nnT_",
+    "srcUrl": null,
+    "technologies": [
+      "Three.JS",
+      "Blender",
+      "TypeScript",
+      "Rust",
+      "WebAssembly",
+      "GLSL",
+      "WebGL"
+    ],
+    "pageUrl": null,
+    "image": "3d-world.png",
+    "imageAlt": "A screenshot of the 3D world in the browser showing a floating island with clouds in the background, grass, low-poly trees, a mountain, texturing, and a FPS counter",
+    "startDate": "Feb. 2022",
+    "endDate": "Mar. 2022"
+  },
+  {
     "name": "Music Galaxy",
     "description": "Music Galaxy is is the culmination of several months of work with artist relationship data from Spotify. It is an interative 3D visualization of the relationships between over 70,000 artists, positioning them in such a way that artists with similar audiences are positioned closer together in space. It also supports connecting to users' Spotify accounts to visualize where their personal favorite artists exist in context of the greater musical universe.",
     "projectUrl": "https://galaxy.spotifytrack.net",
@@ -19,18 +59,6 @@
     "imageAlt": "A screenshot of music galaxy showing a zoomed-out view of the visualization with several labeled artists",
     "startDate": "Aug 2021",
     "endDate": "Oct 2021"
-  },
-  {
-    "name": "Neural Network From Scratch",
-    "description": "A simple neural network framework written in Rust, compiled to WebAssembly with SIMD, and running in the browser.  It can learn arbitrary functions via randomly sampled examples, showing its progress on a 3D surface plot.  There is a UI for changing all network parameters like the number of layers, the activation function for each layer, learning rate, and more.",
-    "projectUrl": "https://nn-viz.ameo.design",
-    "srcUrl": "https://github.com/Ameobea/neural-network-from-scratch",
-    "technologies": ["Rust", "WebAssembly", "Wasm SIMD", "TypeScript"],
-    "pageUrl": null,
-    "image": "nn-viz.png",
-    "imageAlt": "A screenshot of the neural network web page showing the controls and a 3D surface plot of the function the network has learned",
-    "startDate": "Aug 2021",
-    "endDate": "Aug 2021"
   },
   {
     "name": "Speeding up the `rnnoise` library with SIMD",

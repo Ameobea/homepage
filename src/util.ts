@@ -28,3 +28,6 @@ export const randInt = (min, max) =>
   Math.floor(Math.random() * (max - min) + min);
 
 export const randBool = () => Math.random() > 0.5;
+
+export const getSentry = (): typeof import('@sentry/browser') | undefined =>
+  (window as any).sentry;

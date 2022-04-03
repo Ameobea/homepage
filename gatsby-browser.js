@@ -28,7 +28,15 @@ const maybeInitTriangles = () => {
         engine.render(i);
       }
 
-      setInterval(genAllChains, 1000.0 / 24.0);
+      window.trianglesIntervalHandle = setInterval(genAllChains, 1000.0 / 24.0);
+      window.pauseTriangles = () =>
+        clearInterval(window.trianglesIntervalHandle);
+      window.resumeTriangles = () => {
+        window.trianglesIntervalHandle = setInterval(
+          genAllChains,
+          1000.0 / 24.0
+        );
+      };
     } catch (err) {
       // pass
     }
@@ -46,6 +54,7 @@ const maybeInitSentry = () => {
 
   require.ensure(['@sentry/browser', '@sentry/tracing'], function (require) {
     const Sentry = require('@sentry/browser');
+    window.sentry = Sentry;
     const { Integrations } = require('@sentry/tracing');
 
     Sentry.init({

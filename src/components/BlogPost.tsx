@@ -106,9 +106,19 @@ const getPostMetadata = (
 
 export default ({ data: { markdownRemark: post } }) => {
   useEffect(() => {
+    try {
+      (window as any).pauseTriangles();
+    } catch (_err) {
+      // pass
+    }
     document.getElementById('svg').style.visibility = 'hidden';
 
     return () => {
+      try {
+        (window as any).resumeTriangles();
+      } catch (_err) {
+        // pass
+      }
       document.getElementById('svg').style.visibility = 'visible';
     };
   });

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getSentry } from '../util';
 
 interface HideButtonProps {
   onHide: () => void;
@@ -30,15 +31,16 @@ const ExpandVizButton: React.FC<ExpandVizButtonProps> = ({ onExpand }) => (
       cursor: 'pointer',
       paddingTop: 4,
       paddingBottom: 4,
-      color: '#ddd',
+      color: '#eee',
+      fontWeight: 'bold',
       marginTop: 8,
       marginBottom: 8,
       marginLeft: 20,
       marginRight: 20,
       fontSize: 20,
       textAlign: 'center',
-      backgroundColor: 'rgb(80, 20, 220, 0.17)',
-      borderBottom: '1px solid #777',
+      backgroundColor: '#6200ad',
+      border: '1px solid #777',
     }}
   >
     Click to open demo
@@ -59,9 +61,16 @@ const CollapsibleNNViz: React.FC<CollapsibleNNVizProps> = ({
   if (expanded) {
     return (
       <>
-        <HideButton onHide={() => setExpanded(false)} />
+        <HideButton
+          onHide={() => {
+            setExpanded(false);
+            getSentry()?.captureMessage(
+              `CollapsibleNNViz: hidden preset=${preset ?? '<default>'}`
+            );
+          }}
+        />
         <iframe
-          src={`http://localhost:7007/?constrainedLayout=1${
+          src={`https://nn.ameo.dev/?constrainedLayout=1${
             preset ? `&preset=${preset}` : ''
           }`}
           loading="lazy"
@@ -80,7 +89,16 @@ const CollapsibleNNViz: React.FC<CollapsibleNNVizProps> = ({
     );
   }
 
-  return <ExpandVizButton onExpand={() => setExpanded(true)} />;
+  return (
+    <ExpandVizButton
+      onExpand={() => {
+        setExpanded(true);
+        getSentry()?.captureMessage(
+          `CollapsibleNNViz: expanded preset=${preset ?? '<default>'}`
+        );
+      }}
+    />
+  );
 };
 
 export default CollapsibleNNViz;
