@@ -23,6 +23,7 @@ const Layout = ({
   children,
   title,
   description,
+  siteName,
   style = {},
   image,
   meta = [],
@@ -45,20 +46,24 @@ const Layout = ({
           },
           {
             name: 'og:site_name',
-            content: 'Homepage of Casey Primozic / ameo',
+            content: siteName ?? 'Homepage of Casey Primozic / ameo',
           },
-          {
-            name: 'og:description',
-            content: description || 'Homepage of Casey Primozic / ameo',
-          },
-          {
-            name: 'description',
-            content: description || 'Homepage of Casey Primozic / ameo',
-          },
+          description
+            ? {
+                name: 'og:description',
+                content: description || 'Homepage of Casey Primozic / ameo',
+              }
+            : null,
+          description
+            ? {
+                name: 'description',
+                content: description || 'Homepage of Casey Primozic / ameo',
+              }
+            : null,
           image ? { name: 'og:image', content: image } : null,
           {
             name: 'keywords',
-            content: 'Casey Primozic, Ameo, homepage, AmeoBea',
+            content: 'Casey Primozic, Ameo, AmeoBea',
           },
           {
             name: 'twitter:site',

@@ -4,5 +4,6 @@
     "editor.wordWrap": "on",
     "editor.quickSuggestions": false,
     "editor.formatOnSave": false
-  }
+  },
+  "cSpell.words": ["frontmatter"]
 }

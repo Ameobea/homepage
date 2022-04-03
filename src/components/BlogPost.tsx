@@ -85,7 +85,7 @@ const AboveFoldContent: React.FC = () => (
 
 const getPostMetadata = (
   post: any
-): { image: string | null; meta: any } | null => {
+): { image: string | null; meta: any; description?: string } | null => {
   if (post.frontmatter?.title.includes('Webcola')) {
     return {
       image: 'https://ameo.link/u/921.png',
@@ -96,6 +96,31 @@ const getPostMetadata = (
           name: 'twitter:image:alt',
           content:
             'A screenshot of the spotify artist relationship graph from my Spotifytrack site, which was produced using WebCola',
+        },
+      ],
+    };
+  } else if (post.frontmatter?.title.includes('Exploring Neural Networks')) {
+    return {
+      image: 'https://nn.ameo.dev/nn-viz-og2.jpeg',
+      description:
+        'Introduces a browser-based sandbox for building, training, visualizing, and experimenting with neural networks.  Includes background information on the tool, usage information, technical implementation details, and a collection of observations and findings from using it myself.',
+      meta: [
+        { name: 'twitter:card', content: 'summary_large_image' },
+        {
+          name: 'twitter:image',
+          content: 'https://nn.ameo.dev/nn-viz-og2.jpeg',
+        },
+        { name: 'og:image:width', content: '1129' },
+        { name: 'og:image:height', content: '747' },
+        {
+          name: 'og:image:alt',
+          content:
+            'A screenshot of the neural network sandbox web application showing various visualizations including network response visualization, layers visualization, neuron response plot, and costs plot',
+        },
+        {
+          name: 'twitter:image:alt',
+          content:
+            'A screenshot of the neural network sandbox web application showing various visualizations including network response visualization, layers visualization, neuron response plot, and costs plot',
         },
       ],
     };
@@ -128,7 +153,8 @@ export default ({ data: { markdownRemark: post } }) => {
   return (
     <Layout
       title={post.frontmatter.title}
-      description={`${post.frontmatter.title} - Casey Primozic's Blog`}
+      description={metadata?.description}
+      siteName="Casey Primozic's Blog"
       style={{ maxWidth: 880 }}
       image={metadata?.image ?? null}
       meta={metadata?.meta}
