@@ -29,8 +29,8 @@ const styles = {
 const TagLine = () => (
   <div style={styles.tagLine}>
     I&apos;m a software developer interested in all kinds of programming. I love
-    building <Link to="/portfolio/">websites</Link> and creating tools that
-    people find useful.
+    building <Link to="/portfolio/">web applications</Link> and creating tools
+    that people find useful.
   </div>
 );
 

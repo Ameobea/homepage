@@ -1,5 +1,36 @@
 [
   {
+    "name": "Interactive ML-Powered Anime Recommendation Tool",
+    "description": "An anime recommendation engine powered by a custom-built neural network.  Using a dataset of user profiles from the popular site MyAnimeList, the network was trained entirely in the browser via Tensorflow.JS.\n\nThe whole thing is implemented as a SvelteKit app with predictions happening directly within the app itself using tfjs-node and a background thread.  Additional post-processing is applied to work around imbalances due to large popularity differences. It also contains support for determining which ratings contribute most to each of the recommendations.",
+    "projectUrl": "https://anime.ameo.dev",
+    "srcUrl": null,
+    "technologies": [
+      "TypeScript",
+      "Svelte",
+      "SvelteKit",
+      "Machine Learning",
+      "Neural Networks",
+      "Tensorflow"
+    ],
+    "pageUrl": null,
+    "image": "anime-recommendations.png",
+    "imageAlt": "A screenshot of the anime recommendations page of the site showing the UI and several recommended animes",
+    "startDate": "Apr. 2022",
+    "endDate": "May 2022"
+  },
+  {
+    "name": "Interactive 2D Anime Embedding Visualization",
+    "description": "In a similar vein to the Music Galaxy (a few projects down), this is an embedding visualization that is constructed based off of relationships between anime.  A co-occurrence matrix is constructed from a large dataset of user anime rankings which is then used to construct a variety of embeddings using different algorithms (PyMDE + GGVec) and parameters.  The embedding is then projected into 2D with t-SNE.\n\nThe visualization itself is built with PIXI.JS and has the ability to search + fly to anime as well as load in user profiles from MyAnimeList to visualize where one's own anime rankings lie in the broader context.",
+    "projectUrl": "https://anime.ameo.dev/pymde_3d_40n",
+    "srcUrl": null,
+    "technologies": ["TypeScript", "PIXI.JS", "Svelte", "SvelteKit", "Python"],
+    "pageUrl": null,
+    "image": "anime-atlas.png",
+    "imageAlt": "A screenshot of the anime atlas embedding visualization showing the UI and a section of the embedding with labels and markers indicating which ones the user has watched",
+    "startDate": "Apr. 2022",
+    "endDate": "May 2022"
+  },
+  {
     "name": "Browser-Based Neural Network Playground",
     "description": "A browser-based tool for building, training, visualizing, and experimenting with neural networks.  Written in Rust, compiled to WebAssembly with SIMD.  It can learn arbitrary functions via randomly sampled examples, showing its progress on a 3D surface plot.  There is support for changing all network parameters like the number of layers, the activation function for each layer, learning rate, and more.  It also includes visualizations of individual neurons' responses to explore the internal workings of the network.",
     "projectUrl": "https://nn-viz.ameo.design",

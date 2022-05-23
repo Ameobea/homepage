@@ -3,7 +3,7 @@ title: 'Exploring Neural Networks Visually in the Browser'
 date: '2022-04-02'
 ---
 
-<img width="673" height="463" alt="A 4-second loop of the neural network visualization application training a network, showing both the response of the network as a whole, a cost plot, as well as a visualization of neuron weights and an individual neuron's response plot" src="https://nn.ameo.dev/nn-viz-demo-animation.webp" style="width: 80%; margin-left: auto; margin-right: auto; display: block;"></img>
+<img width="673" height="463" alt="A 4-second loop of the neural network visualization application training a network, showing both the response of the network as a whole, a cost plot, as well as a visualization of neuron weights and an individual neuron's response plot" src="https://nn.ameo.dev/nn-viz-demo-animation.webp" style="width: 80%; height: auto; margin-left: auto; margin-right: auto; display: block;"></img>
 
 While teaching myself the basics of neural networks, I was finding it hard to bridge the gap between the foundational theory and a practical "feeling" of how neural networks function at a fundamental level.  I learned how pieces like gradient descent and different activation functions worked, and I played with building and training some networks in a [Google Colab](https://colab.research.google.com/) notebook.
 
