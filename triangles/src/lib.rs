@@ -1,19 +1,13 @@
 #![feature(box_syntax, const_fn_floating_point_arithmetic)]
 
-extern crate nalgebra;
-extern crate ncollide2d;
-extern crate rand_core;
-extern crate rand_pcg;
-extern crate wasm_bindgen;
-
 use std::f32;
 use std::mem;
 use std::panic;
 use std::ptr;
 use std::usize;
 
-use nalgebra::{Isometry2, Point2, Vector2};
 use ncollide2d::bounding_volume::{aabb::AABB, BoundingVolume};
+use ncollide2d::na::{Isometry2, Point2, Vector2};
 use ncollide2d::partitioning::{DBVTLeaf, DBVTLeafId, VisitStatus, Visitor, BVH, DBVT};
 use rand::Rng;
 use rand_core::SeedableRng;
@@ -100,7 +94,7 @@ fn get_initial_triangle(
     let mut visitor = TriangleCollisionVisitor {
         triangle: &proposed_first_triangle,
         triangle_bv: &bounding_box,
-        triangles: unsafe { &*TRIANGLES },
+        // triangles: unsafe { &*TRIANGLES },
         does_collide: &mut does_collide,
     };
     world().visit(&mut visitor);
@@ -114,8 +108,8 @@ fn get_initial_triangle(
 struct Env {
     pub chain_ix: usize,
     pub conf: Conf,
-    pub triangle_offset_x: f32,
-    pub triangle_offset_y: f32,
+    // pub triangle_offset_x: f32,
+    // pub triangle_offset_y: f32,
     pub base_triangle_coords: TriangleBuf,
     pub last_triangle: TriangleBuf,
     pub last_triangle_ix: usize,
@@ -140,8 +134,8 @@ impl Env {
         Env {
             chain_ix,
             conf,
-            triangle_offset_x,
-            triangle_offset_y,
+            // triangle_offset_x,
+            // triangle_offset_y,
             base_triangle_coords,
             last_triangle_ix: usize::MAX,
             last_triangle,
@@ -298,7 +292,8 @@ pub fn init(canvas_width: usize, canvas_height: usize) {
     let p: *mut World = Box::into_raw(world);
     unsafe { COLLISION_WORLD = p };
 
-    let triangles: Box<[Vec<TriangleHandle>; CHAIN_COUNT]> = unsafe { box mem::uninitialized() };
+    let triangles: Box<[Vec<TriangleHandle>; CHAIN_COUNT]> =
+        unsafe { box mem::MaybeUninit::uninit().assume_init() };
     let p: *mut [Vec<TriangleHandle>; CHAIN_COUNT] = Box::into_raw(triangles);
     for i in 0..CHAIN_COUNT {
         unsafe {
@@ -315,7 +310,7 @@ pub fn init(canvas_width: usize, canvas_height: usize) {
     let rng: Box<Pcg32> = box Pcg32::from_seed(rng_seed);
     let p: *mut Pcg32 = Box::into_raw(rng);
     unsafe { RNG = p };
-    unsafe { ENVS = Box::into_raw(box mem::uninitialized()) };
+    unsafe { ENVS = Box::into_raw(box mem::MaybeUninit::uninit().assume_init()) };
 
     let default_conf = Conf {
         prng_seed: 9209.2338,
@@ -401,7 +396,7 @@ fn check_triangle_collision(t1: &TriangleBuf, t2: &TriangleBuf) -> bool {
 struct TriangleCollisionVisitor<'a> {
     pub triangle: &'a TriangleBuf,
     pub triangle_bv: &'a AABB<f32>,
-    pub triangles: &'a [Vec<TriangleHandle>; CHAIN_COUNT],
+    // pub triangles: &'a [Vec<TriangleHandle>; CHAIN_COUNT],
     pub does_collide: &'a mut bool,
 }
 
@@ -467,7 +462,7 @@ fn find_triangle_placement(
     let mut visitor = TriangleCollisionVisitor {
         triangle: &proposed_triangle,
         triangle_bv: &bounding_box,
-        triangles: unsafe { &*TRIANGLES },
+        // triangles: unsafe { &*TRIANGLES },
         does_collide: &mut does_collide,
     };
     world().visit(&mut visitor);

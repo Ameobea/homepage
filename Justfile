@@ -20,7 +20,7 @@ build-all:
   yarn build
 
 opt:
-  wasm-opt ./src/*.wasm --strip-debug -O4 -c -o ./src/*.wasm
+  wasm-opt ./src/*.wasm -O4 -c -o ./src/*.wasm
 
 run:
   cd triangles && \
