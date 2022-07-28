@@ -185,7 +185,7 @@ After testing out learning a few different 3-input boolean functions, it didn't 
 
 ### Results
 
-As it turns out, the _Ameo activation function has perfect solutions for **224/256** of the 3-input boolean functions_.
+As it turns out, the _Ameo activation function has perfect solutions for **224/256** of the 3-input boolean functions and can correctly model the 32 others_.
 
 These 224 functions with solutions do include the conditional `a ? b : c` which can be solved with parameters of `x_weight: -1, y_weight: 3, z_weight: 2, bias: -1`
 
