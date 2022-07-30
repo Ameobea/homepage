@@ -93,7 +93,9 @@ There are a total of 16 binary boolean functions.  OR, NAND, and the simple ones
 
 As it turns out, 14/16 of them are linearly separable and can be solved by neural networks that have no activation functions (these are called perceptrons).  The exception is XOR and its complement XNOR.  This fact is widely known and featured in machine learning teaching material, often called the "XOR Problem".  In order to train a neural network that has no activation functions, you need to have hidden layers.
 
-This is a fascinating idea to me.  Why is XOR "harder" to compute than the other logic gates?  Is it some consequence of the mathematical operations used to implemented artificial neurons, or something intrinsic with XOR or boolean logic itself?  XOR's unique properties are often used in cryptography to encode information or in hash functions to compress/destroy it.  I don't myself have an answer for this.  Perhaps there is some math research out there that looks into it more closely.
+This is a fascinating idea to me.  Why is XOR "harder" to compute than the other logic gates?  Is it some consequence of the mathematical operations used to implemented artificial neurons, or something intrinsic with XOR or boolean logic itself?  XOR's unique properties are often used in cryptography to encode information or in hash functions to compress/destroy it.
+
+As I later learned, there is indeed something that makes XOR and XNOR special compared to the other 2-input boolean functions.  We'll get to that later on in the article though!
 
 Another thing to note, is that although 14/16 of the functions can be linearly separated perfectly with no activation function, the solutions aren't perfect in that the values are exactly true or false at the corners.  Some functions can be perfectly represented like `NOT Y` which is achievable by setting `xWeight = 0, yWeight = -1, bias = 1`.  For most of the others, however, no perfect solution exists and the outputs will be inexact for at least some inputs.
 
@@ -101,7 +103,7 @@ Another thing to note, is that although 14/16 of the functions can be linearly s
 
 So far, we've been working without activation functions.  What if we add one of those in?
 
-Dozens of activation functions have been used over time in artificial neural networks with the popular functions changing over time.  They have a wide range of origins in research and other areas of study like statistics and electronics.  Despite that, most of them can solve XOR.
+Dozens of activation functions have been used over time in artificial neural networks with the popular functions changing over time.  They have a wide range of origins in research and other areas of study like statistics and electronics.  Despite that, most of them can't solve XOR.
 
 In order to solve XOR, the function needs to have more than one linear decision boundary.  One example of a type of function that has this property is called GCU which stands for Growing Cosine Unit.  It was found to be quite successful when used in image classification networks, improving both the speed at which the networks train as well increasing their accuracy.  Also, in the [research paper](https://arxiv.org/pdf/2108.12943.pdf) presenting the function, the authors prominently state that it can solve the XOR problem in a single neuron.
 
@@ -179,7 +181,7 @@ I got to wondering if the Ameo activation function would work for solving this a
 
 In order to test the idea, I implemented the function in TensorFlow.JS, the JavaScript port of the massively popular TensorFlow machine learning library.  Since the function is pretty simple, it wasn't horrifically difficult - plus I only bothered implementing a kernel for the CPU backend which is implemented in pure JS.
 
-There are 256 different unique 3-input boolean functions compared to 16 for the 2-input case, many more than I was willing to figure out manually.  So, I figured I'd do as the neural networks do and let gradient descent figure out solutions for me.
+There are 256 different unique 3-input boolean functions compared to 16 for the 2-input case, many more than I was willing to determine manually.  So, I figured I'd do as the neural networks do and let gradient descent discover some solutions for me.
 
 After testing out learning a few different 3-input boolean functions, it didn't take long for me to realize that all the solutions gravitated towards parameters with integer-valued weights just like the 2-input solutions.  After that realization, I wrote a quick program to attempt to brute-force solutions.
 
@@ -202,6 +204,10 @@ Playing with the parameters reveals that with the added input, the function can 
 For the functions that aren't modeled perfectly, there exist non-perfect solutions with non-integer parameters that correctly classify all 8 input combinations with some error - meaning that they are non-zero and their sign matches the sign of the target.
 
 ### Relationship to ML Theory
+
+TODO
+
+<iframe src="http://localhost:3040/functionComplexity" loading="lazy" style="display: block;outline:none;border:1px solid #888;box-sizing:border-box; width: 100%; height: 640px; margin-bottom: 10px;"></iframe>
 
 TODO
 
