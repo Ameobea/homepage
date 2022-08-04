@@ -3,15 +3,17 @@ title: 'Exploring Boolean Logic with Neural Networks'
 date: '2022-07-19'
 ---
 
-Recently, I was experimenting with building small neural networks for sequence-to-sequence use cases.  My goal was to create a visualization of how the inner state of a RNN changes as it processes inputs - similar to the [browser-based neural network visualization](https://cprimozic.net/blog/neural-network-experiments-and-visualizations/) I built previously.  Along the way, I TODO TODO TODO TODO very exciting and inspiring stuff
+Recently, I was experimenting with building small neural networks for sequence-to-sequence use cases.  My goal was to create a visualization of how the inner state of a RNN changes as it processes inputs - similar to the [browser-based neural network visualization](https://cprimozic.net/blog/neural-network-experiments-and-visualizations/) I built previously.
 
 I was inspired to explore this area after reading a very interesting blog post called [Differentiable Finite State Machines](https://google-research.github.io/self-organising-systems/2022/diff-fsm/) which gave an overview of using gradient descent to learn FSMs to operate on one-bit strings.  The state machines that were learned by their approach were impressively concise and managed to find optimal solutions in many cases.
+
+There's a _ton_ of research being done in areas that border the work that I ended up doing.  Artificial neural networks serve as very useful proxies for studying topics such as computational complexity, information theory, and even cognition itself.  This post explores the connections between some of these topics and how they apply to machine learning both in theory and in practice.
+
+## Learning Logic with RNNs
 
 For my own work, I wanted to step things up a bit further in terms of complexity.  I wanted to try learning things that would be able to make better use of the greater power and generality of full-fledged neural networks like problems with multiple inputs/outputs, logic circuits, and maybe even some text generation or signal generation.
 
 RNNs are more than capable of doing all of these things, but I had a constraint of keeping the model small/simple enough that a visualization of it will be intelligible and have a discernable method of action rather than just appear as a random mass of blinking lights.
-
-## Trying to Learn Logic with RNNs
 
 My initial trails were working quite well.  After some tuning of hyperparameters like learning rate, optimizer, and activation function, I was able to pretty consistently train networks to solve very simple problems like `out[i] = in[i - 1]` or `out[i] = in[i] && in[i - 1]` and do so in the minimum number of parameters (layer counts and sizes) for the network architecture.
 
@@ -161,6 +163,8 @@ The function did have some issues though:
 
 To resolve these issues, I created a modified version of the Ameo function which is created out of scaled, shifted, and reflected segments of `y = x^4` instead of `y = x`.  I also changed it from having a gradient of 0 at its edges to being optionally "leaky" in the same way as the [Leaky ReLU](https://paperswithcode.com/method/leaky-relu).  The leakyness does introduce a very small amount of imprecision for some functions, though, and it is negligible.
 
+This new version has the benefit of having much more of its range near the target values of 1 and -1.  There are many more "almost exact" solutions available, and the gradients are steeper leading to them which makes learning faster.
+
 One new issue it created, though, is that the modified function had regions where the gradient was very close to 0 in some small points of the domain.  This can cause gradient descent to get "stuck" at those points, slowing down learning.  As a solution, I created a final version of the function which interpolates between `y=x^4` and `y=x` with a configurable mix factor:
 
 <iframe src="http://localhost:3040/activationPlot?interpolatedAmeo=1" class="iframe-mobile-scale" loading="lazy" style="display: block;outline:none;border:1px solid #888;box-sizing:border-box; width: 430px; overflow: hidden; height: 370px; margin-left: auto; margin-right: auto"></iframe>
@@ -187,7 +191,7 @@ After testing out learning a few different 3-input boolean functions, it didn't 
 
 ### Results
 
-As it turns out, the _Ameo activation function has perfect solutions for **224/256** of the 3-input boolean functions and can correctly model the 32 others_.
+_The Ameo activation function has lossless solutions for **224/256** of the 3-input boolean functions and can perfectly classify the 32 others with some small error_.
 
 These 224 functions with solutions do include the conditional `a ? b : c` which can be solved with parameters of `x_weight: -1, y_weight: 3, z_weight: 2, bias: -1`
 
@@ -203,11 +207,68 @@ Playing with the parameters reveals that with the added input, the function can 
 
 For the functions that aren't modeled perfectly, there exist non-perfect solutions with non-integer parameters that correctly classify all 8 input combinations with some error - meaning that they are non-zero and their sign matches the sign of the target.
 
-### Relationship to ML Theory
+## The Ameo Activation Function in Practice
 
-TODO
+So although the Ameo activation function can indeed model all of the 3-input boolean functions, the question still remains of if (and how well) it can do so in practice.  Given randomly initialized parameters and random inputs, can a neuron using the activation function actually learn them?
+
+To test this, I used the same TensorFlow.JS setup I had created before to build a single neuron using the activation function and tested learning a variety of different functions.  I wanted to see how long it took to find the various solutions and how reliably they were found compared to other activation functions that could also represent them.
+
+The results were... quite difficult to ascertain.  When training tiny models like this, the chosen hyperparameters for things like initial values for the parameters, learning rate, optimizer, variant of the Ameo activation function used, and even loss function have a huge impact on how well the learning performs.
+
+I suspect that part of this is due to the fact that the Ameo activation function is a good bit more complex than many other activation functions.  The fact that the gradient switches direction multiple times - a key feature providing it much of its expressive power - makes it harder for the optimizer to find optimal solutions.  Especially with low batch sizes or low learning rates, the function can get stuck at local minima.  The Adam optimizer helps combat this problem by keeping track of the "momentum" of the parameters being optimized.  This can allow it to escape local minima by trading off some short-term pain in the form of increased loss for the reward of a lower loss at the other side.
+
+For every target function I tested, the neuron was indeed about to learn it some percentage of the time.  However, depending on the function and on the training hyperparameters chosen, the probability of success was anywhere from >95% to lower than 10%.  For some like `!b`, the function has a very easy time learning it regardless of the parameters chosen to initialize it.  For others, it has a harder time or only does well with very specific hyperparameters.
+
+For example, learning the conditional `if a then b else c` function had a success rate of 98% with a learning rate of 0.8, parameter initialization using a normal distribution with standard deviation 1.5, and the Adam optimizer.  However, learning a different function has a <40% success rate until the standard deviation is decreased to 0.5 at which point it has a 80% success rate.
+
+In larger networks with many neurons and multiple layers, it becomes much easier for networks to learn.  I don't have any proof or references for this, but I get the feeling that the reason is some form of the [birthday paradox](https://en.wikipedia.org/wiki/Birthday_problem).  As the population of candidates increases linearly, the probability of some particular combination of their parameters being present somewhere in that population increases exponentially.  Gradient descent is profoundly adept at locking onto those good combinations of parameters, maximizing them, and minimizing the noise to create good solutions.
+
+## Relationship to ML Theory
+
+The optimizers used for training neural networks are very good at their job.  They've been iterated on in research for decades and in general do an extremely good job of finding good solutions in the massive parameter space available.
+
+However, the fact remains that some functions are just easier to learn than others.  It is far easier to train a neural network to classify whether or not a given image consists of all black pixels than it is to train one to classify whether or not the image contains a human face.
+
+Even in the domain of boolean functions, there are still some functions that are simply "harder" than others.  Going back to the XOR problem, XOR and XNOR have some characteristic that just makes them more complex than the others.  They're the only 2-input boolean functions that can't be linearly separated.
+
+### Boolean Complexity
+
+One way of quantifying this is called [Circuit Complexity](https://en.wikipedia.org/wiki/Circuit_complexity) which is also known as **Boolean Complexity**.  It allows a complexity measure to be assigned to boolean functions based on how many AND, OR, and NOT gates are required to build a circuit representing it.  There's a lot of CS theory that touches this subject, much of which is in the domain of computational complexity.
+
+An alternative form of measuring boolean complexity ignores NOT gates and counts them as free.  They are indeed "simpler" than an AND or OR gate since they only consider a single input rather than combining two input signals.  For the rest of this writeup, I'll be referring to this measure as "AND/OR" complexity.
+
+Using this measure of AND/OR complexity, it is possible to quantify the complexity of arbitrary boolean functions.  Although there are an infinite number of functions which have the same truth table, there is some "minimal" function for every one which requires the least amount of resources to compute it.  The only issue is that finding the minimum boolean function is very hard - NP hard in fact, going back to computational complexity.  It gets exponential worse as the number of inputs goes up as well.
+
+Luckily, for functions with few inputs, things are tractable.  The fact that boolean functions (unlike more complex methods of computation like Turing Machines) are non-recursive helps as well.  It's possible to brute-force minimal solutions for boolean functions, and this has been done for all functions with up to [5 inputs](https://oeis.org/A056287).
+
+When considering functions with 2 inputs, we get the following table of minimal formulae:
+
+|Formula|AND/OR Complexity|Truth Table|
+|-|-|-|
+|`!b & b`|1|`FFFF`|
+|`!b & !a`|1|`FFFT`|
+|`!b & a`|1|`FFTF`|
+|`!b`|0|`FFTT`|
+|`b & !a`|1|`FTFF`|
+|`!a`|0|`FTFT`|
+|`b & !a \| !b & a`|**3**|`FTTF`|
+|`!b \| !a`|1|`FTTT`|
+|`b & a`|1|`TFFF`|
+|`(b \| !a) & (!b \| a)`|**3**|`TFFT`|
+|`a`|0|`TFTF`|
+|`!b \| a`|1|`TFTT`|
+|`b`|0|`TTFF`|
+|`b \| !a`|1|`TTFT`|
+|`b \| a`|1|`TTTF`|
+|`!b \| b`|1|`TTTT`|
+
+The odd-ones out with complexities 2 higher than the next highest are XOR and XNOR.  The simplest are functions like `!b` which completely ignores one of the inputs.  One could argue that functions like `!a & a` are in fact simpler since they can be represented by a single constant value and completely ignore both inputs, but constant values cannot be represented in this system so they require a complexity of 1.  However, since constant values "cancel out" in boolean functions, the cases where they are useful are in these constant value output cases.
+
+### Estimating Boolean Complexity
 
 <iframe src="http://localhost:3040/functionComplexity" loading="lazy" style="display: block;outline:none;border:1px solid #888;box-sizing:border-box; width: 100%; height: 640px; margin-bottom: 10px;"></iframe>
+
+### Consequences for Neural Networks
 
 TODO
 
