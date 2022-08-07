@@ -221,7 +221,7 @@ For every target function I tested, the neuron was indeed about to learn it some
 
 For example, learning the conditional `if a then b else c` function had a success rate of 98% with a learning rate of 0.8, parameter initialization using a normal distribution with standard deviation 1.5, and the Adam optimizer.  However, learning a different function has a <40% success rate until the standard deviation is decreased to 0.5 at which point it has a 80% success rate.
 
-In larger networks with many neurons and multiple layers, it becomes much easier for networks to learn.  I don't have any proof or references for this, but I get the feeling that the reason is some form of the [birthday paradox](https://en.wikipedia.org/wiki/Birthday_problem).  As the population of candidates increases linearly, the probability of some particular combination of their parameters being present somewhere in that population increases exponentially.  Gradient descent is profoundly adept at locking onto those good combinations of parameters, maximizing them, and minimizing the noise to create good solutions.
+In larger networks with many neurons and multiple layers, it becomes much easier for networks to learn.  I don't have any proof or references for this, but I get the feeling that the reason is related to the [birthday paradox](https://en.wikipedia.org/wiki/Birthday_problem).  As the population of candidate starting parameters increases linearly, the probability of some particular combination of them existing in that population increases exponentially.  Gradient descent is profoundly adept at locking onto those good combinations of parameters, maximizing them, and minimizing the noise to create good solutions.
 
 ## Relationship to ML Theory
 
@@ -262,15 +262,43 @@ When considering functions with 2 inputs, we get the following table of minimal 
 |`b \| a`|1|`TTTF`|
 |`!b \| b`|1|`TTTT`|
 
-The odd-ones out with complexities 2 higher than the next highest are XOR and XNOR.  The simplest are functions like `!b` which completely ignores one of the inputs.  One could argue that functions like `!a & a` are in fact simpler since they can be represented by a single constant value and completely ignore both inputs, but constant values cannot be represented in this system so they require a complexity of 1.  However, since constant values "cancel out" in boolean functions, the cases where they are useful are in these constant value output cases.
+The odd ones out with complexities or 3 are XOR and XNOR.  The simplest are functions like `!b` which completely ignores one of the inputs.  One could argue that functions like `!a & a` are in fact simpler since they can be represented by a single constant value and completely ignore both inputs, but constant values cannot be represented in this system so they require a complexity of 1.  However, since constant values either "cancel out" or propagate all the way through in boolean functions, the cases where they are useful are limited to these constant value output cases.
 
 ### Estimating Boolean Complexity
 
-<iframe src="http://localhost:3040/functionComplexity" loading="lazy" style="display: block;outline:none;border:1px solid #888;box-sizing:border-box; width: 100%; height: 640px; margin-bottom: 10px;"></iframe>
+This is another concept which is similar to boolean complexity called [Kolmogorov Complexity](https://en.wikipedia.org/wiki/Kolmogorov_complexity).  It represents the length of the shortest computer program that can generate a given string.  It is a very popular topic to discuss recently with ties to topics like information theory, randomness, and epistemology.
+
+Another interesting property of Kolmogorov complexity is that it is incomputable:
+
+> To find the shortest program (or rather its length) for a string _x_ we can run all programs to see which one halts with output _x_ and select the shortest. We need to consider only programs of length at most that of _x_ plus a fixed constant. The problem with this process is known as the halting problem: some programs do not halt and it is undecidable which ones they are.
+
+-- <cite>Paul Vitanyi, [How incomputable is Kolmogorov complexity?](https://arxiv.org/abs/2002.07674)</cite>
+
+Although it is incomputable, there are still ways to estimate it.  There's a proof known as [Solomonoff's theory of inductive inference](https://en.wikipedia.org/wiki/Solomonoff%27s_theory_of_inductive_inference).  Its official definitions are quite abstruse.  However, one of its core implications is that randomly generated programs are more likely to generate simple outputs - ones with lower information content - than complex ones.
+
+One [research paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4014489/) (Soler-Toscano, Fernando et al. 2014) uses this property to estimate the Kolmogorov complexity of strings by generating tons of random turing machines, running them, and counting up how many times various different outputs are generated.  The more times a given string is found, the lower its estimated Kolmogorov complexity.
 
 ### Consequences for Neural Networks
 
-TODO
+I promise this is all leading up to something.
+
+There's been a lot of research in recent years into why artificial neural networks - especially really big ones - work so well.  Traditional learning theory would expect neural networks with way more parameters than they need will end up severely overfitting their training datasets and end up not generalizing to unknown values.  However, in practice this doesn't end up happening very often, and researchers have been trying to figure out why.
+
+One paper which attempts to work towards an answer is called [Neural networks are _a priori_ biased towards boolean functions with low entropy](https://arxiv.org/pdf/1909.11522.pdf) (C Mingard et al 2019).  They take a similar approach to the paper using turing machines but study randomly initialized artificial neurons and neural networks instead.
+
+As it turns out, neural networks work in much the same way as turing machines in that less complex outputs are generated more often.  They demonstrate that this property persists across various network architectures, scales, layer counts, and initialization schemes.
+
+This does help explain why neural networks generalize so well.  A state machine, turing machine, or other program that generates a string like "0101010101010101010101" by hard-coding it and reciting is more complex than one that uses a counter, for example.  In the same way, a neural network that learns how to identify birds by memorizing the pictures of all birds in the training set will be much more complex - and much less likely to be formed - than one that uses actual patterns derived from shared features of the images to produce its output.
+
+The way that they measure complexity is a more rudimentary than a true circuit complexity, however.  They simply look at the number of true to false values in the truth table of their network's output, take the smallest one, and use that as a measure for its complexity.  Since some of their testing was done with relatively large networks with dozens or more neurons, this choice makes sense since circuit complexity is so hard to determine.
+
+However, for input counts under 5, things are still tractable.  Since we know that artificial neurons using the Ameo activation function can represent all 3-input boolean functions, it can be used to test how circuit complexity relates to the probability of different functions being modeled by the neuron.
+
+Here are the results:
+
+<iframe src="http://localhost:3040/functionComplexity" loading="lazy" style="display: block;outline:none;border:1px solid #888;box-sizing:border-box; width: 100%; height: 640px; margin-bottom: 10px;"></iframe>
+
+There is a clear inverse correlation between boolean complexity and probability of that function being produced by the neuron.
 
 ## Learning Binary Addition
 
