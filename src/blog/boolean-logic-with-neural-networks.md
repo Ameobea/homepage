@@ -276,7 +276,7 @@ Another interesting property of Kolmogorov complexity is that it is incomputable
 
 Although it is incomputable, there are still ways to estimate it.  There's a proof known as [Solomonoff's theory of inductive inference](https://en.wikipedia.org/wiki/Solomonoff%27s_theory_of_inductive_inference).  Its official definitions are quite abstruse.  However, one of its core implications is that randomly generated programs are more likely to generate simple outputs - ones with lower information content - than complex ones.
 
-One [research paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4014489/) (Soler-Toscano, Fernando et al. 2014) uses this property to estimate the Kolmogorov complexity of strings by generating tons of random turing machines, running them, and counting up how many times various different outputs are generated.  The more times a given string is found, the lower its estimated Kolmogorov complexity.
+One [research paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4014489/) (<cite>Soler-Toscano, Fernando et al. 2014</cite>) uses this property to estimate the Kolmogorov complexity of strings by generating tons of random turing machines, running them, and counting up how many times various different outputs are generated.  The more times a given string is found, the lower its estimated Kolmogorov complexity.
 
 ### Consequences for Neural Networks
 
@@ -284,7 +284,7 @@ I promise this is all leading up to something.
 
 There's been a lot of research in recent years into why artificial neural networks - especially really big ones - work so well.  Traditional learning theory would expect neural networks with way more parameters than they need will end up severely overfitting their training datasets and end up not generalizing to unknown values.  However, in practice this doesn't end up happening very often, and researchers have been trying to figure out why.
 
-One paper which attempts to work towards an answer is called [Neural networks are _a priori_ biased towards boolean functions with low entropy](https://arxiv.org/pdf/1909.11522.pdf) (C Mingard et al 2019).  They take a similar approach to the paper using turing machines but study randomly initialized artificial neurons and neural networks instead.
+One paper which attempts to work towards an answer is called [Neural networks are _a priori_ biased towards boolean functions with low entropy](https://arxiv.org/pdf/1909.11522.pdf) (<cite>C Mingard et al 2019</cite>).  They take a similar approach to the paper using turing machines but study randomly initialized artificial neurons and neural networks instead.
 
 As it turns out, neural networks work in much the same way as turing machines in that less complex outputs are generated more often.  They demonstrate that this property persists across various network architectures, scales, layer counts, and initialization schemes.
 
@@ -298,8 +298,84 @@ Here are the results:
 
 <iframe src="http://localhost:3040/functionComplexity" loading="lazy" style="display: block;outline:none;border:1px solid #888;box-sizing:border-box; width: 100%; height: 640px; margin-bottom: 10px;"></iframe>
 
-There is a clear inverse correlation between boolean complexity and probability of that function being produced by the neuron.
+There is a clear inverse correlation between boolean complexity and probability of that function being produced by the neuron.  It's not a perfect match - there are certainly some functions that the neuron models more often than would be expected given their boolean complexity.  However, the _minimum_ complexity produced does monotonically increase from 0 to 5 as the probability of producing functions gets lower and lower.
+
+The distribution of generated functions is extremely skewed; note that the "Sample Count" axis is on a logarithmic scale.  The rarest function was produced 3,331 times out of 100 million samples while the most common was produced over 3 million times.  Although the exact scale of the distribution changed depending on the parameter initialization scheme used (uniform vs standard etc.), the pattern remained the same.
+
+There are some other interesting patterns as well.  For example, every single function with a boolean complexity of 5 is in the same highest "rarity class" - meaning that the randomly initialized neurons produced those least often.
+
+I don't know how many of these patterns are just random mathematical coincidences that have emerged from the ether and how many have something interesting to say about neural networks or probability or similar concepts.  I do know, though, that there is indeed a clear inverse relationship on average between a function's boolean complexity and its probability of being produced.
 
 ## Learning Binary Addition
+
+Ok so putting aside all the theoretical stuff for a while, I wanted to know how well the function would actually work in a more realistic setting as part of an actual network.
+
+As an objective, I decided on trying to model binary addition.  Specifically, wrapping addition of unsigned 8-bit numbers.  I was roughly familiar with how binary adders worked from my days messing around with redstone in MineCraft, and I figured that if a network using the Ameo activation function would learn to model binary addition it would be a good indication of its ability to learn these kinds of things in practice.
+
+I set up a pretty simple network architecture, just 5 densely connected layers and a mean squared error cost function.  The first layer used the final interpolated version of the Ameo activation function with a mix factor of 0.1 and all the other layers used tanh.  I generated training data by just generating a bunch of random unsigned 8-bit numbers and adding them together with wrapping, then converting the result to binary mapping 0 bits to -1 and 1 bits to 1.
+
+After playing around with some hyperparameters like learning rate and optimizer, I started seeing some successful results!  It was actually working much better than I'd expected.  The networks would converge to perfect or nearly perfect solutions almost every time.
+
+I wanted to know what the network was doing internally to generate its solutions.  However, the networks I was training were pretty severely overparameterized for the task at hand; it was very difficult to get a grasp of what they were doing under the tens of thousands of weights and biases.  So, I started trimming the network down - removing layers and reducing the number of neurons in each layer.
+
+To my surprise, it kept working!  At some point perfect solutions became less common as networks become dependent on the luck of their starting parameters, but I was able to get it to learn perfect solutions with as few as 3 layers with neuron counts of 12, 10, and 8 respectively:
+
+```
+Layer (type)           Input Shape    Output shape  Param #
+===========================================================
+input1 (InputLayer)    [[null,16]]    [null,16]     0
+___________________________________________________________
+dense_Dense1 (Dense)   [[null,16]]    [null,12]     204
+___________________________________________________________
+dense_Dense2 (Dense)   [[null,12]]    [null,10]     130
+___________________________________________________________
+dense_Dense3 (Dense)   [[null,10]]    [null,8]      88
+===========================================================
+```
+
+That's just 422 total parameters!  I didn't expect that the network would be able to learn a complicated function like binary addition with that few parameters.
+
+Even more excitingly, I wasn't able to replicate the training success at that small of a network size when using only tanh activations on all layers no matter what I tried.  This gave me high hopes that the Ameo activation function's great expressive power was allowing the network to do more with less.
+
+### Creative Addition Strategies
+
+Although the number of parameters was now relatively manageable, I couldn't discern what was going on just by looking at them.  However, I did notice that there were lots of parameters that were very close to "round" values like 0, 1, 0.5, -0.25, etc.  Since lots of the logic gates I'd modeled previously were produced with parameters such as those, I figured that might be a good way to focus on to find the signal in the noise.
+
+I added some rounding and clamping that was applied to all network parameters closer than some threshold to those round values.  I applied it periodically throughout training, giving the optimizer some time to adjust to the changes in between.  After repeating several times and waiting for the network to converge to a perfect solution again, some real patterns started to emerge:
+
+```
+weights:
+[[0         , 0         , 0.1942478 , 0.3666477, -0.0273195, 1         , 0.4076445 , 0.25     , 0.125    , -0.0775111, 0         , 0.0610434],
+ [0         , 0         , 0.3904364 , 0.7304437, -0.0552268, -0.0209046, 0.8210054 , 0.5      , 0.25     , -0.1582894, -0.0270081, 0.125    ],
+ [0         , 0         , 0.7264696 , 1.4563066, -0.1063093, -0.2293   , 1.6488117 , 1        , 0.4655252, -0.3091895, -0.051915 , 0.25     ],
+ [0.0195805 , -0.1917275, 0.0501585 , 0.0484147, -0.25     , 0.1403822 , -0.0459261, 1.0557909, -1       , -0.5      , -0.125    , 0.5      ],
+ [-0.1013674, -0.125    , 0         , 0        , -0.4704586, 0         , 0         , 0        , 0        , -1        , -0.25     , -1       ],
+ [-0.25     , -0.25     , 0         , 0        , -1        , 0         , 0         , 0        , 0        , 0.2798074 , -0.5      , 0        ],
+ [-0.5      , -0.5226266, 0         , 0        , 0         , 0         , 0         , 0        , 0        , 0.5       , -1        , 0        ],
+ [1         , -0.9827325, 0         , 0        , 0         , 0         , 0         , 0        , 0        , -1        , 0         , 0        ],
+ [0         , 0         , 0.1848682 , 0.3591821, -0.026541 , -1.0401837, 0.4050815 , 0.25     , 0.125    , -0.0777296, 0         , 0.0616584],
+ [0         , 0         , 0.3899804 , 0.7313382, -0.0548765, -0.021433 , 0.8209481 , 0.5      , 0.25     , -0.156925 , -0.0267142, 0.125    ],
+ [0         , 0         , 0.7257989 , 1.4584024, -0.1054092, -0.2270812, 1.6465081 , 1        , 0.4654536, -0.3099159, -0.0511372, 0.25     ],
+ [-0.125    , 0.069297  , -0.0477796, 0.0764982, -0.2324274, -0.1522287, -0.0539475, -1       , 1        , -0.5      , -0.125    , 0.5      ],
+ [-0.1006763, -0.125    , 0         , 0        , -0.4704363, 0         , 0         , 0        , 0        , -1        , -0.25     , 1        ],
+ [-0.25     , -0.25     , 0         , 0        , -1        , 0         , 0         , 0        , 0        , 0.2754751 , -0.5      , 0        ],
+ [-0.5      , -0.520548 , 0         , 0        , 0         , 0         , 0         , 0        , 0        , 0.5       , 1         , 0        ],
+ [-1        , -1        , 0         , 0        , 0         , 0         , 0         , 0        , 0        , -1        , 0         , 0        ]]
+
+biases:
+[0          , 0         , -0.1824367,-0.3596431, 0.0269886 , 1.0454538 , -0.4033574, -0.25    , -0.125   , 0.0803178 , 0         , -0.0613749]
+```
+
+Above are the final weights generated for the first layer of the network after the clamping and rounding (the one with the Ameo activation function).  Each column represents the parameters for a single neuron, meaning that the first 8 weights are applied to bits from the first input and the next 8 are applied to bits from the second one.
+
+All of these neurons have ended up in a very similar state.  There is a pattern of doubling the weights as they move down the line and match up weights between corresponding bits of each input.  The bias was selected to match it as well.  Different neurons had different bases for the multipliers and different offsets for starting digit.
+
+It was very clear that something very interesting was going on, but I couldn't say what it was right away.  To help track down what was going on, I plotted the outputs of some of the neurons in the first layer as the inputs increased:
+
+<iframe src="http://localhost:3040/binaryActivation" loading="lazy" style="display: block;outline:none;border:1px solid #888;box-sizing:border-box; width: 100%; height: 540px; margin-bottom: 10px;"></iframe>
+
+TODO
+
+## Epilogue
 
 TODO
