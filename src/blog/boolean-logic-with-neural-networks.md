@@ -1,13 +1,17 @@
 ---
-title: 'Exploring Boolean Logic with Neural Networks'
+title: 'Logic Through the Lens of Neural Networks'
 date: '2022-07-19'
 ---
+
+<img width="380" height="370" alt="A 5-second looping video showing a spinning 3D wireframe cube.  The cube's corners are labeled with truth tables in the form TTF, TFT, FFF, etc.  The cube is partially filled with solid voxels representing areas where the artificial neuron it's visualizing outputs a value greater than 0." src="https://nnb-demos.ameo.design/logic-cube-header.webp" style="width: 380px; height: 370px;margin-left: auto; margin-right: auto; display: block;"></img>
 
 Recently, I was experimenting with building small neural networks for sequence-to-sequence use cases.  My goal was to create a visualization of how the inner state of a RNN changes as it processes inputs - similar to the [browser-based neural network visualization](https://cprimozic.net/blog/neural-network-experiments-and-visualizations/) I built previously.
 
 I was inspired to explore this area after reading a very interesting blog post called [Differentiable Finite State Machines](https://google-research.github.io/self-organising-systems/2022/diff-fsm/) which gave an overview of using gradient descent to learn FSMs to operate on one-bit strings.  The state machines that were learned by their approach were impressively concise and managed to find optimal solutions in many cases.
 
-There's a _ton_ of research being done in areas that border the work that I ended up doing.  Artificial neural networks serve as very useful proxies for studying topics such as computational complexity, information theory, and even cognition itself.  This post explores the connections between some of these topics and how they apply to machine learning both in theory and in practice.
+There's a _ton_ of research being done in areas that border the work that I ended up doing.  Artificial neural networks serve as very useful proxies for studying topics such as computational complexity, information theory, and probability.
+
+This post is a sort of chronicle of the findings and observations I've made during my experiments with neural networks and similar things.  It explores the connections between some of these topics and how they apply to machine learning both in theory and in practice, and the huge degree of overlap that these topics have with each other as well.
 
 ## Learning Logic with RNNs
 
@@ -20,6 +24,9 @@ My initial trails were working quite well.  After some tuning of hyperparameters
 I created a RNN architecture that's a bit different from some that you'll see implemented by default in libraries like Tensorflow.  It consists of two trees: one for computing the next state and one for computing the current output.  Both accept a concatenated tensor of (currentState, input) as input.  In practice, these trees could each consist of multiple layers with many neurons in each layer, but we only need a single layer with 1 neuron in each for this case.
 
 In programming terms, it's similar to a merged `map` and `reduce`:
+
+<details>
+<summary>Click to expand code block</summary>
 
 ```ts
 function rnn(initialState: number[], inputs: number[][]): number[][] {
@@ -49,6 +56,8 @@ function rnn(initialState: number[], inputs: number[][]): number[][] {
   return outputs;
 }
 ```
+
+</details>
 
 Here's an example of an RNN that correctly models `out[i] = in[i] && in[i - 1]`:
 
@@ -105,7 +114,7 @@ Another thing to note, is that although 14/16 of the functions can be linearly s
 
 So far, we've been working without activation functions.  What if we add one of those in?
 
-Dozens of activation functions have been used over time in artificial neural networks with the popular functions changing over time.  They have a wide range of origins in research and other areas of study like statistics and electronics.  Despite that, most of them can't solve XOR.
+Dozens of activation functions have been used over time in artificial neural networks with the popular functions changing over time.  They have a wide range of origins in research and other areas of study like statistics and electronics.  Despite that, most of them can't represent XOR.
 
 In order to solve XOR, the function needs to have more than one linear decision boundary.  One example of a type of function that has this property is called GCU which stands for Growing Cosine Unit.  It was found to be quite successful when used in image classification networks, improving both the speed at which the networks train as well increasing their accuracy.  Also, in the [research paper](https://arxiv.org/pdf/2108.12943.pdf) presenting the function, the authors prominently state that it can solve the XOR problem in a single neuron.
 
@@ -175,7 +184,7 @@ Here's the 2D response plots for the different versions of the Ameo function:
 
 The checkboxes in the truth table can be used to change the function modeled by the neuron, picking parameters for the weights + bias such that it does so with no error.  The nice thing is that the solutions are identical between all the variants.
 
-## Stepping It Up a Dimension
+## The Next Dimension
 
 In addition to binary logic gates, I also wanted to implement programs that did things like conditionals and if/then logic.  In programming, this would be represented by a conditional operator also known as a ternary:
 
@@ -217,7 +226,7 @@ The results were... quite difficult to ascertain.  When training tiny models lik
 
 I suspect that part of this is due to the fact that the Ameo activation function is a good bit more complex than many other activation functions.  The fact that the gradient switches direction multiple times - a key feature providing it much of its expressive power - makes it harder for the optimizer to find optimal solutions.  Especially with low batch sizes or low learning rates, the function can get stuck at local minima.  The Adam optimizer helps combat this problem by keeping track of the "momentum" of the parameters being optimized.  This can allow it to escape local minima by trading off some short-term pain in the form of increased loss for the reward of a lower loss at the other side.
 
-For every target function I tested, the neuron was indeed about to learn it some percentage of the time.  However, depending on the function and on the training hyperparameters chosen, the probability of success was anywhere from >95% to lower than 10%.  For some like `!b`, the function has a very easy time learning it regardless of the parameters chosen to initialize it.  For others, it has a harder time or only does well with very specific hyperparameters.
+For every target function I tested, the neuron was able to learn it some percentage of the time.  However, depending on the function and on the training hyperparameters chosen, the probability of success was anywhere from >95% to lower than 10%.  For some like `!b`, the function has a very easy time learning it regardless of the parameters chosen to initialize it.  For others, it has a harder time or only does well with very specific hyperparameters.
 
 For example, learning the conditional `if a then b else c` function had a success rate of 98% with a learning rate of 0.8, parameter initialization using a normal distribution with standard deviation 1.5, and the Adam optimizer.  However, learning a different function has a <40% success rate until the standard deviation is decreased to 0.5 at which point it has a 80% success rate.
 
@@ -312,7 +321,7 @@ Ok so putting aside all the theoretical stuff for a while, I wanted to know how 
 
 As an objective, I decided on trying to model binary addition.  Specifically, wrapping addition of unsigned 8-bit numbers.  I was roughly familiar with how binary adders worked from my days messing around with redstone in MineCraft, and I figured that if a network using the Ameo activation function would learn to model binary addition it would be a good indication of its ability to learn these kinds of things in practice.
 
-I set up a pretty simple network architecture, just 5 densely connected layers and a mean squared error cost function.  The first layer used the final interpolated version of the Ameo activation function with a mix factor of 0.1 and all the other layers used tanh.  I generated training data by just generating a bunch of random unsigned 8-bit numbers and adding them together with wrapping, then converting the result to binary mapping 0 bits to -1 and 1 bits to 1.
+I set up a pretty simple network architecture, just 5 densely connected layers and a mean squared error cost function.  The first layer used the final interpolated version of the Ameo activation function with a mix factor of 0.1 and all the other layers used `tanh`.  I generated training data by just generating a bunch of random unsigned 8-bit numbers and adding them together with wrapping, then converting the result to binary mapping 0 bits to -1 and 1 bits to 1.
 
 After playing around with some hyperparameters like learning rate and optimizer, I started seeing some successful results!  It was actually working much better than I'd expected.  The networks would converge to perfect or nearly perfect solutions almost every time.
 
@@ -335,7 +344,7 @@ dense_Dense3 (Dense)   [[null,10]]    [null,8]      88
 
 That's just 422 total parameters!  I didn't expect that the network would be able to learn a complicated function like binary addition with that few parameters.
 
-Even more excitingly, I wasn't able to replicate the training success at that small of a network size when using only tanh activations on all layers no matter what I tried.  This gave me high hopes that the Ameo activation function's great expressive power was allowing the network to do more with less.
+Even more excitingly, I wasn't able to replicate the training success at that small of a network size when using only `tanh` activations on all layers no matter what I tried.  This gave me high hopes that the Ameo activation function's great expressive power was allowing the network to do more with less.
 
 ### Creative Addition Strategies
 
@@ -344,7 +353,7 @@ Although the number of parameters was now relatively manageable, I couldn't disc
 I added some rounding and clamping that was applied to all network parameters closer than some threshold to those round values.  I applied it periodically throughout training, giving the optimizer some time to adjust to the changes in between.  After repeating several times and waiting for the network to converge to a perfect solution again, some real patterns started to emerge:
 
 ```
-weights:
+layer 0 weights:
 [[0         , 0         , 0.1942478 , 0.3666477, -0.0273195, 1         , 0.4076445 , 0.25     , 0.125    , -0.0775111, 0         , 0.0610434],
  [0         , 0         , 0.3904364 , 0.7304437, -0.0552268, -0.0209046, 0.8210054 , 0.5      , 0.25     , -0.1582894, -0.0270081, 0.125    ],
  [0         , 0         , 0.7264696 , 1.4563066, -0.1063093, -0.2293   , 1.6488117 , 1        , 0.4655252, -0.3091895, -0.051915 , 0.25     ],
@@ -362,7 +371,7 @@ weights:
  [-0.5      , -0.520548 , 0         , 0        , 0         , 0         , 0         , 0        , 0        , 0.5       , 1         , 0        ],
  [-1        , -1        , 0         , 0        , 0         , 0         , 0         , 0        , 0        , -1        , 0         , 0        ]]
 
-biases:
+layer 0 biases:
 [0          , 0         , -0.1824367,-0.3596431, 0.0269886 , 1.0454538 , -0.4033574, -0.25    , -0.125   , 0.0803178 , 0         , -0.0613749]
 ```
 
@@ -370,12 +379,48 @@ Above are the final weights generated for the first layer of the network after t
 
 All of these neurons have ended up in a very similar state.  There is a pattern of doubling the weights as they move down the line and match up weights between corresponding bits of each input.  The bias was selected to match it as well.  Different neurons had different bases for the multipliers and different offsets for starting digit.
 
-It was very clear that something very interesting was going on, but I couldn't say what it was right away.  To help track down what was going on, I plotted the outputs of some of the neurons in the first layer as the inputs increased:
+After puzzling over that for a while, I had a sudden realization:  The network had learned to create something akin to a digital to analog converter.
+
+Digital to analog converters or DCAs are electronic circuits that takes individual bit inputs of digital signals and converts them into a single analog signal.  DACs are used in applications like audio playback where a sound file represented by numbers stored in memory.  DACs take those binary values and convert them to an analog signal which is used to power the speakers, determining their position.  For example, the Nintendo Game Boy had a [4-bit DAC](https://gbdev.gg8.se/wiki/articles/Gameboy_sound_hardware#Channel_DAC) for each audio channel.
+
+Here's an example circuit diagram for a DAC:
+
+![A circuit diagram for a digital to analog converter (DCA).  It shows 8 different inputs, one for each bit, which are attached to resistors which have resistances that double for each input.  The circuit has a single output which represents the analog version of the digital inputs.](./images/neural-networks-boolean-logic/digital_to_analog_converter.png)
+
+If you look at the resistances of the resistors attached to each of the bits of the binary input, you can see that they double from one input to another from the least significant bit to the most significant.  This is extremely similar to what the network learned to do with the weights of the input layer; they double from bit to bit.  The main difference is that the weights are duplicated between each of the two 8-bit inputs.  This allows the network to both sum the inputs as well as convert the sum to analog all within a single layer and all before any activation functions even come into play.
+
+This was only part of the puzzle, though.  Once the digital inputs were converted to analog and summed together, they were immediately passed through the neuron's activation function.  To help track down what was going on, I plotted the post-activation outputs of a few of the neurons in the first layer as the inputs increased:
 
 <iframe src="http://localhost:3040/binaryActivation" loading="lazy" style="display: block;outline:none;border:1px solid #888;box-sizing:border-box; width: 100%; height: 540px; margin-bottom: 10px;"></iframe>
 
-TODO
+The neurons seemed to be generating sine wave-like outputs that changed smoothly as the sum of the binary inputs increased.  Different neurons had different periods; the ones pictured above have periods of 8, 4, and 32 respectively.  Other neurons had different periods or were offset by certain distances.
+
+There's something very remarkable about this pattern: they map directly to the periods at which different binary digits switch between 0 and 1 when counting in binary.  The least significant digit switches between 0 and 1 with a period of 1, the second with a period of 2, and so on to 4, 8, 16, 32, etc.  This means that for at least some of the output bits, the network had learned to the entire process in a single neuron.
+
+And looking at the weights of neurons in the two later layers, this turns out to be what happens.  The later layers are mostly concerned with routing around the outputs from the first layer and combining them.  One additional benefit that those layers provide is "saturating" the signals and making them more square wave-like - pushing them closer to the target values of -1 and 1 for all values.  This is the exact same property which is used in digital signal processing for audio synthesis where `tanh` is used to add distortion to sound for things like guitar pedals.
+
+While playing around with this setup, I tried re-training the network with the activation function for the first layer replaced with `sin(x)` and it ends up working pretty much the same way.  Interestingly, the weights are fractions of π rather than 1.
+
+For other output digits, the network learned to do some over clever things to produce the output signals it needed.  For example, it combined outputs from the first layer in such a way that it was able to produce a shifted version of the signal by adding signals with different periods to it.  It worked out pretty well, accurate enough with small inputs.  It works out to the following sine-based approximation:
+
+![](./images/neural-networks-boolean-logic/sine-combinations.png)
+
+I have no idea if this is just another random mathematical coincidence or part of some infinite series, but it's very neat nonetheless.
+
+As I mentioned, before, I had imagined the network learning some fancy combination of logic gates to perform the whole process digitally similarly to how a binary adder operates.  This is trick is yet another example of neural networks finding unexpected ways to solve problems.  I was pretty amazed when I first figured out what it was doing.  I'm even more impressed that it manages to learn these features so consistently; all the first layer neurons end up taking on patterns similar to these every time I've trained it.
+
+I'm not sure if this result can be used in support of or against the practical utility of the Ameo activation function.  It certainly "worked" and solved it well, but it almost felt like cheating.  In any case, it was really cool reverse engineering its solution and seeing all the ideas from digital signal processing and electronics it used to produce it.
 
 ## Epilogue
 
-TODO
+This post certainly covered a lot of ground - logic gates to activation functions to boolean complexity to electronics.  When I started working on all of this, I didn't set out with the goal of going down the rabbit hole this far, but everything is so closely related to everything else in this space.  Pulling one thread will end up bringing in a ton of other ideas and concepts.
+
+Here's an example.  All information in ANNs takes the form of matrixes of numbers.  The output of any layer in a network can be interpreted as an n-dimensional space, a very useful feature.  Using dimensionality reduction techniques like PCA or [UMAP](https://umap-learn.readthedocs.io/en/latest/how_umap_works.html), that data can be compressed (lossily) and converted down into a lower dimensional space.  Abstract concepts like computational complexity, information, probability, entropy, and logic can be expressed in terms of coordinates and space thus allowing them to be understood visually and interacted with in a way that's familiar to us.
+
+The concept of **embeddings**, which I've [written about in the past](https://cprimozic.net/blog/graph-embeddings-for-music-discovery/) in the context of music, are based on this idea.  Information, in the form of nodes in a graph, can be assigned coordinates in n-dimensional space in such a way that the semantics of the underlying graph are preserved.  The famous example is the ability to operate on the nodes' coordinates using simple math in order to do things like [king - man + woman = queen](https://www.ed.ac.uk/informatics/news-events/stories/2019/king-man-woman-queen-the-hidden-algebraic-struct).
+
+![A screenshot from my Music Galaxy project, a graph embedding visualization of the relationships between musical artists.  The screenshot shows some rap artists with the connections between them highlighted in gold against a space-like background of other artists in the distance](./images/neural-networks-boolean-logic/music-galaxy-graph-embedding.png)
+
+I feel like that's at the root of the lesson - if any - I've taken away from this.  I believe that neural networks are as good as they are at what they do because of how low level and fundamental their components are.  Other models of computation like Turing machines or finite state machines are elegant and perfect, but they feel much more mechanical and artificial.  This is unsurprising given the biological inspiration for artificial neural networks and the mathematical origins of others.
+
+In any case, I've greatly enjoyed exploring these topics.  For things that are often described as impenetrable "black boxes", I've found that neural networks actually have a lot to say about both how they model things and about information and computation in general.

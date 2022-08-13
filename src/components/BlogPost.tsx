@@ -136,7 +136,11 @@ export default ({ data: { markdownRemark: post } }) => {
     } catch (_err) {
       // pass
     }
-    document.getElementById('svg').style.visibility = 'hidden';
+    try {
+      document.getElementById('svg')!.style.visibility = 'hidden';
+    } catch (_err) {
+      // pass
+    }
 
     return () => {
       try {
@@ -144,7 +148,11 @@ export default ({ data: { markdownRemark: post } }) => {
       } catch (_err) {
         // pass
       }
-      document.getElementById('svg').style.visibility = 'visible';
+      try {
+        document.getElementById('svg')!.style.visibility = 'visible';
+      } catch (_err) {
+        // pass
+      }
     };
   });
 

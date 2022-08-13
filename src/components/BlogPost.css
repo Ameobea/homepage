@@ -159,3 +159,13 @@
     transform-origin: center left;
   }
 }
+
+details summary {
+  cursor: pointer;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 2px;
+}
+
+details:not([open]) summary {
+  background-color: #1ed5f52d;
+}
