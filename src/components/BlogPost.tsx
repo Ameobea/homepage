@@ -1,12 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { graphql } from 'gatsby';
 import rehypeReact from 'rehype-react';
 
-import WavetableDemo from './WavetableDemo';
 import CollapsibleNNViz from './CollapsibleNNViz';
 import Layout from './layout';
 import RssIcon from '../images/rss.svg';
 import './BlogPost.css';
+
+const LazyWavetableDemo = React.lazy(() => import('./WavetableDemo'));
+
+const WavetableDemo: React.FC = () => (
+  <Suspense fallback={<>Loading...</>}>
+    <LazyWavetableDemo />
+  </Suspense>
+);
 
 const renderAst = new rehypeReact({
   createElement: React.createElement,
@@ -121,6 +128,35 @@ const getPostMetadata = (
           name: 'twitter:image:alt',
           content:
             'A screenshot of the neural network sandbox web application showing various visualizations including network response visualization, layers visualization, neuron response plot, and costs plot',
+        },
+      ],
+    };
+  } else if (
+    post.frontmatter?.title
+      .toLowerCase()
+      .includes('logic through the lens of neural networks')
+  ) {
+    return {
+      image: 'https://nn-logic-demos.ameo.dev/nn-logic-og.png',
+      description:
+        "A chronicle of findings and observations I've made while experimenting with learning logic and neural networks.  Topics include developing a new activation function, estimating Boolean and Kolmogorov complexity, and reverse-engineering a neural network's solution.",
+      meta: [
+        { name: 'twitter:card', content: 'summary_large_image' },
+        {
+          name: 'twitter:image',
+          content: 'https://nn-logic-demos.ameo.dev/nn-logic-og.png',
+        },
+        { name: 'og:image:width', content: '630' },
+        { name: 'og:image:height', content: '630' },
+        {
+          name: 'og:image:alt',
+          content:
+            "A screenshot of a 3D wireframe cube with some areas filled in with colored voxels.  The cube's corners are labeled with input combinations like TTF, TFT, FFF",
+        },
+        {
+          name: 'twitter:image:alt',
+          content:
+            "A screenshot of a 3D wireframe cube with some areas filled in with colored voxels.  The cube's corners are labeled with input combinations like TTF, TFT, FFF",
         },
       ],
     };

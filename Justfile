@@ -13,7 +13,7 @@ build-all:
   rm -rf .cache public
   cd triangles && \
     ./release.sh && \
-    wasm-bindgen ./target/wasm32-unknown-unknown/release/*.wasm --browser --remove-producers-section --out-dir ./build
+    wasm-bindgen ./target/wasm32-unknown-unknown/release/*.wasm --target web --remove-producers-section --out-dir ./build
   cd ..
   cp ./triangles/build/* ./src
   just opt
@@ -25,7 +25,7 @@ opt:
 run:
   cd triangles && \
     ./build.sh && \
-    wasm-bindgen ./target/wasm32-unknown-unknown/debug/*.wasm --browser --remove-producers-section --out-dir ./build
+    wasm-bindgen ./target/wasm32-unknown-unknown/debug/*.wasm --target web --remove-producers-section --out-dir ./build
   cd ..
   cp ./triangles/build/* ./src/
   gatsby develop --port 8009

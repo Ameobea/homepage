@@ -3,44 +3,39 @@ require('prismjs/themes/prism-okaidia.css');
 window.vizStarted = false;
 window.sentryInitialized = false;
 
-const maybeInitTriangles = () => {
+const maybeInitTriangles = async () => {
   if (window.vizStarted) {
     return;
   }
   window.vizStarted = true;
 
-  const wasm = import('./src/engine');
-  wasm.then((engine) => {
-    try {
-      engine.init(window.innerWidth, window.innerHeight);
+  try {
+    const engine = await require('./src/engine');
+    await engine.default();
+    engine.init_triangles(window.innerWidth, window.innerHeight);
 
-      const genAllChains = () => {
-        try {
-          for (let i = 0; i < 3; i++) {
-            engine.generate(i);
-          }
-        } catch (err) {
-          // pass
+    const genAllChains = () => {
+      try {
+        for (let i = 0; i < 3; i++) {
+          engine.generate(i);
         }
-      };
-
-      for (let i = 0; i < 3; i++) {
-        engine.render(i);
+      } catch (err) {
+        console.error('Error generating triangle chain: ', err);
       }
+    };
 
-      window.trianglesIntervalHandle = setInterval(genAllChains, 1000.0 / 24.0);
-      window.pauseTriangles = () =>
-        clearInterval(window.trianglesIntervalHandle);
-      window.resumeTriangles = () => {
-        window.trianglesIntervalHandle = setInterval(
-          genAllChains,
-          1000.0 / 24.0
-        );
-      };
-    } catch (err) {
-      // pass
+    for (let i = 0; i < 3; i++) {
+      engine.render(i);
     }
-  });
+
+    window.trianglesIntervalHandle = setInterval(genAllChains, 1000.0 / 24.0);
+    window.pauseTriangles = () => clearInterval(window.trianglesIntervalHandle);
+    window.resumeTriangles = () => {
+      window.trianglesIntervalHandle = setInterval(genAllChains, 1000.0 / 24.0);
+    };
+  } catch (err) {
+    console.error('Error initializing wasm: ', err);
+  }
 };
 
 const maybeInitSentry = () => {
@@ -65,7 +60,8 @@ const maybeInitSentry = () => {
   });
 };
 
-export const onClientEntry = () => {
+exports.onClientEntry = () => {
+  console.log('client entry');
   maybeInitSentry();
 
   maybeInitTriangles();

@@ -283,7 +283,7 @@ fn world() -> &'static mut World {
 }
 
 #[wasm_bindgen]
-pub fn init(canvas_width: usize, canvas_height: usize) {
+pub fn init_triangles(canvas_width: usize, canvas_height: usize) {
     if cfg!(debug_assertions) {
         panic::set_hook(Box::new(console_error_panic_hook::hook));
     }

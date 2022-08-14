@@ -186,7 +186,10 @@ type ArtistProps = {
 };
 
 const Genre = ({ genre }: { genre: string }) => {
-  const to = `http://everynoise.com/engenremap-${genre.replace(/ /g, '')}.html`;
+  const to = `http://everynoise.com/engenremap-${genre.replace(
+    /[ -]/g,
+    ''
+  )}.html`;
   return <ANewTab to={to} text={genre} style={{ color: 'white' }} />;
 };
 
