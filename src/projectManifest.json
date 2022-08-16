@@ -1,5 +1,37 @@
 [
   {
+    "name": "3D Sketches, Demos, and Experiments",
+    "description": "A collection of small interactive game-like 3D environments and demos.  Somewhat inspired by games like Yume Nikki/Yume 2kki, Over the Void, and others.  There is no overarching goal or theme, but this work may lead to a larger project in the future.\n\nThe demos are all browser-based, rendered with Three.JS + WebGL and use 3D models I'm creating myself in Blender.  Includes some work with procedural materials and custom shaders inspired by projects on Shadertoy.  I plan to integrate it with my web-synth project for audio in the future.  I am working to build up a library of resources with the hope of doing an Inktober-like daily sketch for this project this fall.",
+    "projectUrl": "https://cube.ameo.design/",
+    "srcUrl": "https://github.com/ameobea/sketches-3d",
+    "technologies": ["Three.JS", "WebGL", "Blender", "glsl", "TypeScript"],
+    "pageUrl": null,
+    "image": "3d-sketches.png",
+    "imageAlt": "A screenshot of one of the 3D sketches I created as a part of this project.  A very dark scene with a bridge-like structure covered with wispy white fog-like clouds.  Jagged pillars with red noise patterns emerge on either side.",
+    "startDate": "Aug. 2022",
+    "endDate": null
+  },
+  {
+    "name": "Neural Network Experiments + Research",
+    "description": "While working on an idea for an interactive visualization of RNNs, I ended up going down a rabbit hole of exploration and experimentation in the realm of neural networks, machine learning, and information theory.  Work included developing a new activation function, using ideas from other research papers to estimate the Kolmogorov and boolean complexities of different functions, and reverse-engineering a neural network's clever solution to binary addition.\n\nThis work culminated in a lengthy blog post full of interactive visualizations to illustrate the concepts involved.",
+    "projectUrl": null,
+    "srcUrl": "https://github.com/ameobea/rnn-viz",
+    "technologies": [
+      "React",
+      "TypeScript",
+      "WebGL",
+      "Three.JS",
+      "Rust",
+      "TensorFlow.JS",
+      "WebAssembly"
+    ],
+    "pageUrl": "/blog/boolean-logic-with-neural-networks/",
+    "image": "neural-network-logic.png",
+    "imageAlt": "A screenshot of a 3D wireframe cube with some areas filled in with colored voxels.  The cube's corners are labeled with input combinations like TTF, TFT, FFF",
+    "startDate": "Jun. 2022",
+    "endDate": "Aug. 2022"
+  },
+  {
     "name": "Interactive ML-Powered Anime Recommendation Tool",
     "description": "An anime recommendation engine powered by a custom-built neural network.  Using a dataset of user profiles from the popular site MyAnimeList, the network was trained entirely in the browser via Tensorflow.JS.\n\nThe whole thing is implemented as a SvelteKit app with predictions happening directly within the app itself using tfjs-node and a background thread.  Additional post-processing is applied to work around imbalances due to large popularity differences. It also contains support for determining which ratings contribute most to each of the recommendations.",
     "projectUrl": "https://anime.ameo.dev",
