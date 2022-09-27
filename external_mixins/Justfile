@@ -1,0 +1,8 @@
+run:
+  bun run dev
+
+build:
+  bun run build
+
+deploy:
+  phost update homepage-external-mixins patch build
