@@ -3,6 +3,22 @@ title: 'Speeding Up Three.JS with Depth-Based Fragment Culling'
 date: '2022-09-26'
 ---
 
+<br/>
+
+## Important Note
+
+<div class="warning">
+
+Since releasing this article, I've been informed that there is actually an even easier and more efficient way of achieving the optimization detailed in this post.
+
+It turns out that the main concept implemented here is already commonly used in game engines and other 3D applications, and it's known as a **depth pre-pass**.  Additionally, rather than writing custom shader code to read from the depth texture, it's possible to use the built-in testing from Web/OpenGL to apply this optimization automatically.
+
+I wrote a short follow-up article which I recommend checking out if you're interested in learning how to set this up in Three.JS for yourself: <a href="https://cprimozic.net/blog/threejs-depth-pre-pass-optimization/">Implementing Depth Pre-Pass Optimization for Three.JS</a>
+
+</div>
+
+## Overview
+
 Recently, I've been working on some 3D projects in the browser with Three.JS.  It's mostly just for learning and fun right now, getting familiar with writing shaders in GLSL, 3D modeling with Blender, and all of that jazz.
 
 The modern ecosystem is very rich and WebGL is a mature platform, so there's a ton of pre-built shaders, post-processing effects, and tools to pick from.  Plugging all of these things together along with a [Wasm-compiled physics engine](https://github.com/kripken/ammo.js/) yas yielded me some really great results so far, even with my very amateur Blender skills:
@@ -15,7 +31,7 @@ One of the resources I pulled in and integrated into my project is a hex-based s
 
 The awesome part is that it does all of that live within the fragment shader!  You just ship and load the normal texture, and the tile-free version magically manifests itself in your scene.
 
-I took code [from Shadertoy](https://t.co/fd5pED209e) - which itself is an implementation of a [research paper](https://hal.inria.fr/hal-01824773) - and adapted it to work inside of a Three.JS PBR shader material.  Here's how it looks in my project:
+I took code [from Shadertoy](https://www.shadertoy.com/view/MdyfDV) - which itself is an implementation of a [research paper](https://hal.inria.fr/hal-01824773) - and adapted it to work inside of a Three.JS PBR shader material.  Here's how it looks in my project:
 
 <iframe src="https://homepage-external-mixins.ameo.design/depth_based_fragment_culling/tiling_compare.html" loading="lazy" style="width: 100%;aspect-ratio: 1856/1326;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
 <!-- <iframe src="http://localhost:5173/depth_based_fragment_culling/tiling_compare" loading="lazy" style="width: 100%;aspect-ratio: 1856/1326;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe> -->

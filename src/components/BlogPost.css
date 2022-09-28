@@ -105,6 +105,7 @@
 
 .blog-post .good,
 .blog-post .bad,
+.blog-post .warning,
 .blog-post .note {
   display: block;
   margin-block-start: 1em;
@@ -139,6 +140,9 @@
 }
 .blog-post .bad {
   background-color: #bb222229;
+}
+.blog-post .warning {
+  background-color: #bb882229;
 }
 .blog-post .note {
   background-color: #1ed5f52d;

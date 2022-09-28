@@ -29,7 +29,7 @@
   </style>
 </svelte:head>
 
-<img-comparison-slider style="width: 100%">
+<img-comparison-slider style="width: 100%; height: 100vh;">
   <img
     style="width: 100%"
     slot="first"
