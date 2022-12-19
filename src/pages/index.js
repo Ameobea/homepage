@@ -49,7 +49,7 @@ const IndexPage = () => {
   });
 
   return (
-    <React.Fragment>
+    <>
       <IndexHeader />
       <Layout
         showHeader={false}
@@ -73,8 +73,16 @@ const IndexPage = () => {
         </IndexLinkBlockSet>
 
         {spotifyTops}
+
+        <a
+          style="display: none"
+          rel="me"
+          href="https://mastodon.ameo.dev/@ameo"
+        >
+          Mastodon
+        </a>
       </Layout>
-    </React.Fragment>
+    </>
   );
 };
 
