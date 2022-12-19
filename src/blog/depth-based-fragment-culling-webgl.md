@@ -21,7 +21,7 @@ I wrote a short follow-up article which I recommend checking out if you're inter
 
 Recently, I've been working on some 3D projects in the browser with Three.JS.  It's mostly just for learning and fun right now, getting familiar with writing shaders in GLSL, 3D modeling with Blender, and all of that jazz.
 
-The modern ecosystem is very rich and WebGL is a mature platform, so there's a ton of pre-built shaders, post-processing effects, and tools to pick from.  Plugging all of these things together along with a [Wasm-compiled physics engine](https://github.com/kripken/ammo.js/) yas yielded me some really great results so far, even with my very amateur Blender skills:
+The modern ecosystem is very rich and WebGL is a mature platform, so there's a ton of pre-built shaders, post-processing effects, and tools to pick from.  Plugging all of these things together along with a [Wasm-compiled physics engine](https://github.com/kripken/ammo.js/) has yielded me some really great results so far, even with my very amateur Blender skills:
 
 ![A screenshot from my Three.JS game project showing a shrine with a golden arch surrounded by stone with a staircase on the left](./images/depth_based_fragment_culling/game-shrine-demo.png)
 

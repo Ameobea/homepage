@@ -38,6 +38,23 @@ The nice part is that this is extremely easy to set up for Three.JS in only a fe
 ```ts
 import { EffectComposer, RenderPass, Pass } from 'postprocessing';
 
+class DepthPass extends RenderPass {
+  constructor(scene: THREE.Scene, camera: THREE.Camera, overrideMaterial: THREE.Material) {
+    super(scene, camera, overrideMaterial);
+  }
+
+  render(
+    renderer: THREE.WebGLRenderer,
+    inputBuffer: THREE.WebGLRenderTarget,
+    outputBuffer: THREE.WebGLRenderTarget,
+    deltaTime?: number | undefined,
+    stencilTest?: boolean | undefined
+  ): void {
+    renderer.getContext().depthFunc(renderer.getContext().LEQUAL);
+    super.render(renderer, inputBuffer, outputBuffer, deltaTime, stencilTest);
+  }
+}
+
 class MainRenderPass extends RenderPass {
   constructor(scene: THREE.Scene, camera: THREE.Camera) {
     super(scene, camera);
@@ -63,18 +80,29 @@ class MainRenderPass extends RenderPass {
     }
 }
 
-const composer = new EffectComposer(viz.renderer);
+// Auto-clearing the depth buffer must be disabled so that depth information from the pre-pass is preserved
+viz.renderer.autoClear = false;
+viz.renderer.autoClearDepth = false;
 
-const depthPass = new RenderPass(viz.scene, viz.camera, new THREE.MeshBasicMaterial());
-depthPass.renderToScreen = false;
+const composer = new EffectComposer(renderer);
 
+const depthPass = new DepthPass(scene, camera, new THREE.MeshBasicMaterial());
+// The depth pre pass must render to the same framebuffer as the main render pass so that the depth buffer is shared
+depthPass.renderToScreen = true;
 composer.addPass(depthPass);
 
-const mainRenderPass = new MainRenderPass(viz.scene, viz.camera);
+const mainRenderPass = new MainRenderPass(scene, camera);
+mainRenderPass.renderToScreen = true;
 composer.addPass(mainRenderPass);
 ```
 
-And that's literally all there is to it!  For my scene, this yielded something like a 30%+ performance increase, and my scene isn't even that large.  There is a little bit of added overhead from the depth pre-pass, but it's well worth it in my case since the fragment shader is so expensive.
+The effect composer has some confusing behavior involving which framebuffers it actually ends up rendering to.  The goal is to have the depth pre-pass and the main render pass draw to the same framebuffer so that the depth buffer is shared.  I've found that if the main render pass is the final render pass in the composer, then setting `renderToScreen = true` for both the depth pre-pass and the main render pass to be correct.  If you have some other post-processing passes like anti-aliasing or similar, I've found that setting `renderToScreen = false` for both the depth pre-pass and the main render pass to work instead.
+
+I put together a [full example](https://github.com/Ameobea/sketches-3d/blob/main/src/viz/scenes/depthPrepassDemo.ts#L69-L89) of implementing this fully as well.
+
+----
+
+And that's all there is to it!  For my scene, this yielded something like a 30%+ performance increase, and my scene isn't even that large.  There is a little bit of added overhead from the depth pre-pass, but it's well worth it in my case since the fragment shader is so expensive.
 
 My [previous post](https://cprimozic.net/blog/depth-based-fragment-culling-webgl/) implemented this same functionality, but it didn't make use of the automatic fragment discarding using the `EQUAL` depth test function.  Instead, it rendered the depth buffer to a texture, bound the texture to the fragment shader, and then added some code to the fragment shader to do a manual comparison against the depth in that texture.  If the depth of the current fragment was greater than the depth for that pixel from the depth texture, it would manually `discard` the fragment.
 
