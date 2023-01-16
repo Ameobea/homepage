@@ -157,26 +157,24 @@ module.exports = {
                   };
                 }
               ),
-            query: `
-              {
-                allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
-                  totalCount
-                  edges {
-                    node {
-                      fields {
-                        slug
-                      }
-                      id
-                      frontmatter {
-                        title
-                        date(formatString: "YYYY-MM-DD")
-                      }
-                      excerpt(pruneLength: 400)
+            query: `{
+              allMarkdownRemark(sort: {frontmatter: {date: DESC}}) {
+                totalCount
+                edges {
+                  node {
+                    fields {
+                      slug
                     }
+                    id
+                    frontmatter {
+                      title
+                      date(formatString: "YYYY-MM-DD")
+                    }
+                    excerpt(pruneLength: 400)
                   }
                 }
               }
-            `,
+            }`,
             output: '/rss.xml',
             title: 'cprimozic.net Blog',
           },

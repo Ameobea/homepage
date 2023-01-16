@@ -1,6 +1,7 @@
 ---
 title: 'Exploring Neural Networks Visually in the Browser'
 date: '2022-04-02'
+opengraph: '{"image":"https://nn.ameo.dev/nn-viz-og2.jpeg","description":"Introduces a browser-based sandbox for building, training, visualizing, and experimenting with neural networks.  Includes background information on the tool, usage information, technical implementation details, and a collection of observations and findings from using it myself.","meta":[{"name":"twitter:card","content":"summary_large_image"},{"name":"twitter:image","content":"https://nn.ameo.dev/nn-viz-og2.jpeg"},{"name":"og:image:width","content":"1129"},{"name":"og:image:height","content":"747"},{"name":"og:image:alt","content":"A screenshot of the neural network sandbox web application showing various visualizations including network response visualization, layers visualization, neuron response plot, and costs plot"},{"name":"twitter:image:alt","content":"A screenshot of the neural network sandbox web application showing various visualizations including network response visualization, layers visualization, neuron response plot, and costs plot"}]}'
 ---
 
 <img width="673" height="463" alt="A 4-second loop of the neural network visualization application training a network, showing both the response of the network as a whole, a cost plot, as well as a visualization of neuron weights and an individual neuron's response plot" src="https://nn.ameo.dev/nn-viz-demo-animation.webp" style="width: 80%; height: auto; margin-left: auto; margin-right: auto; display: block;"></img>

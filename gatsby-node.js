@@ -32,14 +32,16 @@ const queryAllMarkdownRemark = (graphql) =>
     }
   `);
 
-exports.createPages = ({ graphql, actions: { createPage } }) =>
-  new Promise((resolve) => {
+exports.createPages = ({ graphql, actions: { createPage } }) => {
+  const BlogPost = path.resolve('./src/components/BlogPost.tsx');
+
+  return new Promise((resolve) => {
     queryAllMarkdownRemark(graphql).then((result) => {
       result.data.allMarkdownRemark.edges.forEach(({ node }) => {
         createPage({
           path: `blog${node.fields.slug}`,
 
-          component: path.resolve('./src/components/BlogPost.tsx'),
+          component: BlogPost,
           context: {
             // Data passed to context is available
             // in page queries as GraphQL variables.
@@ -52,6 +54,7 @@ exports.createPages = ({ graphql, actions: { createPage } }) =>
       resolve();
     });
   });
+};
 
 exports.onCreateWebpackConfig = ({ actions }) =>
   actions.setWebpackConfig({

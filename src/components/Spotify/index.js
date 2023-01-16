@@ -129,81 +129,74 @@ export const pickedTopTrackFragment = graphql`
   }
 `;
 
-const topTracksQuery = graphql`
-  {
-    allSpotifyTopTrackShort: allSpotifyTopTrack(
-      filter: { time_range: { eq: "short_term" } }
-      sort: { fields: order }
-      limit: 1000
-    ) {
-      edges {
-        node {
-          ...PickedTopTrack
-        }
-      }
-    }
-
-    allSpotifyTopArtistShort: allSpotifyTopArtist(
-      filter: { time_range: { eq: "short_term" } }
-      sort: { fields: order }
-      limit: 1000
-    ) {
-      edges {
-        node {
-          ...PickedTopArtist
-        }
-      }
-    }
-
-    allSpotifyTopTrackMedium: allSpotifyTopTrack(
-      filter: { time_range: { eq: "medium_term" } }
-      sort: { fields: order }
-      limit: 1000
-    ) {
-      edges {
-        node {
-          ...PickedTopTrack
-        }
-      }
-    }
-
-    allSpotifyTopArtistMedium: allSpotifyTopArtist(
-      filter: { time_range: { eq: "medium_term" } }
-      sort: { fields: order }
-      limit: 1000
-    ) {
-      edges {
-        node {
-          ...PickedTopArtist
-        }
-      }
-    }
-
-    allSpotifyTopTrackLong: allSpotifyTopTrack(
-      filter: { time_range: { eq: "long_term" } }
-      sort: { fields: order }
-      limit: 1000
-    ) {
-      edges {
-        node {
-          ...PickedTopTrack
-        }
-      }
-    }
-
-    allSpotifyTopArtistLong: allSpotifyTopArtist(
-      filter: { time_range: { eq: "long_term" } }
-      sort: { fields: order }
-      limit: 1000
-    ) {
-      edges {
-        node {
-          ...PickedTopArtist
-        }
+const topTracksQuery = graphql`{
+  allSpotifyTopTrackShort: allSpotifyTopTrack(
+    filter: {time_range: {eq: "short_term"}}
+    sort: {order: ASC}
+    limit: 1000
+  ) {
+    edges {
+      node {
+        ...PickedTopTrack
       }
     }
   }
-`;
+  allSpotifyTopArtistShort: allSpotifyTopArtist(
+    filter: {time_range: {eq: "short_term"}}
+    sort: {order: ASC}
+    limit: 1000
+  ) {
+    edges {
+      node {
+        ...PickedTopArtist
+      }
+    }
+  }
+  allSpotifyTopTrackMedium: allSpotifyTopTrack(
+    filter: {time_range: {eq: "medium_term"}}
+    sort: {order: ASC}
+    limit: 1000
+  ) {
+    edges {
+      node {
+        ...PickedTopTrack
+      }
+    }
+  }
+  allSpotifyTopArtistMedium: allSpotifyTopArtist(
+    filter: {time_range: {eq: "medium_term"}}
+    sort: {order: ASC}
+    limit: 1000
+  ) {
+    edges {
+      node {
+        ...PickedTopArtist
+      }
+    }
+  }
+  allSpotifyTopTrackLong: allSpotifyTopTrack(
+    filter: {time_range: {eq: "long_term"}}
+    sort: {order: ASC}
+    limit: 1000
+  ) {
+    edges {
+      node {
+        ...PickedTopTrack
+      }
+    }
+  }
+  allSpotifyTopArtistLong: allSpotifyTopArtist(
+    filter: {time_range: {eq: "long_term"}}
+    sort: {order: ASC}
+    limit: 1000
+  ) {
+    edges {
+      node {
+        ...PickedTopArtist
+      }
+    }
+  }
+}`;
 
 const SpotifyFavoritesWithQuery = () => {
   const [playing, setPlaying] = useState(false);

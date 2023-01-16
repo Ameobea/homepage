@@ -30,6 +30,7 @@ export const query = graphql`
       tableOfContents
       frontmatter {
         title
+        opengraph
       }
     }
   }
@@ -93,97 +94,9 @@ const AboveFoldContent: React.FC = () => (
 const getPostMetadata = (
   post: any
 ): { image: string | null; meta: any; description?: string } | null => {
-  if (post.frontmatter?.title.includes('Webcola')) {
-    return {
-      image: 'https://ameo.link/u/921.png',
-      meta: [
-        { name: 'twitter:card', content: 'summary_large_image' },
-        { name: 'twitter:image', content: 'https://ameo.link/u/921.png' },
-        {
-          name: 'twitter:image:alt',
-          content:
-            'A screenshot of the spotify artist relationship graph from my Spotifytrack site, which was produced using WebCola',
-        },
-      ],
-    };
-  } else if (post.frontmatter?.title.includes('Exploring Neural Networks')) {
-    return {
-      image: 'https://nn.ameo.dev/nn-viz-og2.jpeg',
-      description:
-        'Introduces a browser-based sandbox for building, training, visualizing, and experimenting with neural networks.  Includes background information on the tool, usage information, technical implementation details, and a collection of observations and findings from using it myself.',
-      meta: [
-        { name: 'twitter:card', content: 'summary_large_image' },
-        {
-          name: 'twitter:image',
-          content: 'https://nn.ameo.dev/nn-viz-og2.jpeg',
-        },
-        { name: 'og:image:width', content: '1129' },
-        { name: 'og:image:height', content: '747' },
-        {
-          name: 'og:image:alt',
-          content:
-            'A screenshot of the neural network sandbox web application showing various visualizations including network response visualization, layers visualization, neuron response plot, and costs plot',
-        },
-        {
-          name: 'twitter:image:alt',
-          content:
-            'A screenshot of the neural network sandbox web application showing various visualizations including network response visualization, layers visualization, neuron response plot, and costs plot',
-        },
-      ],
-    };
-  } else if (
-    post.frontmatter?.title
-      .toLowerCase()
-      .includes('logic through the lens of neural networks')
-  ) {
-    return {
-      image: 'https://nn-logic-demos.ameo.dev/nn-logic-og.png',
-      description:
-        "A chronicle of findings and observations I've made while experimenting with learning logic and neural networks.  Topics include developing a new activation function, estimating Boolean and Kolmogorov complexity, and reverse-engineering a neural network's solution.",
-      meta: [
-        { name: 'twitter:card', content: 'summary_large_image' },
-        {
-          name: 'twitter:image',
-          content: 'https://nn-logic-demos.ameo.dev/nn-logic-og.png',
-        },
-        { name: 'og:image:width', content: '630' },
-        { name: 'og:image:height', content: '630' },
-        {
-          name: 'og:image:alt',
-          content:
-            "A screenshot of a 3D wireframe cube with some areas filled in with colored voxels.  The cube's corners are labeled with input combinations like TTF, TFT, FFF",
-        },
-        {
-          name: 'twitter:image:alt',
-          content:
-            "A screenshot of a 3D wireframe cube with some areas filled in with colored voxels.  The cube's corners are labeled with input combinations like TTF, TFT, FFF",
-        },
-      ],
-    };
-  } else if (
-    post.frontmatter?.title
-      .toLowerCase()
-      .includes('depth-based fragment culling')
-  ) {
-    return {
-      image: 'https://ameo.link/u/aix.png',
-      meta: [
-        { name: 'twitter:card', content: 'summary_large_image' },
-        { name: 'twitter:image', content: 'https://ameo.link/u/aix.png' },
-        { name: 'og:image:width', content: '1371' },
-        { name: 'og:image:height', content: '806' },
-        {
-          name: 'og:image:alt',
-          content:
-            'A visualization of the output of the depth pass used as a part of the depth-based fragment culling algorithm.  Half of the image shows the depth pass output while the other half shows the fully rendered scene side by side.',
-        },
-        {
-          name: 'twitter:image:alt',
-          content:
-            'A visualization of the output of the depth pass used as a part of the depth-based fragment culling algorithm.  Half of the image shows the depth pass output while the other half shows the fully rendered scene side by side.',
-        },
-      ],
-    };
+  if (post.frontmatter?.opengraph) {
+    console.log(JSON.parse(post.frontmatter.opengraph));
+    return JSON.parse(post.frontmatter.opengraph);
   }
 
   return null;

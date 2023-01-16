@@ -1,6 +1,7 @@
 ---
 title: 'Speeding Up the Webcola Graph Viz Library with Rust + WebAssembly'
 date: '2021-05-24'
+opengraph: '{"image":"https://ameo.link/u/921.png","meta":[{"name":"twitter:card","content":"summary_large_image"},{"name":"twitter:image","content":"https://ameo.link/u/921.png"},{"name":"twitter:image:alt","content":"A screenshot of the spotify artist relationship graph from my Spotifytrack site, which was produced using WebCola"}]}'
 ---
 
 For a recent project I've been working on, I wanted to include a graph showing the relationships between different artists on Spotify.  Spotify provides the data directly from their API, and I had everything set up to pull it for a user's top artists and into the browser.

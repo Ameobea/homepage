@@ -1,6 +1,7 @@
 ---
 title: 'Logic Through the Lens of Neural Networks'
 date: '2022-07-19'
+opengraph: "{\"image\":\"https://nn-logic-demos.ameo.dev/nn-logic-og.png\",\"description\":\"A chronicle of findings and observations I've made while experimenting with learning logic and neural networks.  Topics include developing a new activation function, estimating Boolean and Kolmogorov complexity, and reverse-engineering a neural network's solution.\",\"meta\":[{\"name\":\"twitter:card\",\"content\":\"summary_large_image\"},{\"name\":\"twitter:image\",\"content\":\"https://nn-logic-demos.ameo.dev/nn-logic-og.png\"},{\"name\":\"og:image:width\",\"content\":\"630\"},{\"name\":\"og:image:height\",\"content\":\"630\"},{\"name\":\"og:image:alt\",\"content\":\"A screenshot of a 3D wireframe cube with some areas filled in with colored voxels.  The cube's corners are labeled with input combinations like TTF, TFT, FFF\"},{\"name\":\"twitter:image:alt\",\"content\":\"A screenshot of a 3D wireframe cube with some areas filled in with colored voxels.  The cube's corners are labeled with input combinations like TTF, TFT, FFF\"}]}"
 ---
 
 <img width="380" height="370" alt="A 5-second looping video showing a spinning 3D wireframe cube.  The cube's corners are labeled with truth tables in the form TTF, TFT, FFF, etc.  The cube is partially filled with solid voxels representing areas where the artificial neuron it's visualizing outputs a value greater than 0." src="https://nn-logic-demos.ameo.dev/logic-cube-header.webp" style="width: 380px; height: 370px;margin-left: auto; margin-right: auto; display: block;"></img>
@@ -421,7 +422,7 @@ For other output digits, the network learned to do some over clever things to ge
 
 What it did ends up being roughly equivalent to the following sine-based version:
 
-![](./images/neural-networks-boolean-logic/sine-combinations.png)
+![A screenshot from the Desmos graphing calculator comparing plots of `sin(1/2x + pi)` compared to the function `-sin(1/2x) + sin(1/4x) - sin(1/6x)` which was learned by the network.  They are pretty close and have their high and low points in almost exactly the same spots.](./images/neural-networks-boolean-logic/sine-combinations.png)
 
 Again, I must say that I have no idea if this is just another random mathematical coincidence or part of some infinite series or something, but it's very neat regardless.
 

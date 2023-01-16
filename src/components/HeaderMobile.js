@@ -5,7 +5,8 @@ import HamburgerMenuIcon from '../images/hamburgerMenu.svg';
 
 const styles = {
   root: {
-    backgroundColor: 'rgba(36, 36, 36, 0.92)',
+    backgroundColor: 'rgba(16, 16, 16, 0.92)',
+    borderBottom: '1px solid rgba(200,200,200,0.4)',
     display: 'none',
     height: 45,
   },
@@ -15,11 +16,12 @@ const styles = {
     flexDirection: 'row',
     flex: 1,
     justifyContent: 'center',
+    gap: 12,
   },
   title: {
     display: 'flex',
     alignItems: 'center',
-    fontSize: 24,
+    fontSize: 20,
     fontFamily: "'PT Sans', sans-serif",
     fontWeight: 600,
   },

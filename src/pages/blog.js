@@ -30,26 +30,24 @@ const styles = {
   },
 };
 
-const query = graphql`
-  {
-    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
-      totalCount
-      edges {
-        node {
-          fields {
-            slug
-          }
-          id
-          frontmatter {
-            title
-            date(formatString: "YYYY-MM-DD")
-          }
-          excerpt
+const query = graphql`{
+  allMarkdownRemark(sort: {frontmatter: {date: DESC}}) {
+    totalCount
+    edges {
+      node {
+        fields {
+          slug
         }
+        id
+        frontmatter {
+          title
+          date(formatString: "YYYY-MM-DD")
+        }
+        excerpt
       }
     }
   }
-`;
+}`;
 
 const PostLink = ({ title, date, slug }) => (
   <li style={styles.postLink}>
