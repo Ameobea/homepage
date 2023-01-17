@@ -149,7 +149,7 @@ I have no idea if this is just another random mathematical coincidence or part o
 
 **So, in all, the network was accomplishing binary addition by**:
 
- 1. Converting the binary inputs into "analog" using a version of a digital to audio converter implemented using the weights of the input layer
+ 1. Converting the binary inputs into "analog" using a version of a digital to analog converter implemented using the weights of the input layer
  2. Mapping that internal analog signal into periodic sine wave-like signals using the Ameo activation function (even though that activation function isn't periodic)
  3. Saturating the sine wave-like signal to make it more like a square wave so outputs are as close as possible to the expected values of -1 and 1 for all outputs
 
