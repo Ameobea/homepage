@@ -1,7 +1,7 @@
 ---
 title: "Reverse Engineering a Neural Network's Clever Solution to Binary Addition"
 date: '2023-01-15'
-opengraph: '{}'
+opengraph: "{\"image\":\"https://ameo.link/u/asj.png\",\"description\":\"While training small neural networks to perform binary addition, a surprising solution emerged that allows the network to solve the problem very effectively.  This post explores the mechanism behind that solution and how it relates to analog electronics.\",\"meta\":[{\"name\":\"twitter:card\",\"content\":\"summary_large_image\"},{\"name\":\"twitter:image\",\"content\":\"https://ameo.link/u/asj.png\"},{\"name\":\"og:image:width\",\"content\":\"669\"},{\"name\":\"og:image:height\",\"content\":\"499\"},{\"name\":\"og:image:alt\",\"content\":\"A screenshot of the Desmos online graphing calculator showing two sine-like functions plotted that are close to each other.  The domain is [-15, 15] and the range is [-2, 2].\"},{\"name\":\"twitter:image:alt\",\"content\":\"A screenshot of the Desmos online graphing calculator showing two sine-like functions plotted that are close to each other.  The domain is [-15, 15] and the range is [-2, 2].\"}]}"
 ---
 
 There's a ton of attention lately on massive neural networks with billions of parameters, and rightly so.  By combining huge parameter counts with powerful architectures like transformers and diffusion, neural networks are capable of accomplishing astounding feats.
