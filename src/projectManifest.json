@@ -1,15 +1,160 @@
 [
   {
+    "name": "Sample Library Embedding Browser",
+    "description": "An experiment for generating embeddings from an audio sample library and a UI for visually exploring the sample library in 2D space. The samples processed with MFCC for feature extraction, the embeddings are generated using UMAP, and the UI is built with Svelte + D3.The tool is integrated into the sample library module of my web synth project.",
+    "projectUrl": "https://twitter.com/Ameobea10/status/1648231955308363776?s=20",
+    "srcUrl": "https://github.com/Ameobea/web-synth/tree/main/src/sampleLibrary/embeddingBrowser",
+    "technologies": ["Python", "Svelte", "D3", "TypeScript", "embeddings"],
+    "pageUrl": null,
+    "image": "sample-library-embedding-browser.png",
+    "imageAlt": "A screenshot of the sample library embedding browser.  It shows a 2D scatter plot of the embeddings of a sample library.  The samples are colored by category as estimated by the sample name, and are roughly organized into clusters by color.  There is a label along the bottom of the embedding showing information about the hovered sample, which is from a Fox Stevenson sample pack.  There is a search bar at the top.",
+    "startDate": "Apr. 2023",
+    "endDate": "Apr. 2023"
+  },
+  {
+    "name": "Signal Analyzer for Web Synth",
+    "description": "A combined spectrogram + oscilloscope module for my web-synth project. It integrates into web synth and can be used to analyze any signal. The visualizations are built using lots of cool modern web tech including SharedArrayBuffer, Atomics, OffscreenCanvas, Rust compiled to WebAssembly + Wasm SIMD, and more.",
+    "projectUrl": null,
+    "srcUrl": "https://github.com/Ameobea/web-synth/tree/main/src/signalAnalyzer",
+    "technologies": ["Rust", "WebAssembly", "TypeScript"],
+    "pageUrl": null,
+    "image": "web-synth-signal-analyzer.png",
+    "imageAlt": "A screenshot of the signal analyzer module in web synth.  It shows a spectrogram rendered as a white line on top, and an oscilloscope rendered as a magenta line on the bottom.  The spectrogram shows a complex spectrum with lots of harmonics, tapering off into the higher frequencies. The oscilloscope shows a distorted supersaw waveform.",
+    "startDate": "Mar. 2023",
+    "endDate": "Apr. 2023"
+  },
+  {
+    "name": "llama.cpp AVX-512 Support",
+    "description": "I added support for AVX-512 to the popular llama.cpp LLM project.  This sped up inference by a bit on processors that support it.  The work was quickly obsoleted by other optimizations to the rapidly evolving project, but it was a fun experience to contribute to that effort.",
+    "projectUrl": null,
+    "srcUrl": "https://github.com/ggerganov/llama.cpp/pull/320",
+    "technologies": ["C++", "SIMD"],
+    "pageUrl": null,
+    "image": null,
+    "imageAlt": null,
+    "startDate": "Mar. 2023",
+    "endDate": "Mar. 2023"
+  },
+  {
+    "name": "Wavetable Editor for Web Synth",
+    "description": "A small utility added to web synth to allow users to build their own wavetables by adding in harmonics individually.  This builds on the existing wavetable support for the FM synth, allowing users to build their own wavetables in addition to importing them from files.",
+    "projectUrl": null,
+    "srcUrl": "https://github.com/Ameobea/web-synth/tree/main/src/fmSynth/Wavetable",
+    "technologies": ["TypeScript", "WebAudio"],
+    "pageUrl": null,
+    "image": "web-synth-wavetable-editor.png",
+    "imageAlt": "A screenshot of the web synth wavetable editor.  Shows many sliders to control adding in harmonics as well as controls to move through the wavetable and adjust playback.  There is a box on the top showing a relatively complex waveform rendered in red.",
+    "startDate": "Feb. 2023",
+    "endDate": "Mar. 2023"
+  },
+  {
+    "name": "Web Synth Enhancements",
+    "description": "I picked active development of web synth back up with the goal of producing \"real music\" using the tool.  I prioritized filling some gaps in features as well as polishing up the application as a whole.  Some of what I worked on includes building an OTT-style multi-band compressor, a mixer UI with level visualization, revamping the MIDI editor to support multiple tracks, adding a welcome page, building a custom dynamic bandpass filter, moving MIDI scheduling to the audio thread, adding time-tracked automation tracks, and fixing tons of bugs.",
+    "projectUrl": "https://synth.ameo.dev",
+    "srcUrl": "https://github.com/ameobea/web-synth",
+    "technologies": [
+      "TypeScript",
+      "WebAudio",
+      "WebAssembly",
+      "Rust",
+      "DSP",
+      "SIMD"
+    ],
+    "pageUrl": null,
+    "image": "web-synth.jpg",
+    "imageAlt": "Combined screenshots of the Web Synth application showing the graph editor for the audio patch network and a part of the synth designer UI with envelope generators, param controls, and the FM synth modulation matrix",
+    "startDate": "Nov. 2022",
+    "endDate": null
+  },
+  {
+    "name": "3D Rainy Scene",
+    "description": "A continuation of my 3D work with Three.JS. This scene was inspired by the \"Rainy Apartments\" level from the game Yume 2kki. Everything is modeled by hand in Blender and rendered with Three.JS, using lots of postprocessing for a distance blur effect.  Integrates with web synth for rain sounds.",
+    "projectUrl": "https://3d.ameo.design/rainy.html",
+    "srcUrl": "https://github.com/Ameobea/sketches-3d/blob/main/src/viz/scenes/rainy/rainy.ts",
+    "technologies": ["Three.JS", "WebGL", "TypeScript", "glsl"],
+    "pageUrl": null,
+    "image": "rainy-sketch.png",
+    "imageAlt": "A screenshot of the rainy scene.  It is a dark gray scene with a black railing and some concrete pillars, like a long balcony that is part of an apartment complex.  There are many dark concrete skyscrapers in the background, blurring into the background as they go further back into the distance.",
+    "startDate": "Oct. 2022",
+    "endDate": "Oct. 2022"
+  },
+  {
+    "name": "three-good-godrays",
+    "description": "A collaboration with @N8Programs, porting his godrays shader for Three.JS into a library that integrates with the pmndrs postprocessing library. The shader is a high-quality volumetric lighting effect that generates very cool looking godrays in any Three.JS project, with lots of controls for configuring the effect.",
+    "projectUrl": "https://three-good-godrays.ameo.design",
+    "srcUrl": "https://github.com/ameobea/three-good-godrays",
+    "technologies": ["Three.JS", "WebGL", "TypeScript", "glsl"],
+    "pageUrl": null,
+    "image": "three-good-godrays.png",
+    "imageAlt": "A screenshot of the three-good-godrays demo showing a scene with volumetric lighting and godrays.  A bright pink light shines through a vertical array of black slats set in the side of a huge indistinct black structure in the background.  There are very prominent and intense godrays in the air, giving it the appearance of being very humid or smokey.  The ground is rock and there are black pillars casting long and stark shadows across it.",
+    "startDate": "Oct. 2022",
+    "endDate": "Oct. 2022"
+  },
+  {
+    "name": "Spector.js Bugfixes for Large Scenes",
+    "description": "While working on my Three.JS projects, I used the Spector.JS tool to debug performance issues and was encountering some crashes when trying to load large scenes with it.  I contributed some fixes to expand support to much larger scenes to the project, and speed up the extension significantly in some cases.",
+    "projectUrl": null,
+    "srcUrl": "https://github.com/BabylonJS/Spector.js/pull/244",
+    "technologies": ["JavaScript"],
+    "pageUrl": null,
+    "image": null,
+    "imageAlt": null,
+    "startDate": "Oct. 2022",
+    "endDate": "Oct. 2022"
+  },
+  {
+    "name": "Seamless Texture Stitcher",
+    "description": "Web-based utility to combine multiple seamlessly tiling textures into a single larger texture. This is a useful alternative to expensive runtime methods like hex tiling. It works very well when using AI-generated seamless textures, and I used it in some of my 3D sketches.  Written in Rust + compiled to WebAssembly.",
+    "projectUrl": "https://texture-utils.ameo.design/seamless-stitcher/",
+    "srcUrl": "https://github.com/ameobea/texture-utils",
+    "technologies": [
+      "Rust",
+      "WebAssembly",
+      "TypeScript",
+      "Svelte",
+      "SvelteKit"
+    ],
+    "pageUrl": null,
+    "image": "seamless-stitcher.png",
+    "imageAlt": "A screenshot of the seamless texture stitcher tool showing the UI on the right and a preview of the stitched texture on the left.  The stitched texture is a concrete pattern and it consists of 4 different concrete textures blended together while maintaining the seamless tiling.  The UI consists of a matrix of squares for controlling each of the sub-textures including selecting the source texture to use, rotating, and offsetting.",
+    "startDate": "Sep. 2022",
+    "endDate": "Oct. 2022"
+  },
+  {
+    "name": "3D Pinklights Scene",
+    "description": "Continuation of my 3D work with Three.JS and Blender. An alien-looking environment with bright pink animated volumetric lighting.  Includes my first proof-of-concept integration with my web synth project to play some dynamically generated music.",
+    "projectUrl": "https://3d.ameo.design/pinklights.html",
+    "srcUrl": "https://github.com/Ameobea/sketches-3d/blob/main/src/viz/scenes/chasms/chasms.ts",
+    "technologies": ["Three.JS", "WebGL", "TypeScript", "glsl"],
+    "pageUrl": null,
+    "image": "pinklights-sketch.png",
+    "imageAlt": "A screenshot of the pinklights scene.  It shows a bright panel in the background with dark slats over it which is casting long horizontal shadows over a rocky-looking pixelated ground.  There are some hills around the area and the camera is placed in a small valley.  It looks kind of like if you were inside a terrarium.",
+    "startDate": "Sep. 2022",
+    "endDate": "Oct. 2022"
+  },
+  {
+    "name": "3D Bridge Scene",
+    "description": "The result of a lot of experiments with Three.JS and Blender.  Full first person controls with collision detection + physics, lots of custom shaders + textures, and web synth integration for sound effects.  The scene itself consists of a bridge over a void with many floating monoliths and an alien-looking environment.",
+    "projectUrl": "https://3d.ameo.design/bridge2.html",
+    "srcUrl": "https://github.com/Ameobea/sketches-3d/blob/main/src/viz/scenes/bridge2/bridge2.ts",
+    "technologies": ["Three.JS", "WebGL", "TypeScript", "glsl"],
+    "pageUrl": null,
+    "image": "bridge2-sketch.png",
+    "imageAlt": "A screenshot of the bridge scene.  It shows a pastel-colored sky in the background with a yellow sun disc.  There are some floating geometric monoliths on the left, and some dark wall-like structures on the right casting prominent shadows.  The ground looks to be rocky with embedded metal that reflects golden in the light.",
+    "startDate": "Aug. 2022",
+    "endDate": "Sept. 2022"
+  },
+  {
     "name": "3D Sketches, Demos, and Experiments",
-    "description": "A collection of small interactive game-like 3D environments and demos.  Somewhat inspired by games like Yume Nikki/Yume 2kki, Over the Void, and others.  There is no overarching goal or theme, but this work may lead to a larger project in the future.\n\nThe demos are all browser-based, rendered with Three.JS + WebGL and use 3D models I'm creating myself in Blender.  Includes some work with procedural materials and custom shaders inspired by projects on Shadertoy.  I plan to integrate it with my web-synth project for audio in the future.  I am working to build up a library of resources with the hope of doing an Inktober-like daily sketch for this project this fall.",
-    "projectUrl": "https://cube.ameo.design/",
+    "description": "A collection of small interactive game-like 3D environments and demos.  Somewhat inspired by games like Yume Nikki/Yume 2kki, Over the Void, and others.  There is no overarching goal or theme, but this work may lead to a larger project in the future.\n\nThe demos are all browser-based, rendered with Three.JS + WebGL and use 3D models I'm creating myself in Blender.  Includes some work with procedural materials and custom shaders inspired by projects on Shadertoy.",
+    "projectUrl": null,
     "srcUrl": "https://github.com/ameobea/sketches-3d",
     "technologies": ["Three.JS", "WebGL", "Blender", "glsl", "TypeScript"],
     "pageUrl": null,
     "image": "3d-sketches.png",
     "imageAlt": "A screenshot of one of the 3D sketches I created as a part of this project.  A very dark scene with a bridge-like structure covered with wispy white fog-like clouds.  Jagged pillars with red noise patterns emerge on either side.",
     "startDate": "Aug. 2022",
-    "endDate": null
+    "endDate": "Oct. 2022"
   },
   {
     "name": "Neural Network Experiments + Research",
@@ -131,6 +276,18 @@
     "pageUrl": null,
     "image": "rnnoise-godbolt.png",
     "imageAlt": "A screenshot of the godbolt web interface showing the generated assembly from the code from rnnoise that I sped up with SIMD",
+    "startDate": "Jul 2021",
+    "endDate": "Jul 2021"
+  },
+  {
+    "name": "rocket_async_compression",
+    "description": "A small library adding support for response compression to the Rocket web framework for Rust.  It uses the `async-compression` library to provide support for gzip, deflate, brotli, and zstd compression.",
+    "projectUrl": null,
+    "srcUrl": "https://github.com/Ameobea/rocket_async_compression",
+    "technologies": ["Rust"],
+    "pageUrl": null,
+    "image": null,
+    "imageAlt": null,
     "startDate": "Jul 2021",
     "endDate": "Jul 2021"
   },

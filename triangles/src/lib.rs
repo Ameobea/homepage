@@ -1,4 +1,4 @@
-#![feature(box_syntax, const_fn_floating_point_arithmetic)]
+#![feature(const_fn_floating_point_arithmetic)]
 
 use std::f32;
 use std::mem;
@@ -288,12 +288,12 @@ pub fn init_triangles(canvas_width: usize, canvas_height: usize) {
         panic::set_hook(Box::new(console_error_panic_hook::hook));
     }
 
-    let world: Box<World> = box DBVT::new();
+    let world: Box<World> = Box::new(DBVT::new());
     let p: *mut World = Box::into_raw(world);
     unsafe { COLLISION_WORLD = p };
 
     let triangles: Box<[Vec<TriangleHandle>; CHAIN_COUNT]> =
-        unsafe { box mem::MaybeUninit::uninit().assume_init() };
+        unsafe { Box::new(mem::MaybeUninit::uninit().assume_init()) };
     let p: *mut [Vec<TriangleHandle>; CHAIN_COUNT] = Box::into_raw(triangles);
     for i in 0..CHAIN_COUNT {
         unsafe {
@@ -307,10 +307,10 @@ pub fn init_triangles(canvas_width: usize, canvas_height: usize) {
     unsafe { TRIANGLES = p };
 
     let rng_seed: [u8; 16] = unsafe { mem::transmute(1u128) };
-    let rng: Box<Pcg32> = box Pcg32::from_seed(rng_seed);
+    let rng: Box<Pcg32> = Box::new(Pcg32::from_seed(rng_seed));
     let p: *mut Pcg32 = Box::into_raw(rng);
     unsafe { RNG = p };
-    unsafe { ENVS = Box::into_raw(box mem::MaybeUninit::uninit().assume_init()) };
+    unsafe { ENVS = Box::into_raw(Box::new(mem::MaybeUninit::uninit().assume_init())) };
 
     let default_conf = Conf {
         prng_seed: 9209.2338,

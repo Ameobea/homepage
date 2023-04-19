@@ -92,12 +92,14 @@ const ProjectOverview = ({
       <p className="portfolio-project-description">{description}</p>
     </div>
 
-    <ProjectImage
-      pageUrl={pageUrl}
-      gatsbyImageData={gatsbyImageData}
-      imageAlt={imageAlt}
-      even={even}
-    />
+    {gatsbyImageData ? (
+      <ProjectImage
+        pageUrl={pageUrl}
+        gatsbyImageData={gatsbyImageData}
+        imageAlt={imageAlt}
+        even={even}
+      />
+    ) : null}
   </div>
 );
 
@@ -171,14 +173,18 @@ const IndexInner = ({ allProjectManifestJson, allImageSharp }) => {
       <hr />
 
       {projects.map((props, i) => {
-        const imageNameWithoutExtension = props.image.split('.')[0];
+        const imageNameWithoutExtension = props.image?.split('.')[0];
 
         return (
           <ProjectOverview
             key={i}
             even={i % 2 == 0}
             {...props}
-            gatsbyImageData={imageMap[imageNameWithoutExtension]}
+            gatsbyImageData={
+              imageNameWithoutExtension
+                ? imageMap[imageNameWithoutExtension]
+                : undefined
+            }
           />
         );
       })}
