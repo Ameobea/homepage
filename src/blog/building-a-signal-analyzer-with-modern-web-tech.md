@@ -12,9 +12,9 @@ Besides being useful for debugging during development, these tools are important
 
 Here's what the signal analyzer module ended up looking like when integrated into the main web synth app:
 
-![A screenshot of the signal analyzer module in web synth.  It shows a spectrogram rendered as a white line on top, and an oscilloscope rendered as a magenta line on the bottom.  The spectrogram shows a complex spectrum with lots of harmonics, tapering off into the higher frequencies. The oscilloscope shows a distorted supersaw waveform.](../images/projects/web-synth-signal-analyzer.png)
+![A screen recording of the signal analyzer module in web synth.  It shows a spectrogram rendered as a white line on top, and an oscilloscope rendered as a magenta line on the bottom.  Both the visualizations are animated to reflect changes in the signal as it changes over time. The spectrogram shows a complex spectrum with lots of harmonics, tapering off slightly into the higher frequencies. The oscilloscope shows a complex waveform that drifts off slowly to the left.](https://i.ameo.link/b2a.webp)
 
-This kind of UI might look familiar to anyone with a background in digital signal processing or music production.
+It's nothing fancy, but it works well and is very usable. This kind of UI might look familiar to anyone with a background in digital signal processing or music production.
 
 The white visualization on top is the **spectrogram**.  It plots the power of the input signal at different frequencies, and it updates live as the signal changes over time.  It's a very useful tool when mixing multiple signals together or when performing heavy processing on signals since it helps identify imbalances in the spectrum, spot artifacts or undesired frequencies, and things like that.
 
@@ -36,19 +36,53 @@ Here's a screenshot of the Chrome dev tools showing the spectrum viz in action:
 
 ![](./images/spectrum-viz/chrome-devtools-perf.png)
 
-As you can see, the work is spread across 4 different threads, plus the GPU.  The main thread is at the top (not expanded) and has an extremely light load - less than 5% CPU usage.  All the heavy lifting is done by the dedicated worker threads for the visualizations and the web audio rendering thread itself.
+As you can see, the work is spread across 4 different threads, plus the GPU.  The main thread is at the top (not expanded) and has an extremely light load - less than 5% of one core.  All the heavy lifting is done by the dedicated worker threads for the visualizations and by the web audio rendering thread itself.
 
 ### Web Workers
 
 The main way to run work on multiple threads on the web is **Web Workers**.  They can be used to run arbitrary JavaScript and are limited in that they can't manipulate or access the DOM or some other things.  They can communicate with other threads, including the main thread, using a message-passing interface as well as some other new methods which we'll get into later.
 
-For the signal analyzer, both the spectrogram as well as the oscilloscope each run in their own web worker.  I use a great library called [Comlink](https://github.com/GoogleChromeLabs/comlink) which makes initializing and communicating with the workers very easy by wrapping the message channel in a TypeScript-enabled RPC interface.
+For the signal analyzer, both the spectrogram as well as the oscilloscope each run in their own web worker.  Web Workers actually have been around for a while and have some nice tooling built up around them.  However, making use of them could be a pain in the past.
+
+When I tried out web workers in the past, I had to install special Webpack plugins and use other hacks to get them to work.  Even then, I could never get TypeScript support working properly either.  I ran into issues where importing other code in my project from a worker would cause them to not work in some browsers and other weird things like that as well.
+
+However, it was a very different setting up web workers for the signal analyzer.
+
+<div class="good">
+The JS ecosystem has come a very long way with their web workers support, and they're now quite easy to set up and use without hacks or browser-dependent bugs
+</div>
+
+A big part of this improvement is a great library I discovered called [Comlink](https://github.com/GoogleChromeLabs/comlink).  It makes initializing and communicating with the workers very easy by wrapping the message channel in a TypeScript-enabled RPC interface.
+
+Another big change is that web workers are now natively supported by popular bundlers like Webpack, which I use for web synth.  It allows you to write workers in TypeScript, share types between the worker and other files in the project seamlessly, and import workers from other files directly:
+
+```ts
+const worker = new Worker(new URL('./Spectrogram.worker', import.meta.url))
+```
+
+It's a whole different story compared to when I first used them.  They feel much more like a mature feature that can be depended on rather than an experiment only applicable to some niche use cases.
 
 ### `SharedArrayBuffer`
 
-TODO
+This is another case of a feature that's been around for a long time but improved recently.  `SharedArrayBuffer` is JavaScript's solution for sharing memory between threads.  It works just like a regular `ArrayBuffer`, but you can send it to other threads via message ports and similar methods.
+
+For this use case, it provides a few key benefits over sending data asynchronously between threads via message passing.  The first is performance
 
 ### Atomics
+
+TODO
+
+### `OffscreenCanvas`
+
+TODO
+
+### Wasm + Wasm SIMD
+
+## Architectures
+
+TODO
+
+### Spectrum Viz
 
 TODO
 
@@ -56,11 +90,9 @@ Here's a diagram showing how the web worker for the spectrogram initializes and 
 
 ![This diagram illustrates the signal analyzer module's workflow in a web-based digital audio workstation. The workflow is divided into two major threads: the Main Thread and the Web Worker Thread. The Main Thread handles initialization, running a recursive driver loop for data collection and rendering, building an OffscreenCanvas, and handling various events. The Web Worker Thread, on the other hand, is responsible for rendering the data received from the Main Thread and managing the state of the visualization. The two threads communicate through signals and message passing, ensuring smooth interaction between UI events, data collection, and rendering.](https://i.ameo.link/b28.svg)
 
-### `OffscreenCanvas`
-
 TODO
 
-## Wasm + Wasm SIMD
+### Oscilloscope
 
 TODO
 
