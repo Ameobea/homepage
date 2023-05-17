@@ -5,16 +5,8 @@ import * as R from 'ramda';
 import Layout from '../components/layout';
 import { ANewTab } from '../components/util';
 
-const Licenses = ({ licenses }) => (
-  <ul>
-    {licenses.map(({ name, summary }, i) => (
-      <li key={i}>{`${name}: ${summary}`}</li>
-    ))}
-  </ul>
-);
-
 const LinkedinIconCredit = () => (
-  <React.Fragment>
+  <>
     LinkedIn icon made by{' '}
     <a href="https://www.flaticon.com/authors/simpleicon" title="SimpleIcon">
       SimpleIcon
@@ -32,11 +24,11 @@ const LinkedinIconCredit = () => (
     >
       CC 3.0 BY
     </a>
-  </React.Fragment>
+  </>
 );
 
 const HamburgerIconCredit = () => (
-  <React.Fragment>
+  <>
     Hamburger menu icon made by{' '}
     <ANewTab to="https://www.iconfinder.com/tmthymllr" text="Timothy Miller" />{' '}
     and licensed by licensed by{' '}
@@ -50,19 +42,16 @@ const HamburgerIconCredit = () => (
     </a>
     . I changed the color to white, so the derivative work is also licensed
     under CC 3.0 BY.
-  </React.Fragment>
+  </>
 );
 
-const ImprintContent = ({ licenses }) => (
+const ImprintContent = () => (
   <Layout title="Imprint" description="Imprint + Credits for cprimozic.net">
     <div>
       <p>
         Full source code of this website is available{' '}
         <ANewTab to="https://github.com/ameobea/homepage" text="on Github" />.
       </p>
-      <h2>Licenses of dependencies used on the site</h2>
-      <Licenses licenses={licenses} />
-      <br />
       <LinkedinIconCredit />
       <br />
       <br />
@@ -74,32 +63,4 @@ const ImprintContent = ({ licenses }) => (
   </Layout>
 );
 
-const query = graphql`
-  {
-    allLicensesCsv {
-      edges {
-        node {
-          name
-          repository
-          summary
-        }
-      }
-    }
-  }
-`;
-
-const Imprint = () => (
-  <StaticQuery
-    query={query}
-    render={({ allLicensesCsv }) => {
-      const licenses = allLicensesCsv.edges.map(R.prop('node'));
-      const dedupedLicenses = R.dropRepeatsWith(
-        R.eqBy(R.prop('name')),
-        licenses
-      );
-      return <ImprintContent licenses={dedupedLicenses} />;
-    }}
-  />
-);
-
-export default Imprint;
+export default ImprintContent;

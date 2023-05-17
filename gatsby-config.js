@@ -43,13 +43,6 @@ module.exports = {
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        name: 'licenses',
-        path: `${__dirname}/src/licenses.csv`,
-      },
-    },
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
         name: 'blog',
         path: `${__dirname}/src/blog`,
       },

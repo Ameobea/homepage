@@ -83,7 +83,6 @@ const Header = ({ siteTitle }) => (
     <div style={styles.header}>
       <div style={styles.leftLinks}>
         <LogoLinks />
-        <NonLogoLink url="https://ameo.link/resume" text="Résume" />
       </div>
 
       <div style={styles.rightLinks}>
