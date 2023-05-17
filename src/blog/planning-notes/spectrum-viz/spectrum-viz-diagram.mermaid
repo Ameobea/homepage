@@ -1,0 +1,48 @@
+graph TD
+    subgraph "Main Thread"
+        direction LR
+        subgraph init [Initialization]
+            A[Load serialized state]
+            Y[Load viz Wasm from network]
+        end
+        subgraph renderLoop [Driver Loop]
+            direction RL
+            D[requestAnimationFrame]
+            Z[Get frequency data from `AnalyserNode`]
+            B[Copy frequency domain data to SharedArrayBuffer]
+            C[Atomics.signal]
+            D --> Z --> B --> C --> D
+        end
+        subgraph ui [Construct + Render UI]
+            CNV[Construct Canvas DOM Node]
+            BOSC[Build `OffscreenCanvas`]
+            CNV --> BOSC
+        end
+        subgraph eventHandlers ["Event Handlers"]
+            E["Pause/Resume, Resize, UI Change, etc."]
+        end
+
+        init --> renderLoop
+        init --> ui --> eventHandlers
+    end
+    subgraph worker [Web Worker]
+        direction RL
+        subgraph workerRenderLoop [Render Loop]
+            L[Atomics.waitAsync]
+            M[Copy data from SharedArrayBuffer to Wasm heap]
+            N["Call Wasm process() function to populate viz"]
+            O[Copy pixel data to OffscreenCanvas via putImageData]
+            L --> M --> N --> O --> L
+        end
+        subgraph messageHandler [Message Handler]
+            UVS[Update Viz state]
+            PS[Pause/Resume Render Loop]
+        end
+        %% PS --> workerRenderLoop
+    end
+    A --> messageHandler
+    E --> messageHandler
+    Y --> messageHandler
+    init -- Spawn web worker --> worker
+    C -.-> L
+    BOSC -- Transfer offscreen canvas to worker --> messageHandler
