@@ -1,0 +1,69 @@
+graph TB
+    subgraph mainThread [Main Thread]
+        direction BT
+        subgraph mainThreadInit [Initialization]
+            direction RL
+            STATE[Load state]
+            WASM[Fetch Wasm]
+            INITAWP[Init AWP]
+        end
+
+        subgraph ui [UI]
+            CNV[Build Canvas DOM Node]
+            BOSC[Build `OffscreenCanvas`]
+            CNV --> BOSC
+
+            UIEVT[UI Events]
+        end
+
+        %% mainThreadInit --> ui
+    end
+
+    subgraph audioThread [Audio Thread]
+        subgraph awp [AudioWorkletProcessor]
+            BUF[Circular buf in SharedArrayBuffer]
+
+            subgraph processLoop ["process()"]
+                COPYSAMPLES[Copy samples into circular buffer]
+                NOTIFY["`Atomics.notify()`"]
+                COPYSAMPLES --> NOTIFY
+            end
+        end
+    end
+
+    subgraph workerThread [Web Worker]
+        direction BT
+
+        subgraph sampleConsumerLoop [Samples Consumer Loop]
+            direction BT
+            WAIT["`Atomics.waitAsync()`"]
+            READ["Read samples out of circular buffer"]
+            PROCESS["Process samples into Wasm"]
+            WAIT --> READ --> PROCESS --> WAIT
+        end
+
+        subgraph messageHandler [Message Handler]
+
+        end
+
+        messageHandler --> VIZWASM["Viz Wasm"]
+
+        subgraph renderLoop [Render Loop]
+            direction TB
+            ANIMATE[requestAnimationFrame]
+            GETPIX[Get latest viz pixel buffer from viz Wasm]
+            COPYPIX[Copy pixel data to OffscreenCanvas via putImageData]
+            ANIMATE --> GETPIX --> COPYPIX --> ANIMATE
+        end
+    end
+
+    mainThreadInit --> messageHandler
+    WASM -- "Compile + initialize Wasm" --> VIZWASM
+    INITAWP --> awp
+    BUF -- Transfer via message port --> workerThread
+    COPYSAMPLES -.-> BUF
+    NOTIFY -.-> WAIT
+    BOSC -- Transfer offscreen canvas to worker --> messageHandler
+    PROCESS --> VIZWASM
+    VIZWASM --> GETPIX
+    UIEVT --> messageHandler
