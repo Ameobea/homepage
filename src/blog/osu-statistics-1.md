@@ -5,7 +5,7 @@ date: '2016-10-02'
 
 Being the owner of [osu!track](https://ameobea.me/osutrack), I'm in the unique position of having access to a _ton_ of historical player data going back over two years. I decided to dig into this data and pull our some interesting statistics.
 
-_I've uploaded the full osu!track database [here](https://ameo.link/u/31w.gz) for anyone to use! Also, the scripts I used to parse the data and create the graphs in this post can be found [here](https://github.com/Ameobea/osu-statistics)._
+_I've uploaded the full osu!track database [here](https://i.ameo.link/osutrack_updates_full.csv.gz) for anyone to use! Also, the scripts I used to parse the data and create the graphs in this post can be found [here](https://github.com/Ameobea/osu-statistics)._
 
 ---
 

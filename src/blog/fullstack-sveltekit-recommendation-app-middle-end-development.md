@@ -111,7 +111,7 @@ This allows for things like generating dynamic OpenGraph metadata for users' rec
 
 This is all in addition to the heaps of benefits that Svelte brings normally.  For example, setting up really nice animations for the recommendations as they change in response to user config changes + filtering was _shockingly_ easy - like 2 lines of code - and the result is gorgeous:
 
-<img alt="A video demonstrating the smoothly animated movement of recommendations in the list as they are added, removed, and change positions when the user changes parameters for the recommendation engine" loading="lazy" src="https://ameo.link/u/9za.webp" width="580" height="569" style="max-width: 600px; height: auto; margin-left: auto; margin-right: auto; text-align: center; margin-bottom: 2px; display: block;">
+<img alt="A video demonstrating the smoothly animated movement of recommendations in the list as they are added, removed, and change positions when the user changes parameters for the recommendation engine" loading="lazy" src="https://i.ameo.link/9za.webp" width="580" height="569" style="max-width: 600px; height: auto; margin-left: auto; margin-right: auto; text-align: center; margin-bottom: 2px; display: block;">
 
 ## Epilogue
 

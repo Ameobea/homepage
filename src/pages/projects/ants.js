@@ -21,9 +21,9 @@ const Ants = () => (
     part of the project and have included links to them below.
     <br />
     <br />
-    <ANewTab to="https://ameo.link/u/64s.pdf" text="Presentation Slides" />
+    <ANewTab to="https://i.ameo.link/64s.pdf" text="Presentation Slides" />
     <br />
-    <ANewTab to="https://ameo.link/u/64t.pdf" text="Paper" />
+    <ANewTab to="https://i.ameo.link/64t.pdf" text="Paper" />
   </Layout>
 );
 

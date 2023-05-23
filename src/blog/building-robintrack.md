@@ -74,9 +74,9 @@ The frontend is implemented as a single-page React application. All of the routi
 
 The web app runs on all kinds of devices, and has been tuned to display on all realistic screen sizes. This is accomplished through a mixture of responsive CSS using flex-box as well as conditional rendering based on screen size by using [react-responsive](https://github.com/contra/react-responsive) which uses media queries internally. This process took significant effort, but turned out ot be very worthwhile as over 70% of users to the site visited it on some kind of mobile device.
 
-![A demonstration of responsiveness on the RobinTrack homepage](https://ameo.link/u/5po.gif)
+![A demonstration of responsiveness on the RobinTrack homepage](https://i.ameo.link/5po.gif)
 
-![A demonstration of responsiveness on the RobinTrack Popularity Changes page](https://ameo.link/u/5pp.gif)
+![A demonstration of responsiveness on the RobinTrack Popularity Changes page](https://i.ameo.link/5pp.gif)
 
 ### Data Visualization
 

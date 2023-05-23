@@ -1,7 +1,7 @@
 ---
 title: 'Speeding Up Three.JS with Depth-Based Fragment Culling'
 date: '2022-09-26'
-opengraph: '{"image":"https://ameo.link/u/aix.png","meta":[{"name":"twitter:card","content":"summary_large_image"},{"name":"twitter:image","content":"https://ameo.link/u/aix.png"},{"name":"og:image:width","content":"1371"},{"name":"og:image:height","content":"806"},{"name":"og:image:alt","content":"A visualization of the output of the depth pass used as a part of the depth-based fragment culling algorithm.  Half of the image shows the depth pass output while the other half shows the fully rendered scene side by side."},{"name":"twitter:image:alt","content":"A visualization of the output of the depth pass used as a part of the depth-based fragment culling algorithm.  Half of the image shows the depth pass output while the other half shows the fully rendered scene side by side."}]}'
+opengraph: '{"image":"https://i.ameo.link/aix.png","meta":[{"name":"twitter:card","content":"summary_large_image"},{"name":"twitter:image","content":"https://i.ameo.link/aix.png"},{"name":"og:image:width","content":"1371"},{"name":"og:image:height","content":"806"},{"name":"og:image:alt","content":"A visualization of the output of the depth pass used as a part of the depth-based fragment culling algorithm.  Half of the image shows the depth pass output while the other half shows the fully rendered scene side by side."},{"name":"twitter:image:alt","content":"A visualization of the output of the depth pass used as a part of the depth-based fragment culling algorithm.  Half of the image shows the depth pass output while the other half shows the fully rendered scene side by side."}]}'
 ---
 
 <br/>

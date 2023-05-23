@@ -36,7 +36,7 @@ The pitch of a sound is determined by the frequency of that sound.  **Oscillator
 
 Here's what FM synthesis looks like looks like at the waveform level, with the synth's built-in oscilloscope visualizing the result of a sine wave oscillator modulating a different sine wave oscillator's frequency but with the intensity of that modulation changing over time:
 
-<center><video style="max-height:300px;max-width:80vw;" src="https://ameo.link/u/8v5.webm" controls></video></center>
+<center><video style="max-height:300px;max-width:80vw;" src="https://i.ameo.link/8v5.webm" controls></video></center>
 
 As you can see, the waveform is stretched and crunched as the frequency of the oscillator is both increased and reduced according to the output of the modulating oscillator.
 
@@ -78,11 +78,11 @@ Each cell in the matrix corresponds to the index of modulation between one opera
 
 This video shows an example of FM synthesis with two operators.  The second operator modulates the first one with the modulation index (degree of modulation) being changed manually by dragging the slider.  You can hear how changing the frequency multiplier of the modulating operator affects the resulting sound.
 
-<video style="width:100%;" src="https://ameo.link/u/8v3.webm" controls></video>
+<video style="width:100%;" src="https://i.ameo.link/8v3.webm" controls></video>
 
 Here we add one more operator, so operator 3 modulates operator 2 which modulates 1:
 
-<video style="width:100%;" src="https://ameo.link/u/8v4.mp4" controls></video>
+<video style="width:100%;" src="https://i.ameo.link/8v4.mp4" controls></video>
 
 Such a sweet sound, and that's just the tip of the iceberg for the kinds of sounds FM synthesis can create!
 
@@ -150,7 +150,7 @@ Although Web Audio provides a set of primivites for building envelope generators
 
 In the synth, envelope generators can be used to control/modulate many different parameters of the synth including modulation indices, operator output levels, all effect parameters, filter cutoff frequency, and more.  They can also be looped to mimic oscillators even more closely and allow the synth's sound to continue to change and morph long after the key was pressed.  They allow adding a whole new dimension of possibilities to the synth's sound.  If you're interested in learning more about this synth's envelope generators and how to use them, I wrote [detailed docs](https://notes.ameo.design/docs/envelope-generator).
 
-![](https://ameo.link/u/8uq.webp)
+![](https://i.ameo.link/8uq.webp)
 
 In the above image, the yellow highlighted area represents where the envelope generator is in its progress and what value it's currently outputting.  In order to render that, we need to get that data directly from the audio rendering thread where the ADSRs are computed and rendered with as little delay as possible.  So do this, `SharedArrayBuffer` is used.  If you're unfamiliar, `SharedArrayBuffer` is a web API that supports concurrent access to a buffer between multiple threads - just what we need.
 

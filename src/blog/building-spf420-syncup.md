@@ -77,7 +77,7 @@ Whenever users moved their cursors around the background of the site, a glowing 
 
 <center>
   <video width="800" height="500" controls>
-    <source src="https://ameo.link/u/7vn.mp4" type="video/mp4">
+    <source src="https://i.ameo.link/7vn.mp4" type="video/mp4">
   </video>
 </center>
 
