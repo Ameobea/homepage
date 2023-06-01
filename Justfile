@@ -12,6 +12,13 @@ build-all:
   just opt
   yarn build
 
+  just build-notes
+  rm -rf public/notes
+  cp -r notes/public public/notes
+
+build-notes:
+  cd notes && just build && cd ..
+
 opt:
   wasm-opt ./src/*.wasm -O4 -c -o ./src/*.wasm
 

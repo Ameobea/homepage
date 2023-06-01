@@ -70,6 +70,7 @@ const IndexPage = () => {
             to="/professional/"
             text="Professional Skills and Experience"
           />
+          <IndexLinkBlock to="/notes/" text="Notes" />
         </IndexLinkBlockSet>
 
         {spotifyTops}
