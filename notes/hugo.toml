@@ -68,16 +68,18 @@ paginate = 5
   [languages.en]
     languageName = "English"
     title = "Casey Primozic's Notes"
-    subtitle = "Misc. notes that don't warrant a full blog post"
-    owner = ""
-    keywords = ""
     copyright = ""
-    menuMore = "Show more"
-    readMore = "Read more"
-    readOtherPosts = "Read other posts"
-    newerPosts = "Newer posts"
-    missingContentMessage = "Page not found..."
-    missingBackButtonLabel = "Back to home page"
+
+    [languages.en.params]
+      subtitle = "Misc. notes that don't warrant a full blog post"
+      owner = ""
+      missingContentMessage = "Page not found..."
+      missingBackButtonLabel = "Back to home page"
+      readMore = "Read more"
+      readOtherPosts = "Read other posts"
+      newerPosts = "Newer posts"
+      keywords = ""
+      menuMore = "Show more"
 
     [languages.en.params.logo]
       logoText = "Notes"
