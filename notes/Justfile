@@ -2,3 +2,6 @@ set dotenv-load := true
 
 build:
   hugo
+
+deploy:
+  rsync -Prv -e "ssh -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -F /dev/null" ./public/* debian@cprimozic.ameo.dev:/var/www/cprimozic.net/notes/
