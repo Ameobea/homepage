@@ -5,7 +5,7 @@ date: 2023-06-02T16:15:46-07:00
 
 There's a service <https://tunnelto.dev/> which I've used in the past.  It's an [ngrok](https://ngrok.com/) alternative for exposing local services publically for things like demos, testing, etc.
 
-I heard about tunnelto.dev when it was announced [on hackernews](https://news.ycombinator.com/item?id=23618456) and gave it a try along with several others on my team at [Osmos](https://osmos.io).  It looked fresh, was written Rust, and was at least partially [open source](https://github.com/agrinman/tunnelto) - all great.  I even signed up for the (very cheap) paid plan which gives custom subdomains and some other stuff.
+I heard about tunnelto.dev when it was announced [on Hacker News](https://news.ycombinator.com/item?id=23618456) and gave it a try along with several others on my team at [Osmos](https://osmos.io).  It looked fresh, was written Rust, and was at least partially [open source](https://github.com/agrinman/tunnelto) - all great.  I even signed up for the (very cheap) paid plan which gives custom subdomains and some other stuff.
 
 ## Issues
 

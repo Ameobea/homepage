@@ -19,7 +19,7 @@ After a good bit of investigation, we discovered that the error message was actu
 
 `tonic` is a popular Rust gRPC client and server.  We use it extensively, including for the GCP PubSub client.
 
-> It turns out that we'd recently upgraded to `tonic` version 0.9.  This release included a breaking change that adds size limts of 4MB by default when decoding messages.
+> It turns out that we'd recently upgraded to `tonic` version 0.9.  This release included a breaking change that adds size limits of 4MB by default when decoding messages.
 
 This is what was causing the bug.  As far as I can tell, these limits are in place to prevent DOS attacks on gRPC servers, so it's probably a good idea to have them.  Before, the limits were either very high or nonexistent, so we never ran into this issue in the past.
 
