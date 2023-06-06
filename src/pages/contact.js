@@ -22,7 +22,7 @@ const Contact = () => (
           cas&#101;y&#64;cpr&#105;mozic&#46;net
         </a>
       </li>
-      <li>Discord: Ameo#0493</li>
+      <li>Discord: ameo</li>
       <li>
         Twitter (DM or @):{' '}
         <ANewTab to="https://twitter.com/ameobea10/" text="@ameobea10" />
