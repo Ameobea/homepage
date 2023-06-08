@@ -1,5 +1,8 @@
 set dotenv-load := true
 
+run:
+  hugo server -D
+
 build:
   hugo
 
