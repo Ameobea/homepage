@@ -13,14 +13,22 @@ I opted to go for another AMD card rather than switch to NVIDIA despite the cras
 
 ## Results
 
-> This turned out to be the easiest and most successful GPU upgrades I've ever done. No issues whatsoever so far.
+> This turned out to be the easiest ~~and most successful~~ GPU upgrades I've ever done. ~~No issues whatsoever so far.~~
 
-There were zero issues through the whole thing.  I actually replaced my computer's PSU as well with a 1000 watt unit, and even with that it all went perfectly.
+~~There were zero issues through the whole thing.  I actually replaced my computer's PSU as well with a 1000 watt unit, and even with that it all went perfectly.~~
 
-There were _zero_ software changes I needed to do.  I rebooted it after installing the new card and everything worked perfectly.  No driver issues at all, no crashes so far, 10/10.
+There were _zero_ software changes I needed to do.  I rebooted it after installing the new card and everything worked perfectly.  No driver issues at all, ~~no crashes so far~~, 10/10.
 
 My [radeontop](https://github.com/clbr/radeontop) doesn't know what model the card is, but it works just fine for measuring its utilization.
 
 ![Screenshot of radeontop output in a terminal for 7900 XTX GPU.  Shows the card name as UNKNOWN_CHIP bus 03 with some bars, utilization percentages, and values for things like Graphics Pipe, Vertex Group + Tesselator, Texture Addresser, etc.](https://i.ameo.link/b6i.png)
 
 So yeah - here's to hoping the driver bugs and crashes don't come back at some point in the future, but I'm very happy with everything so far.
+
+---
+
+> EDIT 2023-06-18: I've been getting blackscreen crashes and kernel panics.  They mostly tend to happen when I'm AFK, but still very annoying and an issue for sure.
+
+One is a very specific issue that seems to happen only if you have >=2 monitors plugged in that have significant differences between them in frame rate and/or resolution: <https://gitlab.freedesktop.org/drm/amd/-/issues/2609>
+
+The black-screen no-log full computer reboots are still happening as well.  No idea what's causing them.
