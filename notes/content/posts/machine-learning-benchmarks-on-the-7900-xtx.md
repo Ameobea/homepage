@@ -1,7 +1,6 @@
 +++
 title = "Machine Learning Benchmarks on the 7900 XTX"
-date = "2023-06-19T15:00:06-07:00"
-draft = true
+date = "2023-07-01T10:09:06-07:00"
 +++
 
 I [recently upgraded](https://cprimozic.net/notes/posts/upgrading-5700xt-to-7900xtx/) to a 7900 XTX GPU. Besides being great for gaming, I wanted to try it out for some machine learning.
@@ -165,8 +164,31 @@ They can be interacted with via [WMMA instructions and compiler intrinsics](http
 
 At the time of writing this, that's not something I want to devote the (possibly copious amounts of) time into right now, so I'll put that in the future work pile.
 
-## Simple TensorFlow Neural Network Training Benchmark
+## Porting the TensorFlow benchmark to TinyGrad
 
-Now TensorFlow seems to be the weak link, I wanted to see if I could replicate the simple neural network training example with TinyGrad.
+Now TensorFlow seems to be the weak link, I wanted to see if I could replicate the simple neural network training example with Tinygrad. There is great interest in that community to support AMD cards natively and give them a more first-class-like experience for machine learning, so I figured it might be able to offer better performance.
 
-TODO
+I did my best to port the TensorFlow code over to Tinygrad directly. Tinygrad does have support for everything needed by the benchmark (which is a good thing since it's so simple).
+
+When I ran it, though, the Tinygrad port was very slow - around ~2x slower than the TensorFlow version.
+
+After researching the project and learning more about it, I created an improved version which uses Tinygrad's [built-in JIT compilation](https://github.com/geohot/tinygrad/blob/master/tinygrad/jit.py) to speed it up. After tweaking and tuning that a bit, I eventually got a version that beat TensorFlow by ~10%. However, that really did require me to do a lot of experimentation and delving into the Tinygrad internals and source code.
+
+There's a lot of heuristics and magic going on that greatly impacts the performance of Tinygrad. I think that if I spent a similar amount of time modifying the TF benchmark and tuning it similarly, I'd be able to get that or more of a boost as well.
+
+Also, Tinygrad changes dramatically from day to day. When I re-ran the benchmark a week later without changing the benchmark code at all, performance had again regressed significantly to the point where it's many times slower than TensorFlow.
+
+I also tried out the [RDNA3 Assembler backend](https://github.com/geohot/tinygrad/blob/master/tinygrad/codegen/assembly_rdna.py). There are known limitations in the OpenCL compiler for AMD used by the default Tinygrad backend, so it's possible that generating RDNA3 assembly code directly could yield results much closer to theoretical maximums.
+
+This backend is far from complete, though, and failed to compile the small benchmark example. I went as far as to [put up a PR](https://github.com/geohot/tinygrad/pull/1012) myself to Tinygrad to try to extend its functionality enough to compile the benchmark. However, I hit another roadblock that was too complex for me to implement myself, so I gave up on that work.
+
+The takeaway is that even if Tinygrad is capable of beating Tensorflow sometimes, there are a good deal of quirks and issues that make it difficult to recommend right now. That being said, development on the project really is proceeding at an immense pace, and I wouldn't be surprised if in a few months it's able to handily beat TensorFlow on AMD GPUs across a majority of benchmarks.
+
+## Conclusion
+
+There's obviously a lot to be desired for machine learning on AMD GPUs at the current point in time. A couple days ago, [ROCm 5.6 has been released](https://github.com/RadeonOpenCompute/ROCm/releases/tag/rocm-5.6.0). I've not been able to install it and try it out yet, but it's possible it might bring some performance improvements.
+
+AMD has also said that they plan on adding official RDNA3 support to ROCm by this fall of 2023. Since RDNA3 isn't even technically supported by ROCm right now, I feel like there's definitely a ton of room for improvement on that side of things and a lot of hope things will get better.
+
+I'll continue to keep an eye on this space until then!
+`

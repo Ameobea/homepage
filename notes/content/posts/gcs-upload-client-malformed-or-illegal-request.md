@@ -1,7 +1,6 @@
 +++
 title = "Fixing GCS REST API Error \"Your client has issued a malformed or illegal request\""
 date = "2023-07-01T09:39:30-07:00"
-draft = true
 +++
 
 We ran into this error at my job at [Osmos](https://osmos.io/). We upload files to GCS using their [JSON-based REST API](https://cloud.google.com/storage/docs/json_api/v1). Everything was working just fine until we tried uploading a large-ish file of ~2.5GB.
