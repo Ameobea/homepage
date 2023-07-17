@@ -9,5 +9,6 @@
     },
     "editor.formatOnSave": false
   },
-  "cSpell.words": ["frontmatter"]
+  "cSpell.words": ["frontmatter"],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

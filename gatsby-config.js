@@ -85,6 +85,14 @@ module.exports = {
             },
           },
           'gatsby-remark-copy-linked-files',
+          {
+            resolve: `gatsby-remark-katex`,
+            options: {
+              // Add any KaTeX options from https://github.com/KaTeX/KaTeX/blob/master/docs/options.md here
+              strict: `ignore`,
+              fleqn: true,
+            },
+          },
         ],
       },
     },
@@ -100,21 +108,6 @@ module.exports = {
         theme_color: '#663399',
         display: 'minimal-ui',
         icon: 'src/images/favicon.png', // This path is relative to the root of the site.
-      },
-    },
-    {
-      resolve: `gatsby-transformer-remark`,
-      options: {
-        plugins: [
-          {
-            resolve: `gatsby-remark-katex`,
-            options: {
-              // Add any KaTeX options from https://github.com/KaTeX/KaTeX/blob/master/docs/options.md here
-              strict: `ignore`,
-              fleqn: true,
-            },
-          },
-        ],
       },
     },
     {

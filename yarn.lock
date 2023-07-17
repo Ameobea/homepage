@@ -11412,6 +11412,11 @@ types-ramda@^0.29.2:
   dependencies:
     ts-toolbelt "^9.6.0"
 
+typescript@^5.1.6:
+  version "5.1.6"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.1.6.tgz#02f8ac202b6dad2c0dd5e0913745b47a37998274"
+  integrity sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==
+
 ua-parser-js@^0.7.30:
   version "0.7.33"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.33.tgz#1d04acb4ccef9293df6f70f2c3d22f3030d8b532"

@@ -20,7 +20,15 @@ TODO
 
 TODO
 
+### Activation Function
+
+I developed this activation function around a year ago as part of some [earlier research](https://cprimozic.net/blog/boolean-logic-with-neural-networks/#designing-a-new-activation-function) into using neural networks to perform boolean logic.
+
+<iframe src="https://nn-logic-demos.ameo.dev/activationPlot.html?interpolatedAmeo=1" class="iframe-mobile-scale" loading="lazy" style="display: block; outline: none; border: 1px solid rgb(136, 136, 136); box-sizing: border-box; width: 430px; overflow: hidden; height: 370px; margin-left: auto; margin-right: auto;"></iframe>
+
 ### RNN Architecture
+
+Here's the architecture that TensorFlow uses for its [`SimpleRNNCell`](https://github.com/keras-team/keras/blob/v2.13.1/keras/layers/rnn/simple_rnn.py):
 
 <div style="text-align: center; margin-top: 20px">
 <a target="_blank" href="https://i.ameo.link/bax.svg">
@@ -28,23 +36,38 @@ TODO
 </a>
 </div>
 
+As far as I can tell, this is a pretty standard design for a "vanilla" RNN.  The issue is the
+
+To solve this, I implemented a modified RNN cell architecture:
+
 <div style="text-align: center; margin-top: 20px">
 <a target="_blank" href="https://i.ameo.link/bb2.svg">
 <img src="https://i.ameo.link/bb2.svg" alt="TikZ-generated visualization of the custom RNN architecture I developed for this project.  Shows a single cell of the custom RNN.  Internally, there are nodes for things like kernels and biases, operations like dot product, add, custom activation function A, and nodes between them indicating the flow of data through the network." style="filter: invert(0.9); width: 100%; margin-left: 0px; margin-right: 0px; max-width: calc(min(600px, 90vw)); max-height: 840px;">
 </a>
 </div>
 
-### Activation Function
+It's pretty similar to the vanilla architecture but with a few key differences.  The main thing to note is that the output passed on to the next cell in the chain is now different from the state fed back for the next timestep.
 
-I developed this activation function around a year ago as part of some [earlier research](https://cprimozic.net/blog/boolean-logic-with-neural-networks/#designing-a-new-activation-function) into using neural networks to perform boolean logic.
+Doing this has two benefits:
 
-<iframe src="https://nn-logic-demos.ameo.dev/activationPlot.html?interpolatedAmeo=1" class="iframe-mobile-scale" loading="lazy" style="display: block; outline: none; border: 1px solid rgb(136, 136, 136); box-sizing: border-box; width: 430px; overflow: hidden; height: 370px; margin-left: auto; margin-right: auto;"></iframe>
+ 1. It decouples the state from the output.  It allows distinct representations to be learned for each that can possibly be more concise, aiding in the production of very small and interpretable networks.
+ 2. It homogenizes the operations used by the cell.  Rather than having to add separate operations for the neurons and then the `+` operator that combines the outputs from both dot products, every operation is just multiply + accumulate -> activation.
+
+Additionally, the introduction of the second bias vector is useful for the custom activation function which requires rather specific combinations of weights and bias to represent some logic gates and other functions.
 
 TODO
 
 ### Sparsity-Promoting Regularizer
 
-TODO
+When training neural networks, regularizers are extra penalties that are added on to the loss value given to the optimizer to minimize.  They can be thought of as secondary objectives.
+
+Regularizers are already commonly used to encourage sparsity when training neural networks.  Decent success can be had by just [using $\text{L}_{1}$ regularization](https://developers.google.com/machine-learning/crash-course/regularization-for-sparsity/l1-regularization), which penalizes weights based on their absolute value.  For larger networks, this often ends up driving weights to zero without any extra effort required.
+
+However, for my case, I wasn't getting much luck.  My best guess for why not is the behavior of the custom activation function.  To represent many logic gates concisely, the activation function needs to use rather large weights.  For my purposes, I didn't want to penalize a weight of 1.5 any more than a weight of 0.1, but $\text{L}_{1}$ regularization has the effect of penalizing the first way more.
+
+So, to accomplish this, I ended up implementing a custom regularization function.  It works by penalizing non-zero weights in the same way as $\text{L}_{1}$ regularization, but it has a sharp cutoff very close to zero at which point it "turns on" and starts penalizing the weight.  Importantly, the penalty goes up extremely gradually as weights get larger so the optimizer has more breathing room to tune existing weights to good values.
+
+Here's the function I came up with:
 
 Let:
 
@@ -89,6 +112,14 @@ class SparseRegularizer:
         return tanh_weights.mean() * self.intensity + l1_weight
 ```
 
+Note that it includes a very small amount of vanilla $\text{L}_{1}$ regularization.  I found that this is important to provide a gradient to drive unnecessary weights to zero since the gradient provided by the squooshed `tanh` is so miniscule on its own.
+
+This plot shows the penalty added by the regularizer for different weight values:
+
+<iframe src="http://localhost:3040/sparseRegularizerPlot" loading="lazy" style="display: block; outline: none; border: 1px solid rgb(136, 136, 136); box-sizing: border-box; width: 100%; height: 400px; max-width: 800px; margin-bottom: 10px; overflow: hidden; margin-left: auto; margin-right: auto;"></iframe>
+
+As you can see, the penalty for non-zero weights is essentially the same, so the network can actually optimize for true sparsity rather than just having a bunch of small weights.  However, the small gradient still exists to drive things in the right direction.
+
 ### Tinygrad
 
 TODO
@@ -101,7 +132,7 @@ TODO
 
 TODO
 
-<iframe src="https://rnn-temp.ameo.design/loadWeights.html" loading="lazy" style="display: block; outline: none; border: 1px solid rgb(136, 136, 136); box-sizing: border-box; width: 100%; height: calc(min(640px, 90vw)); margin-bottom: 10px;"></iframe>
+<iframe src="http://localhost:3040/loadWeights" loading="lazy" style="display: block; outline: none; border: 1px solid rgb(136, 136, 136); box-sizing: border-box; width: 100%; height: calc(min(740px, 90vw)); margin-bottom: 10px;"></iframe>
 
 TODO
 
