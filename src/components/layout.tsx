@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { StaticQuery, graphql } from 'gatsby';
+import { StaticQuery, graphql, useStaticQuery } from 'gatsby';
 
 import './layout.css';
 import Header from '../components/Header';
@@ -18,83 +18,6 @@ const styles = {
   },
 };
 
-const Layout = ({
-  showHeader = true,
-  children,
-  title,
-  description,
-  siteName,
-  style = {},
-  image,
-  meta = [],
-  ...data
-}) => (
-  <>
-    {/* Yeah this causes infinite recursion in dev mode due to some issues with the
-    `Suspense`/hooks used on the homepage. */}
-    {process.env.NODE_ENV !== 'development' ? (
-      <Helmet
-        title={
-          title
-            ? `${title} - ${data.site.siteMetadata.title}`
-            : data.site.siteMetadata.title
-        }
-        meta={filterNils([
-          {
-            name: 'og:title',
-            content: title ? title : data.site.siteMetadata.title,
-          },
-          {
-            name: 'og:site_name',
-            content: siteName ?? 'Homepage of Casey Primozic / ameo',
-          },
-          description
-            ? {
-                name: 'og:description',
-                content: description || 'Homepage of Casey Primozic / ameo',
-              }
-            : null,
-          description
-            ? {
-                name: 'description',
-                content: description || 'Homepage of Casey Primozic / ameo',
-              }
-            : null,
-          image ? { name: 'og:image', content: image } : null,
-          {
-            name: 'keywords',
-            content: 'Casey Primozic, Ameo, AmeoBea',
-          },
-          {
-            name: 'twitter:site',
-            content: 'ameobea10',
-          },
-          {
-            name: 'twitter:creator',
-            content: 'ameobea10',
-          },
-          {
-            name: 'twitter:title',
-            content: title ? title : data.site.siteMetadata.title,
-          },
-          ...meta,
-        ])}
-      >
-        <html lang="en" />
-      </Helmet>
-    ) : null}
-
-    {showHeader ? (
-      <>
-        <HeaderMobile />
-        <Header />
-      </>
-    ) : null}
-
-    <div style={{ ...styles.root, ...style }}>{children}</div>
-  </>
-);
-
 const query = graphql`
   query SiteTitleQuery {
     site {
@@ -105,16 +28,94 @@ const query = graphql`
   }
 `;
 
-const WrappedLayout = ({ ...props }) => (
-  <StaticQuery
-    query={query}
-    render={(data) => <Layout {...data} {...props} />}
-  />
-);
+interface LayoutProps {
+  showHeader?: boolean;
+  children: React.ReactNode;
+  title?: string;
+  description?: string;
+  siteName?: string;
+  style?: React.CSSProperties;
+  image?: string | null | undefined;
+  meta?: { name: string; content: string }[];
+}
 
-WrappedLayout.propTypes = {
-  children: PropTypes.node.isRequired,
-  showHeader: PropTypes.bool,
+const Layout: React.FC<LayoutProps> = ({
+  showHeader = true,
+  children,
+  title,
+  description,
+  siteName,
+  style = {},
+  image,
+  meta = [],
+}) => {
+  const data = useStaticQuery(query);
+  return (
+    <>
+      {/* Yeah this causes infinite recursion in dev mode due to some issues with the
+    `Suspense`/hooks used on the homepage. */}
+      {process.env.NODE_ENV !== 'development' ? (
+        <Helmet
+          title={
+            title
+              ? `${title} - ${data.site.siteMetadata.title}`
+              : data.site.siteMetadata.title
+          }
+          meta={filterNils([
+            {
+              name: 'og:title',
+              content: title ? title : data.site.siteMetadata.title,
+            },
+            {
+              name: 'og:site_name',
+              content: siteName ?? 'Homepage of Casey Primozic / ameo',
+            },
+            description
+              ? {
+                  name: 'og:description',
+                  content: description || 'Homepage of Casey Primozic / ameo',
+                }
+              : null,
+            description
+              ? {
+                  name: 'description',
+                  content: description || 'Homepage of Casey Primozic / ameo',
+                }
+              : null,
+            image ? { name: 'og:image', content: image } : null,
+            {
+              name: 'keywords',
+              content: 'Casey Primozic, Ameo, AmeoBea',
+            },
+            {
+              name: 'twitter:site',
+              content: 'ameobea10',
+            },
+            {
+              name: 'twitter:creator',
+              content: 'ameobea10',
+            },
+            {
+              name: 'twitter:title',
+              content: title ? title : data.site.siteMetadata.title,
+            },
+            ...meta,
+          ])}
+        >
+          <html lang="en" />
+        </Helmet>
+      ) : null}
+
+      {showHeader ? (
+        <>
+          <HeaderMobile />
+          <Header />
+        </>
+      ) : null}
+
+      <div style={{ ...styles.root, ...style }}>{children}</div>
+    </>
+  );
 };
 
-export default WrappedLayout;
+export default Layout;

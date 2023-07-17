@@ -1,0 +1,78 @@
+digraph G {
+    // Define graph attributes
+    rankdir=LR;
+    ratio=1.1;
+    newrank=true;
+
+    // Define nodes
+    input [label="Inputs", shape="box", rank="source"];
+    output [label="Outputs", shape="box", rank="sink"];
+
+    // Cell 0
+    subgraph cluster_0 {
+        label = "Cell 0";
+
+        cell0_concat [label="Concat", shape="circle", fontsize=7.3, margin=0.03];
+        cell0_state [label="State", shape="box"];
+        cell0_output_kernel [label="Output Kernel", shape="box"];
+        cell0_output_bias [label="Output Bias", shape="box"];
+        cell0_input_dot [label="⋅", shape="circle"];
+        cell0_recur_dot [label="⋅", shape="circle"];
+        cell0_output_bias_add [label="+", shape="circle"];
+        cell0_output_activation [label="Activation", shape="circle", fontsize=7.3, margin=0.03]
+        cell0_output [label="Output", shape="box"]
+        cell0_recur_kernel [label="Recur. Kernel", shape="box"];
+        cell0_recur_bias [label="Recur. Bias", shape="box"];
+        cell0_recur_bias_add [label="+", shape="circle"];
+        cell0_recur_activation [label="Activation", shape="circle", fontsize=7.3, margin=0.03]
+        cell0_new_state [label="New State", shape="box"];
+
+        // Define edges within cell 0
+        cell0_state -> cell0_concat;
+        cell0_output_kernel -> cell0_input_dot
+        cell0_recur_kernel -> cell0_recur_dot
+        cell0_concat -> cell0_input_dot -> cell0_output_bias_add
+        cell0_concat -> cell0_recur_dot -> cell0_recur_bias_add
+        cell0_output_bias -> cell0_output_bias_add -> cell0_output_activation -> cell0_output;
+        cell0_recur_bias -> cell0_recur_bias_add -> cell0_recur_activation -> cell0_new_state;
+    }
+
+    // Cell 1
+    subgraph cluster_1 {
+        label = "Cell 1";
+
+        cell1_concat [label="Concat", shape="circle", fontsize=7.3, margin=0.03];
+        cell1_state [label="State", shape="box"];
+        cell1_output_kernel [label="Output Kernel", shape="box"];
+        cell1_output_bias [label="Output Bias", shape="box"];
+        cell1_input_dot [label="⋅", shape="circle"];
+        cell1_recur_dot [label="⋅", shape="circle"];
+        cell1_output_bias_add [label="+", shape="circle"];
+        cell1_output_activation [label="Activation", shape="circle", fontsize=7.3, margin=0.03]
+        cell1_output [label="Output", shape="box"]
+        cell1_recur_kernel [label="Recur. Kernel", shape="box"];
+        cell1_recur_bias [label="Recur. Bias", shape="box"];
+        cell1_recur_bias_add [label="+", shape="circle"];
+        cell1_recur_activation [label="Activation", shape="circle", fontsize=7.3, margin=0.03]
+        cell1_new_state [label="New State", shape="box"];
+
+        // Define edges within cell 0
+        cell1_state -> cell1_concat;
+        cell1_output_kernel -> cell1_input_dot
+        cell1_recur_kernel -> cell1_recur_dot
+        cell1_concat -> cell1_input_dot -> cell1_output_bias_add
+        cell1_concat -> cell1_recur_dot -> cell1_recur_bias_add
+        cell1_output_bias -> cell1_output_bias_add -> cell1_output_activation -> cell1_output;
+        cell1_recur_bias -> cell1_recur_bias_add -> cell1_recur_activation -> cell1_new_state;
+    }
+
+    // Define edges between cells
+    input -> cell0_concat;
+    cell0_output -> cell1_concat;
+    cell1_output -> output;
+
+    {rank=same; cell0_concat; cell1_concat}
+    // {rank=same; cell0_output; output};
+    {rank=same; cell0_output_activation; cell0_recur_activation}
+    // input -> cell0_state [style=invis];
+}

@@ -6,6 +6,7 @@ import CollapsibleNNViz from './CollapsibleNNViz';
 import Layout from './layout';
 import RssIcon from '../images/rss.svg';
 import './BlogPost.css';
+import 'katex/dist/katex.min.css';
 
 const LazyWavetableDemo = React.lazy(() => import('./WavetableDemo'));
 
@@ -74,6 +75,7 @@ const AboveFoldContent: React.FC = () => (
         marginTop: -18,
         marginBottom: 4,
         textAlign: 'right',
+        marginLeft: 'auto',
       }}
     >
       Subscribe to Blog via RSS{' '}
@@ -95,7 +97,6 @@ const getPostMetadata = (
   post: any
 ): { image: string | null; meta: any; description?: string } | null => {
   if (post.frontmatter?.opengraph) {
-    console.log(JSON.parse(post.frontmatter.opengraph));
     return JSON.parse(post.frontmatter.opengraph);
   }
 

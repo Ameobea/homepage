@@ -1,0 +1,71 @@
+digraph G {
+    // Define graph attributes
+    rankdir=LR;
+    newrank=true;
+
+    // Define nodes
+    input [label="Inputs", shape="box"];
+    output [label="Outputs", shape="box"];
+
+    // Cell 0
+    subgraph cluster_0 {
+        label = "Cell 0";
+
+        cell0_input_kernel [label="Kernel", shape="box"];
+        cell0_input_bias [label="Bias", shape="box"];
+        cell0_input_bias_add [label="+", shape="circle"];
+        cell0_recur_kernel [label="Recur. Kernel", shape="box"];
+        cell0_state [label="State", shape="box"];
+        cell0_input_dot [label="⋅", shape="circle"];
+        cell0_recur_dot [label="⋅", shape="circle"];
+        cell0_add [label="+", shape="circle"];
+        cell0_new_state [label="New State", shape="box"];
+        cell0_output [label="Output", shape="box"]
+        cell0_activation [label="Activation", shape="circle", fontsize=7.3, margin=0.03]
+
+        // Define edges within cell 0
+        cell0_input_bias -> cell0_input_bias_add;
+        cell0_input_kernel -> cell0_input_dot -> cell0_input_bias_add -> cell0_add;
+        cell0_state -> cell0_recur_dot;
+        cell0_recur_kernel -> cell0_recur_dot -> cell0_add -> cell0_activation;
+        cell0_activation -> cell0_new_state;
+        cell0_activation -> cell0_output;
+    }
+
+    // Cell 1
+    subgraph cluster_1 {
+        label = "Cell 1";
+
+        cell1_input_kernel [label="Kernel", shape="box"];
+        cell1_input_bias [label="Bias", shape="box"];
+        cell1_input_bias_add [label="+", shape="circle"];
+        cell1_recur_kernel [label="Recur. Kernel", shape="box"];
+        cell1_state [label="State", shape="box", rank="source"];
+        cell1_input_dot [label="⋅", shape="circle"];
+        cell1_recur_dot [label="⋅", shape="circle"];
+        cell1_add [label="+", shape="circle"];
+        cell1_new_state [label="New State", shape="box", rank="sink"];
+        cell1_output [label="Output", shape="box"];
+        cell1_activation [label="Activation", shape="circle", fontsize=7.3, margin=0.03]
+
+        // Define edges within cell 1
+        cell1_input_bias -> cell1_input_bias_add;
+        cell1_input_kernel -> cell1_input_dot -> cell1_input_bias_add -> cell1_add;
+        cell1_state -> cell1_recur_dot;
+        cell1_recur_kernel -> cell1_recur_dot -> cell1_add -> cell1_activation;
+        cell1_activation -> cell1_new_state;
+        cell1_activation -> cell1_output;
+    }
+
+    // Invisible edge to align the clusters side by side
+    // cell0_new_state -> cell1_input_kernel [style=invis];
+
+    // Define edges between cells
+    input -> cell0_input_dot;
+    cell0_output -> cell1_input_dot;
+    cell1_output -> output;
+
+    {rank=same; cell0_add; cell1_add}
+    {rank=same; cell0_input_kernel; cell1_input_kernel}
+    {rank=same; cell0_input_dot; cell1_input_dot}
+}

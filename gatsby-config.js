@@ -102,7 +102,21 @@ module.exports = {
         icon: 'src/images/favicon.png', // This path is relative to the root of the site.
       },
     },
-    'gatsby-transformer-csv',
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: [
+          {
+            resolve: `gatsby-remark-katex`,
+            options: {
+              // Add any KaTeX options from https://github.com/KaTeX/KaTeX/blob/master/docs/options.md here
+              strict: `ignore`,
+              fleqn: true,
+            },
+          },
+        ],
+      },
+    },
     {
       resolve: 'gatsby-source-spotify',
       options: {
