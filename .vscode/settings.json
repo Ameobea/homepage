@@ -9,6 +9,6 @@
     },
     "editor.formatOnSave": false
   },
-  "cSpell.words": ["frontmatter"],
+  "cSpell.words": ["frontmatter", "xpadded", "xpadding"],
   "typescript.tsdk": "node_modules/typescript/lib"
 }
