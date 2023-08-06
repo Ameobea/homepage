@@ -110,9 +110,9 @@ This is important for multiple reasons:
 
  1. It decouples the state from the output.  Distinct representations can be learned for each that can be more concise, aiding in the production of very small and interpretable networks.
  2. The introduction of the second bias vector is useful for the custom activation function which requires rather specific combinations of weights and bias to represent some logic gates and other functions.
- 3. It homogenizes the operations used by the network.  Rather than having to add different nodes for the neurons and then the `+` operator that combines the outputs from both dot products, the only used operation is `multiply_accumulate -> activation`.
+ 3. It homogenizes the operations used by the network.  Rather than having to add different nodes for the neurons and then the `+` operator that combines the outputs from both dot products, the only used operation is `sum weighted inputs -> add bias -> activation`.
 
-This last point is important for keeping the converted graphs at the end of the process as simple to understand as possible.  Every node can be thought of as a single neuron implementing this identical `multiply_accumulate -> activation` operation, making the flow of data and overall operation much easier to follow.
+This last point is important for keeping the converted graphs at the end of the process as simple to understand as possible.  Every node can be thought of as a single neuron implementing this identical `sum weighted inputs -> add bias -> activation` operation, making the flow of data and overall operation much easier to follow.
 
 ### Sparsity-Promoting Regularizer
 
@@ -189,6 +189,31 @@ This plot shows the penalty added by the regularizer for different weight values
 
 As you can see, the penalty for non-zero weights is essentially the same, so the network can actually optimize for true sparsity rather than just having a bunch of small weights.  However, the small gradient still exists to drive things in the right direction.
 
+### Trainable Initial States
+
+For the first timestep of a sequence, RNNs need to initialize their states to some value.  This is often done by just setting all hidden states to 0.
+
+Zeroing initial states turns out to be quite limiting when training small networks.  In addition to being able to model state transitions from one timestep to another, the model also needs to learn how to initialize its state from scratch on the first timestep and differentiate between the first timestep and all others.
+
+To look at it from a programming perspective, it's like forcing you to use `.reduce()` without being able to provide an initial state:
+
+```ts
+const { y } = [1, 2, 3].reduce((acc, x) => {
+  if (!acc) {
+    acc = { y: 4 };
+  }
+
+  acc.y = (acc.y + x) % 5;
+  return acc;
+}, null)
+```
+
+In the context of neural networks, that `if (!acc) { acc = { y: 4 }; }` operation could be very expensive, requiring several neurons and dozens of edges to implement.  This issue is made even more prominent due to the way the custom activation function works.  Since it's optimized to output -1 and 1, it makes it even harder to deal with the all-0 initial states in an elegant manner.
+
+To solve this, I marked the initial state tensors themselves as trainable and initialize them to random values at the start of training.  It turns out that gradient descent has no problem at all optimizing those initial state values just like any other parameter in the network.
+
+I found that this has a significant positive impact on the quality of graphs produced at the end, making them both smaller and easier to understand.  And since these initial state tensors are just constants, they don't add any actual complexity to the graphs created at the end.  The data flow itself can be simplified due to the greater degree of freedom the trainable initial states provide.
+
 ### Tinygrad
 
 I implemented all of the custom components as well as the training pipeline itself in a framework called [Tinygrad](https://tinygrad.org/).
@@ -205,7 +230,11 @@ This is important for me since that's what I have available.  I was even able to
 
 For the same reasons I'm interested in AI interpretability, I have a keen interest in understanding how the code I write is compiled and executed.  Compared to the CPU with its rich ecosystem of debuggers, decompilers, and similar tools, the GPU has always felt like a foreign realm hidden behind mountains of abstraction to protect us developers from its terrible alienness.
 
-Thanks to Tinygrad's truly tiny codebase and built-in debugging tools, I can easily print out the generated kernel OpenCL source code or even the raw disassembly for every operation in my network and training pipeline.  It makes the GPU feel like something I can interact with directly and understand natively rather than some opaque "accelerator" that gets magically invoked by "something" 300 layers deep in my call graph.
+Thanks to Tinygrad's truly tiny codebase and built-in debugging tools, I can easily print out the generated kernel OpenCL source code or even the raw disassembly for every operation in my network and training pipeline:
+
+![A screenshot of some colorized CUDA disassembly generated by Tinygrad](./images/bonsai-networks/tinygrad-disassembly.png)
+
+It makes the GPU feel like something I can interact with directly and understand natively rather than some opaque "accelerator" that gets magically invoked by "something" 300 layers deep in my call graph.
 
 ## Training
 
@@ -229,37 +258,142 @@ The breakthrough came when I left a training run going while I left my apartment
 
 <div class="good xpadding">It turns out that if you just let the network keep training well after it has perfectly solved the problem, the regularization loss keeps going down very slowly and the network continues to sparsify itself further and further while still perfectly modeling the target function.</div>
 
-When I observed this, I was immediately reminded of [Grokking](https://www.lesswrong.com/posts/N6WM6hs7RQMKDhYjB/a-mechanistic-interpretability-analysis-of-grokking).
+The loss plot over the training run looked like this:
+
+<iframe src="http://localhost:3040/grokkingLossDemo" loading="lazy" style="display: block; outline: none; border: 1px solid rgb(136, 136, 136); box-sizing: border-box; width: 99%; height: 436px; max-width: 800px; margin-bottom: 10px; overflow: hidden; margin-left: auto; margin-right: auto;"></iframe>
+
+The regularization loss sit at a plateau for thousands of batches and then spontaneously improve, all while the base loss is at almost exactly zero.  The regularization loss drops in satisfying, discrete chunks due to the way the custom sparsity-promoting regularizer works as described before.
+
+<div class="note xpadding">When I observed this, I was immediately reminded of <a target="_blank" href="https://www.lesswrong.com/posts/N6WM6hs7RQMKDhYjB/a-mechanistic-interpretability-analysis-of-grokking">Grokking</a></div>
 
 Grokking is a phenomenon that is observed when training neural networks where networks will sit at a local loss minima for a significant amount of time and then switch from memorizing data to implementing a general, more efficient solution.  The hallmark of grokking is a "phase transition" where the model will quite suddenly improve loss on the test set while the training loss remains low.
 
 Although this situation is a bit different, something very similar was going on.  After more experimentation, I determined a set of conditions that were required for that behavior to show up for me:
 
 1. The use of the Adam optimizer
-2. Smaller batch sizes
+2. Small-ish batch sizes
 3. Use of the sparsity-promoting regularizer
 
 These are quite similar to the set of conditions [found in the LessWrong post](https://www.lesswrong.com/posts/N6WM6hs7RQMKDhYjB/a-mechanistic-interpretability-analysis-of-grokking#Grokking___Phase_Changes___Regularisation___Limited_Data).
 
 I'm not sure exactly what's going on internally to cause this behavior.  It's possible that this isn't "true" grokking and there's some other reason that this is happening, but in any case it was vital unlocking the ability to finally train really sparse networks.
 
-## Converting to Graphs
+## Constructing the Graphs
 
 TODO
 
 ### Pruning
 
-TODO
+Once constructed, pruning the sparsified graphs is quite simple.
+
+Starting from the outputs, a depth-first search is performed on the graph and the ID of every visited neuron is recorded.  Then, I go through every layer and just delete every neuron that wasn't visited.
 
 ### Visualization
+
+To visualize the resulting graphs, my natural choice was Graphviz.  Graphviz is an incredibly versatile tool and has support for just about every customization and feature you might need for laying out and rendering graphs of all kinds.
+
+I found a module called [`graphviz-builder`](https://www.npmjs.com/package/graphviz-builder) which allows Graphviz .dot format text to be generated programmatically.  Using that, it was fairly straightforward to generate a layout for the computation graphs.
+
+The nodes are either neurons (square `N`) or states (circle `S`).  The edges are non-pruned weights.
+
+The square neurons perform the `sum weighted inputs -> add bias -> activation` operation from before and so contain an internal bias.
+
+The state neurons represent the feedback of state from one timestep to the next.  They have a max of one input edge which comes from the recurrent neuron they're paired with.  Their current value is passed to all output edges for the current timestep, and their value is replaced with the output of their paired recurrent neuron for the next timestep.
+
+From there, I built a custom renderer using D3 in the browser that renders the graphviz layout and adds some interactivity to simulate different inputs and track the flow of data and state through the network over time.  Nodes and edges are colored to indicate the value they're _outputting_ at the current timestep.  So an edge with a weight of `-1` getting an input of `-1` will get a color of red since it outputs a value of `1`.
+
+TODO: Image
+
+
 
 ## Results
 
 Now for the fun part!
 
+I tried learning several different functions, gradually upping the complexity
+
+### `y[n] = x[n-2]`
+
+Let's start out with an extremely basic example: A network with a single layer trained to output the input from 2 timesteps ago, and output -1 otherwise:
+
+$$
+y_n =
+\begin{cases}
+x_{n-2} & \text{if } n \geq 2 \\
+-1 & \text{if } n < 2
+\end{cases}
+$$
+
+Here's the graph that was learned for that:
+
 TODO
 
-Gated FSM Demo:
+### `[-1, -1, 1]` loop
+
+$$
+y_n =
+\begin{cases}
+-1 & \text{if } n \mod 3 = 0,1 \\
+1 & \text{if } n \mod 3 = 2
+\end{cases}
+$$
+
+I was expecting the resulting graph to have a circle with three recurrent neurons in it, each one passing its current state on to the next directly without changing it, and initial states set to `[-1, -1, 1]`.
+
+It turns out that the network was able to do better:
+
+<iframe src="http://localhost:3040/threeStateLoopDemo" loading="lazy" style="display: block; outline: none; border: 1px solid rgb(136, 136, 136); box-sizing: border-box; width: 99%; height: calc(min(740px, 90vw)); margin-bottom: 10px;"></iframe>
+
+Only two recurrent neurons are needed!
+
+I dug into its solution and determined that it's equivalent to this logic:
+
+```py
+S0[0] = T
+S1[0] = F
+
+S0[n] = XNOR(S0[n-1], s1[n-1])
+S1[n] = NOT(S0[n-1])
+out   = S1[n]
+```
+
+Or written imperatively:
+
+```py
+S0 = True
+S1 = False
+
+for _ in range(12):
+  S0, S1, out = S0 == S1, not S0, S1
+  print(out)
+```
+
+That makes it clear that the 3-state FSM is representable using two bits of state.  Both of the logic gates used for the transitions are expressible in a single neuron each as well which is necessary to make it work.
+
+### Balanced Parenthesis
+
+Similar to the classic programming exercise, here the RNN is trained to interpret the input sequence as an expression like `()(()())` and, at each timestep, determine if the sequence is balanced.  I only produce valid sequences (no `())))` or similar) and cap the maximum nesting depth.
+
+This is an example of something that FSMs have a hard time representing.
+
+That example input sequence and the expected outputs are encoded like:
+
+```txt
+seq:       (  )   (   (   )   (   )  )
+
+inputs:  [-1, 1, -1, -1,  1, -1,  1, 1]
+outputs: [-1, 1, -1, -1, -1, -1, -1, 1]
+```
+
+TODO
+
+<iframe src="http://localhost:3040/balancedParenthesis" loading="lazy" style="display: block; outline: none; border: 1px solid rgb(136, 136, 136); box-sizing: border-box; width: 99%; height: calc(min(740px, 90vw)); margin-bottom: 10px;"></iframe>
+
+TODO
+
+### Complex Gated Loop + Conditional Logic
+
+TODO
 
 <iframe src="https://rnn-temp.ameo.design/gatedFSMDemo.html" loading="lazy" style="display: block; outline: none; border: 1px solid rgb(136, 136, 136); box-sizing: border-box; width: 99%; height: calc(min(740px, 90vw)); margin-bottom: 10px;"></iframe>
 

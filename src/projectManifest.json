@@ -492,7 +492,7 @@
     "technologies": ["React", "JavaScript"],
     "pageUrl": "/projects/react-control-panel/",
     "image": "react-control-panel.png",
-    "imageAlt": "A screenshot of the react-control-panel UI showing two programatically generated control panels using the light and dark color themes",
+    "imageAlt": "A screenshot of the react-control-panel UI showing two programmatically generated control panels using the light and dark color themes",
     "startDate": "Sep. 2018",
     "endDate": "Sep. 2018"
   },
