@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { StaticQuery, graphql, useStaticQuery } from 'gatsby';
+import { graphql, useStaticQuery } from 'gatsby';
 
 import './layout.css';
 import Header from '../components/Header';
@@ -14,7 +13,7 @@ const styles = {
     maxWidth: 1080,
     padding: '0px 1.0875rem 1.45rem',
     paddingTop: '1.45rem',
-    backgroundColor: 'rgb(15,15,15)',
+    backgroundColor: 'rgb(24,24,24)',
   },
 };
 

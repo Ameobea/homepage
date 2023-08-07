@@ -1,0 +1,81 @@
+digraph "RNN" {
+  graph [ bgcolor="#111111", fontcolor="#eeeeee", ratio="0.8", rankdir=LR ];
+  node [ shape=square, color="#eeeeee", fontcolor="#eeeeee", fillcolor="#111111" ];
+  edge [ color="#eeeeee" ];
+
+  subgraph "cluster_outputs" {
+    label = "Outputs"
+    color="#eeeeee"
+    node [ fontsize=10, color="#eeeeee", fontcolor="#eeeeee", fillcolor="#111111" ];
+    "output_0" [ label="OUT0" ];
+  }
+
+  subgraph "cluster_layer_0" {
+    label = "Cell 0"
+    color="#eeeeee"
+    subgraph "cluster_recurrent_tree" {
+      label = "Recurrent Tree"
+      color="#eeeeee"
+      subgraph "cluster_state" {
+        label = "State"
+        color="#eeeeee"
+        node [ shape=circle, color="#eeeeee", fontcolor="#eeeeee", fillcolor="#111111" ];
+        "layer_0_state_0" [ label="S" ];
+      }
+
+      subgraph "cluster_recurrent" {
+        label = "Recurrent Neurons"
+        color="#eeeeee"
+        "layer_0_recurrent_0" [ label="N" ];
+      }
+    }
+
+    subgraph "cluster_output" {
+      label = "Output Neurons"
+      color="#eeeeee"
+      "layer_0_output_0" [ label="N" ];
+      "layer_0_output_1" [ label="N" ];
+      "layer_0_output_2" [ label="N" ];
+      "layer_0_output_3" [ label="N" ];
+    }
+  }
+
+  subgraph "cluster_post_layer_0" {
+    label = "Dense Layer"
+    color="#eeeeee"
+    "post_layer_output_0" [ label="N" ];
+  }
+
+  subgraph "cluster_inputs" {
+    label = "Inputs"
+    color="#eeeeee"
+    node [ shape=circle, fontsize=10, color="#eeeeee", fontcolor="#eeeeee", fillcolor="#111111" ];
+    "input_0" [ label="IN0" ];
+  }
+
+  "post_layer_output_0";
+  "output_0";
+  "layer_0_output_0";
+  "input_0";
+  "layer_0_state_0";
+  "layer_0_recurrent_0";
+  "layer_0_output_1";
+  "layer_0_output_2";
+  "layer_0_output_3";
+  "post_layer_output_0" -> "output_0";
+  "layer_0_output_0" -> "post_layer_output_0";
+  "input_0" -> "layer_0_output_0";
+  "layer_0_state_0" -> "layer_0_output_0";
+  "layer_0_recurrent_0" -> "layer_0_state_0";
+  "input_0" -> "layer_0_recurrent_0";
+  "layer_0_state_0" -> "layer_0_recurrent_0";
+  "layer_0_output_1" -> "post_layer_output_0";
+  "input_0" -> "layer_0_output_1";
+  "layer_0_state_0" -> "layer_0_output_1";
+  "layer_0_output_2" -> "post_layer_output_0";
+  "input_0" -> "layer_0_output_2";
+  "layer_0_state_0" -> "layer_0_output_2";
+  "layer_0_output_3" -> "post_layer_output_0";
+  "input_0" -> "layer_0_output_3";
+  "layer_0_state_0" -> "layer_0_output_3";
+}

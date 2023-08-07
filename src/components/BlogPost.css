@@ -132,6 +132,10 @@
   .blog-post .note {
     font-size: 14.5px;
   }
+
+  .blog-post .katex {
+    padding-left: 0px !important;
+  }
 }
 
 .blog-post .good {
