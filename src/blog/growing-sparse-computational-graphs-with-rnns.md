@@ -63,7 +63,7 @@ There's no rule saying that the activation function has to be simple, though.  T
 
 I ended up using a custom activation function which looks like this:
 
-<iframe src="https://nn-logic-demos.ameo.design/activationPlot.html?interpolatedAmeo=1" class="iframe-mobile-scale" loading="lazy" style="display: block; outline: none; border: 1px solid rgb(136, 136, 136); box-sizing: border-box; width: calc(min(430px, 114%)); overflow: hidden; height: 370px; margin-left: auto; margin-right: auto;"></iframe>
+<iframe src="https://nnb-demos.ameo.design/activationPlot.html?interpolatedAmeo=1" class="iframe-mobile-scale" loading="lazy" style="display: block; outline: none; border: 1px solid rgb(136, 136, 136); box-sizing: border-box; width: calc(min(430px, 114%)); overflow: hidden; height: 370px; margin-left: auto; margin-right: auto;"></iframe>
 
 I developed this activation function around a year ago as part of some [earlier research](https://cprimozic.net/blog/boolean-logic-with-neural-networks/#designing-a-new-activation-function) into using neural networks to perform boolean logic.  It has some unique properties which make it very well-suited for this particular use-case:
 
