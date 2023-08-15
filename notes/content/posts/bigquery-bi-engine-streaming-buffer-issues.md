@@ -3,6 +3,20 @@ title = "Stale Queries When Hitting BigQuery Streaming Buffer When Using BI Engi
 date = "2023-07-06T16:12:49-05:00"
 +++
 
+> **UPDATE 2023-08-15**:
+>
+> Some engineers at Google reached out to me via e-mail after I submitted some feedback about this issue on the GCP console and linked to this blog post.
+>
+> After a few back and forth messages, they were able to diagnose the problem and put out a mitigation that completely fixed it for us!
+>
+> The issue seems to have stemmed from cursors tracking the position in the streaming buffer getting out of sync between the BI engine and base BigQuery.
+>
+> This was happening due to a complex self-join in the query we were running; half the query ran in BI engine, and the other half ran on backend BigQuery.
+>
+> I'm not 100% sure if the mitigation is deployed for all users at this time, but it should be soon if not.
+>
+> If you're still running into this issue, I suggest reaching out to Google via the feedback form in GCP that comes up when you disable BI engine.
+
 ## Background
 
 We use BigQuery extensively at my job at [Osmos](https://osmos.io/). We use it for a variety of use cases and both read and write to it very often using complex dynamically generated queries.
