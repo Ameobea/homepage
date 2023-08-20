@@ -27,8 +27,16 @@ So yeah - here's to hoping the driver bugs and crashes don't come back at some p
 
 ---
 
-> EDIT 2023-06-18: I've been getting blackscreen crashes and kernel panics.  They mostly tend to happen when I'm AFK, but still very annoying and an issue for sure.
+> EDIT 2023-06-18:
+>
+> I've been getting blackscreen crashes and kernel panics.  They mostly tend to happen when I'm AFK, but still very annoying and an issue for sure.
+>
+> One is a very specific issue that seems to happen only if you have >=2 monitors plugged in that have significant differences between them in frame rate and/or resolution: <https://gitlab.freedesktop.org/drm/amd/-/issues/2609>
+>
+> The black-screen no-log full computer reboots are still happening as well.  No idea what's causing them.
 
-One is a very specific issue that seems to happen only if you have >=2 monitors plugged in that have significant differences between them in frame rate and/or resolution: <https://gitlab.freedesktop.org/drm/amd/-/issues/2609>
-
-The black-screen no-log full computer reboots are still happening as well.  No idea what's causing them.
+> EDIT 2023-08-15:
+>
+> Well, I did a few `sudo apt full-upgrade`s and reboots later, and... my crashes just stopped!
+>
+> I don't know what happened, but for the past ~month I've not had a single driver crash even with heavy gaming in an 85 degree Fahrenheit apartment.
