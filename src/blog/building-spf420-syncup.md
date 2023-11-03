@@ -15,7 +15,7 @@ I set out to capture the vibe of the original TinyChat concerts of SPF420's root
 
 <center><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/uJL8FRKmJOw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></center>
 
-Since then, we've put on a total of three concerts so far with dozens of musicials and visual artists involved, attracting hundreds to thousands of concurrent viewers each time. I've added more features to the platform and tried to improve things overall along the way.
+Since then, we've put on a total of three concerts so far with dozens of musical and visual artists involved, attracting hundreds to thousands of concurrent viewers each time. I've added more features to the platform and tried to improve things overall along the way.
 
 I've been meaning to do a technical breakdown of the different components of the build for some time; it really spanned more of the stack than anything I've built previously and allowed me to work in frontend web UI, live audio/video streaming, realtime/streaming event handling + state synchronization, and devops/system administration to create a cohesive and functional system.
 
@@ -69,17 +69,17 @@ I [forked](https://github.com/Ameobea/FFmpeg/commit/a644a4e814d941f5af4891786378
 
 ![Cool fun cute sticker art made by concert viewers, hundreds of sticks placed during the Kero Kero Bonito set](./images/spf420-stickerssss.png)
 
-As you might have seen in screenshots or videos of the event's website, there are tons of little stickers in the background along the sides of the video embed. These were part of the interactivity of the site; each one was played by a user whenever they click on the background of the site. They turned out to be a big hit with people, and atendeed did all kinds of cool + cute things with them together:
+As you might have seen in screenshots or videos of the event's website, there are tons of little stickers in the background along the sides of the video embed. These were part of the interactivity of the site; each one was played by a user whenever they click on the background of the site. They turned out to be a big hit with people, and attendees did all kinds of cool + cute things with them together:
 
 ![Cool fun cute sticker art made by concert viewers, a heart made out of yoshis](./images/spf420-stickers-heart.png)
 
 Whenever users moved their cursors around the background of the site, a glowing trail would follow it that was visible to all other users. This meant that users could see each other in a limited fashion and do things like follow each other around or "dance," making things feel a bit like you're attending the event with a everyone else even while potentially being alone physically. In addition, I also added support for other types of visualizations later on in the form of fireworks that viewers could launch:
 
-<center>
-  <video width="800" height="500" controls>
+<div style="display: flex; justify-content: center;">
+  <video width="800" height="500" controls poster="https://i.ameo.link/bkv.png">
     <source src="https://i.ameo.link/7vn.mp4" type="video/mp4">
   </video>
-</center>
+</div>
 
 There was also a fully custom chat implementation by which users could pick a username and chat with other viewers. I upgraded this to support more features like a list of users, "starring" well-known/verified users, and supporting full moderation and spam control.
 
@@ -97,7 +97,7 @@ The frontend that connected to the websocket server was also written in Rust via
 
 I ran into a few problems with the viz server that caused some downtime during some of the streams. The first was when I hit the file descriptor limit of 1024 when over ~900 users were viewing at the same time; this was very hard to track down because of a programming error on my end that caused the program to exit (with a 0 status code) instead of handle the error when it happened. It was very sad when I finally found that the problem was that simple, but at least it was an easy fix.
 
-There was only one panic that occured, and that was caused by me slicing UTF-8 strings. when users provided input for their usernames or messages that contained multi-byte characters, Rust panic'd when trying to slice between those bytes. It was pretty easy to identify and fix on the fly during the first concert what that happened.
+There was only one panic that occurred, and that was caused by me slicing UTF-8 strings. when users provided input for their usernames or messages that contained multi-byte characters, Rust panic'd when trying to slice between those bytes. It was pretty easy to identify and fix on the fly during the first concert what that happened.
 
 ## Frontend
 
