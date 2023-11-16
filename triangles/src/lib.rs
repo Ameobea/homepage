@@ -1,4 +1,5 @@
 #![feature(const_fn_floating_point_arithmetic)]
+#![allow(invalid_value)]
 
 use std::f32;
 use std::mem;

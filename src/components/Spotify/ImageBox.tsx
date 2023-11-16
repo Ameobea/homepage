@@ -79,7 +79,7 @@ const styles: { [key: string]: CSSProperties } = {
 const ImageBox = ({ image, imgAlt, children }) => (
   <div style={styles.root}>
     <div className="track">
-      {image?.localFile.childImageSharp?.gatsbyImageData ? (
+      {image?.localFile?.childImageSharp?.gatsbyImageData ? (
         <GatsbyImage
           image={image?.localFile?.childImageSharp?.gatsbyImageData}
           alt={imgAlt}
