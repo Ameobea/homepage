@@ -1,7 +1,6 @@
 ---
 title: 'Drawing Graphviz Edge Splines'
 date: 2023-05-31T21:32:17-07:00
-draft: false
 ---
 
 ## Background
