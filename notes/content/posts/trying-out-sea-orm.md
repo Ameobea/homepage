@@ -91,7 +91,7 @@ In raw SQL, it would look something like this:
 CREATE TYPE customer_status AS ENUM ('inactive', 'pending', 'active');
 
 CREATE TABLE customers (
-  -- ...
+  id uuid NOT NULL,
   cur_status customer_status
 );
 ```
