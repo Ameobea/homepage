@@ -11,7 +11,7 @@ Here's how things look by default without the effect (and are supposed to look w
 
 But here's how they looked with the godrays pass enabled:
 
-![Screenshot of a scene rendered with Three.JS with the buggy godrays pass enabled.  The red plane and red cube look significantly darker and duller than they should.](https://ameo.link/u/btl.png)
+![Screenshot of a scene rendered with Three.JS with the buggy godrays pass enabled.  The red plane and red cube look significantly darker and duller than they should.](https://i.ameo.link/btl.png)
 
 The bug report is right - there's definitely something wrong.
 
