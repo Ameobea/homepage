@@ -1,6 +1,6 @@
 ---
 title: "Trying Out Cloudflare's `foundations` Library for Rust"
-date: '2024-03-06'
+date: '2024-03-12'
 ---
 
 A couple of months ago, I happened across the [announcement blog post](https://blog.cloudflare.com/introducing-foundations-our-open-source-rust-service-foundation-library) from Cloudflare for their newly released [`foundations`](https://github.com/cloudflare/foundations) library for Rust services.  It looked very useful and interesting, and I mentally marked it down as something I'd check out when a good opportunity came up.
@@ -92,11 +92,65 @@ This is more of an opinion, and I know there are people out there that dislike t
 
 There's an [open issue](https://github.com/cloudflare/foundations/issues/21) suggesting adding support for environment variable support in settings, and the library authors seem open to adding it, so there's a decent chance this support will come in the future.
 
-## Logging
-
 ## Telemetry
 
+This is where things get kind of messy, but it's not really the fault of `foundations`.
+
+### Logging
+
+Internally, foundations uses [`slog`](https://docs.rs/slog/latest/slog/) to manage its logging.  Calls to `foundations::telemetry::log::info!()` and similar functions emit calls to the `slog` logger that `foundations` maintains under the hood.
+
+`slog` has a lot of fancy features like expanded logging macros, support for forkable loggers, and a bunch of other complex features I don't fully understand.  It seems very well thought out and comprehensive.
+
+<div class="good padded">
+Out of the box, the logging built in to <code>foundations</code> works quite well on its own.
+</div>
+
+However, `slog` is not the only logging facade available in the Rust ecosystem.  The main alternatives that I'm familiar are [`log`](https://docs.rs/log/latest/log/) and [`tracing`](https://docs.rs/tracing/latest/tracing/) from the Tokio ecosystem.
+
+These different libraries are not compatible with each other by default.  Libraries that are set up to log with `log` (also called stdlog) will have their log messages go into the void if a project has been configured with a different logger.
+
+There are various adaptor crates available like [`tracing-slog`](https://docs.rs/tracing-slog/latest/tracing_slog/) for `slog`->`tracing`, [`slog-stdlog`](https://docs.rs/slog-stdlog/latest/slog_stdlog/) for `log`<->`slog`, [`tracing-log`](https://docs.rs/tracing-log/latest/tracing_log/) for `log`->`tracing`, etc.
+
+<div class="bad">
+Anyway, the whole Rust logging ecosystem for this is very messy and confusing.
+</div>
+
+For my project, my logging needs were very simple.  I had an extremely minimal [`axum`](https://docs.rs/axum/latest/axum/) webserver with a single route that I wanted to log requests/responses for.  The idiomatic way to do that seems to be to add a [`TraceLayer`](https://docs.rs/tower-http/latest/tower_http/trace/struct.TraceLayer.html), which logs using `tracing`.
+
+I spent a bunch of time trying to tweak the `TraceLayer` to work with the `slog` logger from `foundations` without luck.  I then tried to set up a shim to send logs from `tracing::info!()` etc. to `foundations`, but couldn't get that to work either.
+
+I'm sure there's some arcane adapter library and config option that could make this work, but it was such a massive waste of time for this project that I decided to just drop `foundations` logging support and do all the logging myself with `tracing` and [`tracing-subscriber`](https://docs.rs/tracing-subscriber/latest/tracing_subscriber/) to get it to print to the console.
+
+Although this part of the project was very annoying, I blame the pain on the fragmentation of the logging ecosystem rather than on some design flaw of `foundations`.  And at the end of the day, it was very easy to just turn off the logging features of `foundations` and handle that myself.
+
 ### Metrics
+
+<div class="good padded">
+I didn't expect it, but setting up metrics was my favorite part of using <code>foundations</code>.
+</div>
+
+I'd never set up a fancy metrics collection system in any of my projects previously, but I felt it was a good time to do it for this one in order to try out as much of `foundations` as possible.
+
+The metrics functionality in `foundatins` is focused around providing data in the format ingested by [Prometheus](https://prometheus.io/) - the most popular and commonly used open source metrics + monitoring solution out there right now.
+
+I actually went ahead and set up a self-hosted Prometheus and Grafana instance myself running inside Docker.  To my surprise, that process was actually much easier than I expected, and it only took a few hours.
+
+To start, `foundations` provides [a nice macro](https://docs.rs/foundations/latest/foundations/telemetry/metrics/attr.metrics.html) to define a set of metrics collectors for your application.  These can be things like event counters, latency histograms, or gauges to track values over time.
+
+I set up a variety of these for my application, mostly to track HTTP response times and request counts of the API I was proxying requests to.  Recording values was very easy.  Here's how I incremented the counter for total requests to an endpoint, for example:
+
+```rs
+http_server::requests_total("get_hiscores").inc();
+```
+
+`foundations` handles all the bookkeeping for the various metrics, collating them into the format Prometheus understands, and exposing that on a HTTP server so they can be collected.  The docs were all excellent and made setting this up quite easy.
+
+TODO: Include screenshots and examples of the metrics I ended up collecting
+
+<div class="good padded">
+Overall, the metrics collection features of <code>foundations</code> are excellent and easy to set up.
+</div>
 
 ### Tracing
 
