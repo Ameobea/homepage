@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "author": "Casey Primozic <casey@cprimozic.net>",
   "dependencies": {
-    "@sentry/react": "^7.110.1",
-    "@sentry/tracing": "^7.110.1",
+    "@sentry/browser": "^8.0.0",
+    "@sentry/tracing": "^7.114.0",
     "ameo-utils": "^0.8.0",
     "gatsby": "^5.13",
     "gatsby-plugin-feed": "^5.13.1",
@@ -26,10 +26,10 @@
     "gatsby-transformer-sharp": "^5.13.1",
     "katex": "^0.16.10",
     "prismjs": "^1.29.0",
-    "ramda": "^0.29.1",
-    "react": "^18.2.0",
+    "ramda": "^0.30.0",
+    "react": "^18.3.1",
     "react-control-panel": "^0.11.0",
-    "react-dom": "18.2.0",
+    "react-dom": "18.3.1",
     "react-helmet": "^6.1.0",
     "rehype-react": "^7.2.0"
   },
@@ -43,10 +43,11 @@
     "start": "npm run develop",
     "format": "prettier --write \"src/**/*.js\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "clean": "gatsby clean"
   },
   "devDependencies": {
-    "@types/ramda": "^0.29.12",
+    "@types/ramda": "^0.30.0",
     "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
