@@ -33,7 +33,7 @@
   font-size: 1.3em;
 }
 .blog-post h3 {
-  font-size: 1.2em;
+  font-size: 1.12em;
 }
 .blog-post h4 {
   font-size: 1.05em;
@@ -66,7 +66,8 @@
   font-size: 14.5px !important;
   font-weight: 400;
   line-height: 1.65;
-  font-family: 'Input Mono', 'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-family: 'Input Mono', 'Fira Code', Consolas, Monaco, 'Andale Mono',
+    'Ubuntu Mono', monospace;
 }
 .blog-post pre {
   overflow-x: auto;
