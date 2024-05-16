@@ -4,6 +4,7 @@
 }
 .markdown-remark-toc-wrapper * {
   font-size: 15px;
+  font-weight: 400;
 }
 .markdown-remark-toc {
   display: flex;
@@ -17,7 +18,7 @@
 .blog-post h2,
 .blog-post h3,
 .blog-post h4 {
-  font-weight: bold;
+  font-weight: 500;
 }
 .blog-post h1 > .anchor,
 .blog-post h2 > .anchor,
@@ -26,13 +27,13 @@
   margin-left: -24px !important;
 }
 .blog-post h1 {
-  font-size: 1.55em;
+  font-size: 1.5em;
 }
 .blog-post h2 {
-  font-size: 1.35em;
+  font-size: 1.3em;
 }
 .blog-post h3 {
-  font-size: 1.2em;
+  font-size: 1.12em;
 }
 .blog-post h4 {
   font-size: 1.05em;
@@ -57,12 +58,16 @@
 }
 .blog-post p,
 .blog-post li {
-  font-size: 17px;
-  line-height: 1.6;
+  font-size: 16.5px;
+  font-weight: 300;
+  line-height: 1.58;
 }
 .blog-post code {
   font-size: 14.5px !important;
+  font-weight: 400;
   line-height: 1.65;
+  font-family: 'Input Mono', 'Fira Code', Consolas, Monaco, 'Andale Mono',
+    'Ubuntu Mono', monospace;
 }
 .blog-post pre {
   overflow-x: auto;
@@ -119,6 +124,7 @@
   border-width: 0px;
   border-left-width: 1.5px;
   font-size: 17px;
+  font-weight: 400;
 }
 
 .blog-post .padded {

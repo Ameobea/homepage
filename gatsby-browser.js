@@ -50,11 +50,10 @@ const maybeInitSentry = () => {
   require.ensure(['@sentry/browser', '@sentry/tracing'], function (require) {
     const Sentry = require('@sentry/browser');
     window.sentry = Sentry;
-    const { Integrations } = require('@sentry/tracing');
 
     Sentry.init({
       dsn: 'https://4978d691a4e44e32880b346327e6626c@sentry.ameo.design/8',
-      integrations: [new Integrations.BrowserTracing()],
+      integrations: [new Sentry.BrowserTracing()],
       tracesSampleRate: 1.0,
     });
   });

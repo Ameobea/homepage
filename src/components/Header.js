@@ -49,7 +49,7 @@ const NavLinks = () => (
     <NavLink
       to="/professional/"
       text="Professional Experience"
-      style={{ flexBasis: 205 }}
+      style={{ flexBasis: 215 }}
     />
   </div>
 );
