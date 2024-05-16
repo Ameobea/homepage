@@ -14,8 +14,8 @@ const styles = {
   postLinks: {
     display: 'flex',
     flexDirection: 'column',
-    paddingLeft: 25,
-    paddingRight: 25,
+    paddingLeft: 20,
+    paddingRight: 20,
     paddingTop: 10,
     paddingBottom: 10,
   },
@@ -30,24 +30,26 @@ const styles = {
   },
 };
 
-const query = graphql`{
-  allMarkdownRemark(sort: {frontmatter: {date: DESC}}) {
-    totalCount
-    edges {
-      node {
-        fields {
-          slug
+const query = graphql`
+  {
+    allMarkdownRemark(sort: { frontmatter: { date: DESC } }) {
+      totalCount
+      edges {
+        node {
+          fields {
+            slug
+          }
+          id
+          frontmatter {
+            title
+            date(formatString: "YYYY-MM-DD")
+          }
+          excerpt
         }
-        id
-        frontmatter {
-          title
-          date(formatString: "YYYY-MM-DD")
-        }
-        excerpt
       }
     }
   }
-}`;
+`;
 
 const PostLink = ({ title, date, slug }) => (
   <li style={styles.postLink}>

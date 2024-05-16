@@ -1,5 +1,5 @@
 ---
-title: 'Building a Wavetable Synthesizer From Scratch with Rust, WebAssembly, and WebAudio'
+title: 'Building a Wavetable Synthesizer from Scratch with Rust, WebAssembly, and Web Audio'
 date: '2019-12-04'
 ---
 

@@ -6,6 +6,12 @@
   flex-wrap: wrap;
   /* preserve newlines */
   white-space: pre-wrap;
+
+  padding: 8px 12px;
+  background: rgba(18, 18, 18, 1);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+  margin-bottom: 8px;
+  margin-top: 10px;
 }
 
 .portfolio-root-even {
@@ -73,7 +79,7 @@
 
 .portfolio-project-info-link {
   display: flex;
-  font-family: 'PT Sans', sans-serif;
+  font-family: 'IBM Plex Sans', 'PT Sans', 'Open Sans', 'Roboto', sans-serif;
   color: #999;
   font-size: 14px;
   line-height: 1.4em;
@@ -82,4 +88,5 @@
 
 .portfolio-project-description {
   padding-top: 4px;
+  font-size: 17px;
 }

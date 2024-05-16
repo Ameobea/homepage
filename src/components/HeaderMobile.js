@@ -22,7 +22,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     fontSize: 20,
-    fontFamily: "'PT Sans', sans-serif",
+    fontFamily: "'IBM Plex Sans', 'PT Sans', 'Open Sans', 'Roboto', sans-serif",
     fontWeight: 600,
   },
   link: { color: '#17dccb', textDecoration: 'none' },

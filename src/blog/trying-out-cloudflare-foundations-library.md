@@ -128,7 +128,7 @@ These different libraries are not compatible with each other by default.  Librar
 
 There are various adaptor crates available like [`tracing-slog`](https://docs.rs/tracing-slog/latest/tracing_slog/) for `slog`->`tracing`, [`slog-stdlog`](https://docs.rs/slog-stdlog/latest/slog_stdlog/) for `log`<->`slog`, [`tracing-log`](https://docs.rs/tracing-log/latest/tracing_log/) for `log`->`tracing`, etc.
 
-<div class="bad">
+<div class="bad padded">
 Anyway, the whole Rust logging ecosystem seems to be very messy, fragmented, and confusing.
 </div>
 
