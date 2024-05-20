@@ -1,5 +1,17 @@
 [
   {
+    "name": "osu! Beatmap Atlas",
+    "description": "Another embedding visualization using data from my osu!track project.  I used the process I've tuned over the past few embedding visualizations along with a fully from-scratch renderer using raw WebGL shaders.",
+    "projectUrl": "https://osu-atlas.ameo.dev",
+    "srcUrl": "https://github.com/ameobea/osu-beatmap-atlas",
+    "technologies": ["TypeScript", "WebGL", "GLSL", "Svelte", "SvelteKit"],
+    "pageUrl": "/blog/building-embedding-visualizations-from-user-profiles",
+    "image": "osu-atlas.png",
+    "imageAlt": "A screenshot of an embedding visualization web application for the rhythm game osu!.  It shows a variety of colored circles arrayed on a black background with some circles highlighted and more opaque than the others.  There's a variety of UI components for searching, filtering, and viewing details about specific data points.",
+    "startDate": "Apr. 2024",
+    "endDate": "May 2024"
+  },
+  {
     "name": "three-hex-tiling",
     "description": "I created a library that extends built-in Three.JS materials to support infinite, non-repeating, seamless texture tiling.  The hex tiling algorithm itself is ported from a Shadertoy by Fabrice Neyret and extended with my own changes to optimize performance and and customize the look of the tiling.  The library can be added to almost any existing Three.JS project and includes several config options for the tiling.",
     "projectUrl": "https://three-hex-tiling.ameo.design",

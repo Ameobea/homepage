@@ -64,6 +64,8 @@ For almost a decade now (holy shit), I've run a [stats tracker](https://ameobea.
 
 I used the data I've collected from that project to embed these beatmaps in a very similar way to the Anime Atlas project.  This project is especially cool to me since there is a lot of really detailed numeric metrics associated with each of these beatmaps that directly relates to gameplay, making the resulting visualization very rich and interesting to explore.
 
+It's currently hosted on a [standalone website](https://osu-atlas.ameo.dev/), but I plan to integrate it with osu!track somehow in the future.
+
 ## Data Collection + Preparation
 
 <div class="note padded">The main question you need to be able to answer with the data you collect is "how similar are these two given entities?"</div>
