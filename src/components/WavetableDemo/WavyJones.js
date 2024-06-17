@@ -2,7 +2,7 @@
 //
 // Adapted from https://github.com/stuartmemo/wavy-jones
 
-export default function(context, elem, updateInterval) {
+export default function (context, elem, updateInterval) {
   var analyser = context.createAnalyser();
   analyser.fftSize = 4096;
   var elem = document.getElementById(elem);
@@ -32,7 +32,7 @@ export default function(context, elem, updateInterval) {
   var noDataPoints = 10,
     freqData = new Uint8Array(analyser.frequencyBinCount);
 
-  var drawLine = function() {
+  var drawLine = function () {
     analyser.getByteTimeDomainData(freqData);
 
     var graphPoints = [],

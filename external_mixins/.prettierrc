@@ -1,14 +1,15 @@
 {
+  "useTabs": true,
   "jsxSingleQuote": true,
-  "printWidth": 100,
+  "printWidth": 110,
   "singleQuote": true,
   "trailingComma": "es5",
   "arrowParens": "avoid",
+  "htmlWhitespaceSensitivity": "ignore",
   "importOrder": ["<THIRD_PARTY_MODULES>", "", "src/(.*)", "^[./].*$"],
   "importOrderSeparation": false,
   "importOrderSortSpecifiers": true,
   "importOrderCaseInsensitive": true,
-  "importOrderMergeDuplicateImports": true,
   "importOrderParserPlugins": ["typescript", "jsx", "decorators-legacy"],
   "importOrderBuiltinModulesToTop": true
 }

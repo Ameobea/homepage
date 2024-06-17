@@ -47,7 +47,7 @@ const A1362713562Component = () => {
       <input
         type="text"
         value={value}
-        onChange={evt => setValue(evt.target.value)}
+        onChange={(evt) => setValue(evt.target.value)}
       />
       <i>300 ZEDEX</i>
     </Layout>
