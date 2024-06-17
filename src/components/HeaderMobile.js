@@ -72,7 +72,7 @@ const ExpandedLink = ({ to, text, style = {} }) => (
   </Link>
 );
 
-const HeaderMenuExpanded = ({ setMenuOpen }) => (
+const HeaderMenuExpanded = () => (
   <div style={styles.expanded}>
     <ExpandedLink to="/" text="Home" />
     <ExpandedLink to="/portfolio/" text="Portfolio" />

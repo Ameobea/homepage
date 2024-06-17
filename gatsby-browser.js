@@ -47,20 +47,19 @@ const maybeInitSentry = () => {
   }
   window.sentryInitialized = true;
 
-  require.ensure(['@sentry/browser', '@sentry/tracing'], function (require) {
+  require.ensure(['@sentry/browser'], function (require) {
     const Sentry = require('@sentry/browser');
     window.sentry = Sentry;
 
     Sentry.init({
       dsn: 'https://4978d691a4e44e32880b346327e6626c@sentry.ameo.design/8',
-      integrations: [new Sentry.BrowserTracing()],
+      integrations: [Sentry.browserTracingIntegration()],
       tracesSampleRate: 1.0,
     });
   });
 };
 
 exports.onClientEntry = () => {
-  console.log('client entry');
   maybeInitSentry();
 
   maybeInitTriangles();

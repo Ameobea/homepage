@@ -1,6 +1,5 @@
 import React from 'react';
-import { StaticQuery, graphql, Link } from 'gatsby';
-import * as R from 'ramda';
+import { Link } from 'gatsby';
 
 import Layout from '../components/layout';
 import { ANewTab } from '../components/util';

@@ -36,10 +36,10 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
 };
 
-const InfoSection: React.FC<{ title: React.ReactNode }> = ({
-  title,
-  children,
-}) => (
+const InfoSection: React.FC<{
+  title: React.ReactNode;
+  children: React.ReactNode;
+}> = ({ title, children }) => (
   <>
     <div style={{ textAlign: 'center' }}>
       <h2>{title}</h2>
@@ -49,7 +49,7 @@ const InfoSection: React.FC<{ title: React.ReactNode }> = ({
   </>
 );
 
-const Education: React.FC<{}> = () => (
+const Education: React.FC = () => (
   <InfoSection title="Education">
     <p>
       Graduated from{' '}
@@ -112,7 +112,7 @@ const ProfessionalSkillsColumn: React.FC<{
               {item.value}
               <ul>
                 <li>
-                  {item.children.map(child => (
+                  {item.children.map((child) => (
                     <li key={i}>{child}</li>
                   ))}
                 </li>
@@ -125,7 +125,7 @@ const ProfessionalSkillsColumn: React.FC<{
   </div>
 );
 
-const ProfessionalSkills: React.FC<{}> = () => (
+const ProfessionalSkills: React.FC = () => (
   <InfoSection title="Professional Skills">
     <div style={styles.professionalSkills}>
       <ProfessionalSkillsColumn
@@ -234,7 +234,7 @@ const query = graphql`
   }
 `;
 
-const Professional: React.FC<{}> = () => (
+const Professional: React.FC = () => (
   <StaticQuery query={query} render={ProfessionalExperience} />
 );
 

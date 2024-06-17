@@ -165,7 +165,7 @@ const query = graphql`
   }
 `;
 
-const WrappedSPF420XSyncup: React.FC<{}> = () => (
+const WrappedSPF420XSyncup: React.FC = () => (
   <StaticQuery query={query} render={SPF420XSyncup} />
 );
 

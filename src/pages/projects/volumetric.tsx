@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link, StaticQuery, graphql } from 'gatsby';
+import { Link } from 'gatsby';
 import { StaticImage } from 'gatsby-plugin-image';
 
-import { ANewTab, BannerImage } from '../../components/util';
+import { ANewTab } from '../../components/util';
 import Layout from '../../components/layout';
 
 const styles: { [key: string]: React.CSSProperties } = {

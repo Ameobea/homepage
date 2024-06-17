@@ -10,5 +10,7 @@
     "editor.formatOnSave": false
   },
   "cSpell.words": ["frontmatter", "xpadded", "xpadding"],
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "eslint.useFlatConfig": true,
+  "eslint.debug": true
 }

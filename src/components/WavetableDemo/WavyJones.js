@@ -5,6 +5,7 @@
 export default function (context, elem, updateInterval) {
   var analyser = context.createAnalyser();
   analyser.fftSize = 4096;
+  // eslint-disable-next-line no-redeclare
   var elem = document.getElementById(elem);
 
   analyser.width = elem.offsetWidth;

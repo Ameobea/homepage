@@ -1,5 +1,5 @@
 import React from 'react';
-import { GatsbyImage, StaticImage } from 'gatsby-plugin-image';
+import { GatsbyImage } from 'gatsby-plugin-image';
 
 type ANewTabProps = {
   to: string;

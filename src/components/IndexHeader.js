@@ -48,10 +48,6 @@ const LogoLink = ({ logoImage, url, alt = '', style = {} }) => (
   </div>
 );
 
-const NonLogoLink = ({ url, text }) => (
-  <ANewTab href={url} style={styles.textLink} text={text} />
-);
-
 const LogoLinks = () => (
   <div style={styles.logoLinks}>
     <LogoLink
@@ -78,7 +74,7 @@ const LogoLinks = () => (
   </div>
 );
 
-const Header = ({ siteTitle }) => (
+const Header = () => (
   <div style={styles.headerWrapper}>
     <div style={styles.header}>
       <div style={styles.leftLinks}>

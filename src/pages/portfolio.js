@@ -63,7 +63,7 @@ const ProjectOverview = ({
   projectUrl,
   srcUrl,
   videoUrl,
-  technologies,
+  technologies: _technologies,
   pageUrl,
   imageAlt,
   startDate,

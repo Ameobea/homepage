@@ -44,7 +44,7 @@ export default class HTML extends React.Component {
             }}
           />
           <div
-            key={`body`}
+            key="body"
             id="___gatsby"
             dangerouslySetInnerHTML={{ __html: this.props.body }}
           />

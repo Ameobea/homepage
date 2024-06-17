@@ -65,7 +65,7 @@ exports.onCreateWebpackConfig = ({ actions }) =>
       new RetryChunkLoadPlugin({
         // optional stringified function to get the cache busting query string appended to the script src
         // if not set will default to appending the string `?cache-bust=true`
-        cacheBust: `function() { return Date.now(); }`,
+        cacheBust: 'function() { return Date.now(); }',
         // optional value to set the amount of time in milliseconds before trying to load the chunk again. Default is 0
         retryDelay: 300,
         // optional value to set the maximum number of retries to load the chunk. Default is 1

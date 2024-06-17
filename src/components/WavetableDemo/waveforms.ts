@@ -5,7 +5,7 @@ export const waveformSampleCount = SAMPLE_RATE / baseFrequency;
 
 const bufs = new Array(4)
   .fill(null)
-  .map((_, i) => new Float32Array(waveformSampleCount));
+  .map((_, _i) => new Float32Array(waveformSampleCount));
 
 // sine wave.  The sine function has a period of 2π, and we need to scale that the range of
 // (sample_rage / desired_frequency)

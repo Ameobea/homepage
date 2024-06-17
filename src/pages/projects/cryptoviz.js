@@ -2,7 +2,7 @@ import React from 'react';
 import { StaticImage } from 'gatsby-plugin-image';
 
 import Layout from '../../components/layout';
-import { ANewTab, StaticBannerImage } from '../../components/util';
+import { ANewTab } from '../../components/util';
 
 const styles = {
   root: {

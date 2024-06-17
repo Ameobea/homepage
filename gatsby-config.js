@@ -86,10 +86,10 @@ module.exports = {
           },
           'gatsby-remark-copy-linked-files',
           {
-            resolve: `gatsby-remark-katex`,
+            resolve: 'gatsby-remark-katex',
             options: {
               // Add any KaTeX options from https://github.com/KaTeX/KaTeX/blob/master/docs/options.md here
-              strict: `ignore`,
+              strict: 'ignore',
               fleqn: true,
             },
           },
@@ -132,7 +132,7 @@ module.exports = {
                     frontmatter: { date, title },
                     excerpt,
                     fields: { slug },
-                    html,
+                    html: _html,
                   },
                 }) => {
                   const postUrl = `${site.siteMetadata.siteUrl}/blog${slug}`;
