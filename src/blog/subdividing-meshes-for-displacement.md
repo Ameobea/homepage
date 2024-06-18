@@ -302,11 +302,23 @@ While setting this process up, came up with a list of misc. things that I ran in
 
 ### Shading Normal Calculation Order
 
-One thing I noticed when doing subdivision with minimal or no displacement was that sometimes triangular shading artifacts would show up on edges between flat faces:
+One thing I noticed when doing subdivision with minimal or no displacement was that sometimes triangular shading artifacts would show up on edges between flat faces meeting at a smooth angle:
 
-TODO
+![A screenshot of a mesh rendered with Three.JS using the `MeshNormalMaterial`.  It is composed of two subdivided triangles sharing an edge, and has normals computed with smooth shading.  There are prominent artifacts that look like a zigzag along one side of the border where the color seems to bleed over from the other face.](./images/subdivide/smooth-edge-artifacts.png)
+
+I spent a good while trying to figure out if there was a bug or some other issue in my normal computation algorithm. but it turns out that this is actually correctly shading behavior for the underlying geometry.  When I re-created similar geometry manually in Blender, similar triangular artifacts appeared:
+
+<iframe src="http://localhost:5173/subdivide/blender_artifacts_example" loading="lazy" style="width: 100%;aspect-ratio: 3456/1985;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+
+For certain patterns of triangles, the way the normal calculation works just naturally produces these checkered artifacts.
+
+Luckily, there's a way to fix it.  For meshes that run into this issue, I found that computing the shading normals on the pre-subdivided mesh and then interpolating those normals in the same way as the displacement normals works around the problem completely.
+
+This essentially replicates the same behavior that the shader would do if it was rendering one big triangle and spreads the transition over the whole face instead.
 
 ### Retaining Sharp Edges
+
+TODO
 
 ### Displacement Normal Interpolation Method
 
@@ -336,4 +348,8 @@ Anyway, I'd suggest going with the interpolated displacement normals to start wi
 
 ### UV Maps + Triplanar Mapping
 
+TODO
+
 ## Conclusion
+
+TODO
