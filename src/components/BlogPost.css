@@ -110,7 +110,9 @@
 .blog-post .good,
 .blog-post .bad,
 .blog-post .warning,
-.blog-post .note {
+.blog-post .warn,
+.blog-post .note,
+.blog-post .info {
   display: block;
   margin-block-start: 1em;
   margin-block-end: 1em;
@@ -135,7 +137,10 @@
 @media only screen and (max-width: 800px) {
   .blog-post .good,
   .blog-post .bad,
-  .blog-post .note {
+  .blog-post .warning,
+  .blog-post .warn,
+  .blog-post .note,
+  .blog-post .info {
     font-size: 14.5px;
   }
 
@@ -150,17 +155,21 @@
 .blog-post .bad {
   background-color: #bb222229;
 }
-.blog-post .warning {
+.blog-post .warning,
+.blog-post .warn {
   background-color: #bb882229;
 }
-.blog-post .note {
+.blog-post .note,
+.blog-post .info {
   background-color: #1ed5f52d;
 }
 
 .blog-post .note.xpadding,
+.blog-post .info.xpadding,
 .blog-post .good.xpadding,
 .blog-post .bad.xpadding,
-.blog-post .warning.xpadding {
+.blog-post .warning.xpadding,
+.blog-post .warn.xpadding {
   padding-top: 6px;
   padding-bottom: 6px;
 }

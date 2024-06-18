@@ -1,10 +1,11 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import Prism from 'prismjs';
-const ControlPanel = React.lazy(() => import('react-control-panel'));
 
 import Layout from '../../components/layout';
 import { ANewTab } from '../../components/util';
 import './react-control-panel.css';
+
+const ControlPanel = React.lazy(() => import('react-control-panel'));
 
 const settings = [
   { type: 'range', label: 'my range', min: 0, max: 100, initial: 20 },

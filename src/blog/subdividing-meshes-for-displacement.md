@@ -6,21 +6,19 @@ opengraph: '{"image":"https://i.ameo.link/c7u.png","description":"A rundown of m
 
 <br/>
 
-## Summary
+## Overview
 
-When I started off, my goal was to procedurally subdivide arbitrary 3D meshes. I wanted to add more geometry to simple meshes so that I could apply displacement mapping and other procedural deformation to give them increased detail and realism in scenes.
+When I started off, my goal was to create an algorithm to subdivide arbitrary 3D meshes. I wanted to add more geometry to simple meshes so that I could apply displacement mapping and other procedural deformation to give them increased detail and realism in procedurally and semi-procedurally-generated scenes.
 
-It turns out that the core of subdividing meshes is very simple and can be implemented in a few dozen lines of code
+Basic mesh subdivision is very simple and can be implemented in a few dozen lines of code. However,
 
 <div class="warning padded">
-However, there are considerations stemming from requirements of how shading and 3D rendering work that quickly become apparent and made it a much more involved task.
+There are requirements stemming from how shading and 3D rendering work that quickly become apparent and make it a much more involved task.
 </div>
 
-This post explores solutions to the various problems that occur when subdividing arbitrary 3D meshes and applying displacement while still making sure that they're rendered and shaded correctly.
+It turns out that there's a ton of nuance involved with subdividing and modifying 3D meshes while still making them render and shade nicely.
 
-## Background
-
-I've been working on building little [3D levels](https://github.com/ameobea/sketches-3d) and other graphics experiments in Three.JS on and off over the past few years.
+This post explores solutions to the various problems that occur during the whole subdivision and displacement process.  It then extends this into a full pipeline for displacing and manipulating 3D meshes and computing accurate normals for both shading and displacement.
 
 ## Naive Subdivision
 
@@ -54,7 +52,7 @@ while did_split:
     new_triangles.append(new_tri_1)
 ```
 
-There's a slight bit of nuance that I omitted regarding things like the winding order of the vertices of new triangles so that they'd be facing the same way as the original one, but it's really nothing too complex.
+There's a bit of detail that I omitted regarding things like the winding order of the vertices of new triangles so that they'd be facing the same way as the original one, but it's really nothing too complex.
 
 And the best part is that it works!  I implemented this code, applied it to some simple test meshes, and saw that they looked... exactly the same.  That's just what should be happening in this case since we're not actually changing the overall shape of the geometry - just splitting it into smaller pieces.
 
@@ -108,7 +106,7 @@ The light blue lines are the face normals, the darker blue ones are the vertex n
 
 Anyway, one of the main reasons that normals are so important for 3D rendering is the influence they have on shading.  Most of the equations used to simulate the way light interacts with surfaces rely on knowing the angle between the surface being lit and the light source and the angle between the surface and the camera.  Normals are essential for facilitating this.
 
-Normals are also provide the ability to switch between "smooth" and "flat" shading models.  With smooth shading, normals are interpolated for each fragment based on how close it is to each of its triangle's vertices.  This makes the effect computed normal at each fragment continuous across the whole surface of the mesh.
+Normals also provide the ability to switch between "smooth" and "flat" shading models.  With smooth shading, normals are interpolated for each fragment based on how close it is to each of its triangle's vertices.  This makes the effect computed normal at each fragment continuous across the whole surface of the mesh.
 
 For flat shading, the normal for each fragment is set to the normal of the face.  This means that unique vertices need to be created for each face - even if those vertices are at exactly the same position - since they need to be assigned unique normals.
 
@@ -120,15 +118,13 @@ Here's a comparison between smooth (left) and flat (right) shading:
 
 <br/>
 
-## Computing Separate Shading + Displacement Normals
-
 That cube from before that I was testing displacement on was exported from Blender with flat shading.  This is definitely appropriate for that mesh; all of its faces are at very sharp angles to each other and trying to smooth over that would make it look weird.  However, this is exactly what broke the displacement.
 
 In order to facilitate flat shading, Blender needed to 3 duplicate vertices at each of the cube's corners.  They had the exact same positions, but their normals differed to match the triangles they were used in.  This is what those magenta lines in the Blender screenshot from before represent.  They show the distinct normals that will exist in the exported mesh with the current shading model applied.
 
 If the vertices are displaced using those magenta-colored split normals, the effect will be that vertices at the same starting point will be moved to different ending points.
 
-<div class="info padded">
+<div class="note padded">
 To make displacement work, new normals must be computed such that vertices at the same position are moved to the same destination, keeping the mesh glued together.
 </div>
 
@@ -158,16 +154,186 @@ Having a representation like this makes a lot of things related to manipulating 
 
 Like the rest of the code for this, I implemented the `LinkedMesh` in Rust.  Although people often talk about how building linked data structures in Rust is difficult due to how the borrow checker works, the [`slotmap`](https://docs.rs/slotmap) crate makes this pretty much a non-issue.
 
-Instead of storing pointers to other entities within them, you instead store special tagged indices into dedicated buffers.  This adds a slight bit of overhead, but it also provides additional checks which prevent bugs like using stale references to entities with the same index.  This is because the `SlotMap` keys contain a version which is incremented every time an index is updated, so a new entity inserted into a re-used index will have a distinct key from the old entity that used to be there.  This alone saved me a significant amount of time while developing and debugging the data structure.
+Instead of storing pointers to other entities within them, you instead store special tagged indices into dedicated buffers.  This adds a slight bit of overhead, but it also provides additional checks which prevent bugs like using stale references to entities with the same index.
+
+This is because the `SlotMap` keys contain a version which is incremented every time an index is updated, so a new entity inserted into a re-used index will have a distinct key from the old entity that used to be there.  This alone saved me a significant amount of time while developing and debugging the data structure.
 
 Other than that, there really isn't a lot special going on in the implementation.  There were some tricky bugs to work out involving stale references that I forgot to delete or refresh after updating things in the graph, but everything eventually got working.
 
 The whole thing lives in [one file](https://github.com/Ameobea/sketches-3d/blob/main/src/viz/wasm/common/src/mesh/linked_mesh.rs) as well which makes it easy to set up and use.  I added some methods to import and export it from buffers of indexed triangles - the raw data format I was working with before.
 
-## "Auto-Smooth" Shading
+## Computing Separate Shading + Displacement Normals
+
+Now back to the problem at hand.  The mesh data that we have to work with has multiple vertices at the same position to facilitate shading.  However, the normals that are used for displacement need to be identical for all coincident vertices.
+
+<div class="note padded">
+In order to support non-smooth shading and working displacement, two different sets of normals will need to be computed.
+</div>
+
+In order to compute normals for displacement, those coincident vertices need to be merged together.  To implement this, I just used a brute-force quadratic search of every `(vertex, vertex)` pair in the mesh.  If those two vertices were at exactly the same point, they got merged - updating references in all edges and faces to point to the first one and then dropping the second one from the graph.
+
+For meshes I was working with, this was fast enough that the poor computational complexity didn't matter.  This was being run on the original low-resolution, pre-subdivision meshes after all.  If/when I end up using this with larger and more complex meshes, it will be necessary to use some space partitioning data structure like a BVH to speed it up.
+
+### Graph Relation
+
+Since the `LinkedMesh` data structure is in every way a graph, it's possible to visualize it as such.  I wrote some code to build a GraphViz representation of a linked mesh - originally for debugging purposes.
+
+Here's the graph representation for that same mesh with the two square faces joined together at a right angle sharing one edge:
+
+![A GraphViz-generated graph representation of a 3D mesh consisting of two square faces joined together at a right angle like a hinge.  The visualization shows two distinct subgraphs that are not connected together.  Each suhgraph contains exactly two faces - since a square faces are composed out of two triangles - that share one edge.  The graph is rendered as a dark theme with a dark gray background and white edges, node borders, and text.](https://i.ameo.link/c8q.svg)
+
+Note how there are two distinct, disconnected subgraphs.  Each subgraph has exactly two faces, since a rectangle is composed out of two triangles.  These two triangles share exactly one edge with each other, and all other edges are only contained in one.
+
+After the merge of coincident vertices if performed, here's what the resulting graph looks like:
+
+![A GraphViz-generated graph representing a 3D mesh consisting of two square faces joined together at a right angle like a hinge after coincident vertices have been merged.  The visualization shows that all nodes are connected; there are no disconnected subgraphs.  Some vertices are now shared by up to four edges.  The graph is rendered as a dark theme with a dark gray background and white edges, node borders, and text.](https://i.ameo.link/c8r.svg)
+
+As expected, the subgraphs are merged together and no disconnected components remain.  The two merged vertices now have 4 edges - lining up with what we see when the mesh is triangulated in Blender:
+
+![A screenshot of a mesh consisting of two square faces joined together at a right angle like a hinge rendered in Blender.  It has been triangulated, showing that the two vertices making up the hinge edge are shared by a total of 4 edges each.](./images/subdivide/merged-hinge.png)
+
+### Computing Vertex Normals
+
+Now that all of the coincident have been merged in the graph representation, we can compute accurate vertex normals on the merged vertices such that displacing using them won't result in the faces of the mesh pulling apart from each other.
+
+Previously, I mentioned that this is done by averaging the normals of attached faces and this is true.  However, when I was implementing this myself, I learned that there's actually a more specific algorithm that needs to be followed.
+
+<div class="note padded">
+Vertex normals need to be calculated by taking a <i>weighted</i> average the normals of connected faces, with the weights being the angles between edges of those faces that share that vertex.
+</div>
+
+That sounds a bit complex when written down like that, but it's actually pretty simple.  Seeing it visually helps:
+
+![A screenshot of a mesh rendered in Blender.  There is one vertex selected which is shared by 3 edges and 2 faces.  The angles between the edges that share the vertex of those faces are marked with a red and a blue arc respectively to help demonstrate what the vertex normals are weighted by.](./images/subdivide/edge-angle.png)
+
+The red and blue arcs are marking the angles that are being measured, which is what the normals of those two faces that share the selected vertex are weighted by when computing its normal.
+
+If weighting isn't performed, the normals will be lopsided and inaccurate on some geometry and produce buggy/uneven shading and displacement results.
+
+## "Smooth by Angle" Shading
+
+As a result of the vertex merging, we obtain accurate displacement normals, the original shading data about which faces were smooth and which were flat is lost.  This has the effect of making the whole mesh smooth shaded.  If any other kind of shading than that is desired, we'll have to the work to compute it ourselves.
+
+When computing shading normals, there are actually more options than just the binary "smooth" or "flat" that I've discussed so far.  Blender (and I'm sure other tools as well) provides an option called "Shade Smooth by Angle":
+
+![A screenshot of the Blender UI showing the right-click menu on a mesh in object mode with the "Shade Smooth by Angle" option highlighted.  There is a tooltip displayed with the text "Set the sharpness of mesh edges based on the angle between the neighboring faces".](./images/subdivide/smooth-by-angle-blender.png)
+
+This shading model works as a hybrid of smooth and flat shading.  It looks at the angle of edges between faces and if the angle is too large, it marks the edge as "sharp".  This essentially has the effect of duplicating the vertices of that edge - reversing the merge process from the previous step.  This allows the faces that share that sharp edge to have different normals on it and making the edge appear flat-shaded when rendered.
+
+That seems simple enough, right?
+
+That's what I thought until after I'd spent a full weekend trying to come up with an algorithm to do this from scratch.
+
+I tried a variety of ideas including a graph traversal-type approach where I'd walk along smooth faces and build up "smooth subgraphs".  All of these failed in at least some places, producing all kinds of weird buggy shading artifacts like this:
+
+![A screenshot of a zoomed-in section of a mesh in Blender rendered with `MeshNormalMaterial`  There are clear triangular artifacts along the edge of the mesh where the computed normals are incorrect, leading to a green zigzag of incorrectly shaded triangles to appear along the correctly shaded blue background.](./images/subdivide/bad-auto-smooth-artifacts.png)
+
+Finally, I gave up on doing it myself.
+
+<div class="note padded">
+I tracked down <a href="https://github.com/blender/blender/blob/a4aa5faa2008472413403600382f419280ac8b20/source/blender/bmesh/intern/bmesh_mesh_normals.cc#L1081" target="_blank">the spot</a> in the Blender source code where they do this themselves, figured out what was going on, and implemented it myself for the <code>LinkedMesh</code> in Rust.
+</div>
+
+The algorithm they use is quite clever.  At its core, the algorithm involves walking around vertices and partitioning the faces into what they call "smooth fans".  Each smooth fan gets its own copy of that vertex with a unique shading normal.
+
+There's a bit more to it than that, and I went ahead and wrote a [dedicated post](/blog/computing-smooth-by-angle-shaded-normals-like-blender/) about the algorithm and how I implemented it if you're interested.
+
+The only important thing left to note about it here is that when I duplicate a vertex in order to make one of its edges sharp, the displacement normal computed earlier is copied to the new one.  This ensures that regardless of what shading normal that duplicate vertex gets assigned, they all will be displaced in the same way and the mesh won't rip apart.
 
 ## Procedural Displacement
 
-## Assembling the Pieces
+So at this point, I had the following:
 
-## Results
+ * A method for converting arbitrary sets of triangles into a graph-like `LinkedMesh` representation
+ * An algorithm for merging coincident vertices and computing displacement normals such that the mesh won't rip apart when displaced
+ * An algorithm for computing "smooth by angle" normals for shading
+ * An algorithm to subdivide the resulting `LinkedMesh` to add increased geometric detail without changing its shape
+
+Now we get to actually do some displacement.
+
+Rather than doing it inside the vertex shader like before, I decided to implement the displacement/deformation ahead of time on the CPU.  There are a few reasons for this:
+
+ * It allows for more complicated/expensive algorithms to be run.
+ * It allows for non-local data about the mesh to be used rather than just a single vertex
+
+And perhaps most the impactful,
+
+ * It allows for other things than just vertex positions to be computed + updated as well
+
+As I mentioned at the beginning of the post, displacement mapping is limited by the fact that it happens so late in the rendering process.  If you significantly displace your mesh's vertices without having a corresponding normal map or something else to match it, the results are going to look off.
+
+<div class="good padded">
+Since I now had fully-fledged smooth-by-angle normal computation code available, I could go as wild as I wanted with the mesh deformation and then compute accurate normals from scratch afterwards.
+</div>
+
+### Noise-Based Displacement
+
+The first thing I tried out was a noise-based displacement algorithm.  I sampled a 3D FBM noise field with 4 octaves at the position of every vertex in the mesh and either pushed or pulled the vertex along its normal depending on the sampled value.
+
+Here are the results:
+
+<iframe src="http://localhost:5173/subdivide/noise_displ" loading="lazy" style="width: 100%;aspect-ratio: 3456/1895;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+
+Quite successful, if I do say so myself.  This is a bit of an extreme example with a very high amount of displacement, but that helps to exaggerate the impact that the post-displacement normal calculation has on the shadows and shading.
+
+### Crystal-Like Sharp Noise
+
+I wanted to try out another displacement algorithm that would help make use of the dynamically flat shading abilities of the algorithm.
+
+I modified the noise-based method to displace sharply based on a threshold, like this:
+
+```rs
+let displacement = if noise > -0.9 && noise < -0.7 { 1. } else { 0. };
+```
+
+And here was the result of that:
+
+![A screenshot of the clamped threshold noise used for displacement on the scene.  The are sharp spikes sticking out of the surface of the platform and some of the other objects floating above it that look somewhat reminiscent of crystals.](./images/subdivide/crystal-noise.png)
+
+Smooth-by-angle shading's effect is out in full force - look at the base of the spikes where they join to the surface of the mesh.  Those edges get marked sharp due to the high angle at which it juts out, and the result is a nice flat shading distinction between the faces.
+
+When I saw the results here, I immediately got ideas for all kinds of other things to try out.  I could repeat the displacement process multiple times to build up more and more detail on the meshes, I could use constructive solid geometry to combine multiple simple meshes together then displace the merged result...  So much stuff is possible with this system.
+
+This post has already gotten very long though, so I'll save all that stuff for another time.
+
+## Other Notes + Considerations
+
+While setting this process up, came up with a list of misc. things that I ran into or observed that might be useful to other people trying to do similar kinds of things:
+
+### Shading Normal Calculation Order
+
+One thing I noticed when doing subdivision with minimal or no displacement was that sometimes triangular shading artifacts would show up on edges between flat faces:
+
+TODO
+
+### Retaining Sharp Edges
+
+### Displacement Normal Interpolation Method
+
+If you remember back, the process for doing this displacement involved merging coincident vertices and then computing displacement normals for those merged vertices.  After that, the mesh was subdivided to add more detail followed by displacement.
+
+<div class="note padded">
+One thing I didn't mention is how displacement normals are computed for the new vertices created by the subdivision process.
+</div>
+
+My original solution for this was to just interpolate the displacement normals of each edge being split and set that to the new vertex created in the middle.
+
+As it turns out, this works the best for the kind of displacement I was doing.  However, it can create a sort of "bouncy house" look to the geometry.  Here's what it looks like when every vertex is displaced outward along its normal by a constant amount using this method:
+
+<iframe src="http://localhost:5173/subdivide/bouncy_house" loading="lazy" style="width: 100%;aspect-ratio: 3456/1985;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+
+See what I mean?  To be fair, this is a pretty extreme amount of displacement being applied, so it's not going to be as noticeable for other meshes.
+
+The other method I came up with for setting displacement normals for new vertices created during subdivision is setting them to the edge normal.  The edge normal can be computed ahead of time by just averaging the normals of all faces that share the edge.
+
+Here's how the same scene looks using that method:
+
+<iframe src="http://localhost:5173/subdivide/edge_normals" loading="lazy" style="width: 100%;aspect-ratio: 3456/1985;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+
+The tops are flat now, but there are some weird graphics glitches and other artifacts.  I don't know if that's an issue with my code somewhere or a side effect of the kind of geometry this produces.
+
+Anyway, I'd suggest going with the interpolated displacement normals to start with and only resorting to the second method if your particular displacement method requires it.
+
+### UV Maps + Triplanar Mapping
+
+## Conclusion
