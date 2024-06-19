@@ -28,6 +28,7 @@ export default class HTML extends React.Component {
             data-domain="cprimozic.net"
             src="https://pause.ameo.dev/js/pause.js"
           ></script>
+          <link rel="icon" href="/favicon.png" type="image/png" />
           {this.props.headComponents}
         </head>
         <body {...this.props.bodyAttributes}>
