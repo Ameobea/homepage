@@ -1,6 +1,6 @@
 ---
 title: 'A Process for Subdividing + Deforming Arbitrary 3D Meshes'
-date: '2024-06-12'
+date: '2024-06-18'
 opengraph: '{"image":"https://i.ameo.link/c92.jpg","description":"A rundown of my experience and findings in subdividing meshes, programmatically deforming + manipulating meshes, and computing accurate normals for both shading and displacement.","meta":[{"name":"twitter:card","content":"summary_large_image"},{"name":"twitter:image","content":"https://i.ameo.link/c92.jpg"},{"name":"og:image:width","content":"2554"},{"name":"og:image:height","content":"1305"},{"name":"og:image:alt","content":"A side-by-side comparison of pre and post deformation versions of a scene rendered in Three.JS against a pure black background.  The scene consists of a gray rectangular platform with several geometric shapes hovering over it, colored with a gray stone or concrete-like material.  The left shows mostly rough and simple forms, while the right is much more organic-looking with lots of curves, warps, and shadows visible."},{"name":"twitter:image:alt","content":"A side-by-side comparison of pre and post deformation versions of a scene rendered in Three.JS against a pure black background.  The scene consists of a gray rectangular platform with several geometric shapes hovering over it, colored with a gray stone or concrete-like material.  The left shows mostly rough and simple forms, while the right is much more organic-looking with lots of curves, warps, and shadows visible."}]}'
 ---
 
