@@ -74,7 +74,7 @@ Rather than use a displacement map, I made a small tweak to my vertex shader to 
 
 When I set it all up in my Three.JS scene, this is what I saw:
 
-<iframe src="http://localhost:5173/subdivide/naive_displacement_demo" loading="lazy" style="width: 100%;aspect-ratio: 1530/1080;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+<iframe src="https://homepage-external-mixins.ameo.design/subdivide/naive_displacement_demo.html" loading="lazy" style="width: 100%;aspect-ratio: 1530/1080;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
 
 _(You can use the slider on the image above to view the pre and post displacement versions)_
 
@@ -105,7 +105,7 @@ Normals also provide the ability to switch between "smooth" and "flat" shading m
 Here's a comparison between smooth (left) and flat (right) shading:
 
 <div style="display: flex; flex-direction: row; justify-content: center;">
-  <iframe src="http://localhost:5173/subdivide/smooth_flat_shading" loading="lazy" style="max-width: 821px;width: 100%;aspect-ratio: 821/756;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+  <iframe src="https://homepage-external-mixins.ameo.design/subdivide/smooth_flat_shading.html" loading="lazy" style="max-width: 821px;width: 100%;aspect-ratio: 821/756;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
 </div>
 
 For flat shading, the normal for each fragment is set to the normal of the face.  This means that unique vertices need to be created for each face - even if those vertices are at exactly the same position - since they need to be assigned unique normals.
@@ -276,7 +276,7 @@ The first thing I tried out was a noise-based displacement algorithm.  I sampled
 
 Here are the results:
 
-<iframe src="http://localhost:5173/subdivide/noise_displ" loading="lazy" style="width: 100%;aspect-ratio: 3456/1895;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+<iframe src="https://homepage-external-mixins.ameo.design/subdivide/noise_displ.html" loading="lazy" style="width: 100%;aspect-ratio: 3456/1895;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
 
 Quite successful, if I do say so myself.  This is a bit of an extreme example with a very high amount of displacement, but that helps to exaggerate the impact that the post-displacement normal calculation has on the shadows and shading.
 
@@ -318,7 +318,7 @@ One thing I noticed when doing subdivision with minimal or no displacement was t
 
 I spent a good while trying to figure out if there was a bug or some other issue in my normal computation algorithm. but it turns out that this is actually correctly shading behavior for the underlying geometry.  When I re-created similar geometry manually in Blender, similar triangular artifacts appeared:
 
-<iframe src="http://localhost:5173/subdivide/blender_artifacts_example" loading="lazy" style="width: 100%;aspect-ratio: 3456/1985;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+<iframe src="https://homepage-external-mixins.ameo.design/subdivide/blender_artifacts_example.html" loading="lazy" style="width: 100%;aspect-ratio: 3456/1985;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
 
 For certain patterns of triangles, the way the normal calculation works just naturally produces these checkered patterns in the lighting.
 
@@ -336,7 +336,7 @@ To address this, I marked the sharp edges before displacement and retain that sh
 
 3D modellers sometimes do this manually - explicitly marking certain edges as sharp even though their angle is smooth - in order to tweak the way their models are shaded.  Here's the effect it had on some of the meshes I was testing with:
 
-<iframe src="http://localhost:5173/subdivide/pre_sharp_edges" loading="lazy" style="width: 100%;aspect-ratio: 1666/1009;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+<iframe src="https://homepage-external-mixins.ameo.design/subdivide/pre_sharp_edges.html" loading="lazy" style="width: 100%;aspect-ratio: 1666/1009;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
 
 The effect is a bit subtle, but it really helps make certain meshes look more clean and retain their original structure a bit better.
 
@@ -352,7 +352,7 @@ My original solution for this was to just interpolate the displacement normals o
 
 As it turns out, this works the best for the kind of deformation I was doing.  However, it can create a sort of "bouncy house" look to the geometry.  Here's what it looks like when every vertex is displaced outward along its normal by a constant amount using this method:
 
-<iframe src="http://localhost:5173/subdivide/bouncy_house" loading="lazy" style="width: 100%;aspect-ratio: 3456/1985;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+<iframe src="https://homepage-external-mixins.ameo.design/subdivide/bouncy_house.html" loading="lazy" style="width: 100%;aspect-ratio: 3456/1985;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
 
 See what I mean?  They look like overinflated air mattresses.
 
@@ -362,7 +362,7 @@ The other method I came up with for setting displacement normals for new vertice
 
 Here's how the same scene looks using that method:
 
-<iframe src="http://localhost:5173/subdivide/edge_normals" loading="lazy" style="width: 100%;aspect-ratio: 3456/1985;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+<iframe src="https://homepage-external-mixins.ameo.design/subdivide/edge_normals.html" loading="lazy" style="width: 100%;aspect-ratio: 3456/1985;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
 
 The tops are flat now, but the geometry is less smooth and there are some large faces that get produced against the edges.
 
