@@ -1,18 +1,25 @@
 ---
 title: 'Computing Normals for "Smooth by Angle" Shading Like Blender'
-date: '2024-06-19'
-opengraph: '{"image":"https://i.ameo.link/TODO.jpg","description":"TODO","meta":[{"name":"twitter:card","content":"summary_large_image"},{"name":"twitter:image","content":"https://i.ameo.link/TODO.jpg"},{"name":"og:image:width","content":"TODO"},{"name":"og:image:height","content":"TODO"},{"name":"og:image:alt","content":"TODO."},{"name":"twitter:image:alt","content":"TODO"}]}'
+date: '2024-06-20T22:59:51Z'
+opengraph: '{"image":"https://i.ameo.link/c9i.jpg","description":"A detailed rundown of the algorithm that Blender uses to compute \"smooth by angle\" aka \"auto-smooth\" shading for meshes.  It provides background into what smooth-by-angle shading is, info about relevant concepts and necessary data structures, and a step-by-step guide to how the algorithm works.","meta":[{"name":"twitter:card","content":"summary_large_image"},{"name":"twitter:image","content":"https://i.ameo.link/c9i.jpg"},{"name":"og:image:width","content":"1200"},{"name":"og:image:height","content":"630"},{"name":"og:image:alt","content":"A screenshot of a mesh rendered in Blender edit mode.  It is an abstract geometric form composed of mostly large polygons without a lot of detail. Some of the edges are marked in cyan to indicate that they are sharp. There are magenta lines pointing out of the vertices which indicate the computed split/loop normals."},{"name":"twitter:image:alt","content":"A screenshot of a mesh rendered in Blender edit mode.  It is an abstract geometric form composed of mostly large polygons without a lot of detail. Some of the edges are marked in cyan to indicate that they are sharp. There are magenta lines pointing out of the vertices which indicate the computed split/loop normals."}]}'
 ---
+
+<br/>
 
 ## Background
 
-As part of some [other work](/blog/subdividing-meshes-for-displacement/) that I was doing that involved programmatically manipulating 3D meshes, I encountered the need to compute normals for different kinds of shading myself.
+As part of some [other work](/blog/subdividing-meshes-for-displacement/) I was doing that involved programmatically manipulating 3D meshes, I encountered the need to compute normals for them from scratch.
 
-Usually this isn't necessary since applications like Blender handle doing this automatically.  But in my case, I was creating
+Usually this isn't necessary since applications like Blender handle doing this automatically.  But in my case, I was doing these transformations dynamically and in the web browser for my Three.JS application.  If I wanted normals to shade my transformed meshes, I'd have to compute them myself.
 
 ### "Smooth by Angle" Shading
 
-There's smooth shading - where the normals of each vertex that is shared by more than one face share gets a single, averaged normal - and flat shading - where each vertex is duplicated for every triangle it's a part of and gets assigned the normal of that triangle.
+There are two "simple" shading models available:
+
+ * **Smooth shading** - where the normals of each vertex that is shared by more than one face share gets a single, averaged normal
+ * **Flat shading** - where each vertex is duplicated for every triangle it's a part of and gets assigned the normal of that triangle
+
+Computing normals for these shading models is pretty easy, especially for flat shading.
 
 And then there's "smooth by angle" shading.
 
@@ -21,6 +28,12 @@ And then there's "smooth by angle" shading.
 Blender used to label it as "Auto-Smooth" shading, but it's the exact same thing.  It operates as a mix between smooth and flat shading, conditionally shading different parts of the same mesh differently depending on the sharpness of its various edges.
 
 It's a very useful tool when dealing with models that have a mix of organic and geometric parts, or as a good default when you don't know what kind of mesh is being shaded.
+
+When I started out, I tried to come up with an algorithm to compute normals for this shading model myself.  I had a few different attempts, some of which got close, but there were always edge cases or mesh structures that caused them to fail and produce inaccurate or just straight broken shading.
+
+<div class="note padded">
+After a lost weekend, I decided to give in and try to figure out how Blender does it so I can do the same.
+</div>
 
 ### Loops + Loop Normals
 
@@ -34,13 +47,19 @@ This is a loop:
 
 Another way to think about a loop is as _an instance of a vertex within a particular face_.
 
-One important attribute of loops is that each one can have a unique normal.  This is critical for shading; it allows for different faces that share the same vertex to have the same or different normals depending on the shading parameters and the context of the rest of the mesh.
+<div class="note padded">One crucial attribute of loops is that each one can have a unique normal.</div>
+
+This is critical for shading; it allows for different faces that share the same vertex to have the same or different normals depending on the shading parameters and the context of the rest of the mesh.
 
 ## Data Structures
 
 In order to compute these normals in an efficient way, it's necessary to use a sufficiently powerful data structure to represent the mesh.
 
-One common choice is referred to as a **half-edge** data structure, also known as a doubly-connected edge list.  This is a common choice used by a lot of serious geometry processing applications.  It represents meshes as graphs with their constituent components (vertices, edges, and faces) all pointing to each other.  "Half-Edges" are used to refer to a single direction of an edge between two vertices going around a face.
+One common choice is referred to as a **half-edge** data structure, also known as a doubly-connected edge list.  This is a common choice used by a lot of serious geometry processing applications.
+
+It represents meshes as graphs with their constituent components (vertices, edges, and faces) all pointing to each other.  "Half-Edges" are used to refer to a single direction of an edge between two vertices going around a face.  Each edge is represented by two half-edges, each going a different direction, hence the name.
+
+### `LinkedMesh`
 
 For my own code, I created a similar data structure which I called `LinkedMesh`.  It's similar to, and in many ways a simplification of, a half-edge data structure.
 
@@ -48,24 +67,48 @@ Just like a half edge data structure, it maintains bi-directional links between 
 
 <img src="https://i.ameo.link/c8n.svg" alt="A graph representing the relationships between vertices, edges, and nodes in the &quot;Linked Mesh&quot; data structure I developed.  It was produced using this graphviz dot code: digraph G {  rankdir=LR;  Vertex -> &quot;Edge&quot;;  &quot;Edge&quot; -> Vertex;  Face -> Vertex;  &quot;Edge&quot; -> Face;  Face -> &quot;Edge&quot;;}" style="width: 100%;"></img>
 
+My whole implementation lives in [one file](https://github.com/Ameobea/sketches-3d/blob/main/src/viz/wasm/common/src/mesh/linked_mesh.rs) if you're interested in checking it out or using it as a basis for a data structure of your own.
+
 The main requirements are that it's possible to easily and efficiently perform operations like finding all edges that contain a given vertex and find all faces that contain some given edge.
 
 ## The Algorithm
 
 To be honest, the algorithm for computing normals for smooth-by-angle shading really isn't that complicated (as long as sufficiently powerful data structures are used to represent the mesh).
 
-It's split into two different parts, neither of which are too difficult.  The main difficulty is in understanding the pieces that we've gone over so far.
+It's split into three different parts.
+
+### Merging Coincident Vertices
+
+This step might not necessary depending on the format of the data you're starting with.
+
+In order to have an accurate topological representation of the mesh, all vertices that are at exactly the same position need to be merged.  This is the same thing as running "Merge by Distance" in Blender with a distance set to zero.
+
+This will be necessary if working with post-export indexed vertex data like I was since some vertices will have already been duplicated by Blender or whatever other application to facilitate the original shading model on the mesh.
 
 ### Marking Sharp Angles
 
-The first step is to iterate over all edges in the mesh and mark them as either sharp or smooth.
+The next step is to iterate over all edges in the mesh and mark them as either sharp or smooth.
 
 Before checking any angles, there are some special cases to consider:
 
- * If an edge is only part of a single face, it's automatically sharp
- * If an edge is part of more than two faces, it's automatically sharp as well
+ * If an edge is only contained in a single face, it's automatically sharp
+ * If an edge is used by more than two faces, it's automatically sharp as well
 
-So, that means the only case that remains to be considered is an edge that is shared by exactly two faces.  In that case, the normals of those faces are computed and compared.  If the angle between those normals is greater than the user-provided threshold, the edge is sharp.  Otherwise, it's smooth.
+So, that means the only case that remains to be considered is an edge that is shared by exactly two faces.  In that case, the normals of those faces are computed and compared.
+
+For reference, the normal of a face with vertices `v0`, `v1`, `v2` in counter-clockwise winding order can be computed like this:
+
+$$
+\mathbf{N} = (\mathbf{v}_1 - \mathbf{v}_0) \times (\mathbf{v}_2 - \mathbf{v}_0) \\
+$$
+
+Then normalize that result:
+
+$$
+\mathbf{N} = \frac{\mathbf{N}}{\|\mathbf{N}\|}
+$$
+
+If the angle between those normals is greater than the user-provided threshold, the edge is sharp.  Otherwise, it's smooth.  These sharp flags should be recorded somewhere that they're easy to look for any given edge.
 
 ### Smooth Fans
 
@@ -75,7 +118,9 @@ Here's what Blender means when they refer to faces fanning around a vertex (the 
 
 ![A screenshot of a mesh rendered in Blender in edit mode.  It's subdivided up into many different faces and N-gons.  There are are a variety of faces that fan all the way around a center orange vertex, and all are highlighted.](./images/smooth-fans/fan.png)
 
-All of the faces in the fan have that center vertex as one of their three vertices and share an edge with another face in the same fan.  Fans don't have to go all the way around like this though, and multiple disconnected fans can exist around a single vertex like this:
+All of the faces in the fan have that center vertex as one of their three vertices and share an edge with another face in the same fan.
+
+Fans don't have to go all the way around like this though, and multiple disconnected fans can exist around a single vertex like this:
 
 ![A screenshot of a mesh rendered in Blender in edit mode.  It consists of two flat triangles that are joined at their tips by a single vertex which is selected.  The triangles are arranged into the shape of a bowtie and share no edges with each other.](./images/smooth-fans/bowtie-fan.png)
 
@@ -89,7 +134,9 @@ As a result, the full fan around that vertex gets split into two smooth fans (th
 
 ### Walking Smooth Fans
 
-OK now we're at the core of the algorithm.  For each vertex that's visited in the mesh, all of its smooth fans must be traversed.  This can be done by walking from face to face through shared edges that contain the vertex.  The walk stops at sharp edges, edges that are only contained by a single face, or faces that have already been visited.
+Now we've arrived at the core of the algorithm.
+
+For each vertex visited in the mesh, all of its smooth fans must be traversed.  This can be done by walking from face to face through shared edges that contain the vertex.  The walk stops at sharp edges, edges that are only contained by a single face, or faces that have already been visited.
 
 I tracked down [the spot](https://github.com/blender/blender/blob/a4aa5faa2008472413403600382f419280ac8b20/source/blender/bmesh/intern/bmesh_mesh_normals.cc#L1081) in the Blender source code where this is implemented if you want to look at that directly.  It's pretty arcane, though, with lots of handling for extra features and Blender-specific implementation details.
 
@@ -99,7 +146,11 @@ While walking, the normal of each face visited is accumulated into a sum weighte
 
 ![A screenshot of a mesh rendered in Blender.  There is one vertex selected which is shared by 3 edges and 2 faces.  The angles between the edges that share the vertex of those faces are marked with a red and a blue arc respectively to help demonstrate what the vertex normals are weighted by.](./images/subdivide/edge-angle.png)
 
-Once all faces in the smooth fan have been visited, the weighted normal sum is normalized and assigned to be the loop normal of every loop in that smooth fan.  If you don't have loop normals, then you can create a duplicate vertex at the same position as the original one and assign it the
+Once all faces in a smooth fan have been visited, the weighted normal sum is normalized and assigned to be the **loop normal** of every loop in that smooth fan.  Blender also calls those "Split Normals", or "per-face-per-vertex" normals.
+
+When meshes are exported into indexed vertex data, duplicate vertices will be created for each unique loop normal.  This will produce discontinuities in the normals along the mesh at sharp edges and result in a locally flat-shaded appearance.
+
+And that's it!  Once all smooth fans for every vertex in the mesh have been walked, loop normals will have been set for every loop.
 
 ## Unique Cases
 
@@ -115,6 +166,6 @@ The result is a sort of "half-sharp" edge, where the shading gets smoother and s
 
 This seemed weird and kind of buggy to me at first, but it made sense when I thought about it some more.
 
-When this mesh as individual triangles, there's no way to partition the inner vertices such that they all share normals except for the two on either side of that sharp edge.  It's just not topologically possible.
+When this mesh is exported as individual triangles with indexed vertices, there's no way to partition the inner vertices such that they all share normals except for the two on either side of that sharp edge.  It's just not topologically possible.
 
 That issue doesn't exist for the outer vertex, though; it can be split nicely into two smooth fans that each have a single face.  However, if the mesh is modified to make a full fan of faces all the way around that outer vertex, the sharp edge will disappear entirely and be effectively smooth shaded - there's no way around it.

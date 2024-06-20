@@ -72,7 +72,7 @@ const AboveFoldContent: React.FC = () => (
       href="/rss.xml"
       style={{
         display: 'block',
-        marginTop: -18,
+        marginTop: -14,
         marginBottom: 4,
         textAlign: 'right',
         marginLeft: 'auto',
