@@ -1,5 +1,29 @@
 [
   {
+    "name": "Experiments with Kolmogorov-Arnold Networks",
+    "description": "I implemented KANs from scratch in Tinygrad and spent some time experimenting with them and training them for some toy use cases.  I experimented with some of my own variations on the KAN theme and wrote a blog post about the results.",
+    "projectUrl": null,
+    "srcUrl": "https://github.com/ameobea/kan",
+    "technologies": ["Tinygrad", "Python"],
+    "pageUrl": "/blog/trying-out-kans/",
+    "image": "kan.png",
+    "imageAlt": "A screenshot of a plot showing a the results of a KAN trained to fit a 1D function.  It shows a orange line labeled \"Actual\" making a zigzag pattern along with an orange line labeled \"Predicted\" which follows the orange one pretty closely, but with some inaccuracy especially near sharp turns.",
+    "startDate": "Jun. 2024",
+    "endDate": "Jul. 2024"
+  },
+  {
+    "name": "3D Mesh Deformation + Normal Calculation",
+    "description": "I developed a code pipeline for subdividing 3D meshes, programmatically deforming + manipulating them, and computing accurate normals for both shading and displacement.  This included a deep-dive into the Blender codebase to figure out how they computed normals for smooth-by-angle shading.",
+    "projectUrl": null,
+    "srcUrl": "https://github.com/Ameobea/sketches-3d/blob/main/src/viz/wasm/common/src/mesh/linked_mesh.rs",
+    "technologies": ["Rust", "WebAssembly", "Blender", "3D"],
+    "pageUrl": null,
+    "image": "mesh-deformation.jpg",
+    "imageAlt": "A side-by-side comparison of pre and post deformation versions of a scene rendered in Three.JS against a pure black background.  The scene consists of a gray rectangular platform with several geometric shapes hovering over it, colored with a gray stone or concrete-like material.  The left shows mostly rough and simple forms, while the right is much more organic-looking with lots of curves, warps, and shadows visible.",
+    "startDate": "May 2024",
+    "endDate": "Jun. 2024"
+  },
+  {
     "name": "osu! Beatmap Atlas",
     "description": "Another embedding visualization using data from my osu!track project.  I used the process I've tuned over the past few embedding visualizations along with a fully from-scratch renderer using raw WebGL shaders.",
     "projectUrl": "https://osu-atlas.ameo.dev",
@@ -418,7 +442,7 @@
     "image": "spotify_related_artists_graph.png",
     "imageAlt": "A screenshot of the spotify related artists graph visualization showing the network of my personal artists and their connections to each other based on user listening patterns",
     "startDate": "May 2021",
-    "endDate": "June 2021"
+    "endDate": "Jun. 2021"
   },
   {
     "name": "MIDI Editor Web Application",
