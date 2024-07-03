@@ -43,7 +43,7 @@ The usual choice of learnable activation function used by KANs is the **B-Spline
 
 B-splines are fancy little mathematical gizmos which are composed of multiple piecewise n-degree polynomials strung together in such a way that they're continuous at every point.  Here's an example:
 
-![A plot of a B-spline with 2 knots and order-2 polynomials.  It shows a blue curve that performs 4 zero-crossings and has 3 distinct peaks.](https://i.ameo.link/caa.png)
+![A plot of a B-spline with 2 knots and order-2 polynomials.  It shows an orange curve that performs 4 zero-crossings and has 3 distinct peaks.](https://i.ameo.link/cae.png)
 
 There's a lot of things you can customize with B-splines.  You can pick the degree of polynomial used to represent the different grid segments, you can pick the number of knots which determines how many polynomials are strung together, and you can specify the domain/range of the spline however you want.
 
@@ -57,9 +57,9 @@ The basic KAN architecture wasn't too complicated, and the only really tricky pa
 
 ### Simple 1D Test Function
 
-After a bit of effort and some debugging, I had a working KAN implementation.  To test it out, I set up a small KAN with 2 layers of trained it to fit some relatively simple 1D functions and it did a pretty good job:
+After a bit of effort and some debugging, I had a working KAN implementation.  To test it out, I set up a small KAN with 2 layers and trained it to fit some relatively simple 1D functions and it did a pretty good job:
 
-![A screenshot of a plot showing a the results of a KAN trained to fit a 1D function.  It shows a blue line labeled "Actual" making a zigzag pattern along with an orange line labeled "Predicted" which follows the blue one pretty closely, but with some inaccuracy especially near sharp turns.](./images/kan/kan_curve_fit.png)
+![A screenshot of a plot showing a the results of a KAN trained to fit a 1D function.  It shows a orange line labeled "Actual" making a zigzag pattern along with an orange line labeled "Predicted" which follows the orange one pretty closely, but with some inaccuracy especially near sharp turns.](./images/kan/kan_curve_fit.png)
 
 To understand what kind of splines it was learning to accomplish this, I plotted the output of each spline in the network across the full input range of the model:
 
@@ -179,7 +179,7 @@ I spent a few more days trying different variations on this theme: mixing KAN la
 No matter what I did, the most simple neural network was still outperforming the fanciest KAN-based model I tried.
 </div>
 
-I was able to train a model to a loss of 0.0006 after 20k epochs with a neural network using boring `tanh` activations, and the best I could do with the most successful training run with a KAN was about 0.00011.
+I was able to train a model to a loss of 0.0006 after 20k epochs with a neural network using boring `tanh` activations, and the best I could do with the most successful training run with a KAN was about 0.0011.
 
 I'll admit that there's a decent chance I missed something in my KAN implementation, failed to find the architecture of hyperparameters that would work best for me, or picked an unlucky thing to test with that just doesn't work well for KANs.
 
