@@ -12,7 +12,7 @@ const Ants = () => (
     <StaticImage
       src="../../images/projects/ants.png"
       alt="A screenshot of the ant colony simulation interface"
-      formats={['auto', 'webp', 'avif']}
+      formats={['auto', 'avif']}
     />
     I created this ant colony simulation as my final project for the Simulation
     and Modeling class that I took in my last year of college. It was written in

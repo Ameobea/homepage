@@ -149,17 +149,13 @@ const query = graphql`
           height: 260
           placeholder: NONE
           layout: FIXED
-          formats: [AVIF, AUTO, WEBP]
+          formats: [AVIF, AUTO]
         )
       }
     }
     poster: file(relativePath: { eq: "projects/spf420_x_syncup/poster.png" }) {
       childImageSharp {
-        gatsbyImageData(
-          quality: 85
-          layout: FULL_WIDTH
-          formats: [AVIF, AUTO, WEBP]
-        )
+        gatsbyImageData(quality: 85, layout: FULL_WIDTH, formats: [AVIF, AUTO])
       }
     }
   }

@@ -46,7 +46,7 @@ const Cryptoviz = () => (
       </center>
       <span style={{ textAlign: 'center' }}>
         <StaticImage
-          formats={['auto', 'webp', 'avif']}
+          formats={['auto', 'avif']}
           style={{ marginBottom: 40 }}
           src="../../images/projects/cryptoviz/cryptoviz.png"
           alt="A screenshot of the Cryptoviz visualization showing price activity in the Ethereum market on Poloniex"
@@ -130,21 +130,21 @@ const Cryptoviz = () => (
       <div style={styles.imageRows}>
         <ColImageWrapper text="Evenly placed descending sell orders over a 13-minute timeframe">
           <StaticImage
-            formats={['auto', 'webp', 'avif']}
+            formats={['auto', 'avif']}
             src="../../images/projects/cryptoviz/algo1.jpg"
             alt="Screenshot of Cryptoviz showing clearly automated ask order activity over ~13 minutes"
           />
         </ColImageWrapper>
         <ColImageWrapper text="Ascending buy offers one-up each other to remain at the top of the book over a very short timeframe">
           <StaticImage
-            formats={['auto', 'webp', 'avif']}
+            formats={['auto', 'avif']}
             src="../../images/projects/cryptoviz/algo2.jpg"
             alt="A screenshot of the Cryptoviz interface showing ascending buy offers one-up each other to remain at the top of the book over a very short timeframe"
           />
         </ColImageWrapper>
         <ColImageWrapper text="A large market event where a long-standing buy wall was broken all at once by an extremely large sell order">
           <StaticImage
-            formats={['auto', 'webp', 'avif']}
+            formats={['auto', 'avif']}
             src="../../images/projects/cryptoviz/market_evt1.png"
             alt="A screenshot of the Cryptoviz interface showing a large market event where a long-standing buy wall was broken by an extremely large sell order"
           />

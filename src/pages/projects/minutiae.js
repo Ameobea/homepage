@@ -47,7 +47,7 @@ const Minutiae = () => (
         style={{ marginBottom: 40 }}
         src="../../images/projects/minutiae/fish.png"
         alt="A Minutiae simulation of fish showing blue pixels (fish) and green pixels which they seek out and consume (food)."
-        formats={['auto', 'webp', 'avif']}
+        formats={['auto', 'avif']}
       />
     </span>
 

@@ -16,7 +16,7 @@ const Notes = () => (
           style={{ marginBottom: 40 }}
           src="../../images/projects/notes/notes.png"
           alt="A screenshot of the notes application showing the MIDI editor with some drawn and selected notes"
-          formats={['auto', 'webp', 'avif']}
+          formats={['auto', 'avif']}
         />
       </span>
     </center>
@@ -52,7 +52,7 @@ const Notes = () => (
         style={{ marginBottom: 40 }}
         src="../../images/projects/notes/filter-designer.png"
         alt="A screenshot of filter designer module from web synth showing a frequency response plot for two biquad filters"
-        formats={['auto', 'webp', 'avif']}
+        formats={['auto', 'avif']}
       />
     </span>
     <p>
@@ -75,7 +75,7 @@ const Notes = () => (
         style={{ marginBottom: 40 }}
         src="../../images/projects/notes/fm-synth.png"
         alt="A screenshot of the browser-based FM synth project that developed as an offshoot of web synth"
-        formats={['auto', 'webp', 'avif']}
+        formats={['auto', 'avif']}
       />
     </span>
     <p>

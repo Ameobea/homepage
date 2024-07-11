@@ -16,7 +16,7 @@ export const ANewTab = ({ to, children, text, ...props }: ANewTabProps) => (
 export const BannerImage = ({ img, alt, style = {} }) => (
   <span style={{ textAlign: 'center' }}>
     <GatsbyImage
-      formats={['auto', 'webp', 'avif']}
+      formats={['auto', 'avif']}
       image={img.childImageSharp.gatsbyImageData}
       style={{ maxWidth: 667, marginBottom: 40, ...style }}
       alt={alt}

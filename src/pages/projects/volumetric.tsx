@@ -26,7 +26,7 @@ const Volumetric = () => (
 
       <span style={{ textAlign: 'center' }}>
         <StaticImage
-          formats={['auto', 'webp', 'avif']}
+          formats={['auto', 'avif']}
           style={{ marginBottom: 40, width: 400, height: 400 }}
           src="../../images/projects/volumetric.png"
           alt="A view of the volumetric rendering output showing the generated 3D noise projected onto a canvas"

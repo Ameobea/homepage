@@ -93,7 +93,7 @@ export const pickedTopArtistFragment = graphql`
             height: 160
             placeholder: NONE
             layout: FIXED
-            formats: [AVIF, AUTO, WEBP]
+            formats: [AVIF, AUTO]
           )
         }
       }
@@ -121,7 +121,7 @@ export const pickedTopTrackFragment = graphql`
             height: 160
             placeholder: NONE
             layout: FIXED
-            formats: [AVIF, AUTO, WEBP]
+            formats: [AVIF, AUTO]
           )
         }
       }

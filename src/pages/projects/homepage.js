@@ -135,19 +135,19 @@ const query = graphql`
   {
     bannerImage: file(relativePath: { eq: "projects/homepage/homepage.png" }) {
       childImageSharp {
-        gatsbyImageData(layout: FULL_WIDTH, formats: [AVIF, AUTO, WEBP])
+        gatsbyImageData(layout: FULL_WIDTH, formats: [AVIF, AUTO])
       }
     }
     oldHomepageImage: file(relativePath: { eq: "projects/homepage/old.png" }) {
       childImageSharp {
-        gatsbyImageData(layout: FULL_WIDTH, formats: [AVIF, AUTO, WEBP])
+        gatsbyImageData(layout: FULL_WIDTH, formats: [AVIF, AUTO])
       }
     }
     trianglesImage: file(
       relativePath: { eq: "projects/homepage/triangles.png" }
     ) {
       childImageSharp {
-        gatsbyImageData(layout: FULL_WIDTH, formats: [AVIF, AUTO, WEBP])
+        gatsbyImageData(layout: FULL_WIDTH, formats: [AVIF, AUTO])
       }
     }
   }

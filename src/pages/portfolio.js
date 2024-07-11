@@ -42,7 +42,7 @@ const ProjectImage = ({ pageUrl, gatsbyImageData, imageAlt, even }) => {
       {gatsbyImageData ? (
         <Wrapper>
           <GatsbyImage
-            formats={['auto', 'webp', 'avif']}
+            formats={['auto', 'avif']}
             image={gatsbyImageData}
             imgStyle={{
               objectPosition: 'center center',
@@ -130,7 +130,7 @@ const getProjectFilesQuery = graphql`
           gatsbyImageData(
             quality: 85
             layout: FULL_WIDTH
-            formats: [AVIF, AUTO, WEBP]
+            formats: [AVIF, AUTO]
           )
           original {
             src
