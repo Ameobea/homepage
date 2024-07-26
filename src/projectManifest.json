@@ -284,9 +284,9 @@
     "technologies": ["Three.JS", "WebGL", "Blender", "glsl", "TypeScript"],
     "pageUrl": null,
     "image": "3d-sketches.png",
-    "imageAlt": "A screenshot of one of the 3D sketches I created as a part of this project.  A very dark scene with a bridge-like structure covered with wispy white fog-like clouds.  Jagged pillars with red noise patterns emerge on either side.",
+    "imageAlt": "A screenshot of one of the 3D sketches I created as a part of this project.  A golden arch made out of a metallic-rocky material stands on a concrete plinth.  It sits in what looks like a sort of shrine with curved stone arches.  There is a cobblestone floor and stone walls.  The graphics are reminiscent of PS2 games or similar style.",
     "startDate": "Aug. 2022",
-    "endDate": "Oct. 2022"
+    "endDate": null
   },
   {
     "name": "Neural Network Experiments + Research",
