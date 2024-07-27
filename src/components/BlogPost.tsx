@@ -32,6 +32,7 @@ export const query = graphql`
       frontmatter {
         title
         opengraph
+        description
       }
     }
   }
@@ -93,14 +94,27 @@ const AboveFoldContent: React.FC = () => (
   </div>
 );
 
-const getPostMetadata = (
-  post: any
-): { image: string | null; meta: any; description?: string } | null => {
+interface Opengraph {
+  image?: string | null;
+  meta?: any;
+  description?: string;
+}
+
+const getPostMetadata = (post: any): Opengraph | null => {
   if (post.frontmatter?.opengraph) {
     return JSON.parse(post.frontmatter.opengraph);
   }
 
-  return null;
+  const opengraph: Opengraph = {};
+  if (post.frontmatter?.description) {
+    opengraph.description = post.frontmatter.description;
+  }
+
+  if (Object.keys(opengraph).length === 0) {
+    return null;
+  }
+
+  return opengraph;
 };
 
 export default ({ data: { markdownRemark: post } }) => {

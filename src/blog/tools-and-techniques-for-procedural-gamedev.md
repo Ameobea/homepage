@@ -1,6 +1,7 @@
 ---
-title: "Tools + Techniques for Procedural Gamedev"
+title: "My Favorite Tools + Techniques for Procedural Gamedev"
 date: '2024-07-26'
+description: An overview of some of my favorite shaders, algorithms, and techniques I use to aid my work in procedural gamedev and 3D scenes.  It focuses particularly on things that can be added or mixed in to enhance non-procedural scenes.
 ---
 
 For a couple of years now, I've been working on and off on some [3D scenes and levels](https://github.com/ameobea/sketches-3d) that run in the browser.  It started off as a scattering of self-contained demos for some custom shaders or similar that I wanted to try out, but over time the project has grown into a pretty substantial interconnected game-like thing.
