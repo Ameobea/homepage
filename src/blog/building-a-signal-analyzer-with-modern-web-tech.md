@@ -178,7 +178,7 @@ It was shockingly easy to implement the lock-free cross-thread circular buffer t
 
 One difference between the oscilloscope and the spectrum viz is that the consumption of input data is separated from the rendering of the viz itself.  Web Audio uses a frame size of 128 samples, meaning that at the sample rate I'm using of 44,100 samples/second there will be ~344 frames processed by the `AudioWorkletProcessor` every second.
 
-This is well above the frame rate of pretty much every device.  Plus, there's no guarantee that the frames will arrive evenly spaced in time sine audio is buffered to avoid missed frames.
+This is well above the frame rate of pretty much every device.  Plus, there's no guarantee that the frames will arrive evenly spaced in time since audio is buffered to avoid missed frames.
 
 So, the viz builds up its internal state incrementally every time an audio frame is processed and only renders it once the `requestAnimationFrame` fires.  The use of `Atomics.waitAsync` allows for both of the loops to run concurrently on the same thread.  Without it, it would be necessary to do the short manual timeouts and yields like mentioned before or the `requestAnimationFrame` callback would never fire.
 
