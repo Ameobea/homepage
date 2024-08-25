@@ -123,7 +123,7 @@ Anyway, yeah at that point you can download your maps and plug them into Blender
 
 If you want to get even crazier with it, the seamless 4K output texture can be used with a hex tiling algorithm to make it tile infinitely with no repetition whatsoever.  I'm working on a Three.JS library to handle this automatically, and here's what it looks like laid out on some terrain I generated in Blender:
 
-![Screenshot of some mountainous terrain generated with Blender and rendered in Three.JS.  The black and gold rocky texture I generated earlier is applied to the ground with the PBR maps included.  The texture is tiled using a hex tiling algorithm so it repeats infinitely without any obvious repetition.](https://i.ameo.link/bdq.png)
+![Screenshot of some mountainous terrain generated with Blender and rendered in Three.JS.  The black and gold rocky texture I generated earlier is applied to the ground with the PBR maps included.  The texture is tiled using a hex tiling algorithm so it repeats infinitely without any obvious repetition.](https://i.ameo.link/ccz.avif)
 
 ## Conclusion
 
