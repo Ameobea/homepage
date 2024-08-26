@@ -82,7 +82,7 @@ const Homepage = ({ bannerImage, oldHomepageImage, trianglesImage }) => (
 
     <BannerImage
       img={trianglesImage}
-      alt="A screenshot of the interative tool that I used to create the triangles animation in the background of this site"
+      alt="A screenshot of the interactive tool that I used to create the triangles animation in the background of this site"
     />
 
     <h2>Continuous Deployment</h2>

@@ -21,7 +21,7 @@ The first one was [Day 2](https://adventofcode.com/2018/day/2), which involved f
 
 At this point, everyone in the Rust Discord server was excited and motivated to find _the_ most optimal solution to the problem. Since the challenge itself was pretty simple (mostly just a loop comparing ASCII strings and counting characters), low-level optimization techniques became applicable. Eventually, it got to the point where the only way to make further progress was to use SIMD.
 
-Coincidentally, Rust has support for safe (staticly verified by the compiler) SIMD via the `packed-simd` library. I'd never before worked with SIMD directly before and only had a surface level understanding of SIMD programming, but I decided to take the dive and try it out on the problem.
+Coincidentally, Rust has support for safe (statically verified by the compiler) SIMD via the `packed-simd` library. I'd never before worked with SIMD directly before and only had a surface level understanding of SIMD programming, but I decided to take the dive and try it out on the problem.
 
 I dug through the library's documentation for a while, learning about how it was structured and finding some operations that I thought would be useful for the problem. The `packed-simd` library presented a variety of SIMD data types as normal Rust structs. For example, a vector containing 4 `i32` vars was named `i32x4`. I eventually settled on a solution that involved converting the input ASCII into 32-byte wide vectors padded with zeroes at the end, making them 256 bits wide. The code that I came up with for doing that looks like this (`get_shift_mask` is a function that returns a SIMD bitmask equivalent to `11111111111111111111111111100000`):
 

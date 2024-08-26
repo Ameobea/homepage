@@ -405,7 +405,7 @@
   },
   {
     "name": "Music Galaxy",
-    "description": "Music Galaxy is is the culmination of several months of work with artist relationship data from Spotify. It is an interative 3D visualization of the relationships between over 70,000 artists, positioning them in such a way that artists with similar audiences are positioned closer together in space. It also supports connecting to users' Spotify accounts to visualize where their personal favorite artists exist in context of the greater musical universe.",
+    "description": "Music Galaxy is is the culmination of several months of work with artist relationship data from Spotify. It is an interactive 3D visualization of the relationships between over 70,000 artists, positioning them in such a way that artists with similar audiences are positioned closer together in space. It also supports connecting to users' Spotify accounts to visualize where their personal favorite artists exist in context of the greater musical universe.",
     "projectUrl": "https://galaxy.spotifytrack.net",
     "srcUrl": "https://github.com/Ameobea/spotifytrack/tree/main/frontend/src/musicGalaxy",
     "technologies": [
@@ -562,7 +562,7 @@
   },
   {
     "name": "Project Sync^Up Website",
-    "description": "I helped out a team of people organizing a set of three simulatneous concerts in San Francicso, New York, and Chicago connected by live stream and streaming online.  I built the website (https://syncup.world) and handled the technical side of the livestream and web experience.  The website was fully responsive with advanced styling to maintain the look of a poster on devices of all sizes and aspect ratios.  However, all of the concerts were canceled due to COVID-19.  ",
+    "description": "I helped out a team of people organizing a set of three simultaneous concerts in San Francisco, New York, and Chicago connected by live stream and streaming online.  I built the website (https://syncup.world) and handled the technical side of the livestream and web experience.  The website was fully responsive with advanced styling to maintain the look of a poster on devices of all sizes and aspect ratios.  However, all of the concerts were canceled due to COVID-19.  ",
     "projectUrl": "https://syncup.world",
     "srcUrl": null,
     "technologies": ["Gatsby", "React", "JavaScript"],
@@ -586,7 +586,7 @@
   },
   {
     "name": "jantix",
-    "description": "A fully-featured TypeScript library defining a self-contained 100% type-safe Redux architecture.  Jantix staticly ensures the validity and cohesion of your actions/reducers/state and provides a very clean, 100% strictly typed interface through which to interact with them.",
+    "description": "A fully-featured TypeScript library defining a self-contained 100% type-safe Redux architecture.  Jantix statically ensures the validity and cohesion of your actions/reducers/state and provides a very clean, 100% strictly typed interface through which to interact with them.",
     "projectUrl": null,
     "srcUrl": "https://github.com/Ameobea/jantix/",
     "technologies": ["TypeScript", "Redux", "React"],
