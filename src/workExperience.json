@@ -1,11 +1,22 @@
 [
   {
+    "company": "PingThings",
+    "website": "https://pingthings.io",
+    "location": "Remote",
+    "title": "Software Developer",
+    "startDate": "Sept. 2024",
+    "endDate": "Current",
+    "descriptions": [
+      "Upgrading and enhancing the PingThings web app to render millions of data points performantly using modern web technologies"
+    ]
+  },
+  {
     "company": "Osmos (Previously 42 Layers)",
     "website": "https://osmos.io",
     "location": "Seattle, WA",
     "title": "Software Developer",
     "startDate": "Mar. 2020",
-    "endDate": "Current",
+    "endDate": "Jun. 2024",
     "descriptions": [
       "Working to provide automation solutions to business to help cut down on menial work and connect isolated systems",
       "Primarily writing in Rust; also using WebAssembly on the backend.",
@@ -21,7 +32,7 @@
     "startDate": "Feb. 2019",
     "endDate": "Mar. 2020",
     "descriptions": [
-      "I workd as a full-stack software developer at Stackline, working on their three flagship software offerings.",
+      "I worked as a full-stack software developer at Stackline, working on their three flagship software offerings.",
       "I used React/Redux on the frontend, fixing bugs and adding new features.  I also contributed to various internal APIs, developer utilities (CI/CD, automated testing, etc.) and other projects.",
       "Fleshed out an extensive testing solution from scratch for all web-facing products testing user interaction via Cypress, API response schema validation, and unit tests.",
       "Led the effort to incrementally migrating the codebase to TypeScript, creating a set of cohesive types shared between the frontend and backend.",
@@ -57,7 +68,7 @@
   {
     "company": "Trabian Technology",
     "website": "https://www.trabian.com/",
-    "location": "Indianaplis, IN",
+    "location": "Indianapolis, IN",
     "title": "Software Developer Intern",
     "startDate": "May. 2017",
     "endDate": "Aug. 2018",

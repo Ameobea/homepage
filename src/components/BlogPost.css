@@ -127,6 +127,11 @@
   border-left-width: 1.5px;
   font-size: 17px;
   font-weight: 400;
+
+  code {
+    padding: 1px 2px;
+    border-radius: 2px;
+  }
 }
 
 .blog-post .padded {
@@ -151,17 +156,33 @@
 
 .blog-post .good {
   background-color: #22bb2229;
+
+  code {
+    background-color: #0d210df5;
+  }
 }
 .blog-post .bad {
   background-color: #bb222229;
+
+  code {
+    background-color: #2a0d0d;
+  }
 }
 .blog-post .warning,
 .blog-post .warn {
   background-color: #bb882229;
+
+  code {
+    background-color: #2a1e0d;
+  }
 }
 .blog-post .note,
 .blog-post .info {
   background-color: #1ed5f52d;
+
+  code {
+    background-color: #132a2e;
+  }
 }
 
 .blog-post .note.xpadding,

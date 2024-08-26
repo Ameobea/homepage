@@ -4,7 +4,7 @@ import { GatsbyImage } from 'gatsby-plugin-image';
 type ANewTabProps = {
   to: string;
   children?: React.ReactElement;
-  text: string;
+  text?: string;
 } & React.AnchorHTMLAttributes<any>;
 
 export const ANewTab = ({ to, children, text, ...props }: ANewTabProps) => (

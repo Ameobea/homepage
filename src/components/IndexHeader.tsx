@@ -4,6 +4,7 @@ import { ANewTab } from './util';
 import githubLogo from '../images/social/github.svg';
 import redditLogo from '../images/social/reddit.svg';
 import twitterLogo from '../images/social/twitter.svg';
+import mastodonLogo from '../images/social/mastodon.svg';
 import linkedinLogo from '../images/social/linkedin.svg';
 
 const styles = {
@@ -17,8 +18,8 @@ const styles = {
     padding: '0.25rem',
     display: 'flex',
     flex: 1,
-    flexDirection: 'row',
-    justifyItems: 'space-between',
+    flexDirection: 'row' as const,
+    justifyItems: 'space-between' as const,
   },
   textLink: {
     paddingTop: 1,
@@ -40,9 +41,21 @@ const styles = {
   },
 };
 
-const LogoLink = ({ logoImage, url, alt = '', style = {} }) => (
+interface LogoLinkProps {
+  logoImage: string;
+  url: string;
+  alt?: string;
+  style?: React.CSSProperties;
+}
+
+const LogoLink: React.FC<LogoLinkProps> = ({
+  logoImage,
+  url,
+  alt = '',
+  style = {},
+}) => (
   <div style={{ ...styles.logoLink, ...style }}>
-    <ANewTab href={url}>
+    <ANewTab to={url}>
       <img src={logoImage} alt={alt} height={16} style={styles.logo} />
     </ANewTab>
   </div>
@@ -64,6 +77,12 @@ const LogoLinks = () => (
       logoImage={twitterLogo}
       url="https://twitter.com/ameobea10"
       alt="Twitter logo with transparent background"
+    />
+    <LogoLink
+      logoImage={mastodonLogo}
+      url="https://mastodon.ameo.dev/@ameo"
+      alt="Mastodon logo"
+      style={{ marginLeft: -2, marginRight: 2 }}
     />
     <LogoLink
       logoImage={linkedinLogo}

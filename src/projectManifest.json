@@ -1,7 +1,31 @@
 [
   {
+    "name": "Fixing a Bug in the Chromium Browser",
+    "description": "I discovered, root-caused, and fixed a bug in the Chromium browser's Devtools involving network requests made by worklets.  I wrote regression tests for the fix and landed two commits to Chromium repos that have since been shipped in live versions of Chromium/Google Chrome, fixing the issue for all users of the browser.",
+    "projectUrl": "https://chromium-review.googlesource.com/c/chromium/src/+/5726981",
+    "srcUrl": null,
+    "technologies": ["C++"],
+    "pageUrl": "/blog/fixing-a-bug-in-google-chrome/",
+    "image": "chromium-gerrit.png",
+    "imageAlt": "A screenshot of one of the Gerrit code review UIs from one of the pull requests I made to fix the bug in Chromium.  It shows a dark-themed UI with lots of text and fields typical of a code review tool.  It shows the PR name (Devtools: Update `InspectorNetworkAgent` to support worklets), PR description, and list of changed files and diff.  There are some badges containing the names of people who reviewed the code as well as some other badges indicating that the change has been merged.",
+    "startDate": "Jul. 2024",
+    "endDate": "Sept. 2024"
+  },
+  {
+    "name": "CSG.JS Rust + WebAssembly Port",
+    "description": "I ported the CSG.js Constructive Solid Geometry library created by Evan Wallace (github.com/evanw/csg.js) to Rust and integrated it with other mesh processing and manipulation code I use as part of my browser-based 3D projects.\n\nI experimented with performance improvements and other modifications to the library with the goal of producing manifold meshes with minimal triangle counts as output.",
+    "projectUrl": null,
+    "srcUrl": "https://github.com/Ameobea/sketches-3d/blob/main/src/viz/wasm/mesh/src/csg.rs",
+    "technologies": ["Rust", "WebAssembly"],
+    "pageUrl": null,
+    "image": "csg-js-rust.png",
+    "imageAlt": "A screenshot of a mesh produced as the output of subtracting a torus from a cube.  There is a semi-circular gouge in one face of the sphere which appears to be smooth and seamlessly connected.  The mesh is shaded using `MeshNormalMaterial` from Three.JS which makes it appear in a variety of pastels depending on the angle between each point on its surface and the camera.",
+    "startDate": "Jul. 2024",
+    "endDate": "Aug. 2024"
+  },
+  {
     "name": "Experiments with Kolmogorov-Arnold Networks",
-    "description": "I implemented KANs from scratch in Tinygrad and spent some time experimenting with them and training them for some toy use cases.  I experimented with some of my own variations on the KAN theme and wrote a blog post about the results.",
+    "description": "I implemented KANs from scratch in Tinygrad and spent some time experimenting with them and training them for some toy use cases.\n\nI experimented with some of my own variations on the KAN theme and wrote a blog post about the results.",
     "projectUrl": null,
     "srcUrl": "https://github.com/ameobea/kan",
     "technologies": ["Tinygrad", "Python"],

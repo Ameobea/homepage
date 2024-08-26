@@ -63,7 +63,7 @@ const Education: React.FC = () => (
   </InfoSection>
 );
 
-const WorkExperienceItem: React.FC<{
+interface WorkExperienceItemProps {
   company: string;
   website: string;
   location: string;
@@ -71,7 +71,9 @@ const WorkExperienceItem: React.FC<{
   startDate: string;
   endDate: string;
   descriptions: string[];
-}> = ({
+}
+
+const WorkExperienceItem: React.FC<WorkExperienceItemProps> = ({
   company,
   website,
   location,
@@ -88,109 +90,14 @@ const WorkExperienceItem: React.FC<{
     <span style={styles.date}>
       {startDate} - {endDate}
     </span>
-    <ul>
-      {descriptions.map((description, i) => (
-        <li key={i}>{description}</li>
-      ))}
-    </ul>
+    {descriptions ? (
+      <ul>
+        {descriptions.map((description, i) => (
+          <li key={i}>{description}</li>
+        ))}
+      </ul>
+    ) : null}
   </div>
-);
-
-const ProfessionalSkillsColumn: React.FC<{
-  title: string;
-  items: (string | { value: string; children: string[] })[];
-}> = ({ title, items }) => (
-  <div style={styles.professionalSkillsColumn}>
-    <div style={styles.professionalSkillsColumnTitle}>{title}</div>
-    <ul>
-      {items.map((item, i) =>
-        typeof item === 'string' ? (
-          <li key={i}>{item}</li>
-        ) : (
-          <>
-            <li key={i}>
-              {item.value}
-              <ul>
-                <li>
-                  {item.children.map((child) => (
-                    <li key={i}>{child}</li>
-                  ))}
-                </li>
-              </ul>
-            </li>
-          </>
-        )
-      )}
-    </ul>
-  </div>
-);
-
-const ProfessionalSkills: React.FC = () => (
-  <InfoSection title="Professional Skills">
-    <div style={styles.professionalSkills}>
-      <ProfessionalSkillsColumn
-        title="Programming Languages"
-        items={[
-          'Rust',
-          {
-            value: 'JavaScript Ecosystem',
-            children: [
-              'Node.JS',
-              'Modern lanauge features inc. ES6, Babel, etc.',
-              'Helper libs inc. Lodash, Ramda, funfix',
-            ],
-          },
-          {
-            value: 'TypeScript',
-            children: [
-              'Integration into React + Redux apps',
-              'Typesafe APIs',
-              'Advanced patterns inc. conditional types, mapped types, etc.',
-            ],
-          },
-          'React/Redux/Redux Thunk/Redux Saga/',
-          'HTML/CSS/SCSS',
-          {
-            value: 'Python',
-            children: ['NumPY', 'Pandas', 'Python Notebooks', 'TensorFlow'],
-          },
-          'C/C++',
-          'Ruby/Rails',
-        ]}
-      />
-      <ProfessionalSkillsColumn
-        title="Services and Utilities"
-        items={[
-          {
-            value: 'Relational Databases',
-            children: ['SQL', 'MySQL', 'PostgreSQL', 'SQLite'],
-          },
-          {
-            value: 'Document and Key/Value Database',
-            children: [
-              'ElasticSearch',
-              'MongoDB',
-              'Redis',
-              'CoucbDB',
-              'DynamoDB',
-            ],
-          },
-          'WebAssembly + Asm.JS',
-          {
-            value: 'Docker + Containerization',
-            children: [
-              'Docker Compose',
-              'Kubernetes',
-              'Containerized CI/CD',
-              'Google Cloud Run + other Serverless',
-            ],
-          },
-          'Linux Server Administration/System Administration',
-          'Amazon Web Services + Google Cloud',
-        ]}
-      />
-    </div>
-  </InfoSection>
 );
 
 const WorkExperience: React.FC<{ allWorkExperienceJson: { edges: any[] } }> = ({
@@ -210,8 +117,18 @@ const ProfessionalExperience: React.FC<{
     title="Professional Experience"
     description="Work experience and professional skills"
   >
+    <center>
+      <a
+        style={{ fontSize: 22 }}
+        href="https://ameo.dev/resume-2024.pdf"
+        target="_blank"
+      >
+        Download Resume
+      </a>
+    </center>
+    <br />
+    <br />
     <Education />
-    <ProfessionalSkills />
     <WorkExperience allWorkExperienceJson={allWorkExperienceJson} />
   </Layout>
 );
