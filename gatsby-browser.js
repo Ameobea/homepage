@@ -52,9 +52,7 @@ const maybeInitSentry = () => {
     window.sentry = Sentry;
 
     Sentry.init({
-      dsn: 'https://4978d691a4e44e32880b346327e6626c@sentry.ameo.design/8',
-      integrations: [Sentry.browserTracingIntegration()],
-      tracesSampleRate: 1.0,
+      dsn: 'https://29e81eafef8bd517b50dbe3209fd3f59@sentry.ameo.design/8',
     });
   });
 };
