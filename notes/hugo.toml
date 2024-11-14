@@ -6,7 +6,8 @@ theme = "terminal"
 RelativeURLs = true
 CanonifyURLs = true
 
-paginate = 5
+[pagination]
+pageSize = 5
 
 [params]
 # dir name of your main content (default is `content/posts`).
