@@ -1,4 +1,4 @@
-baseURL = 'https://cprimozic.net/notes/'
+# baseURL = 'https://cprimozic.net/notes/'
 languageCode = 'en-us'
 title = "Casey Primozic's Notes"
 theme = "terminal"
@@ -13,6 +13,7 @@ pageSize = 5
 # dir name of your main content (default is `content/posts`).
 # the list of set content will show up on your index page (baseurl).
 contentTypeName = "posts"
+math = false
 
 # ["orange", "blue", "red", "green", "pink"]
 themeColor = "green"
@@ -60,6 +61,14 @@ showLastUpdated = false
 
 [markup.goldmark.renderer]
 unsafe = true
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.extensions.passthrough]
+      enable = true
+      [markup.goldmark.extensions.passthrough.delimiters]
+        block = [['\[', '\]'], ['$$', '$$']]
+        inline = [['\(', '\)']]
 
 [params.twitter]
 # set Twitter handles for Twitter cards
