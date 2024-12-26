@@ -1,4 +1,4 @@
-# baseURL = 'https://cprimozic.net/notes/'
+baseURL = 'https://cprimozic.net/notes/'
 languageCode = 'en-us'
 title = "Casey Primozic's Notes"
 theme = "terminal"
