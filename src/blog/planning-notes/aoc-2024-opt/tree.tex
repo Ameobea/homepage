@@ -1,0 +1,56 @@
+\documentclass[tikz,border=1.25mm]{standalone}
+\usetikzlibrary{matrix, positioning, shapes, fit, shapes.geometric, backgrounds, arrows.meta}
+\usepackage{amssymb}
+
+\definecolor{cadmiumred}{rgb}{0.89, 0.0, 0.13}
+\definecolor{kellygreen}{rgb}{0.3, 0.73, 0.09}
+\definecolor{gray}{rgb}{0.54, 0.54, 0.54}
+\definecolor{lightgray}{rgb}{0.74, 0.74, 0.74}
+\definecolor{slate}{rgb}{0.094,0.094,0.112}
+\definecolor{cobalt}{rgb}{0.244,0.364,0.972}
+
+\begin{document}
+
+\begin{tikzpicture}[
+  background rectangle/.style={fill=slate},
+  show background rectangle,
+  every node/.style={
+    color=white,
+    draw,
+    inner sep=1mm,
+    minimum height=5.3mm,
+    minimum width=5mm,
+    text height=2mm,
+    text depth=0mm
+  },
+  move arrow/.style={
+    -{Stealth[length=1.25mm]},
+    draw=white
+  }
+]
+
+\matrix[
+	matrix of nodes,
+	nodes in empty cells,
+	column sep=2.5mm,
+	row sep=5mm,
+	draw=none
+] (m) {
+    |[color=red]| 1 $\times$ 0 & 3 $\times$ $\varnothing$ & |[color=orange]| 1 $\times$ 1 & 1 $\times$ $\varnothing$ & |[color=yellow]| 1 $\times$ 2 & 1 $\times$ $\varnothing$ & |[color=kellygreen]| 1 $\times$ 3 & 1 $\times$ $\varnothing$ & |[color=cobalt]| 1 $\times$ 4 & 0 $\times$ $\varnothing$ \\
+    |[color=red]| 1 $\times$ 0 &
+    \node(spl)[alias=spl0,below=-2mm,draw=none,minimum height=5mm,minimum width=10mm,align=center, every nodepart/.style={inner xsep=2mm}]
+    {\tikz{\node[rectangle split,rectangle split horizontal,rectangle split parts=2,draw,inner sep=0mm,minimum height=5mm,minimum width=5mm,align=center,text depth=1.6mm,text=kellygreen,inner xsep=1.35mm]
+    {\nodepart{one} ... \nodepart{two} ...};}};
+    & |[color=orange]| 1 $\times$ 1 & 1 $\times$ $\varnothing$ & 1 $\times$ $\varnothing$ & 1 $\times$ $\varnothing$ & 1 $\times$ $\varnothing$ & 1 $\times$ $\varnothing$ & 1 $\times$ $\varnothing$ & 0 $\times$ $\varnothing$ \\
+};
+
+\node[draw, below=3.25mm of spl0, xshift=-7mm, color=cobalt] {1 $\times$ 4};
+
+\node(spl)[alias=spl1,below=3.25mm of spl0,xshift=7mm,rectangle split,rectangle split horizontal,rectangle split parts=2,draw,inner sep=0mm,minimum height=5mm,minimum width=5mm,align=center,text depth=1.6mm,text=kellygreen,inner xsep=1.35mm] {\nodepart{one} ... \nodepart{two} ...};
+
+\node[draw, below=4mm of spl1, xshift=-7mm, color=kellygreen] {1 $\times$ 3};
+\node[draw, below=4mm of spl1, xshift=7mm, color=yellow] {1 $\times$ 2};
+
+\end{tikzpicture}
+
+\end{document}
