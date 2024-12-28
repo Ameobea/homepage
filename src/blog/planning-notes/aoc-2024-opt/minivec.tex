@@ -1,0 +1,57 @@
+\documentclass[tikz,border=1.25mm]{standalone}
+\usetikzlibrary{matrix, positioning, shapes, fit, shapes.geometric, backgrounds, arrows.meta}
+\usepackage{amssymb}
+
+\definecolor{kellygreen}{rgb}{0.3, 0.73, 0.09}
+\definecolor{darkgray}{rgb}{0.30, 0.30, 0.30}
+\definecolor{gray}{rgb}{0.53, 0.53, 0.53}
+\definecolor{slate}{rgb}{0.094,0.094,0.094}
+\definecolor{cobalt}{rgb}{0.244,0.364,0.972}
+
+\begin{document}
+
+\begin{tikzpicture}[
+  background rectangle/.style={fill=slate},
+  show background rectangle,
+  every node/.style={
+    color=darkgray,
+    draw,
+    inner sep=0mm,
+    minimum height=7mm,
+    minimum width=7mm
+  },
+  outlined/.style={
+    text height=4.5mm,
+    color=white,
+    thick
+  },
+  padding/.style={
+    text height=4.5mm,
+    draw=white,
+    text=white,
+    thick
+  },
+]
+
+\matrix(m)[
+  matrix anchor=north west,
+  matrix of nodes,
+  nodes in empty cells,
+  column sep=0mm,
+  draw=none
+] {
+   & & & & & & & & & & & & & & & \\
+};
+
+\node(n1)[fit=(m-1-1)(m-1-2), outlined] {\small{length}};
+\node(n2)[fit=(m-1-3)(m-1-4), outlined] {\small{id 0}};
+\node(n3)[fit=(m-1-5)(m-1-6), outlined] {\small{id 1}};
+\node(n4)[fit=(m-1-7)(m-1-8), outlined] {\small{id 2}};
+\node(n5)[fit=(m-1-9)(m-1-10), outlined] {\small{id 3}};
+\node(n6)[fit=(m-1-11)(m-1-12), outlined] {\small{id 4}};
+\node(n7)[fit=(m-1-13)(m-1-14), outlined] {\small{id 5}};
+\node(n8)[fit=(m-1-15)(m-1-16), padding, fill=lightgray, fill opacity=0.4, text opacity=1] {\small{$Padding$}};
+
+\end{tikzpicture}
+
+\end{document}
