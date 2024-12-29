@@ -1,0 +1,36 @@
+\documentclass[tikz,border=1.25mm]{standalone}
+\usetikzlibrary{matrix, positioning, shapes, fit, shapes.geometric, backgrounds, arrows.meta}
+
+\definecolor{cadmiumred}{rgb}{0.89, 0.0, 0.13}
+\definecolor{kellygreen}{rgb}{0.3, 0.73, 0.09}
+\definecolor{gray}{rgb}{0.54, 0.54, 0.54}
+\definecolor{slate}{rgb}{0.094,0.094,0.094}
+
+\begin{document}
+
+\begin{tikzpicture}[
+  background rectangle/.style={fill=slate},
+  show background rectangle,
+  every node/.style={
+    color=white,
+    draw,
+    inner sep=0mm,
+    minimum height=5mm,
+    minimum width=5mm,
+    text height=2mm,
+    text depth=0mm
+  }
+]
+
+\matrix[
+	matrix of nodes,
+	nodes in empty cells,
+	column sep=0mm,
+	draw=none
+] (m) {
+    0 &   &   & 1 & 1 &   & 2 &   &   & 3 &   & 4 & 4 & 5 &   & 6 &   \\
+};
+
+\end{tikzpicture}
+
+\end{document}
