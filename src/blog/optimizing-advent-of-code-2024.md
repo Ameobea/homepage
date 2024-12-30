@@ -130,13 +130,13 @@ enum Span {
 }
 ```
 
-You might be a bit confused to see that `Split` variant.  Since copying a file into a free span might leave some extra free space at the end, this will require splitting the span into two.  Implementing these insertions efficiently would require either using a linked list-like data structure to hold these slots (which are notoriously difficult to implement in Rust and also known to be bad for performance).
+You might be a bit confused to see that `Split` variant.  Since copying a file into a free span might leave some extra free space at the end, this will require splitting the span into two.  Implementing these insertions efficiently would require either using a linked list-like data structure to hold these spans (which are notoriously difficult to implement in Rust and also known to be bad for performance).
 
 As a workaround, I added in a separate growable vector of split spans that the parent span points into using those `inner` indices.  These child spans can in turn be split as well, resulting in a tree structure.
 
 Here's how the tree would look after processing the example input from before:
 
-<img alt="A diagram showing the tree structure used to solve Advent of Code 2024 day 9 part 2.  It has two rows of boxes with arrows pointing to each other in a chain from left to right.  The boxes represent slots in the filesystem described by the problem and  contain text indicating the contents of each slot like '1 x 1' or '1 x <null set>'.  The bottom row has a special split node indicated by [...|...] which branches off in a tree to additional nodes which represent the strategy used by the algorithm to split a free space node into a filled node and a smaller free space node while retaining ordering." style="display: flex; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; border: 1px solid #747474aa;" src="https://i.ameo.link/cpb.svg"></img>
+<img alt="A diagram showing the tree structure used to solve Advent of Code 2024 day 9 part 2.  It has two rows of boxes with arrows pointing to each other in a chain from left to right.  The boxes represent spans in the filesystem described by the problem and  contain text indicating the contents of each span like '1 x 1' or '1 x <null set>'.  The bottom row has a special split node indicated by [...|...] which branches off in a tree to additional nodes which represent the strategy used by the algorithm to split a free space node into a filled node and a smaller free space node while retaining ordering." style="display: flex; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; border: 1px solid #747474aa;" src="https://i.ameo.link/cpb.svg"></img>
 
 The checksum can be computed at the end using a recursive function that walks through the tree and counts the number of sectors that have been processed previously as it goes.
 
@@ -181,40 +181,97 @@ This small change gives the biggest relative performance improvement of everythi
 
 ## Flattened Spans Solution
 
-<div style="display: flex; flex: 1; width: 100%; margin-top: -54px"><div style="margin-left: auto; display: flex; flex: 0; background: #141414; border: 1px solid #cccccc88; padding: 4px; font-family:'Input Mono', 'Fira Code', Consolas, Monaco, 'Andale Mono','Ubuntu Mono', monospace">85.3µs <span style="margin-left: 5px; color: #4dc617">(-61.9%)</span></div></div>
+<div style="display: flex; flex: 1; width: 100%; margin-top: -54px"><div style="margin-left: auto; display: flex; flex: 0; background: #141414; border: 1px solid #cccccc88; padding: 4px; font-family: 'Input Mono', 'Fira Code', Consolas, Monaco, 'Andale Mono','Ubuntu Mono', monospace">85.3µs <span style="margin-left: 5px; color: #4dc617">(-61.9%)</span></div></div>
 
-TODO
+After debugging and analyzing the performance of the tree-based spans for a while, I started to think up ways to improve them and avoid some of the indirection they impose.
+
+The two biggest points I wanted to solve were that:
+
+ - Splitting a span required mutating the tree structure and introducing indirection
+ - Free spans were mixed in with empty spans which made finding the next empty span much more expensive than it theoretically needed to be
+
+I wanted to figure out a way to store the spans in a flat manner.  My goal was to be able to scan through spans one after another while looking for a sufficiently large free span without needing to chase pointers or do any kind recursion.
+
+I eventually wound up with a data structure like this:
+
+```rs
+struct File {
+  pub id: usize,
+  pub size: usize,
+}
+
+struct Span {
+  files: SmallVec<[File; 4]>,
+  empty_space: usize,
+}
+```
+
+Each span holds both an array of files as well as some free space.  They start off with a single file each, matching the pattern of the input where each file is followed by a span of free space.  When files are moved down, the destination span's free space is decreased and the file is just added on to the list of files already there.
+
+In the following visualization, the first row represents the state of the disk after parsing the example input and the second row is how it ends up after the algorithm finishes running.
+
+<img alt="A diagram created with TikZ to illustrate a data structure for solving advent of code 2024 day 9 part 2.  It show two rows of nested nodes that represent spans of filled and free space on an imaginary filesystem.  The nodes are split in the middle with the left showing a set of contiguous files with different IDs along with their sizes, and the right side shows how much free space is available after that file indicated by the null set symbol.  The first row shows the original filesystem layout after parsing and the second shows the result after running the algorithm for the problem." style="display: flex; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; border: 1px solid #747474aa;" src="https://i.ameo.link/cpc.svg"></img>
+
+I used the [`smallvec`](https://docs.rs/smallvec) crate to store the files for each span.  This saves space for 4 elements to be stored inline without needing to perform any allocations or dynamic resizes.  This is big enough for the vast majority of cases, and since the `File` struct is so small the extra space overhead isn't too big of a deal.
+
+There's one detail that needs to be handled when _removing_ files from these spans.  The file that's moved is always the first one in the span (since files are only moved a single time), but there may be other files that already have been moved into the span after them.
+
+If there are other files in the span after it, then the newly freed space needs to be added to the preceding span instead to preserve correct ordering of the disk.  This trick allows the deletions to be implemented without needing to dynamically add/remove spans from the disk.
+
+These changes result in a >50% reduction in runtime, bringing the total down to **85.3µs**.
 
 <!--
 bb506718ee08d212a765ac4c3384aa4eb3d5a979
 85.3µs PC
 -->
 
-<img alt="A diagram created with TikZ to illustrate a data structure for solving advent of code 2024 day 9 part 2.  It show two rows of nested nodes that represent slots of filled and free space on an imaginary filesystem.  The nodes are split in the middle with the left showing a set of contiguous files with different IDs along with their sizes, and the right side shows how much free space is available after that file indicated by the null set symbol.  The first row shows the original filesystem layout after parsing and the second shows the result after running the algorithm for the problem." style="display: flex; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; border: 1px solid #747474aa;" src="https://i.ameo.link/cpc.svg"></img>
-
- * If removing the first element of a span (which is always the only element removed) that has elements behind it, its free space is added to the span before it.
-
 ## Spans SoA
 
 <div style="display: flex; flex: 1; width: 100%; margin-top: -54px"><div style="margin-left: auto; display: flex; flex: 0; background: #141414; border: 1px solid #cccccc88; padding: 4px; font-family:'Input Mono', 'Fira Code', Consolas, Monaco, 'Andale Mono','Ubuntu Mono', monospace">92.3µs <span style="margin-left: 5px; color: #e30021">(+8.2%)</span></div></div>
 
-TODO
+Now we're getting to the point where most of the low-hanging fruit has been picked and we need to dig a bit deeper to improve things.
+
+A common strategy when optimizing things like this is to switch data representation from array-of-structs to structs-of-arrays.  It's a well-documented strategy and generally results in the more efficient code being generated by making things like auto-vectorization a lot easier for the compiler to set up.
+
+I switched my implementation to use SoA for the disk, storing the file `SmallVec`s and empty spaces in separate arrays:
+
+<img alt="A diagram created with TikZ to demonstrate a struct-of-arrays scheme applied to the data structures used to solve Advent of Code 2024 day 9 part 2. There are two rows showing labeled 'Stored Files' and 'Empty Space'. The stored files row has nested cells which contain a length and 4 inner data entries, some of which are empty. The empty spaces row is a simple one-dimensional array which contains a single digit in each cell." style="display: flex; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; border: 1px solid #747474aa;" src="https://i.ameo.link/cpj.svg"></img>
+
+<div class="warn padded">Surprisingly, switching to SoA actually resulted in a small regression to runtime performance for my code.</div>
+
+My best guess for why this happened is that the split resulted in less efficient cache utilization for the data, or perhaps it introduced greater bounds checking overhead.  Despite this, I decided to stick with this optimization and aim to win back this performance later on.
 
 <!--
 266ae4e
 92.3µs PC
 -->
 
-<img alt="A diagram created with TikZ to demonstrate a struct-of-arrays scheme applied to the data structures used to solve Advent of Code 2024 day 9 part 2. There are two rows showing labeled 'Stored Files' and 'Empty Space'. The stored files row has nested cells which contain a length and 4 inner data entries, some of which are empty. The empty spaces row is a simple one-dimensional array which contains a single digit in each cell." style="display: flex; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; border: 1px solid #747474aa;" src="https://i.ameo.link/cpj.svg"></img>
-
 ## `MiniVec`
 
 <div style="display: flex; flex: 1; width: 100%; margin-top: -54px"><div style="margin-left: auto; display: flex; flex: 0; background: #141414; border: 1px solid #cccccc88; padding: 4px; font-family:'Input Mono', 'Fira Code', Consolas, Monaco, 'Andale Mono','Ubuntu Mono', monospace">70µs <span style="margin-left: 5px; color: #4dc617">(-24.2%)</span></div></div>
 
-TODO
+Now we're getting to the good stuff.
 
- * Profiled and noticed that the check to see if `SmallVec` had spilled to the heap or not was very hot
- * Picked a constant for max vector size with no spilling.  Technically invalid, but works for all tested inputs.
+While profiling my code with `perf`, I noticed that a significant amount of time was getting spent in `SmallVec` checks to see if the data had been spilled to the heap or not.  When I actually checked to see how big these vectors were, I noticed that none ever grew to be larger than 6 elements.  This rang true even when testing with other inputs through the benchmark bot.
+
+<div class="note">So, I decided to carry that assumption through to my code and create a custom <code>SmallVec</code> that has a hard-coded cap on max element count.</div>
+
+_Technically_, this assumption isn't completely valid.  You could create an input which has a max-sized free space of 9 into which 9 1-size files are moved, so the actual max size that this vector would need to be is 9.
+
+This is probably the biggest stretch I made for my solution, but despite that it did continue to work for all the inputs included in the benchmark bot - and that was the golden source of truth for correctness we were all working off of.
+
+To implement this change, I created a struct called `MiniVec` to replace the `SmallVec` used previously:
+
+```rs
+struct MiniVec {
+  pub len: u32,
+  pub elements: [File; 6],
+}
+```
+
+Nothing super special here, but I added in some unsafe bits to my methods for pushing and removing the first element to avoid bounds checks since I knew it would never hit them on any input.
+
+This change was good for a solid 25% bump in performance, bringing the runtime down to **70µs**.
 
 <!--
 7443ee33e452faa8fb5a25d2590db0f35dc032c7
@@ -225,7 +282,78 @@ TODO
 
 <div style="display: flex; flex: 1; width: 100%; margin-top: -54px"><div style="margin-left: auto; display: flex; flex: 0; background: #141414; border: 1px solid #cccccc88; padding: 4px; font-family:'Input Mono', 'Fira Code', Consolas, Monaco, 'Andale Mono','Ubuntu Mono', monospace">64.7µs <span style="margin-left: 5px; color: #4dc617">(-7.6%)</span></div></div>
 
-TODO
+As the core of the algorithm slowly became faster and faster, the checksum calculation (which previously had been almost invisible in profiling) had slowly grown to take up a relatively significant portion of the processing time.
+
+Here's the code I had been using to compute the checksum:
+
+```rs
+impl File {
+  fn checksum(&self, total_prev: usize) -> usize {
+    (0..self.count)
+      .map(|i| (total_prev + i) * self.id)
+      .sum::<usize>()
+  }
+}
+```
+
+`total_prev` represents the total number of disk sectors that came before the start point of the span and is needed since the checksum uses the index of each sector as input.
+
+The checksum operation can be broken down into a series of operations like this:
+
+```py
+(total_prev + 0) * id
++ (total_prev + 1) * id
++ (total_prev + 2) * id
++ ...
++ (total_prev + (count - 1)) * id
+```
+
+The `total_prev` part can be factored out using a bit of algebra:
+
+```py
+total_prev * count * id
++ 0 * id
++ 1 * id
++ 2 * id
++ ...
++ (count - 1) * id
+```
+
+You'll notice that `* id` is now a part of every single factor of this series, so that can be factored out as well leaving us with:
+
+```py
+(total_prev * count + (0 + 1 + 2 + ... + (count - 1))) * id
+```
+
+If you think back, the `count` comes from the input and has a max value of 9 since each count is a single digit.  This means that there are only 10 possible values for the repeated sum operation - which is a perfect use case for a lookup table.  So I added one in:
+
+```rs
+const ADD_FACTORIAL_LUT: [usize; 11] = [
+  0,
+  0,
+  1,
+  2 + 1,
+  3 + 2 + 1,
+  4 + 3 + 2 + 1,
+  5 + 4 + 3 + 2 + 1,
+  6 + 5 + 4 + 3 + 2 + 1,
+  7 + 6 + 5 + 4 + 3 + 2 + 1,
+  8 + 7 + 6 + 5 + 4 + 3 + 2 + 1,
+  9 + 8 + 7 + 6 + 5 + 4 + 3 + 2 + 1,
+];
+```
+
+After all of this, the checksum operation boils down to this:
+
+```rs
+let checksum = (total_prev * count + ADD_FACTORIAL_LUT[count]) * id;
+```
+
+<div class="good">This makes computing the checksum for a file constant time and extremely efficient as well.</div>
+
+This change only yields a 7.6% speed improvement, bringing the new time down to **64.7µs**.  This is mostly because the checksum computation still wasn't a very large portion of the total runtime.
+
+Despite that, it's still one of the favorite individual optimizations I found for this problem.  Condensing it down to a closed-form solution like that was extremely satisfying to work out.
 
 <!--
 47b1b66685e2c251e2eb265a1a4bc404fb238859
@@ -236,9 +364,15 @@ TODO
 
 <div style="display: flex; flex: 1; width: 100%; margin-top: -54px"><div style="margin-left: auto; display: flex; flex: 0; background: #141414; border: 1px solid #cccccc88; padding: 4px; font-family:'Input Mono', 'Fira Code', Consolas, Monaco, 'Andale Mono','Ubuntu Mono', monospace">58.7µs <span style="margin-left: 5px; color: #4dc617">(-9.3%)</span></div></div>
 
- * Reduce allocations, pre-allocate vectors, sparse minivec initialization
+In a similar spirit as the previous step, I decided to spend a bit of time optimizing the input parsing portion of the algorithm.  Although it only happens once compared to the code in the hot loop which runs thousands of times, there were some clear ways to improve it.
 
- <!--
+To start out, I pre-allocated all of the vectors using `Vec::with_capacity()`.  We know exactly how big the y need to be statically, so this ensures that the vector don't need to be resized and copied as they're initialized.
+
+For the slots stored as a `Vec<MiniVec>`, I took it a step further.  I used some unsafe code to start the whole vector out as uninitialized and then populated only the pieces of it that needs values, leaving the rest uninitialized.  This is what `Vec` and `SmallVec` do under the hood anyway, so it's fine for use to do it as well.
+
+This resulted in a tidy 9.3% perf improvement, bringing the new total down to **58.7µs**.
+
+<!--
 b5283592678d5951e632532cb87bc38788fae9ab
 58.7µs PC
 -->
@@ -246,6 +380,12 @@ b5283592678d5951e632532cb87bc38788fae9ab
 ## SIMD Input Parsing
 
 <div style="display: flex; flex: 1; width: 100%; margin-top: -54px"><div style="margin-left: auto; display: flex; flex: 0; background: #141414; border: 1px solid #cccccc88; padding: 4px; font-family:'Input Mono', 'Fira Code', Consolas, Monaco, 'Andale Mono','Ubuntu Mono', monospace">37.4µs <span style="margin-left: 5px; color: #4dc617">(-36.3%)</span></div></div>
+
+Now we're getting into the good stuff.
+
+While looking at the input parsing code, I realized that my current parsing code was running essentially character by character.  Given that each character is just a single byte, that incurs a lot of overhead; the CPU is wasting a lot of potential memory bandwidth among other things.
+
+Luckily we have a nice option available to us for having the CPU do multiple things at the same time: SIMD
 
 TODO
 
@@ -310,7 +450,7 @@ TODO
 
  * using smaller int sizes for data and locals
  * fit `MiniVec` inside 16 bytes with manual padding
-   - removed the count from slots and look them up from the original array instead
+   - removed the count from spans and look them up from the original array instead
  * Pure SIMD initialization of minivecs
    - compiles into a beautiful 10x unrolled loop of basically pure SIMD
    - writes the correct ID into the vector
@@ -342,7 +482,7 @@ TODO
 
 TODO
 
- - smaller vector size for the inner empty slot finding loop
+ - smaller vector size for the inner empty span finding loop
    - turns out that u8x8 faster than u8x16 faster than u8x32
    - u8x8 is pretty slightly - but significantly - faster than u8x16 on both local and benchmark
      machine
@@ -351,7 +491,7 @@ TODO
    - the overhead of fetching just 64 extra bytes seems to outweigh the cost of having less chance
      of finding the needle in the first vector
  - Use `get_unchecked` everywhere
- - Moved around some math in the inner empty slot checking loop which impacted code layout and had little perf impacts
+ - Moved around some math in the inner empty span checking loop which impacted code layout and had little perf impacts
 
 <!--
 6279fa3f6f371b979c2f476b577c012d5344e854
