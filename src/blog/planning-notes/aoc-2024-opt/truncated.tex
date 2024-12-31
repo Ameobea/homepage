@@ -14,22 +14,12 @@
   background rectangle/.style={fill=slate},
   show background rectangle,
   every node/.style={
-    color=darkgray,
+    color=white,
+    text=white,
     draw,
     inner sep=0mm,
     minimum height=7mm,
     minimum width=7mm
-  },
-  outlined/.style={
-    text height=4.5mm,
-    color=white,
-    thick
-  },
-  padding/.style={
-    text height=4.5mm,
-    draw=white,
-    text=white,
-    thick
   },
 ]
 
@@ -38,10 +28,12 @@
   matrix of nodes,
   nodes in empty cells,
   column sep=0mm,
+  row sep=2.5mm,
   every odd row/.style={nodes={text=cobalt}},
   draw=none
 ] {
-  0 & 0 & 1 & 1 & 2 & 2 & 3 & 3 & 4 & 4 & 5 & 5 & 6 & 6 & 7 & 7 \\
+  0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\
+  0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\
 };
 
 \end{tikzpicture}
