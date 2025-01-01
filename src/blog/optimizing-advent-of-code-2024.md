@@ -1,7 +1,7 @@
 ---
-title: 'Optimizing Advent of Code 2024 (TODO BETTER TITLE)'
+title: 'Optimizing Advent of Code D9P2 with High-Performance Rust'
 date: '2024-12-31'
-opengraph: "{\"TODO\": \"TODO\"}"
+opengraph: '{"image":"https://i.ameo.link/cpw.png","description":"A detailed summary of the techniques I used to optimize my Advent of Code 2024 solution for Day 9 Part 2.  Employs a variety of techniques including algorithmic shortcuts, bespoke data structures, and low-level optimizations + SIMD.","meta":[{"name":"twitter:card","content":"summary_large_image"},{"name":"twitter:image","content":"https://i.ameo.link/cpw.png"},{"name":"og:image:width","content":"1584"},{"name":"og:image:height","content":"476"},{"name":"og:image:alt","content":"A diagram created with TikZ showing the tree structure used to solve Advent of Code 2024 day 9 part 2.  It has two rows of boxes with arrows pointing to each other in a chain from left to right.  The boxes represent spans in the filesystem described by the problem and  contain text indicating the contents of each span like \"1 x 1\" or \"1 x <null set>\".  The bottom row has a special split node indicated by [...|...] which branches off in a tree to additional nodes which represent the strategy used by the algorithm to split a free space node into a filled node and a smaller free space node while retaining ordering."},{"name":"twitter:image:alt","content":"A diagram created with TikZ showing the tree structure used to solve Advent of Code 2024 day 9 part 2.  It has two rows of boxes with arrows pointing to each other in a chain from left to right.  The boxes represent spans in the filesystem described by the problem and  contain text indicating the contents of each span like \"1 x 1\" or \"1 x <null set>\".  The bottom row has a special split node indicated by [...|...] which branches off in a tree to additional nodes which represent the strategy used by the algorithm to split a free space node into a filled node and a smaller free space node while retaining ordering."}]}'
 ---
 
 <style>
@@ -170,7 +170,7 @@ Because of that, I tried to create a sort of hybrid data structure that had both
 
 Here's how the tree would look after processing the example input from before:
 
-<img alt="A diagram showing the tree structure used to solve Advent of Code 2024 day 9 part 2.  It has two rows of boxes with arrows pointing to each other in a chain from left to right.  The boxes represent spans in the filesystem described by the problem and  contain text indicating the contents of each span like '1 x 1' or '1 x <null set>'.  The bottom row has a special split node indicated by [...|...] which branches off in a tree to additional nodes which represent the strategy used by the algorithm to split a free space node into a filled node and a smaller free space node while retaining ordering." style="display: flex; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; border: 1px solid #747474aa;" src="https://i.ameo.link/cpb.svg"></img>
+<img alt="A diagram created with TikZ showing the tree structure used to solve Advent of Code 2024 day 9 part 2.  It has two rows of boxes with arrows pointing to each other in a chain from left to right.  The boxes represent spans in the filesystem described by the problem and  contain text indicating the contents of each span like '1 x 1' or '1 x <null set>'.  The bottom row has a special split node indicated by [...|...] which branches off in a tree to additional nodes which represent the strategy used by the algorithm to split a free space node into a filled node and a smaller free space node while retaining ordering." style="display: flex; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; border: 1px solid #747474aa;" src="https://i.ameo.link/cpb.svg"></img>
 
 The checksum can be computed at the end using a recursive function that walks through the tree and counts the number of sectors that have been processed previously as it goes.
 
@@ -423,8 +423,6 @@ b5283592678d5951e632532cb87bc38788fae9ab
 
 <div style="display: flex; flex: 1; width: 100%; margin-top: -54px" class="timing-diff"><div style="margin-left: auto; display: flex; flex: 0; background: #141414; border: 1px solid #cccccc88; padding: 4px; font-family:'Input Mono', 'Fira Code', Consolas, Monaco, 'Andale Mono','Ubuntu Mono', monospace">37.4µs <span style="margin-left: 5px; color: #4dc617">(-36.3%)</span></div></div>
 
-Now we're getting to the good stuff.
-
 While looking at the input parsing code, I realized that my current parsing code was running essentially character by character.  Given that each character is just a single byte, that incurs a lot of overhead; the CPU is wasting a lot of potential memory bandwidth among other things.
 
 <div class="good">Sounds like a perfect use-case for some SIMD!</div>
@@ -477,7 +475,7 @@ let (sizes, frees) = converted.deinterleave(converted);
 
 This results in two SIMD vectors with data packed like this:
 
-<img alt="A visualization created with TikZ showing the layout of two SIMD vectors after de-interleave operation is performed.  The first vector contains elements 0-7 in order labeled with blue text, and the second contains elements 0-7 in order labeled with white text." style="display: flex; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; border: 1px solid #747474aa;" src="https://i.ameo.link/cpu.svg"></img>
+<img alt="A visualization created with TikZ showing the layout of two SIMD vectors after de-interleave operation is performed.  The first vector contains elements 0-7 in order labeled with blue text repeated twice, and the second contains elements 0-7 in order repeated twice labeled with white text." style="display: flex; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; border: 1px solid #747474aa;" src="https://i.ameo.link/cpu.svg"></img>
 
 The data is duplicated since the output vectors are the same size as the input vectors but we're only putting half of the data into each.  We can easily fix that by just truncating them down:
 
@@ -489,7 +487,7 @@ let frees = frees.resize::<STORE_VECTOR_LEN>(STORE_VECTOR_LEN as _);
 
 That leaves us with the exact vector format we want:
 
-<img alt="TODO" style="display: flex; width: 100%; max-width: 400px; margin-left: auto; margin-right: auto; border: 1px solid #747474aa;" src="https://i.ameo.link/cpv.svg"></img>
+<img alt="A visualization created with TikZ showing the layout of two SIMD vectors after de-interleave operation is performed.  The first vector contains elements 0-7 in order labeled with blue text repeated twice, and the second contains elements 0-7 in order repeated twice labeled with white text." style="display: flex; width: 100%; max-width: 400px; margin-left: auto; margin-right: auto; border: 1px solid #747474aa;" src="https://i.ameo.link/cpv.svg"></img>
 
 I later learned about the [`simd_swizzle`](https://doc.rust-lang.org/std/simd/macro.simd_swizzle.html) macro which can also be used to accomplish the same thing while also avoiding the need to resize the vectors at the end:
 
@@ -531,7 +529,7 @@ After that was all set up and working, I was curious as to what kind of assembly
 vmovdqa ymm1, ymmword ptr [r12 + 2*rax]
 ; convert lanewise u16 to u8, truncating high bits and store in xmm2
 vpmovwb xmm2, ymm1
-; shift ymm1 left 8 bits
+; shift ymm1 right 8 bits
 vpsrlw  ymm1, ymm1, 8
 ; same lanewise convert + truncate, storing result in xmm1
 vpmovwb xmm1, ymm1
@@ -550,9 +548,9 @@ It uses the `vpmovwb` instruction, which treats the vector as containing 16 16-b
 
 I'm not sure why the compiler decided to do two individual subtract operations on the smaller vectors rather than do one on the full 256-bit vector before extracting the values.  If I had to bet, I'd say that this way reduces data dependencies between the instructions and allows for a higher throughput when it's all run in a loop.
 
-One thing to note is that this is the code generated for the `znver4` target, which is the target my personal CPU uses (and the one I recorded all the benchmarks in this blog post on).  The benchmark bot has a 5950X which uses the `znver3` target.
+One thing to note is that this is the code generated for the `znver4` target, which is the target my personal CPU uses (and the one on which I recorded all the benchmarks in this blog post).  The benchmark bot has a 5950X which uses the `znver3` target.
 
-<div class="warn">For some reason, LLVM produces [significantly less pretty code](https://rust.godbolt.org/z/nqPvsjPEW) for that target.</div>
+<div class="warn">It turns out that the <code>vpmovwb</code> instruction is part of AVX-512 which isn't available on <code>znver3</code>, and LLVM produces <a href="https://rust.godbolt.org/z/nqPvsjPEW" target="blank">significantly less pretty code</a> for that target.</div>
 
 There are weird `vpand` instructions, shuffles, unpacks, etc. going on compared to the very simple `znver4` version.  I'm not sure why that is; I'm pretty sure all the instructions used in the `znver4` version are also available on `znver3`.
 
@@ -671,7 +669,9 @@ At some point while looking at my `MiniVec` and `Slot` structs, I realized that 
 
 While chatting in the AoC channel in the Rust Discord server, Giooschi (who consistently created extremely well-optimized solutions for nearly every day of AoC) mentioned that he'd seen success in improving performance by using smaller integer types for his data.  The memory footprint of Day 9 was higher than other days, so reducing memory to improve cache hit rate yielded good results.
 
-Following that advice, I cut the size of many of my local variables as well as the fields in `Slot` and `MiniVec`.  I reduced the `id` field of `Slot` from `usize` to `u16` - the smallest type that can hold the max file ID of 9999 - and trimmed down the `len` of `MiniVec` to match.  That left those structs looking like this:
+Following that advice, I cut the size of my `empty_spaces` vector as well as the fields in `Slot` and `MiniVec`.  I reduced the `id` field of `Slot` from `usize` to `u16` - the smallest integer that can hold the max file ID of 9999 - and trimmed down the `len` of `MiniVec` to match.
+
+That left those structs looking like this:
 
 ```rs
 struct Slot {
@@ -875,6 +875,10 @@ My final code for Day 9 can be found [on Github](https://github.com/Ameobea/adve
 
 And here's the full disassembly [on Godbolt](https://rust.godbolt.org/z/bef76sP4T).
 
+If you're curious to see the fastest solutions among all the competitors for each day, iwearapot (who also graciously hosted + maintained the benchmark bot) put together a repository showing them all off: <https://github.com/indiv0/aoc-fastest>
+
+_Credit to alion02 from the Rust Discord server for a couple of corrections and extra info provided for this post_
+
 ## Takeaways
 
 Here are my main takeaways:
@@ -894,7 +898,9 @@ There are few things as satisfying as scraping away layers of overhead from code
 
 ----
 
-I've written [other](https://cprimozic.net/blog/speeding-up-webcola-with-webassembly/) optimization retrospective posts like these as well if you're interested. To catch future posts like this, you can subscribe to my blog via RSS at the top of the page, or follow me on the platform of your choice:
+I've written [other](https://cprimozic.net/blog/speeding-up-webcola-with-webassembly/) optimization retrospective posts like these as well if you're interested.
+
+To catch future posts like this, you can subscribe to my blog via RSS at the top of the page, or follow me on the platform of your choice:
 
  - Bluesky [@ameo.dev](https://bsky.app/profile/ameo.dev)
  - Twitter [@ameobea10](https://twitter.com/ameobea10)
