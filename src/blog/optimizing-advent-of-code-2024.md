@@ -867,7 +867,7 @@ I spent some time playing with different pointer offset schemes and variable lay
 
 <div class="good padded">That puts the final runtime for the problem on my machine at <b>23.282µs</b>.</div>
 
-That's 3 orders of magnitude faster than where it started.  As is common for this kind of thing, the vast majority of that improvement came from a few comparatively small/simple chnages.
+That's 3 orders of magnitude faster than where it started.  As is common for this kind of thing, the vast majority of that improvement came from a few comparatively small/simple changes.
 
 Despite that, don't think I can claim that my solution is "optimal".  Especially when considering the fact that some changes sped up code locally while regressing it on the benchmark bot (which even has a very similar CPU architecture to my own), I wouldn't be surprised if it was be possible to make significant progress beyond this point.
 
