@@ -125,6 +125,7 @@ I built many UIs out of just normal HTML/CSS and leaned heavily on `control-pane
   - Multiband compressor
   - Mixer
   - Wavetable builder
+- wanted to avoid the trend of other synth/DAW/effect UIs I've seen in the past that try to replicate analog UIs with knobs and fake LCD displays etc.
 - control-panel + my custom `react-control-panel` and `svelte-control-panel` ports
   - makes creating the huge number of unique UIs required for the app tenable and covers a surprisingly large number of use cases
 - litegraph
