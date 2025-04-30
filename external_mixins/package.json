@@ -14,7 +14,7 @@
 	"devDependencies": {
 		"@sentry/browser": "^8.33.1",
 		"@sveltejs/adapter-static": "^3.0.5",
-		"@sveltejs/kit": "^2.8.3",
+		"@sveltejs/kit": "^2.20.6",
 		"@sveltejs/vite-plugin-svelte": "^4.0.0-next.6",
 		"@types/eslint": "^9.6.1",
 		"eslint": "^9.12.0",
