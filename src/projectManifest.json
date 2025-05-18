@@ -39,7 +39,7 @@
     "name": "3D Mesh Deformation + Normal Calculation",
     "description": "I developed a code pipeline for subdividing 3D meshes, programmatically deforming + manipulating them, and computing accurate normals for both shading and displacement.  This included a deep-dive into the Blender codebase to figure out how they computed normals for smooth-by-angle shading.",
     "projectUrl": null,
-    "srcUrl": "https://github.com/Ameobea/sketches-3d/blob/main/src/viz/wasm/common/src/mesh/linked_mesh.rs",
+    "srcUrl": "https://github.com/Ameobea/sketches-3d/blob/main/src/viz/wasm/mesh/src/linked_mesh.rs",
     "technologies": ["Rust", "WebAssembly", "Blender", "3D"],
     "pageUrl": null,
     "image": "mesh-deformation.jpg",

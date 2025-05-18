@@ -67,7 +67,7 @@ Just like a half edge data structure, it maintains bi-directional links between 
 
 <img src="https://i.ameo.link/c8n.svg" alt="A graph representing the relationships between vertices, edges, and nodes in the &quot;Linked Mesh&quot; data structure I developed.  It was produced using this graphviz dot code: digraph G {  rankdir=LR;  Vertex -> &quot;Edge&quot;;  &quot;Edge&quot; -> Vertex;  Face -> Vertex;  &quot;Edge&quot; -> Face;  Face -> &quot;Edge&quot;;}" style="width: 100%;"></img>
 
-My whole implementation lives in [one file](https://github.com/Ameobea/sketches-3d/blob/main/src/viz/wasm/common/src/mesh/linked_mesh.rs) if you're interested in checking it out or using it as a basis for a data structure of your own.
+My whole implementation lives in [one file](https://github.com/Ameobea/sketches-3d/blob/main/src/viz/wasm/mesh/src/linked_mesh.rs) if you're interested in checking it out or using it as a basis for a data structure of your own.
 
 The main requirements are that it's possible to easily and efficiently perform operations like finding all edges that contain a given vertex and find all faces that contain some given edge.
 

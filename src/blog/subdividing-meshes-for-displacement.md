@@ -156,7 +156,7 @@ This is because the `SlotMap` keys contain a version which is incremented every 
 
 Other than that, there really isn't a lot special going on in the implementation.  There were some tricky bugs to work out involving forgetting to update or refresh references after updating things in the graph, but I eventually got everything working.
 
-The whole thing lives in [one file](https://github.com/Ameobea/sketches-3d/blob/main/src/viz/wasm/common/src/mesh/linked_mesh.rs) as well which makes it easy to set up and use.  I added some methods to import and export a `LinkedGraph` to/from buffers of indexed triangles - the raw data format I was working with before.
+The whole thing lives in [one file](https://github.com/Ameobea/sketches-3d/blob/main/src/viz/wasm/mesh/src/linked_mesh.rs) as well which makes it easy to set up and use.  I added some methods to import and export a `LinkedGraph` to/from buffers of indexed triangles - the raw data format I was working with before.
 
 ## Computing Separate Shading + Displacement Normals
 
