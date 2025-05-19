@@ -13,6 +13,9 @@ module.exports = {
     siteUrl: 'https://cprimozic.net',
   },
   assetPrefix: 'https://cprimozic.b-cdn.net',
+  flags: {
+    DEV_SSR: true,
+  },
   plugins: [
     'gatsby-plugin-typescript',
     'gatsby-plugin-react-helmet',

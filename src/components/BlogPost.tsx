@@ -100,7 +100,7 @@ const AboveFoldContent: React.FC = () => (
 
 interface Opengraph {
   image?: string | null;
-  meta?: any;
+  meta?: { name: string; content: string }[];
   description?: string;
 }
 
@@ -113,20 +113,27 @@ const getPostMetadata = (post: any): Opengraph | null => {
     return JSON.parse(post.frontmatter.opengraph);
   }
 
-  const opengraph: Opengraph = {};
+  const opengraph: Opengraph = {meta: []};
   if (post.frontmatter.description) {
     opengraph.description = post.frontmatter.description;
   }
   if (post.frontmatter.imageUrl) {
-    opengraph.image = post.frontmatter.imageUrl;
-    opengraph.meta = {
-      image: {
-        url: post.frontmatter.imageUrl,
-        alt: post.frontmatter.imageAlt ?? '',
-        width: post.frontmatter.imageWidth,
-        height: post.frontmatter.imageHeight,
-      },
-    };
+    opengraph.meta!.push({name: 'og:image', content: post.frontmatter.imageUrl});
+  }
+  if (post.frontmatter.imageAlt) {
+    opengraph.meta!.push({name: 'og:image:alt', content: post.frontmatter.imageAlt});
+  }
+  if (post.frontmatter.imageWidth) {
+    opengraph.meta!.push({
+      name: 'og:image:width',
+      content: post.frontmatter.imageWidth.toString(),
+    });
+  }
+  if (post.frontmatter.imageHeight) {
+    opengraph.meta!.push({
+      name: 'og:image:height',
+      content: post.frontmatter.imageHeight.toString(),
+    });
   }
 
   if (Object.keys(opengraph).length === 0) {
