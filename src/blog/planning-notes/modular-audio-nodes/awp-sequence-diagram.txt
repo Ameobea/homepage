@@ -1,0 +1,41 @@
+participant Internet
+participant UI Thread
+participant AWP
+
+
+UI Thread->AWP:Create AWP
+UI Thread->Internet:Fetch Wasm
+activate Internet
+entryspacing 4
+Internet->UI Thread:Receive Wasm
+deactivate Internet
+
+entryspacing 0
+UI Thread->AWP:Send Wasm ArrayBuffer
+activate AWP
+AWP->(3)AWP:Compile + Instantiate Wasm
+
+AWP->UI Thread:Send ready message
+deactivate AWP
+entryspacing 1
+note right of AWP:AWP is still generating silence/passing\nthrough input at this point
+
+UI Thread->AWP:Send initial state
+
+AWP->AWP:Commit initial state to Wasm
+
+note right of AWP:AWP now is in a valid state and can\nstart generating/processing audio
+
+entryspacing 2
+==INITIALIZATION FINISHED==
+entryspacing 2
+
+loop
+UI Thread->UI Thread:User changes a control in \nthe module UI
+
+entryspacing 1
+
+UI Thread->AWP:Send message to update state
+
+AWP->AWP:Commit state change to Wasm
+end

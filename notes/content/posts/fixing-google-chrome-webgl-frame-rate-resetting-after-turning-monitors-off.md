@@ -26,3 +26,11 @@ I tried launching Chrome with a variety of different flags including various com
 ![A screenshot of the Google Chrome settings showing the Vulkan option toggled to enabled.](https://i.ameo.link/d1h.png)
 
 I could have sworn that this was broken in the past so I wasn't able to do it, but now it works fine and completely fixed my issue.
+
+EDIT 2025-05-18:
+
+After some time, this fix stopped worked.  I tried a bunch of stuff and what finally worked was swapping which monitor was "Primary" in my system settings:
+
+![A screenshot of my Linux system display settings showing the primary monitor toggle](https://i.ameo.link/d1v.png)
+
+After I set my higher-FPS monitor to be primary and rebooted Google Chrome, my WebGL went back to working at 165 FPS again.
