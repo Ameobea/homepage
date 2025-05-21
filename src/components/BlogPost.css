@@ -14,6 +14,12 @@
 .markdown-remark-toc p {
   margin: 0;
 }
+.blog-post time.published-at {
+  margin-top: -18px;
+  display: block;
+  font-size: 15px;
+  color: #ccc;
+}
 .blog-post h1,
 .blog-post h2,
 .blog-post h3,
@@ -66,8 +72,9 @@
   font-size: 14.5px !important;
   font-weight: 400;
   line-height: 1.65;
-  font-family: 'Input Mono', 'Fira Code', Consolas, Monaco, 'Andale Mono',
-    'Ubuntu Mono', monospace;
+  font-family:
+    'Input Mono', 'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono',
+    monospace;
 }
 .blog-post pre {
   overflow-x: auto;
@@ -140,6 +147,11 @@
 }
 
 @media only screen and (max-width: 800px) {
+  .blog-post time.published-at {
+    margin-top: -14px;
+    font-size: 14px;
+  }
+
   .blog-post .good,
   .blog-post .bad,
   .blog-post .warning,

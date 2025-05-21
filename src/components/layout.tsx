@@ -51,59 +51,55 @@ const Layout: React.FC<LayoutProps> = ({
   const data = useStaticQuery(query);
   return (
     <>
-      {/* Yeah this causes infinite recursion in dev mode due to some issues with the
-    `Suspense`/hooks used on the homepage. */}
-      {process.env.NODE_ENV !== 'development' ? (
-        <Helmet
-          title={
-            title
-              ? `${title} - ${data.site.siteMetadata.title}`
-              : data.site.siteMetadata.title
-          }
-          meta={filterNils([
-            {
-              name: 'og:title',
-              content: title ? title : data.site.siteMetadata.title,
-            },
-            {
-              name: 'og:site_name',
-              content: siteName ?? 'Homepage of Casey Primozic / ameo',
-            },
-            description
-              ? {
-                  name: 'og:description',
-                  content: description || 'Homepage of Casey Primozic / ameo',
-                }
-              : null,
-            description
-              ? {
-                  name: 'description',
-                  content: description || 'Homepage of Casey Primozic / ameo',
-                }
-              : null,
-            image ? { name: 'og:image', content: image } : null,
-            {
-              name: 'keywords',
-              content: 'Casey Primozic, Ameo, AmeoBea',
-            },
-            {
-              name: 'twitter:site',
-              content: 'ameobea10',
-            },
-            {
-              name: 'twitter:creator',
-              content: 'ameobea10',
-            },
-            {
-              name: 'twitter:title',
-              content: title ? title : data.site.siteMetadata.title,
-            },
-            ...meta,
-          ])}
-        >
-          <html lang="en" />
-        </Helmet>
-      ) : null}
+      <Helmet
+        title={
+          title
+            ? `${title} - ${data.site.siteMetadata.title}`
+            : data.site.siteMetadata.title
+        }
+        meta={filterNils([
+          {
+            name: 'og:title',
+            content: title ? title : data.site.siteMetadata.title,
+          },
+          {
+            name: 'og:site_name',
+            content: siteName ?? 'Homepage of Casey Primozic / ameo',
+          },
+          description
+            ? {
+                name: 'og:description',
+                content: description || 'Homepage of Casey Primozic / ameo',
+              }
+            : null,
+          description
+            ? {
+                name: 'description',
+                content: description || 'Homepage of Casey Primozic / ameo',
+              }
+            : null,
+          image ? { name: 'og:image', content: image } : null,
+          {
+            name: 'keywords',
+            content: 'Casey Primozic, Ameo, AmeoBea',
+          },
+          {
+            name: 'twitter:site',
+            content: 'ameobea10',
+          },
+          {
+            name: 'twitter:creator',
+            content: 'ameobea10',
+          },
+          {
+            name: 'twitter:title',
+            content: title ? title : data.site.siteMetadata.title,
+          },
+          ...meta,
+        ])}
+      >
+        <html lang="en" />
+      </Helmet>
 
       {showHeader ? (
         <>

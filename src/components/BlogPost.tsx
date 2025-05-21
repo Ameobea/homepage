@@ -37,6 +37,7 @@ export const query = graphql`
         imageAlt
         imageWidth
         imageHeight
+        date
       }
     }
   }
@@ -77,7 +78,7 @@ const AboveFoldContent: React.FC = () => (
       href="/rss.xml"
       style={{
         display: 'block',
-        marginTop: -14,
+        marginTop: -16,
         marginBottom: 4,
         textAlign: 'right',
         marginLeft: 'auto',
@@ -113,15 +114,23 @@ const getPostMetadata = (post: any): Opengraph | null => {
     return JSON.parse(post.frontmatter.opengraph);
   }
 
-  const opengraph: Opengraph = {meta: []};
+  const opengraph: Opengraph = {
+    meta: [{ name: 'article:published_time', content: post.frontmatter.date }],
+  };
   if (post.frontmatter.description) {
     opengraph.description = post.frontmatter.description;
   }
   if (post.frontmatter.imageUrl) {
-    opengraph.meta!.push({name: 'og:image', content: post.frontmatter.imageUrl});
+    opengraph.meta!.push({
+      name: 'og:image',
+      content: post.frontmatter.imageUrl,
+    });
   }
   if (post.frontmatter.imageAlt) {
-    opengraph.meta!.push({name: 'og:image:alt', content: post.frontmatter.imageAlt});
+    opengraph.meta!.push({
+      name: 'og:image:alt',
+      content: post.frontmatter.imageAlt,
+    });
   }
   if (post.frontmatter.imageWidth) {
     opengraph.meta!.push({
@@ -183,7 +192,11 @@ export default ({ data: { markdownRemark: post } }) => {
     >
       <div className="blog-post">
         <h1>{post.frontmatter.title}</h1>
+        <time className="published-at" dateTime={post.frontmatter.date}>
+          {post.frontmatter.date}
+        </time>
         <AboveFoldContent />
+        <div className="spacer" style={{ height: 6 }} />
 
         {post.tableOfContents ? (
           <div className="markdown-remark-toc-wrapper">
