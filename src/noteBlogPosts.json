@@ -1,0 +1,57 @@
+[
+  {
+    "title": "Creating Constrained Bezier Curves for an Envelope Generator",
+    "slug": "creating-constrained-bezier-curves-for-an-envelope-generator",
+    "date": "2024-12-25 19:27:03 -0600 CST"
+  },
+  {
+    "title": "Notes on Self Hosting a Bluesky PDS Alongside Other Services",
+    "slug": "notes-on-self-hosting-bluesky-pds-alongside-other-services",
+    "date": "2024-11-13 19:03:37 -0800 -0800"
+  },
+  {
+    "title": "A Small Change to Significantly Improve Triplanar Mapping",
+    "slug": "a-small-change-to-improve-triplanar-mapping",
+    "date": "2024-09-01 15:25:14 -0700 -0700"
+  },
+  {
+    "title": "PIXI.JS Optimizations",
+    "slug": "pixi-js-optimizations",
+    "date": "2024-01-02 10:19:53 -0600 CST"
+  },
+  {
+    "title": "Building a Realistic Raindrop-Covered Window Pane Material in Three.JS",
+    "slug": "building-realistic-rainy-window-pane-in-threejs",
+    "date": "2023-11-12 15:50:16 -0800 -0800"
+  },
+  {
+    "title": "Speeding Up Geodesic Tracing in geometry-central",
+    "slug": "speeding-up-geodesic-tracing-in-geometry-central",
+    "date": "2023-10-12 01:21:13 -0700 -0700"
+  },
+  {
+    "title": "amdgpu_top: A Modern radeontop Alternative",
+    "slug": "amdgpu_top-a-modern-radeontop-alternative",
+    "date": "2023-08-23 21:57:55 -0700 -0700"
+  },
+  {
+    "title": "Generating 4K PBR Textures Using Stable Diffusion XL",
+    "slug": "generating-textures-for-3d-using-stable-diffusion",
+    "date": "2023-08-19 17:05:24 -0700 -0700"
+  },
+  {
+    "title": "Building RNN Architecture Visualizations With TikZ",
+    "slug": "building-rnn-architecture-visualizations-with-tikz",
+    "date": "2023-08-15 00:42:47 -0700 -0700"
+  },
+  {
+    "title": "Machine Learning Benchmarks on the 7900 XTX",
+    "slug": "machine-learning-benchmarks-on-the-7900-xtx",
+    "date": "2023-07-01 10:09:06 -0700 -0700"
+  },
+  {
+    "title": "Drawing Graphviz Edge Splines",
+    "slug": "graphviz-spline-drawing",
+    "date": "2023-05-31 21:32:17 -0700 -0700"
+  }
+]

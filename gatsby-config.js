@@ -39,6 +39,13 @@ module.exports = {
     {
       resolve: 'gatsby-source-filesystem',
       options: {
+        name: 'noteBlogPosts',
+        path: `${__dirname}/src/noteBlogPosts.json`,
+      },
+    },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
         name: 'workExperience',
         path: `${__dirname}/src/workExperience.json`,
       },
@@ -128,26 +135,43 @@ module.exports = {
         `,
         feeds: [
           {
-            serialize: ({ query: { site, allMarkdownRemark } }) =>
-              allMarkdownRemark.edges.map(
+            serialize: ({
+              query: { site, allMarkdownRemark, allNoteBlogPostsJson },
+            }) => {
+              const blogEntries = allMarkdownRemark.edges.map(
                 ({
                   node: {
                     frontmatter: { date, title },
-                    excerpt,
                     fields: { slug },
-                    html: _html,
+                    excerpt,
                   },
                 }) => {
                   const postUrl = `${site.siteMetadata.siteUrl}/blog${slug}`;
                   return {
+                    date: new Date(date).toUTCString(),
+                    title,
+                    url: postUrl,
+                    guid: postUrl,
                     description: excerpt,
-                    date,
+                  };
+                }
+              );
+              const noteEntries = allNoteBlogPostsJson.edges.map(
+                ({ node: { date, title, slug } }) => {
+                  const postUrl = `${site.siteMetadata.siteUrl}/notes/posts/${slug}/`;
+                  return {
+                    date: new Date(date).toUTCString(),
                     title,
                     url: postUrl,
                     guid: postUrl,
                   };
                 }
-              ),
+              );
+
+              const allEntries = [...blogEntries, ...noteEntries];
+              allEntries.sort((a, b) => new Date(b.date) - new Date(a.date));
+              return allEntries;
+            },
             query: `{
               allMarkdownRemark(sort: {frontmatter: {date: DESC}}) {
                 totalCount
@@ -162,6 +186,15 @@ module.exports = {
                       date(formatString: "YYYY-MM-DD")
                     }
                     excerpt(pruneLength: 400)
+                  }
+                }
+              }
+  						allNoteBlogPostsJson {
+                edges {
+                  node {
+                    title
+                    slug
+                    date
                   }
                 }
               }
