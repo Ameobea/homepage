@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "author": "Casey Primozic <casey@cprimozic.net>",
   "dependencies": {
-    "@sentry/browser": "^9.19.0",
+    "@sentry/browser": "^9.22.0",
     "ameo-utils": "^0.8.0",
     "gatsby": "^5.14",
     "gatsby-plugin-feed": "^5.14.0",
