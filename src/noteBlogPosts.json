@@ -1,5 +1,10 @@
 [
   {
+    "title": "Compiling the Boundary-First-Flattening Library to Wasm",
+    "slug": "compiling-boundary-first-flattening-to-wasm",
+    "date": "2025-08-04 01:47:56 -0500 -0500"
+  },
+  {
     "title": "Creating Constrained Bezier Curves for an Envelope Generator",
     "slug": "creating-constrained-bezier-curves-for-an-envelope-generator",
     "date": "2024-12-25 19:27:03 -0600 CST"
