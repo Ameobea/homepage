@@ -20,6 +20,7 @@ These include some instructions compiling OpenBLAS for Wasm specifically. I foll
 Here's an overview:
 
 - Clone [OpenBLAS](https://github.com/OpenMathLib/OpenBLAS) and check out commit `5ef8b19`
+- Apply [three small patches](https://github.com/msqr1/kaldi-wasm2/tree/main/patches/openblas) to trick the RISC64 target into working with Emscripten
 - Source your Emscripten `emsdk` installation, then build with this:
 
 ```sh
