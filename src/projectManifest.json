@@ -1,5 +1,24 @@
 [
   {
+    "name": "Geoscript + Geotoy",
+    "description": "A custom programming language and Shadertoy-inspired browser-based playground for generating and manipulating 3D geometry with code.  Includes a rich set of builtin functions implemented in Rust for creating a wide variety of shapes and transformations.\n\nThis builds on much of my previous work with 3D graphics, computational geometry, and building high-performance applications in the browser.",
+    "projectUrl": "https://3d.ameo.design/geotoy",
+    "srcUrl": "https://github.com/ameobea/sketches-3d",
+    "technologies": [
+      "Rust",
+      "WebAssembly",
+      "GLSL",
+      "3D",
+      "WebGL",
+      "TypeScript"
+    ],
+    "pageUrl": "/blog/the-tech-behind-geotoy/",
+    "image": "geotoy.png",
+    "imageAlt": "A screenshot of the geotoy web app showing a scene that looks like a roof composed of interlocking shingles. the shingles are a curved shape with a shiny gray stone-like texture.  There is a code editor in the bottom left of the screen showing some syntax-highlighted code in a functional-looking programming language. It has variables like  and function calls like  and contains the code that defines the scene.  In the bottom right of the screen, there is some output showing basic stats about the scene and program like runtime in milliseconds, total vertices, and total face count.",
+    "startDate": "June 2025",
+    "endDate": "Aug. 2025"
+  },
+  {
     "name": "Fixing a Bug in the Chromium Browser",
     "description": "I discovered, root-caused, and fixed a bug in the Chromium browser's Devtools involving network requests made by worklets.  I wrote regression tests for the fix and landed two commits to Chromium repos that have since been shipped in live versions of Chromium/Google Chrome, fixing the issue for all users of the browser.",
     "projectUrl": "https://chromium-review.googlesource.com/c/chromium/src/+/5726981",
