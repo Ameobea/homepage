@@ -9,7 +9,13 @@
     },
     "editor.formatOnSave": false
   },
-  "cSpell.words": ["connectables", "frontmatter", "xpadded", "xpadding"],
+  "cSpell.words": [
+    "autoencoders",
+    "connectables",
+    "frontmatter",
+    "xpadded",
+    "xpadding"
+  ],
   "typescript.tsdk": "node_modules/typescript/lib",
   "eslint.useFlatConfig": true
 }
