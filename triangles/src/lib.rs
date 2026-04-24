@@ -306,7 +306,7 @@ pub fn init_triangles(canvas_width: usize, canvas_height: usize) {
 
     unsafe { TRIANGLES = p };
 
-    let rng_seed: [u8; 16] = unsafe { mem::transmute(1u128) };
+    let rng_seed: [u8; 16] = 1u128.to_ne_bytes();
     let rng: Box<Pcg32> = Box::new(Pcg32::from_seed(rng_seed));
     let p: *mut Pcg32 = Box::into_raw(rng);
     unsafe { RNG = p };
