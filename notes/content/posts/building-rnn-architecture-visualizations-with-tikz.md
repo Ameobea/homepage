@@ -17,7 +17,7 @@ It seems that most of the really good-looking RNN visualizations I've seen in po
 
 The tool/language I ended up using to build my visualizations is called **TikZ**.  **TikZ** is a sort of programming language and toolkit for programmatically generating vector graphics.  It's a sort of extension to LaTeX, so it's commonly used for creating graphics and visualizations for research papers.
 
-To create a standalone SVG using TikZ, it starts by writing some LaTeX code in a .tex file.  Here's the start of the code for the visualization above :
+To create a standalone SVG using TikZ, it starts by writing some LaTeX code in a .tex file.  Here's the start of the code for the visualization above:
 
 ```tex
 \documentclass[tikz,border=3mm]{standalone}
@@ -58,7 +58,7 @@ Edges are created like this:
 
 As you can see, it's possible to choose whether to use arrows or lines to join nodes and set styles on individual edges.  It's also possible to define multiple edges on the same line, similar to Graphviz.
 
-However, for some of the edges my visualization, I wanted to manually control the routing of edges in order to make it look better.  There are a few different ways to accomplish this in TikZ, but the method I chose was to define `coordinate`s.
+However, for some of the edges in my visualization, I wanted to manually control the routing of edges in order to make it look better.  There are a few different ways to accomplish this in TikZ, but the method I chose was to define `coordinate`s.
 
 In TikZ, `coordinate`s are invisible objects that are not displayed in any way but can instead be used as sources/destinations for edges.  So, to create an angled edge like the one from `New State` to `State` in the visualization, I did this:
 
@@ -83,4 +83,4 @@ The final touch I did to create the visualization was draw the dashed bounding b
 
 I followed a pretty similar process for the other RNN visualization in the blog post.
 
-By using this method, it's possible to have fine-grained control of the visualization's layout and the rendering of all of its components.  There also seem to be a pretty selection of resources available for TikZ which helped out a lot.  It definitely looks _way_ better than the graphviz version I had before.  It did take a good amount of time tweaking the node positions to be just right, but certainly worth it for the result.
+By using this method, it's possible to have fine-grained control of the visualization's layout and the rendering of all of its components.  There also seem to be a pretty good selection of resources available for TikZ which helped out a lot.  It definitely looks _way_ better than the graphviz version I had before.  It did take a good amount of time tweaking the node positions to be just right, but certainly worth it for the result.

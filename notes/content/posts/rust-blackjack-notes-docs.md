@@ -15,7 +15,7 @@ Some nodes like bevel, extrude, and others operate on individual edges or faces.
 
 ![Screenshot of the "Edit Geometry" node from the blackjack UI.  Shows several inputs, outputs, and parameters such as a red "mesh" input, translation, rotation, and scale params, and a dropdown selection for edit type.](https://i.ameo.link/bhq.png)
 
-The way to specifying which edge/face to operate on seems to be entering their indices manually.
+The way to specify which edge/face to operate on seems to be entering their indices manually.
 
 In the code, I found that it's possible to use some special syntax to do things like select all and select ranges of indices:
 
@@ -41,7 +41,7 @@ However, as far as I can tell, that isn't currently hooked up/accessible from th
 
 ![Screenshot of blackjack UI showing a terrain node with some code entered to generate a heightmap, along with the rendered result in the 3D viewport.  The entered code is `function (x, y) return math.sin((x + y) / 10) end`](https://i.ameo.link/bhs.png)
 
-This isn't very useful for much, unfortunately, and if I do end up using this I'll probably end up writing some code to either pass through the perlin noise-based terrain.
+This isn't very useful for much, unfortunately, and if I do end up using this I'll probably end up writing some code to pass through the perlin noise-based terrain.
 
 Also something to note: If you create a named function, it won't work; you have to use an anonymous lua function.  This might be obvious to people familiar with Lua, but it was not for me.
 

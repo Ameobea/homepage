@@ -21,4 +21,4 @@ I tried several things which didn't work:
 
 What finally fixed it was pulling the latest automatic1111 stable diffusion web UI and using that.  I'm now able to generate images without issue again.
 
-So yeah - if you're getting this issue or one like it, pulling the latest code for that and see if it fixes it.
+So yeah - if you're getting this issue or one like it, try pulling the latest code for that and see if it fixes it.

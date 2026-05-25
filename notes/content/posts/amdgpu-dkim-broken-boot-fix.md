@@ -1,5 +1,5 @@
 +++
-title = "Fix for Broken Boot After Failed amdgpu-dkim Install"
+title = "Fix for Broken Boot After Failed amdgpu-dkms Install"
 date = "2023-06-08T17:35:41-07:00"
 +++
 
@@ -11,7 +11,7 @@ It started after I downloaded and ran [`amdgpu-install`](https://docs.amd.com/bu
 
 I ran a variety of different commands with that - `sudo amdgpu-install --usecase=rocm`, `sudo amdgpu-install --uninstall`, `sudo amdgpu-install --usecase=graphics,rocm` through different stages of debugging stuff.
 
-The install itself failed because the kernel version needed by the `amdgpu-dkim` component of ROCm (5.x) was different than my Kernel version (6.3) so the module build failed.  `amdgpu-dkim` is a kernel module for amdgpu, and I didn't and still don't really understand how or if it differs from the `amdgpu` kernel module that comes built-in to the kernel.
+The install itself failed because the kernel version needed by the `amdgpu-dkms` component of ROCm (5.x) was different than my Kernel version (6.3) so the module build failed.  `amdgpu-dkms` is a kernel module for amdgpu, and I didn't and still don't really understand how or if it differs from the `amdgpu` kernel module that comes built-in to the kernel.
 
 ## Symptoms
 
@@ -31,7 +31,7 @@ However, what I saw was that there were _no_ kernel modules at all for `amdgpu`.
 
 After a good bit of googling, I found a [blog post written in Japanese](https://github.com/KeenS/KeenS.github.io/blob/5004f414f38c12c5d05f9d4c191c63232ef7f99b/content/post/Ubuntudeamdgpunodoraibainsuto_runishippaishitaatoGPUgatsukaenakunattatokinotaishohou.md?plain=1#L14) which talks about this exact situation.
 
-> It turns out that when the `amdgpu-dkim` kernel module build fails, a file `/etc/modprobe.d/blacklist-amdgpu.conf` will get created.  This results in the `amdgpu` kernel module getting forced to not load during boot and results in the boot failing (unless the `nomodeset` boot param is set).
+> It turns out that when the `amdgpu-dkms` kernel module build fails, a file `/etc/modprobe.d/blacklist-amdgpu.conf` will get created.  This results in the `amdgpu` kernel module getting forced to not load during boot and results in the boot failing (unless the `nomodeset` boot param is set).
 
 After deleting that file, the computer booted normally.
 

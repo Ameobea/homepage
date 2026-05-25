@@ -11,7 +11,7 @@ For the most part, it does a good job and it provides a concise overview of GPU 
 
 > **However, it seems that `radeontop` is no longer actively developed/updated**.
 
-It's received ~7 commits in the past ~3 years and although it does still mostly work even with the latest GPUs like the 7900 XTX, but it's not under active development.
+It's received ~7 commits in the past ~3 years and it does still mostly work even with the latest GPUs like the 7900 XTX, but it's not under active development.
 
 ## Enter `amdgpu_top`
 
@@ -29,7 +29,7 @@ Here's what its UI looks like:
 
 As you can see, there's a ton more data available!  One immediate benefit is the process list which shows which processes are consuming what GPU resources.  This is extremely useful and something I had no ability to see with `radeontop`.
 
-The sensors view is also extremely useful.  `radeontop` had no way to track GPU temperature, but here `amdgpu_top` provides that along with block rates, power metrics, and more.
+The sensors view is also extremely useful.  `radeontop` had no way to track GPU temperature, but here `amdgpu_top` provides that along with clock rates, power metrics, and more.
 
 For the displayed performance counters, I think they're using the same underlying data with some differences in naming and grouping.  I think that `radeontop` is slightly more granular with the performance counters, but I honestly have no idea what half of those counters even track so having a bit of a coarser view is actually beneficial to me.
 

@@ -66,7 +66,7 @@ To help with this, I made extensive use of the "X/Y/Z Plot" feature of the AUTO1
 
 It generates grids of output images where each cell is generated with a different combination of parameters.  Here's what the output looks like when using it:
 
-![An X/Y grid generated using the Automatic111 stable diffusion web UI.  Shows a grid with cells comparing four different samplers (DMP++ 2M Karras, Euler, LMS, and Heun) and various CFG scale values.](https://i.ameo.link/bdo.jpg)
+![An X/Y grid generated using the Automatic111 stable diffusion web UI.  Shows a grid with cells comparing four different samplers (DPM++ 2M Karras, Euler, LMS, and Heun) and various CFG scale values.](https://i.ameo.link/bdo.jpg)
 
 It was extremely useful for zeroing in on a good set of baseline params for my images.
 
@@ -85,7 +85,7 @@ One other thing I observed is that enabling tiling causes generated images to be
 
 ### Converting Textures from 1K to 4K
 
-Once I found a good prompt and good params, I just set it to generate a bunch images and let it go!  I let it run for around 2 hours and god a selection of ~50 images.  A lot are bad, but there are more than enough gems in the bunch to work with.
+Once I found a good prompt and good params, I just set it to generate a bunch of images and let it go!  I let it run for around 2 hours and got a selection of ~50 images.  A lot are bad, but there are more than enough gems in the bunch to work with.
 
 One thing you may have noted is that I said "4K textures" in the title of this post but all the images I've generated so far are 1K.  Well if you thought I was going to say that I did something along the line of upscaling using one of the many possible methods, you'd be wrong actually!
 
@@ -115,7 +115,7 @@ Once you have a stitched 4K image you're happy with, it's time to make them into
 
 For this, I use a tool called [Poly](https://withpoly.com/textures/edit).  They provide an AI-powered texture generator that takes an image as input and generates normal, height, ambient occlusion, metalness, and roughness maps for it.  They also provide their own prompt-based generation tools, but I personally prefer the control that generating it myself provides.
 
-Their tool lets you generate normal and height maps for free, but they charge you $20/month to generate others.  I do personally pay for that subscription right now, but you don't have to in order to get good results.  The normal map is the most important part, can you can either set global roughness/metalness values for your texture (this is all you need a lot of the time) or write a custom shader to generate them on the fly from pixel values.
+Their tool lets you generate normal and height maps for free, but they charge you $20/month to generate others.  I do personally pay for that subscription right now, but you don't have to in order to get good results.  The normal map is the most important part, and you can either set global roughness/metalness values for your texture (this is all you need a lot of the time) or write a custom shader to generate them on the fly from pixel values.
 
 Another method you can use to generate normal maps is [SmartNormap](https://www.smart-page.net/smartnormal/).  It uses a non-AI approach to programmatically generate normal maps for any source image.  It has some params you can tweak, and the results are OK but generally less good than the AI-powered Poly tool overall in my experience.
 
@@ -127,6 +127,6 @@ If you want to get even crazier with it, the seamless 4K output texture can be u
 
 ## Conclusion
 
-It really feels like the floodgates are opened here.  I personally find that using AI image generates for textures and other building-block assets rather than full images or artwork to be the way to go.  There's a lot of room for my creativity and input to guide the entire process.  There are infinite possibilities to explore, and the whole process is quite fun in my opinion.
+It really feels like the floodgates are opened here.  I personally find that using AI image generators for textures and other building-block assets rather than full images or artwork to be the way to go.  There's a lot of room for my creativity and input to guide the entire process.  There are infinite possibilities to explore, and the whole process is quite fun in my opinion.
 
 Anyway, I hope you found some of this helpful, and I wish you good luck if you decide to try this out for yourself.

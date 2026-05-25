@@ -5,7 +5,7 @@ date = "2023-08-29T22:55:42-07:00"
 
 I've been working on building [3D scenes and environments](https://github.com/ameobea/sketches-3d) in the browser using Three.JS.  As part of those, I make pretty heavy use of the [pmndrs `postprocessing` library](https://github.com/pmndrs/postprocessing) for post-processing and effects.
 
-I've also implemented a custom godrays effect that works with `postprocesing` called [`three-good-godrays`](https://github.com/ameobea/three-good-godrays).  It creates a custom pass that is added to the postprocessing `EffectComposer` which renders volumetric screen-space godrays by reading the depth buffer and shadow map for a light.
+I've also implemented a custom godrays effect that works with `postprocessing` called [`three-good-godrays`](https://github.com/ameobea/three-good-godrays).  It creates a custom pass that is added to the postprocessing `EffectComposer` which renders volumetric screen-space godrays by reading the depth buffer and shadow map for a light.
 
 ## The Problem
 
@@ -31,13 +31,13 @@ if any_pass_needs_depth_texture:
 
 for i, fx_pass in enumerate(passes):
   is_last = i == len(passes) - 1
-  render_to_screen = is_last or pass.render_to_screen
+  render_to_screen = is_last or fx_pass.render_to_screen
   # Passing None indicates that the pass should render to the canvas framebuffer
   # which puts its output directly onto the screen
   fx_pass.render(input_buffer, None if is_last else output_buffer)
 
   # needs_swap defaults to true
-  if pass.needs_swap and not render_to_screen:
+  if fx_pass.needs_swap and not render_to_screen:
     output_buffer, input_buffer = input_buffer, output_buffer
 ```
 
@@ -54,6 +54,6 @@ They plan to address it in a release of version 7, which is not yet out at the t
 
 Luckily, it's possible to work around this issue.  I had to update `three-good-godrays` to detect and handle case where the provided depth texture is the same as the one bound to the provided output buffer.
 
-If it is the same, then I allocate an additional framebuffer the same size of the depth texture, run a `CopyPass` to copy the contents of the depth texture into it, and then bind that copied buffer as the input for the `sceneDepth` uniform of the shader instead.  This fixes the "Source and destination texture sof the draw are the same" error and allows the pass to render without issue.
+If it is the same, then I allocate an additional framebuffer the same size of the depth texture, run a `CopyPass` to copy the contents of the depth texture into it, and then bind that copied buffer as the input for the `sceneDepth` uniform of the shader instead.  This fixes the "Source and destination textures of the draw are the same" error and allows the pass to render without issue.
 
 I made that change in [this commit](https://github.com/Ameobea/three-good-godrays/commit/294cc263697e0e135270dd7a620d95ce6d547dc2).  I do hope that pmndrs `postprocessing` gets that v7 rework; it was very hard to figure out what was causing this and debugging it took several hours.

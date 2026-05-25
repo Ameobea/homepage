@@ -71,7 +71,7 @@ However, the real important part is the `roughnessMap`.  This allows the blur fa
 
 A bit of a surprising choice for use on a window!
 
-This is actually a texture I generated myself with stable diffusion for use in a metallic gold material I used in a different scene.  I converted it into a full-fledged PBR material using a process I detailed in [a different post](http://cprimozic.net/notes/posts/generating-textures-for-3d-using-stable-diffusion/).
+This is actually a texture I generated myself with stable diffusion for use in a metallic gold material I used in a different scene.  I converted it into a full-fledged PBR material using a process I detailed in [a different post](https://cprimozic.net/notes/posts/generating-textures-for-3d-using-stable-diffusion/).
 
 One important property of this texture is that it's seamless - meaning it repeats in both the X and Y axis without any gaps or discontinuities.  This is important for my material since the texture is pretty small (1024 x 1024) and so it needs to repeat multiple times across the large surface of all the windows.
 
@@ -87,7 +87,7 @@ Here's the Three.JS material containing all the properties we set to far:
 
 ![Screenshot of the window shader rendered using the parameters we've gone through so far, including the newly introduced roughness map.  The raindrops are visible as blurry streaks across the window and do kind of look like raindrops at this point, but they're missing depth and seem more like smudges.](https://i.ameo.link/bon.png)
 
-To be honest, I'd say that it they already sort of look like raindrops!  They look more like smudges than anything, though, and they lack a feeling of depth, but the effect is starting to take shape already.
+To be honest, I'd say that they already sort of look like raindrops!  They look more like smudges than anything, though, and they lack a feeling of depth, but the effect is starting to take shape already.
 
 #### Note About Three.JS Transmission Shader Blur
 
@@ -119,7 +119,7 @@ Here's how the windows look after adding in the normal map:
 
 And there you go - that's the core of the effect!
 
-Light is strongly refracted around the raindrops - especially around their edges - which causes light from different parts of the background scene to get pulled through and creating the cool-looking distortions.  It's a real testament to the power of physically-based rendering that this works as well as it does.
+Light is strongly refracted around the raindrops - especially around their edges - which causes light from different parts of the background scene to get pulled through, creating the cool-looking distortions.  It's a real testament to the power of physically-based rendering that this works as well as it does.
 
 ### Thickness / Thickness Map
 
@@ -164,7 +164,7 @@ const windowSurface = await loadTexture('https://i.ameo.link/bn8.jpg');
 
 goldTextureNormal.repeat.set(34, 34);
 goldTextureAlbedo.repeat.set(34, 34);
-windowSeamless.repeat.set(40, 40);
+windowSurface.repeat.set(40, 40);
 
 const greenhouseWindowsMaterial = new THREE.MeshPhysicalMaterial({
   map: windowSurface,

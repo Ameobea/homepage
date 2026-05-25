@@ -25,6 +25,6 @@ In this case, the `path` column was of type `ltree`.  Running that exact query l
 
 It turns out that I was running a more modern version of Postgres locally (17.5) than what was being run in CI (15).
 
-In older versions of Postgres including 15, there is a limitation that values inserted into `ltree` columns can't contain the `-` character.  This limitation was removed in more recent versions.
+In older versions of Postgres including 15, there is a limitation that values inserted into `ltree` columns can't contain the `-` character.  This limitation was removed in Postgres 16, which expanded the set of characters allowed in `ltree` labels to include hyphens (and also raised the maximum label length from 256 to 1000 characters).
 
 I was able to work around this issue by just stripping all non-alphanumeric characters out of my UUIDs before inserting them into the column.

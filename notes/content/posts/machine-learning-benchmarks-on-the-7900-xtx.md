@@ -7,7 +7,7 @@ I [recently upgraded](https://cprimozic.net/notes/posts/upgrading-5700xt-to-7900
 
 It's well known that NVIDIA is the clear leader in AI hardware currently. Most ML frameworks have NVIDIA support via CUDA as their primary (or only) option for acceleration. OpenCL has not been up to the same level in either support or performance.
 
-That being said, the 7900 XTX is a very powerful card. It has 24GB of VRAM, a theoretical 60 TFLOPS of f32, and 120 TFLOPS of f16. The recent AI hype wave is also incentivizing AMD to beef ML support on their cards, and they [seem to be making real investments](https://twitter.com/LisaSu/status/1669848494637735936?s=20) in that space.
+That being said, the 7900 XTX is a very powerful card. It has 24GB of VRAM, a theoretical 60 TFLOPS of f32, and 120 TFLOPS of f16. The recent AI hype wave is also incentivizing AMD to beef up ML support on their cards, and they [seem to be making real investments](https://twitter.com/LisaSu/status/1669848494637735936?s=20) in that space.
 
 I ran some benchmarks to get a feel for its real-world performance right now.
 
@@ -108,7 +108,7 @@ Step    Img/sec total_loss
 
 So, around 126 images/sec for resnet50. A [Reddit thread from 4 years ago](https://www.reddit.com/r/Amd/comments/asdyon/radeon_vii_tensorflow_deep_learning_results_huge/) that ran the same benchmark on a Radeon VII - a >4-year-old card with 13.4 TFLOPS FP32 performance - resulted in a score of 147 back then.
 
-This leads me to believe that there's a software issue at some point. Maybe it's my janky TensorFlow setup, maybe it's poor ROCm/driver support for the 7900 XTX, or maybe it's some some obscure boot param I added to my system 3 years ago. I really don't know.
+This leads me to believe that there's a software issue at some point. Maybe it's my janky TensorFlow setup, maybe it's poor ROCm/driver support for the 7900 XTX, or maybe it's some obscure boot param I added to my system 3 years ago. I really don't know.
 
 One thing is clear though: My TensorFlow performance is not anywhere near where it should be for this hardware.
 
@@ -120,7 +120,7 @@ While poking around online, I discovered the [tinygrad](https://tinygrad.org) li
 
 Tinygrad targets AMD GPUs as one of their backends. They support both OpenCL-based kernels as well as a work-in-progress [RDNA3 Assembler](https://github.com/geohot/tinygrad/blob/master/tinygrad/codegen/assembly_rdna.py) backend.
 
-The native RDNA3 backend was very interesting to me. Pretty recently after the 7900 XTX was released, Chips and Cheese put out a [detailed microbenchmarking post](https://chipsandcheese.com/2023/01/07/microbenchmarking-amds-rdna-3-graphics-architecture/) for the 7900 XTX that used OpenCL to test various different microarchitectural properties of the card and raw performance numbers. One thing they noted was that the OpenCL compiler at the time was doing a poor job of making use of the "dual issue" mode of RRDNA3 to execute multiple instructions in parallel:
+The native RDNA3 backend was very interesting to me. Pretty recently after the 7900 XTX was released, Chips and Cheese put out a [detailed microbenchmarking post](https://chipsandcheese.com/2023/01/07/microbenchmarking-amds-rdna-3-graphics-architecture/) for the 7900 XTX that used OpenCL to test various different microarchitectural properties of the card and raw performance numbers. One thing they noted was that the OpenCL compiler at the time was doing a poor job of making use of the "dual issue" mode of RDNA3 to execute multiple instructions in parallel:
 
 > "I’m guessing RDNA 3’s dual issue mode will have limited impact. It relies heavily on the compiler to find VOPD possibilities, and compilers are frustratingly stupid at seeing very simple optimizations."
 
@@ -191,4 +191,3 @@ There's obviously a lot to be desired for machine learning on AMD GPUs at the cu
 AMD has also said that they plan on adding official RDNA3 support to ROCm by this fall of 2023. Since RDNA3 isn't even technically supported by ROCm right now, I feel like there's definitely a ton of room for improvement on that side of things and a lot of hope things will get better.
 
 I'll continue to keep an eye on this space until then!
-`

@@ -32,7 +32,7 @@ And here's a modified version that uses a non-linear mix of the same texture sam
 vec4 triplanarTexture(sampler2D map, vec3 pos, vec3 normal) {
   vec3 weights = abs(normal);
   // non-linear scaling of weights
-  weights = pow(weights, 8);
+  weights = pow(weights, vec3(8.));
   weights /= (weights.x + weights.y + weights.z);
 
   vec4 outColor = vec4(0.);
@@ -49,7 +49,7 @@ First of all, it makes the transition regions smaller and reduces the amount of 
 
 <iframe src="https://homepage-external-mixins.ameo.design/triplanar_mapping_enhancement.html" loading="lazy" style="width: 100%;aspect-ratio: 847/812;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
 
-The left side shows the result of triplanar mapping with default linear weights, and the right shows the result when using the `pow(weights, 8)` change above.
+The left side shows the result of triplanar mapping with default linear weights, and the right shows the result when using the `pow(weights, vec3(8.))` change above.
 
 As you can see, there is no more visible layering of the texture.  Instead, there are some small areas where the texture faces smoothly between two different planes which looks much better.
 
@@ -65,7 +65,7 @@ So to optimize the shader, it's possible to skip some texture lookups entirely i
 vec4 triplanarTexture(sampler2D map, vec3 pos, vec3 normal) {
   vec3 weights = abs(normal);
   // non-linear scaling of weights
-  weights = pow(weights, 8);
+  weights = pow(weights, vec3(8.));
   weights /= (weights.x + weights.y + weights.z);
 
   vec4 outColor = vec4(0.);

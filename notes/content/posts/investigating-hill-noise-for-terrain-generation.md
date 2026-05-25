@@ -13,9 +13,9 @@ The code is very short to implement this, so I ported it to Rust with minimal ef
 
 It's alright.  This example uses 11 octaves of hill noise with wavelengths of `[220, 160, 120, 100, 75, 40, 20, 10, 5, 2, 1]`.  So that requires 11 sin operations per lookup; not the cheapest thing in the world, but it's not horrible.
 
-Here's closer-up view with a wireframe to see a bit more detail:
+Here's a closer-up view with a wireframe to see a bit more detail:
 
-![Screenshot of a zoomed-in version of the terrain generated using Hill noise, rendered as a multicolored wireframe.  There is a regular lumpyness that shows through on the surface of the terrain, with the lumps all about the same size, shape, spacing.](https://i.ameo.link/bia.png)
+![Screenshot of a zoomed-in version of the terrain generated using Hill noise, rendered as a multicolored wireframe.  There is a regular lumpiness that shows through on the surface of the terrain, with the lumps all about the same size, shape, spacing.](https://i.ameo.link/bia.png)
 
 You can kinda see the higher-frequency sine waves showing through on the surface of the terrain.  It looks quite regular with all the lumps about the same size, shape, and spacing.  It's probably possible to alleviate this by fine-tuning/adding more wavelengths or manually setting amplitudes.
 

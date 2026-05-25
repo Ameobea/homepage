@@ -19,14 +19,14 @@ First, I had to add some MIME type definitions to my NGINX server manually to te
 
 ```txt
   gzip_proxied any;
-  gzip_types text/plain text/css ... ... model/gltf model/gltf-binary;
-  brotli_types text/plain text/css ... ... model/gltf model/gltf-binary;
+  gzip_types text/plain text/css ... ... model/gltf+json model/gltf-binary;
+  brotli_types text/plain text/css ... ... model/gltf+json model/gltf-binary;
 ```
 
 This gives a list of MIME types that NGINX will treat as compressible. I also added some entries to the `mime.types` file to instruct it to map .gltf and .glb files to those mime types:
 
 ```txt
-  model/gltf                            gltf;
+  model/gltf+json                       gltf;
   model/gltf-binary                     glb;
 ```
 
@@ -39,7 +39,7 @@ However, even after doing that, it still wasn't working. The `gzip_proxied` dire
 NGINX bases its checks on whether or not to compress a proxied response based on the `Content-Type` header of that response, which is set by the upstream. It turns out that the upstream Apache2 server serving the .glb file didn't know about its MIME type, so I had to add config entries there as well to map the extension to the MIME type:
 
 ```txt
-  AddType model/gltf .gltf
+  AddType model/gltf+json .gltf
   AddType model/gltf-binary .glb
 ```
 

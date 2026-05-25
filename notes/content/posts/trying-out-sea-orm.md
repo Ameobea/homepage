@@ -3,9 +3,9 @@ title = "Trying Out `sea-orm`"
 date = "2024-01-22T13:56:15-08:00"
 +++
 
-For a new project at my dayjob, I've had the opportunity to try out [`sea-orm`](https://www.sea-ql.org/SeaORM/) for the database layer. In the past, I've tried out other Rust SQL solutions including [`diesel`](https://diesel.rs/) and [`sqlx`](https://github.com/jmoiron/sqlx), so I have some context to compare this one to.
+For a new project at my dayjob, I've had the opportunity to try out [`sea-orm`](https://www.sea-ql.org/SeaORM/) for the database layer. In the past, I've tried out other Rust SQL solutions including [`diesel`](https://diesel.rs/) and [`sqlx`](https://github.com/launchbadge/sqlx), so I have some context to compare this one to.
 
-At a high level, `sea-orm` provides a fully-featured solution for managing your database setup in Rust. It provides a framework and CLI for setting up and maintaining migrations, code-gen'ing entities and relations, and writing + running queries. Like most other Rust DB options, it is fully typed and integration into Rust's type system.
+At a high level, `sea-orm` provides a fully-featured solution for managing your database setup in Rust. It provides a framework and CLI for setting up and maintaining migrations, code-gen'ing entities and relations, and writing + running queries. Like most other Rust DB options, it is fully typed and integrated into Rust's type system.
 
 `sea-orm` is built on top of several other `sea-*` crates that make up the ecosystem. They include crates like `sea-query`, `sea-schema`, `sea-orm-cli`, and some internal crates like `sea-orm-migration`.
 
@@ -19,7 +19,7 @@ I opted to go for the full setup with migrations, code-generated entities, and m
 
 One thing I noticed right away is that `sea-orm` is pretty prescriptive/opinionated about the crate layout and setup of the different components. It expects you to create separate crates for both the migrations and entities and join them together into a workspace.
 
-For one thing, it's set up to pull in `async-std` by default for the migration crate. We (and pretty much everything else in the modern Rust ecosystem) use `tokio` which isn't compatible with `async-std` for some things. I was able to manually change it to use `tokio` without seeming to breaking anything, though.
+For one thing, it's set up to pull in `async-std` by default for the migration crate. We (and pretty much everything else in the modern Rust ecosystem) use `tokio` which isn't compatible with `async-std` for some things. I was able to manually change it to use `tokio` without seeming to break anything, though.
 
 Having to split up the database functionality into multiple crates is a bit awkward for our setup. We have a very large workspace with several dozen different crates at the top level. The project we're adding this database to has a crate of its own, so that means adding two additional crates to manage the database stuff and then importing them.
 
@@ -122,7 +122,7 @@ Overall, the entity system seems... OK. You can do all the usual ORM stuff like 
 
 There's some of the familiar confusion due to the inclusion of `Active` variants of the models and entities. This system is designed to let you leave some portion of the model's fields unchanged/default when updating or inserting entities by wrapping them all in an [`ActiveValue`](https://docs.rs/sea-orm/latest/sea_orm/entity/enum.ActiveValue.html) enum. The API makes sense conceptually and does indeed work, but I find that it makes for a verbose and clunky developer experience.
 
-My main grips with this are mostly rooted in the fact that I'm not really a big fan of heavy entity/model-based ORMs in general. I usually find it easier to write my queries by hand or using the more minimal query builder patterns from `diesel` or similar.
+My main gripes with this are mostly rooted in the fact that I'm not really a big fan of heavy entity/model-based ORMs in general. I usually find it easier to write my queries by hand or using the more minimal query builder patterns from `diesel` or similar.
 
 For most of the database stuff I end up building, it feels like the abstractions leak very quickly out of what the ORM is expecting. For some apps with simpler or more constrained database hierarchies, I feel like this kind of system would be a better fit. It's also very possible that I'm just doing something wrong or overlooking something.
 
@@ -130,9 +130,9 @@ In any case, there's not a ton here I have to complain about that could be blame
 
 ## `sea-*` Crate Organization
 
-One other pain point I kept running into came from the fact that there are so many different `sea-*` crates across which the functionality I need is split across.
+One other pain point I kept running into came from the fact that there are so many different `sea-*` crates across which the functionality I need is split.
 
-It was quite difficult to figure out where to import things from. There are even some cases where there are structs of the same name exist in different crates making it even harder to figure things out.
+It was quite difficult to figure out where to import things from. There are even some cases where structs of the same name exist in different crates, making it even harder to figure things out.
 
 I also ran into problems like this when trying to set up an enum type + field for one of my tables. My goal was to create a single Postgres enum type and use it for a field on one of my tables.
 
@@ -161,11 +161,11 @@ I tried a bunch of things, but yeah I couldn't figure it out. Diesel has a [thir
 
 Although not part of `sea-orm` itself, one thing I have to mention is how good `sea-query` is at doing programmatic query manipulation.
 
-One project I built in the past year for my job at [Osmos](https://osmos.io/) is an interactive query builder web interface. It lets users design complicated with joins, filters, and complex aggregates. It does all of this in a sandboxed way, allowing us to make sure they can only query resources we give them access to.
+One project I built in the past year for my job at [Osmos](https://osmos.io/) is an interactive query builder web interface. It lets users design complicated queries with joins, filters, and complex aggregates. It does all of this in a sandboxed way, allowing us to make sure they can only query resources we give them access to.
 
 Building this would have been _extremely_ difficult if it weren't for the powerful tools provided by `sea-query` and `sea-schema`. I strongly believe these libraries are the best tools available in the Rust ecosystem to perform advanced manipulation or generation of SQL queries. The amount of situations where something "just worked" after I found the right function was very high.
 
-`sea-schema` is also a lovely gem of a crate. It's what `sea-orm` uses under the hood to do its codegen. `sea-schema` can connect to a live database and automatically discover the full schema for a given database. This includes all the details you would every need like data types, foreign keys, constraints, and all that kind of stuff. There are a few bugs and edge cases we've run into which honestly isn't surprising given how big that problem space is, but for the majority of cases it again "just works" and is very easy to work with code-wise.
+`sea-schema` is also a lovely gem of a crate. It's what `sea-orm` uses under the hood to do its codegen. `sea-schema` can connect to a live database and automatically discover the full schema for a given database. This includes all the details you would ever need like data types, foreign keys, constraints, and all that kind of stuff. There are a few bugs and edge cases we've run into which honestly isn't surprising given how big that problem space is, but for the majority of cases it again "just works" and is very easy to work with code-wise.
 
 ## Conclusion
 

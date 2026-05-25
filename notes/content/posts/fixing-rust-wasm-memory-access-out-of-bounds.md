@@ -70,7 +70,7 @@ pub struct CircularBuffer<const LENGTH: usize> {
 }
 ```
 
-When Rust initializes `Box`es in debug mode, it first creates the value on the stack and then copies it to the heap. In release mode, this copy is optimized out in most cases, so the large value are written directly into the allocated memory. That's why this stack overflow only happens in debug mode.
+When Rust initializes `Box`es in debug mode, it first creates the value on the stack and then copies it to the heap. In release mode, this copy is optimized out in most cases, so the large values are written directly into the allocated memory. That's why this stack overflow only happens in debug mode.
 
 _A bit of a side note_:
 

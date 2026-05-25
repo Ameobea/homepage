@@ -11,7 +11,7 @@ Here's what the MIDI editor UI looks like:
 
 As I mentioned, I built this whole UI with [Pixi.JS](https://github.com/pixijs/pixijs) (except for the toolbar which is vanilla HTML/CSS/React).  For the most part, it was working well.  It supports zooming, scrolling/panning, and adding/removing/moving/resizing notes.  All of the interactivity was handled by PIXI.JS through its events/interaction system.
 
-I was looking to add a new feature to the MIDI editor for adding custom labels and annotations to some notes to support use cases where the MIDI editor controls a sampler or something similar where only some notes were active.  However, when I went to start implementing it, I noticed that the MIDI editor's performance was quite bad.  It was using >80% of my GPU on my M1 Macbook Max to just render the base MIDI editor UI and a single note.
+I was looking to add a new feature to the MIDI editor for adding custom labels and annotations to some notes to support use cases where the MIDI editor controls a sampler or something similar where only some notes were active.  However, when I went to start implementing it, I noticed that the MIDI editor's performance was quite bad.  It was using >80% of my GPU on my M1 Max MacBook to just render the base MIDI editor UI and a single note.
 
 For an almost completely static UI, this was absurd.  I felt strongly that there would be some low-hanging fruit to speed it up, so I went looking.
 
@@ -32,7 +32,7 @@ this.container.mask = new PIXI.Graphics()
 
 According to the Pixi.JS docs, this kind of mask is the cheapest and should be applied using WebGL's scissor testing.  However, I found that in practice it slowed down my rendering _significantly_.  It seemed to be going into some kind of rendering slow path that was slowing down the whole application.
 
-I opted to just get rid of the masking entirely and instead extend the cursor gutter to the left and force it to render on top of the piano keyboard using `zIndex` and `app.stage.sortableChildren = true`.  This achieved the same effect but made it easier to PIXI to render.
+I opted to just get rid of the masking entirely and instead extend the cursor gutter to the left and force it to render on top of the piano keyboard using `zIndex` and `app.stage.sortableChildren = true`.  This achieved the same effect but made it easier for PIXI to render.
 
 ## Using Spector.JS for Profiling + Debugging
 
@@ -75,7 +75,7 @@ MarkersCache.set(markersCacheKey, renderTexture);
 return new PIXI.Sprite(renderTexture);
 ```
 
-Whenever the zoom level of horizontal scroll of the UI changed, I'd re-construct the texture for the markers and re-create the sprites.  After a bit of tweaking, I got it working as it was before, and performance was greatly improved!
+Whenever the zoom level or horizontal scroll of the UI changed, I'd re-construct the texture for the markers and re-create the sprites.  After a bit of tweaking, I got it working as it was before, and performance was greatly improved!
 
 ## Pre-Rendering Containers vs. Children
 
@@ -93,7 +93,7 @@ This unsurprisingly sped things up significantly. I had to add a little bit of e
 
 ## Results
 
-After all that optimization, I ran some more profiling to see how effect it had:
+After all that optimization, I ran some more profiling to see how much effect it had:
 
 ![Screenshot of chrome browser dev tools showing the results of a profiling run done on the MIDI editor.  It shows that the GPU utilization is very low at around 5% or less and the CPU is mostly idle.](https://i.ameo.link/bst.png)
 
@@ -105,6 +105,6 @@ I also ran another Spector.JS profiling run to see how the render pass count had
 
 The whole thing renders in a single render pass now!!
 
-I was quite shocked to see that honestly. PIXI.JS was finally able to show off its impressive capabilities here.  I'd be interested check out their code to see how it manages to do that at some point.
+I was quite shocked to see that honestly. PIXI.JS was finally able to show off its impressive capabilities here.  I'd be interested to check out their code to see how it manages to do that at some point.
 
 So yeah - a very successful optimization journey indeed.  PIXI.JS needs some things to get set up in the right way in order for it to really shine, but it excels when they are.

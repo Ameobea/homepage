@@ -18,10 +18,10 @@ const WasmPromise = import('src/viz/wasmComp/geoscript_repl').then(
 
 It works when I run for local development, but it fails when running on my VPS in production. Some notes about my deployment environment:
 
-- I'm Sveltekit's `adapter-node`
+- I'm using Sveltekit's `adapter-node`
 - I'm deploying the Sveltekit app inside Docker behind an NGINX reverse proxy
 
-This Wasm module as built using `wasm-bindgen` for Rust, and it needs the path to the Wasm to be explicitly provided since it's running on the server side rather than the client.
+This Wasm module was built using `wasm-bindgen` for Rust, and it needs the path to the Wasm to be explicitly provided since it's running on the server side rather than the client.
 
 The `fetch('/geoscript_repl_bg.wasm')` call was the one that was failing. This is the error that I got in the Sveltekit logs:
 

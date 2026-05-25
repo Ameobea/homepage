@@ -20,7 +20,6 @@ The place in my code causing these issues was this:
 
 ```rs
 mod imports {
-  #[link(wasm_import_module = "env")]
   extern "C" {
     #[allow(dead_code)]
     pub fn log_msg(msg: *const u8, len: usize);
@@ -65,7 +64,6 @@ Apparently, at some point, Rust changed its behavior wrt. the default import and
 I just added one line to add a magic directive to tell it to pull these imports from `env`:
 
 ```rs
-#[cfg(target_arch = "wasm32")]
 mod imports {
   #[link(wasm_import_module = "env")]
   extern "C" {

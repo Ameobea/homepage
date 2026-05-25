@@ -122,9 +122,9 @@ Once I had everything up and running and proxied out to the public internet, I w
 
 I made it as far as logging in through the main bsky.app Web UI and saw that requests were successfully going to and getting answered by my PDS on my custom domain. However, there were issues with my account that quickly became apparent.
 
-On my profile page, my handle was showing up as "Invalid Handle ⚠`. I had already performed the steps to set up my domain's DNS to verify the domain, but it didn't seem to be working. I tried changing my handle between my main domain and subdomain to no avail.
+On my profile page, my handle was showing up as "Invalid Handle ⚠". I had already performed the steps to set up my domain's DNS to verify the domain, but it didn't seem to be working. I tried changing my handle between my main domain and subdomain to no avail.
 
-For me, the cause turned out to be that I didn't have the websocket proxying working properly. As I mentioned in the previous section, a working websocket connections is necessary for a PDS to work. Once I set that up, I ran this command on my server to trigger the network to re-scrape my PDS:
+For me, the cause turned out to be that I didn't have the websocket proxying working properly. As I mentioned in the previous section, a working websocket connection is necessary for a PDS to work. Once I set that up, I ran this command on my server to trigger the network to re-scrape my PDS:
 
 `pdsadmin request-crawl bsky.network`
 

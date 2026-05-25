@@ -53,7 +53,7 @@ In my Webpack config file `webpack.config.js`, I had this code:
     },
 ```
 
-I don't remember why I put it there originally; probably copy-pasted from a README of template.
+I don't remember why I put it there originally; probably copy-pasted from a README or template.
 
 > In any case, this code is broken after updating from Svelte 3->4 when using Webpack and needs to be updated.
 

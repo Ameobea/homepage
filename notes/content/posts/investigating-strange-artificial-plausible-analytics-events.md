@@ -53,7 +53,7 @@ I ran a collection of the IP addresses sending these requests through the [Maxmi
 
 As far as I can tell, these look like legitimate residential IPs that could belong to real users. I would have guessed that they would have belonged to public clouds or datacenters given the apparent automated source of the traffic, so this was pretty surprising to me.
 
-I know that there are available residential IP proxies that people use for scraping and similar use cases. It's also possible that this traffic is coming from devices compromised by a virus or malicious browser extension. Both of these seem pretty extreme and unlikely to me, though, for something such at this.
+I know that there are available residential IP proxies that people use for scraping and similar use cases. It's also possible that this traffic is coming from devices compromised by a virus or malicious browser extension. Both of these seem pretty extreme and unlikely to me, though, for something such as this.
 
 I did some basic googling of some of these IPs looking for entries in abuse blocklists or similar, but nothing came up. They looked entirely like real user IPs in every way I could see.
 

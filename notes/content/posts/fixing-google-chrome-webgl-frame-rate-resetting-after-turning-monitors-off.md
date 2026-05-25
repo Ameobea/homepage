@@ -29,7 +29,7 @@ I could have sworn that this was broken in the past so I wasn't able to do it, b
 
 EDIT 2025-05-18:
 
-After some time, this fix stopped worked.  I tried a bunch of stuff and what finally worked was swapping which monitor was "Primary" in my system settings:
+After some time, this fix stopped working.  I tried a bunch of stuff and what finally worked was swapping which monitor was "Primary" in my system settings:
 
 ![A screenshot of my Linux system display settings showing the primary monitor toggle](https://i.ameo.link/d1v.png)
 

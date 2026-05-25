@@ -3,7 +3,7 @@ title = "Fixing Anker USB Hub Not Connecting to M1 Mac"
 date = "2023-11-06T12:02:42-08:00"
 +++
 
-I have an Anker USB hub that I use with my work laptop - an M1 Mac Pro. I use it to plug in two USB-A peripherals (mouse and keyboard) as well as to plug in a HDMI monitor. The hub itself connects to my laptop via USB-C. In addition to the hub, I also have a second HDMI monitor, a USB-C internet adapter, wired headphones, and my charging cable connected to the laptop.
+I have an Anker USB hub that I use with my work laptop - an M1 MacBook Pro. I use it to plug in two USB-A peripherals (mouse and keyboard) as well as to plug in a HDMI monitor. The hub itself connects to my laptop via USB-C. In addition to the hub, I also have a second HDMI monitor, a USB-C internet adapter, wired headphones, and my charging cable connected to the laptop.
 
 ![A photograph of an Anker USB hub with two USB-A cables plugged into it in the front as well as an HDMI cable plugged into it in the back.  It has a circular white light on the front right which is illuminated.](https://i.ameo.link/bn2.jpg)
 
@@ -11,7 +11,7 @@ I have an Anker USB hub that I use with my work laptop - an M1 Mac Pro. I use it
 
 I've been having an issue where the USB hub refuses to connect to the laptop after plugging it in after first setting it up for the day. When I plug the hub into the laptop, nothing will happen for a few seconds. Then, the white circular light on the hub will start blinking indefinitely and the hub will still not connect and none of the peripherals plugged into it nor the monitor are usable.
 
-This happens in spurts of a few days/weeks, seemingly randomly. In the past, I've fixed the problem to repeatedly un-plugging and re-plugging the hub - sometimes several times over the course of 15+ minutes - until it finally decides to connect.
+This happens in spurts of a few days/weeks, seemingly randomly. In the past, I've fixed the problem by repeatedly un-plugging and re-plugging the hub - sometimes several times over the course of 15+ minutes - until it finally decides to connect.
 
 ## The Fix
 

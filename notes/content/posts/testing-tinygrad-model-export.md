@@ -22,7 +22,7 @@ This made me a bit worried since the `export_model.py` which I was planning on u
 
 I ran into a variety of issues getting the model to compile. When I called the `export_model` function, I'd get errors like "didn't JIT anything!" if I ran the export after the model had been trained. Not a lot of point in exporting a model before it's been trained, so I had to figure it out.
 
-For the "didn't JIT anyting!" error, I figured out that cloning all of the weight and bias tensors from my model was enough to get that part fixed. I basically constructed a clone of the model with duplicated tensors like this:
+For the "didn't JIT anything!" error, I figured out that cloning all of the weight and bias tensors from my model was enough to get that part fixed. I basically constructed a clone of the model with duplicated tensors like this:
 
 ```py
 for layer_ix in range(len(model.layers)):
@@ -41,7 +41,7 @@ A ton of trial and error later, I finally got a single .c file exported which co
 
 I was able to compile it with gcc and even run it by attaching a simple `main` function to the program which calls `net` with some dummy data.
 
-When I looked into the generated code, though, I was a bit dissapointed with what I saw. For example, here's one of the functions that was generated for some kernel that I think is a fused matrix multiply + tanh activation for a layer:
+When I looked into the generated code, though, I was a bit disappointed with what I saw. For example, here's one of the functions that was generated for some kernel that I think is a fused matrix multiply + tanh activation for a layer:
 
 ```c
 void r_256_4_4_3_25(float* restrict data0, const float* restrict data1, const float* restrict data2, const float* restrict data3) {

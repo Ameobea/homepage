@@ -5,7 +5,7 @@ date = "2023-09-22T12:02:03-07:00"
 
 ## The Problem
 
-I've been working on a shader in GLSL for implementing volumetric fog via raytracing.  I did the majority of the work for it it on my M1 Macbook laptop while traveling, but I was eager to try it out on my powerful 7900 XTX when I got home to see how it performed.
+I've been working on a shader in GLSL for implementing volumetric fog via raytracing.  I did the majority of the work for it on my M1 Macbook laptop while traveling, but I was eager to try it out on my powerful 7900 XTX when I got home to see how it performed.
 
 To my surprise, the results looked extremely different!  The lighting was very low-detail on my desktop with the AMD GPU compared to how it looked on my Macbook.
 
@@ -17,7 +17,7 @@ And here's how it looked on my desktop:
 
 ![A screenshot of some volumetric fog rendered with my shader on my Desktop with an AMD GPU.  There is a green light reflecting off the surface of the fog.  The lighting looks inaccurate and low resolution, not matching the 3D texture of the fog well.](https://i.ameo.link/bhf.png)
 
-I tried changing a few things to make the cases as identical as possible.  Macbooks have a High DPI screen with a pixel ratio of 2, and I thought maybe that was maybe causing the change in behavior.  However, when I disabled High DPI rendering, the results on the mac looked pretty much the same - so that wasn't it.
+I tried changing a few things to make the cases as identical as possible.  Macbooks have a High DPI screen with a pixel ratio of 2, and I thought maybe that was causing the change in behavior.  However, when I disabled High DPI rendering, the results on the mac looked pretty much the same - so that wasn't it.
 
 ## The Cause
 

@@ -9,7 +9,7 @@ I first noticed this bot around the beginning of November 2023, but it's possibl
 
 As mentioned on that thread, these bots are both hosted on AWS IP space. Requests are spread out over multiple IP addresses which would indicate that there are multiple coordinated instances of these bots doing this crawling rather than just some little project someone set up on a VPS.
 
-They don't seem to be doing anything that seems malicious as far as I can tell. Their request counts are high but very much reasonable - at least for my server. They only seem to be requesting the HTML body of pages and not downloading any CSS, images, scripts, etc. There was some speculation on that webmasterworld thread that they might gathering training data for AI, but most people just go with commoncrawl for that rather than doing the collection themselves.
+They don't seem to be doing anything that seems malicious as far as I can tell. Their request counts are high but very much reasonable - at least for my server. They only seem to be requesting the HTML body of pages and not downloading any CSS, images, scripts, etc. There was some speculation on that webmasterworld thread that they might be gathering training data for AI, but most people just go with commoncrawl for that rather than doing the collection themselves.
 
 These bots follow 301 redirects and seem to spider links pretty naively. I have some densely linked doc pages for a browser-based synthesizer I built with a lot of densely inter-linked pages, and it's spending a lot of time crawling those pages in circles. I'm not 100% sure it's re-crawling the same pages, but it does seem to be.
 

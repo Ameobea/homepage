@@ -15,7 +15,7 @@ However, I ended up encountering [many problems](https://cprimozic.net/notes/pos
 
 Since the core concept of these services seems so simple, I figured it wouldn't be too hard to self host my own.
 
-My setup uses a tool called [`frp`](https://github.com/fatedier/frp).  `frp` described as:
+My setup uses a tool called [`frp`](https://github.com/fatedier/frp).  `frp` is described as:
 
 > A fast reverse proxy to help you expose a local server behind a NAT or firewall to the internet.
 
@@ -23,7 +23,7 @@ Exactly what I was looking for.
 
 ### Server Configuration
 
-Setting it up turned out to be pretty simple.  I have a dedicated server on which I host [all my websites and services](https://cprimozic.net/blog/my-selfhosted-websites-architecture/), and I set up an instance of frpc there via Docker:
+Setting it up turned out to be pretty simple.  I have a dedicated server on which I host [all my websites and services](https://cprimozic.net/blog/my-selfhosted-websites-architecture/), and I set up an instance of frps there via Docker:
 
 ```sh
 docker run -d --name frps \

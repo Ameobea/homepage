@@ -9,7 +9,7 @@ The 5700 XT is a rather buggy GPU as far as I can tell - especially on Linux whi
 
 ![Photo of a computer with three monitors.  Two of the monitors are entirely green, and the rightmost monitor is black.  The monitors are on a black desk, there's a window with the blinds closed behind it, and there are some art prints on the wall along with one on the desk.](https://i.ameo.link/azq.jpg)
 
-I opted to go for another AMD card rather than switch to NVIDIA despite the crashes. I had decent reason to believe that the crashes were mostly limited to teh 5700 family cards, and I hoped that the 9000 series would be safe. The card is quite close in performance to the comparable NVIDIA card, but a couple hundred dollars cheaper.
+I opted to go for another AMD card rather than switch to NVIDIA despite the crashes. I had decent reason to believe that the crashes were mostly limited to the 5700 family cards, and I hoped that the 7000 series would be safe. The card is quite close in performance to the comparable NVIDIA card, but a couple hundred dollars cheaper.
 
 ## Results
 

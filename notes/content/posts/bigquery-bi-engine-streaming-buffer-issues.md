@@ -52,7 +52,7 @@ The only setup where we noticed this happening was when we had all of the follow
 
 ## The Fix
 
-... We shut of BI engine and the problem immediately stopped.
+... We shut off BI engine and the problem immediately stopped.
 
 The thing is, this _definitely_ used to work for us in the past. We're almost certain we made no changes to our code or our infrastructure that would cause this change in behavior, so our only remaining explanation is that something changed on GCP's end.
 

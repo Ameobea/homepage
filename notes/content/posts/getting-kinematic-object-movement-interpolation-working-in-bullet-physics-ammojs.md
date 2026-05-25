@@ -11,7 +11,7 @@ Bullet is a very old physics engine and Ammo.JS is more or less a direct copy of
 
 ## The Problem
 
-One problem I ran into was getting interpolated position changes to work for kinematic objects. Let's way that your game's animation frame is firing at 60FPS and you have the Bullet physics engine configured to run at a static 180hz tick rate. This means that for every animation frame, there will be 3 simulated physics engine ticks.
+One problem I ran into was getting interpolated position changes to work for kinematic objects. Let's say that your game's animation frame is firing at 60FPS and you have the Bullet physics engine configured to run at a static 180hz tick rate. This means that for every animation frame, there will be 3 simulated physics engine ticks.
 
 I had some kinematic objects that I controlled manually from the JS side. I computed and set the positions of the objects each animation frame, applying the new position to both Three.JS and ammo.js/bullet simultaneously. I set their transforms in bullet via the `btMotionState` interface which, according to code comments and docs, should help support interpolated movement and continuous collision detection.
 

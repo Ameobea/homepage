@@ -21,7 +21,7 @@ I installed `amdgpu-install` by running `curl https://repo.radeon.com/amdgpu-ins
 
 The ROCm install tutorial says to run `amdgpu-install --usecase=rocm`.  For me, this ended up causing a lot of issues.
 
-The reason for that is that by default, that command attempts to build and install the `amdgpu-dkim` kernel module.  I don't understand how/if that differs from the `amdgpu` kernel module that comes built-into the Linux kernel already.
+The reason for that is that by default, that command attempts to build and install the `amdgpu-dkms` kernel module.  I don't understand how/if that differs from the `amdgpu` kernel module that comes built-into the Linux kernel already.
 
 Anyway, the build for that kernel module failed for me because of differences in the kernel version targeted by ROCm 5.5 and my current kernel (Linux 6.3).
 

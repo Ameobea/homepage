@@ -9,9 +9,9 @@ As I recently learned, a geodesic path is the straightest path along a surface. 
 
 I'm using them to wrap a 2D mesh onto the surface of a 3D mesh, kind of like inverse UV mapping or a sort of variation of the "shrink wrap" modifier from Blender. After extruding the output from that, the result looks pretty cool:
 
-![Screenshot of a stringy white mesh rendered with Blender.  It consists of a series of thin white curlicues that are processing outward onto different planes, meeting at a common corner.](https://i.ameo.link/bk0.png)
+![Screenshot of a stringy white mesh rendered with Blender.  It consists of a series of thin white curlicues that are progressing outward onto different planes, meeting at a common corner.](https://i.ameo.link/bk0.png)
 
-I need trace up to millions of geodesic paths to generate this, and I want to do so as quickly as possible in order to make it possible to generate it dynamically. However, the initial performance numbers I was seeing weren't very optimism-inspiring:
+I need to trace up to millions of geodesic paths to generate this, and I want to do so as quickly as possible in order to make it possible to generate it dynamically. However, the initial performance numbers I was seeing weren't very optimism-inspiring:
 
 ![Screenshot of Chrome dev tools profiler flame graph showing a function for computing geodesics taking 3.22 seconds to run](https://i.ameo.link/bk1.png)
 
@@ -19,7 +19,7 @@ Drilling in further, it became clear that some functions from the Eigen linear a
 
 ![Screenshot of the Chrome dev tools profiler flame graph showing that functions from Eigen called ColPivHouseholder were where most of the CPU time was being spent when computing geodesics](https://i.ameo.link/bk3.png)
 
-I found the function in the `geometry-central` code where this was getting called. It was part of the logic for converting cartesian coordinate to barycentric coordinates. Barycentric coordinates are a way of representing some point within a triangle as a normalized mixture of each of the triangle's points. It is used by the geodesic path tracing process.
+I found the function in the `geometry-central` code where this was getting called. It was part of the logic for converting cartesian coordinates to barycentric coordinates. Barycentric coordinates are a way of representing some point within a triangle as a normalized mixture of each of the triangle's points. It is used by the geodesic path tracing process.
 
 Here's the code itself:
 

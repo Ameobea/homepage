@@ -29,7 +29,7 @@ That being said, it was a very unexpected break and I figured I'd write this up 
 
 ## The Fix
 
-The fix was simple - just specify a higher limits for message decoding and encoding:
+The fix was simple - just specify higher limits for message decoding and encoding:
 
 ```rust
 SubscriberClient::new(auth_service)

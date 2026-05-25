@@ -13,7 +13,7 @@ One day after updating my packages and rebooting my system, WebGL web apps were 
 
 ## The Cause
 
-After some debugging, I realized that my integrated GPU was being used instead of my dedicated GPU.  I figured this out using the `radeontop` application, which has an argument to pick which GPU you're recording performance for.  My integrated GPU had zero usage, but the integrated GPU was maxed out.
+After some debugging, I realized that my integrated GPU was being used instead of my dedicated GPU.  I figured this out using the `radeontop` application, which has an argument to pick which GPU you're recording performance for.  My dedicated GPU had zero usage, but the integrated GPU was maxed out.
 
 ## The Fix
 
@@ -35,4 +35,4 @@ I do have Vulkan enabled in `chrome://flags` but that's required for me to avoid
 
 Note that I tried setting "Preferred Ozone platform" to X11 in `chrome://flags` but it had no effect.  The fix only worked when using the argument when launching Chrome.
 
-Anyway, this exact of flags and configs makes Chrome work well for me on my system.  I dread the day when one something gets changed to break this delicate balance.
+Anyway, this exact set of flags and configs makes Chrome work well for me on my system.  I dread the day when one something gets changed to break this delicate balance.

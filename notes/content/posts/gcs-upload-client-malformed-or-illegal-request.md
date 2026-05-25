@@ -19,8 +19,8 @@ Your client has issued a malformed or illegal request.  That's all we know.
 
 ## The Fix
 
-We were about to fix the issue by adding a `Content-Length` header to the request. It seems that for some requests, it isn't necessary, but it is for others.
+We were able to fix the issue by adding a `Content-Length` header to the request. It seems that for some requests, it isn't necessary, but it is for others.
 
-The interface that we use to make this request the [`reqwest`](https://docs.rs/reqwest/latest/reqwest/) library from Rust to make the HTTP request. We use a Rust stream as the body, which may contribute to the issue.
+The interface that we use to make this request is the [`reqwest`](https://docs.rs/reqwest/latest/reqwest/) library from Rust. We use a Rust stream as the body, which may contribute to the issue.
 
 For this particular case, we do know the size of the data ahead of time so we can provide the `Content-Length` header accurately. However, for cases where large amounts of data needs to be uploaded to GCS as a stream without a known size ahead of time, I'm not sure what the solution is.

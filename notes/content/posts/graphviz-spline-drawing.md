@@ -63,9 +63,6 @@ Here's the code I ended up with to accomplish that:
 const start = controlPoints[0];
 graphics.moveTo(start.x, start.y);
 
-const startPoint = controlPoints[0];
-graphics.moveTo(startPoint.x, startPoint.y);
-
 let p1: Point, p2: Point, p3: Point;
 for (let i = 1; i < controlPoints.length; i += 3) {
   p1 = controlPoints[i];
@@ -123,7 +120,7 @@ graphics.drawPolygon([end.x, end.y, point1.x, point1.y, point2.x, point2.y]);
 graphics.endFill();
 ```
 
-It works well, and the arrowheads look good! Note that config option used to elongate the triangles for the arrowheads a bit so that they are longer since equilateral triangles looked too fat.
+It works well, and the arrowheads look good! Note the config option used to elongate the triangles for the arrowheads a bit so that they are longer since equilateral triangles looked too fat.
 
 ---
 

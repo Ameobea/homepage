@@ -67,7 +67,7 @@ $$H = ConstrainedBezier(t) = (1 - 0.5)^3 P_0 + 3 \times 0.5 (1 - 0.5)C + 0.5^3P_
 
 Those constants collapse down, and after re-arranging `H` and `C` and applying a bit more algebra, we get the following equation yielding the position of the shared control point:
 
-$$C = \frac{1}{6} P_0 + \frac{4}{3} H + \frac{1}{6} P_3$$
+$$C = \frac{4}{3} H - \frac{1}{6} P_0 - \frac{1}{6} P_3$$
 
 I was pretty surprised that the solution ended up being so simple - a linear combination of the start point, end point, and handle position. Sure enough, when I plugged them in, I reliably got out control points that generated curves which accurately intersected the handles at the curves' midpoints.
 

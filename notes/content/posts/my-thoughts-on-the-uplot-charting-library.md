@@ -9,7 +9,7 @@ date: 2023-06-06T11:50:23-07:00
 >
 > The main downside is that it has quite terrible docs and sometimes has confusing APIs
 >
-> I'm personally a big fan of its aesthetic and design goals, and I will probably be sticking with it as my primary charting library for the web for the forseeable future.
+> I'm personally a big fan of its aesthetic and design goals, and I will probably be sticking with it as my primary charting library for the web for the foreseeable future.
 
 A lot of my projects end up needing to render some kind of chart in the browser, often using dynamic data. Over the years, I've explored a range of different charting libraries. I started off using [Highcharts](https://www.highcharts.com/), then [ECharts](https://echarts.apache.org/) was my favorite for a few years, and most recently my go-to choice is [uPlot](https://github.com/leeoniya/uPlot).
 
@@ -19,17 +19,17 @@ It's certainly a very minimal charting library compared to complex offerings lik
 
 That being said, I can't think of a time I've hit a wall with uPlot because it was lacking some feature I needed. I feel that it covers >95% of the surface area for common and uncommon charting needs for the chart types it supports.
 
-It's also intensely focused on performance. It renders to a canvas using WebGL which makes it possible to scale way further than libraries like D3 - which render to SVG - can ever reach.
+It's also intensely focused on performance. It renders to a canvas using the Canvas 2D API which makes it possible to scale way further than libraries like D3 - which render to SVG - can ever reach.
 
 uPlot is optimized to both have an extremely fast initial render as well as scale to supporting huge amounts of data points at 60FPS+. It is seriously fast - here's one of their demos that effortlessly renders millions of data points: <https://leeoniya.github.io/uPlot/bench/uPlot-10M.html>
 
 Its UI design is quite minimalistic, and that's certainly their goal. The library explicitly avoids things like fancy animations when rendering things in or design flourishes in favor of minimizing latency and responsiveness. Here's an example of the kind of line plot you will get out of it with more or less default settings for things:
 
-![A screenshot of a ](https://i.ameo.link/b5s.png)
+![A screenshot of a line chart rendered with uPlot using more or less default settings.](https://i.ameo.link/b5s.png)
 
 Personally, I'm a big fan of its aesthetic. It fits well with a lot of the kinds of web apps I end up building, and there's very little work necessary configuring styles or theming. For comparison, bigger libraries like Highcharts or ECharts often require me to set broader theming settings in order to make the plots look decent on a dark background.
 
-With uPlot, there's simply less things to style, so I end up only really having to define series colors - if even that.
+With uPlot, there's simply fewer things to style, so I end up only really having to define series colors - if even that.
 
 ## Drawbacks
 

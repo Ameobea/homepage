@@ -95,7 +95,7 @@ I integrated this functionality into my Geoscript language as a builtin function
 
 ![A screenshot of a 3D mesh containing the text "arbitrary text" rendered with Geoscript/Geotoy.  It has been sliced through the middle to demonstrate the fact that the mesh is 2-manifold.  The geoscript source code used to produce it is included at the bottom.  It's using the "Story Script" font from Google Fonts.](https://i.ameo.link/de4.png)
 
-There are few steps to manage, but the powerful libraries under the hood (`svg-text-to-path`, `fontkit`, and `lyon`) handle all the complex stuff and heavy lifting.
+There are a few steps to manage, but the powerful libraries under the hood (`svg-text-to-path`, `fontkit`, and `lyon`) handle all the complex stuff and heavy lifting.
 
 Even though some of the critical libraries are in JavaScript and the fact that the generation happens on a remote webserver, I've found that for the (relatively short) text I convert it works quite fast - fast enough to work on-demand without waiting.
 

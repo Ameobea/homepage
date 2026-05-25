@@ -3,9 +3,9 @@ title: "Tunnelto Woes"
 date: 2023-06-02T16:15:46-07:00
 ---
 
-There's a service <https://tunnelto.dev/> which I've used in the past.  It's an [ngrok](https://ngrok.com/) alternative for exposing local services publically for things like demos, testing, etc.
+There's a service <https://tunnelto.dev/> which I've used in the past.  It's an [ngrok](https://ngrok.com/) alternative for exposing local services publicly for things like demos, testing, etc.
 
-I heard about tunnelto.dev when it was announced [on Hacker News](https://news.ycombinator.com/item?id=23618456) and gave it a try along with several others on my team at [Osmos](https://osmos.io).  It looked fresh, was written Rust, and was at least partially [open source](https://github.com/agrinman/tunnelto) - all great.  I even signed up for the (very cheap) paid plan which gives custom subdomains and some other stuff.
+I heard about tunnelto.dev when it was announced [on Hacker News](https://news.ycombinator.com/item?id=23618456) and gave it a try along with several others on my team at [Osmos](https://osmos.io).  It looked fresh, was written in Rust, and was at least partially [open source](https://github.com/agrinman/tunnelto) - all great.  I even signed up for the (very cheap) paid plan which gives custom subdomains and some other stuff.
 
 ## Issues
 
@@ -23,6 +23,6 @@ Anyway, the point of this post wasn't to flame tunnelto or fly.io or anything, b
 
 I've not used tunnelto myself in over a year, and with this latest round of issues I've been helping my coworkers debug I think they're all going to be switching off as well.
 
-As an alternative, I'm self-hosting an instance of [frp] on my personal VPS and using that for all my tunneling needs.  It's pretty simple to set up, but definitely more work than an off-the-shelf solution like ngrok or tunnelto.
+As an alternative, I'm self-hosting an instance of [frp](https://github.com/fatedier/frp) on my personal VPS and using that for all my tunneling needs.  It's pretty simple to set up, but definitely more work than an off-the-shelf solution like ngrok or tunnelto.
 
 Maybe I'll write something up about my setup for that in the future.

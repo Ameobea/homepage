@@ -13,7 +13,7 @@ Oops! Something went wrong, please try again or check out our help area.
 
 The app had been running successfully for years with no changes to the OAuth configuration. The error was easily reproducible just by visiting the `/authorize` URL directly. It persisted after trying incognito windows, different browsers, different devices, logging out and back in, etc.
 
-Looking at the my service's logs, it seemed to only be affecting my account; other users were still able to complete the OAuth flow and generate tokens successfully. Maybe other accounts were running into it as well, but I couldn't easily tell.
+Looking at my service's logs, it seemed to only be affecting my account; other users were still able to complete the OAuth flow and generate tokens successfully. Maybe other accounts were running into it as well, but I couldn't easily tell.
 
 The authorize URL I was using looked like this:
 
