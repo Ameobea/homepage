@@ -1,5 +1,5 @@
 baseURL = 'https://cprimozic.net/notes/'
-languageCode = 'en-us'
+locale = 'en-us'
 title = "Casey Primozic's Notes"
 theme = "terminal"
 
@@ -79,7 +79,7 @@ site = "https://cprimozic.net/"
 
 [languages]
 [languages.en]
-languageName = "English"
+label = "English"
 title = "Casey Primozic's Notes"
 copyright = ""
 
