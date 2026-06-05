@@ -2,6 +2,16 @@ const path = require('path');
 const { createFilePath } = require('gatsby-source-filesystem');
 const { RetryChunkLoadPlugin } = require('webpack-retry-chunk-load-plugin');
 
+// Spotify dropped `preview_url` from its API; with every value null Gatsby can't
+// infer the field, breaking the Spotify component's query. Type it explicitly.
+exports.createSchemaCustomization = ({ actions }) => {
+  actions.createTypes(`
+    type SpotifyTopTrack implements Node {
+      preview_url: String
+    }
+  `);
+};
+
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions;
   if (node.internal.type === 'MarkdownRemark') {

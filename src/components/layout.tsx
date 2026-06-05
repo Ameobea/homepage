@@ -5,7 +5,7 @@ import { graphql, useStaticQuery } from 'gatsby';
 import './layout.css';
 import Header from '../components/Header';
 import HeaderMobile from '../components/HeaderMobile';
-import { filterNils } from 'ameo-utils';
+import { filterNils } from '../util';
 
 const styles = {
   root: {

@@ -1,5 +1,4 @@
 // require('prismjs/themes/prism-okaidia.css');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 require('./src/css/prism-laserwave.css');
 
 window.vizStarted = false;

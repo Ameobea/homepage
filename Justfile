@@ -28,7 +28,8 @@ run:
     wasm-bindgen ./target/wasm32-unknown-unknown/debug/*.wasm --target web --remove-producers-section --out-dir ./build
   cd ..
   cp ./triangles/build/* ./src/
-  gatsby develop --port 8009
+  # GATSBY_LOGGER=yurnalist avoids the ink/yoga-layout-prebuilt native crash on Node 22+
+  GATSBY_LOGGER=yurnalist gatsby develop --port 8009
 
 deploy:
   rsync -Prv -e "ssh -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -F /dev/null" ./public/* debian@cprimozic.ameo.dev:/var/www/cprimozic.net/

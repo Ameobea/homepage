@@ -31,3 +31,6 @@ export const randBool = () => Math.random() > 0.5;
 
 export const getSentry = (): typeof import('@sentry/browser') | undefined =>
   (window as any).sentry;
+
+export const filterNils = <T>(items: (T | null | undefined)[]): T[] =>
+  items.filter((item): item is T => item != null);

@@ -73,16 +73,10 @@ fn get_initial_triangle(
     base_triangle_coords: &TriangleBuf,
 ) -> (TriangleBuf, f32) {
     let initial_offset = Vector2::new(
-        rng().gen_range(
-            conf.triangle_size,
-            conf.canvas_width as f32 - conf.triangle_size,
-        ),
-        rng().gen_range(
-            conf.triangle_size,
-            conf.canvas_height as f32 - conf.triangle_size,
-        ),
+        rng().gen_range(conf.triangle_size..(conf.canvas_width as f32 - conf.triangle_size)),
+        rng().gen_range(conf.triangle_size..(conf.canvas_height as f32 - conf.triangle_size)),
     );
-    let rotation = rng().gen_range(0.0, f32::consts::PI / 2.0);
+    let rotation = rng().gen_range(0.0..(f32::consts::PI / 2.0));
     let proposed_first_triangle = [
         base_triangle_coords[0] + initial_offset,
         base_triangle_coords[1] + initial_offset,
@@ -155,7 +149,7 @@ impl Env {
             return;
         }
 
-        let ix = rng().gen_range(0, triangle_count);
+        let ix = rng().gen_range(0..triangle_count);
         if ix == self.oldest_triangle_ix {
             return self.set_new_last_triangle();
         }
@@ -439,7 +433,7 @@ fn find_triangle_placement(
     } = env;
 
     let proposed_rotation =
-        rotation + rng().gen_range(-*max_rotation_rads, *max_rotation_rads + 0.00001);
+        rotation + rng().gen_range(-*max_rotation_rads..(*max_rotation_rads + 0.00001));
     // determine if this proposed triangle would intersect any other triangle
     let proposed_isometry = Isometry2::new(Vector2::new(origin.x, origin.y), proposed_rotation);
     let proposed_triangle = [
@@ -477,7 +471,7 @@ fn find_triangle_placement(
 
 fn generate_triangle(env: &mut Env) -> Option<(AABB<f32>, TriangleBuf)> {
     // pick one of the other two vertices to use as the new origin
-    let (ix, rot_offset) = if rng().gen_range(0, 2) == 0 {
+    let (ix, rot_offset) = if rng().gen_range(0..2) == 0 {
         (1, deg_to_rad(env.conf.rotation_offset))
     } else {
         (2, deg_to_rad(-env.conf.rotation_offset))

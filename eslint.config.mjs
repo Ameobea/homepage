@@ -34,6 +34,8 @@ export default [
       'public',
       'external_mixins',
       'triangles',
+      'notes',
+      '**/*.min.js',
     ],
   },
   {
@@ -136,6 +138,7 @@ export default [
       'react/no-unescaped-entities': 0,
       '@typescript-eslint/no-explicit-any': 0,
       '@typescript-eslint/no-var-requires': 0,
+      '@typescript-eslint/no-require-imports': 0,
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {

@@ -7,9 +7,10 @@ version = "0.1.0"
 [dependencies]
 ncollide2d = "0.33"
 wasm-bindgen = "=0.2.92"
-rand = "0.7.3"
-rand_pcg = "0.2.1"
-rand_core = "0.5.1"
+# default-features off avoids `getrandom`, which won't build for wasm32-unknown-unknown; we only use a seeded Pcg32.
+rand = { version = "0.8", default-features = false }
+rand_pcg = "0.3"
+rand_core = "0.6"
 console_error_panic_hook = "0.1.6"
 
 [lib]
