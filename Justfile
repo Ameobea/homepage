@@ -1,35 +1,41 @@
 set dotenv-load := true
 
-build-all:
-  #!/bin/bash
+cdn := "https://cprimozic.b-cdn.net"
+deploy_target := "debian@ameo.dev:/var/www/cprimozic.net/"
 
-  rm -rf .cache public
-  cd triangles && \
-    ./release.sh && \
-    wasm-bindgen ./target/wasm32-unknown-unknown/release/*.wasm --target web --remove-producers-section --out-dir ./build
-  cd ..
-  cp ./triangles/build/* ./src
-  just opt
-  yarn build
+# Build the wasm triangle background and stage it under static/triangles/<hash>/ so the files are
+# immutable-cacheable like everything else the CDN serves
+triangles:
+  #!/usr/bin/env bash
+  set -euo pipefail
+  cargo build --manifest-path triangles/Cargo.toml --target wasm32-unknown-unknown --release
+  wasm-bindgen triangles/target/wasm32-unknown-unknown/release/engine.wasm --target web --remove-producers-section --out-dir triangles/build
+  wasm-opt triangles/build/engine_bg.wasm -O4 -c -o triangles/build/engine_bg.wasm
+  hash=$(cat triangles/build/engine_bg.wasm triangles/build/engine.js triangles/js/*.js | shasum | cut -c1-10)
+  rm -rf static/triangles
+  mkdir -p static/triangles/$hash src/lib/generated
+  cp triangles/build/engine.js triangles/build/engine_bg.wasm triangles/js/*.js static/triangles/$hash/
+  echo "{ \"dir\": \"/triangles/$hash\" }" > src/lib/generated/triangles.json
 
-  just build-notes
-  rm -rf public/notes
-  cp -r notes/public public/notes
+# Rebuild the Hugo notes site; `bun run build` copies its output into static/notes
+notes:
+  hugo --source notes --quiet
 
-build-notes:
-  cd notes && just build && cd ..
+# Local/trial build with root-relative asset URLs
+build: triangles notes
+  bun run build
 
-opt:
-  wasm-opt ./src/*.wasm -O4 -c -o ./src/*.wasm
+# Production build with assets served through the CDN pull zone
+build-prod: triangles notes
+  ASSET_PREFIX={{cdn}} bun run build
 
-run:
-  cd triangles && \
-    ./build.sh && \
-    wasm-bindgen ./target/wasm32-unknown-unknown/debug/*.wasm --target web --remove-producers-section --out-dir ./build
-  cd ..
-  cp ./triangles/build/* ./src/
-  # GATSBY_LOGGER=yurnalist avoids the ink/yoga-layout-prebuilt native crash on Node 22+
-  GATSBY_LOGGER=yurnalist gatsby develop --port 8009
+run: triangles
+  bun run dev
 
-deploy:
-  rsync -Prv -e "ssh -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -F /dev/null" ./public/* debian@cprimozic.ameo.dev:/var/www/cprimozic.net/
+preview:
+  bun run preview
+
+# Uploads land in temp files and are swapped into place together at the end, then orphans are
+# removed, so a page served mid-deploy never references assets that aren't there yet
+deploy: build-prod
+  rsync -rv --delay-updates --delete-after ./build/ {{deploy_target}}

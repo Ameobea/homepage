@@ -1,8 +1,0 @@
-.control-panel * {
-  box-sizing: unset !important;
-}
-
-.control-panel button,
-.control-panel select {
-  box-sizing: border-box !important;
-}

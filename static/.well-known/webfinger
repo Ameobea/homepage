@@ -1,0 +1,23 @@
+{
+  "subject": "ameo@mastodon.ameo.dev",
+  "aliases": [
+    "https://mastodon.ameo.dev/@ameo",
+    "https://mastodon.ameo.dev/users/ameo"
+  ],
+  "links": [
+    {
+      "rel": "http://webfinger.net/rel/profile-page",
+      "type": "text/html",
+      "href": "https://mastodon.ameo.dev/@ameo"
+    },
+    {
+      "rel": "self",
+      "type": "application/activity+json",
+      "href": "https://mastodon.ameo.dev/users/ameo"
+    },
+    {
+      "rel": "http://ostatus.org/schema/1.0/subscribe",
+      "template": "https://mastodon.ameo.dev/authorize_interaction?uri={uri}"
+    }
+  ]
+}

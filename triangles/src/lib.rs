@@ -14,7 +14,7 @@ use rand_core::SeedableRng;
 use rand_pcg::Pcg32;
 use wasm_bindgen::prelude::*;
 
-#[wasm_bindgen(raw_module = "../src/triangleHooks.tsx")]
+#[wasm_bindgen(raw_module = "./triangleHooks.js")]
 extern "C" {
     #[allow(clippy::too_many_arguments)]
     pub fn render_triangle(
