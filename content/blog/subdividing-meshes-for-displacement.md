@@ -74,7 +74,10 @@ Rather than use a displacement map, I made a small tweak to my vertex shader to 
 
 When I set it all up in my Three.JS scene, this is what I saw:
 
-<iframe src="https://homepage-external-mixins.ameo.design/subdivide/naive_displacement_demo.html" loading="lazy" style="width: 100%;aspect-ratio: 1530/1080;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+<image-compare value="65">
+  <img src="./images/subdivide/naive-displacement-before.jpg" alt="A screenshot of a cube rendered in Three.JS.  It's textured with a gray stone-like pattern and floating above a platform made of the same material.  The background is pure black." />
+  <img src="./images/subdivide/naive-displacement-after.jpg" alt="A screenshot of the results of applying a constant displacement to all vertices of the subdivided cube.  Each side of the cube has separated from each other and are floating off on their own with considerable distance between them.  The stone platform has raised higher as well." />
+</image-compare>
 
 _(You can use the slider on the image above to view the pre and post displacement versions)_
 
@@ -104,9 +107,10 @@ Normals also provide the ability to switch between "smooth" and "flat" shading m
 
 Here's a comparison between smooth (left) and flat (right) shading:
 
-<div style="display: flex; flex-direction: row; justify-content: center;">
-  <iframe src="https://homepage-external-mixins.ameo.design/subdivide/smooth_flat_shading.html" loading="lazy" style="max-width: 821px;width: 100%;aspect-ratio: 821/756;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
-</div>
+<image-compare>
+  <img src="./images/subdivide/smooth-shading.jpg" alt="A screenshot of a low-poly icosphere rendered with smooth shading in Three.JS.  It's possible to see that it's composed of rather large polygons when looking against the background, but it's not clear when looking at the interior of the mesh itself. It's textured with a gray stone-like pattern and floating above a platform made of the same material.  The background is pure black." />
+  <img src="./images/subdivide/flat-shading.jpg" alt="A screenshot of a low-poly icosphere rendered with flat shading in Three.JS.  It's very clear to see where each of the triangles that make it up start and end since there is a very clear line where the shade of the color of the surface suddenly changes. It's textured with a gray stone-like pattern and floating above a platform made of the same material.  The background is pure black." />
+</image-compare>
 
 For flat shading, the normal for each fragment is set to the normal of the face.  This means that unique vertices need to be created for each face - even if those vertices are at exactly the same position - since they need to be assigned unique normals.
 
@@ -276,7 +280,10 @@ The first thing I tried out was a noise-based displacement algorithm.  I sampled
 
 Here are the results:
 
-<iframe src="https://homepage-external-mixins.ameo.design/subdivide/noise_displ.html" loading="lazy" style="width: 100%;aspect-ratio: 3456/1895;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+<image-compare>
+  <img src="./images/subdivide/noise-displacement-before.jpg" alt="A screenshot of a scene rendered with Three.JS.  There are several floating geometric forms above a rectangular platform.  They're composed of simple shapes with sharp angles. All the shapes and the platform are shaded with a dark gray rock or cement-like color.  There are some shadows visible cast from a light source off screen. The background is pure black." />
+  <img src="./images/subdivide/noise-displacement-after.jpg" alt="A screenshot of a scene rendered with Three.JS.  There are several floating geometric forms above a rectangular platform.  They're heavily warped and deformed in a somewhat organic-looking way.  The surface of the platform is wrinkly and irregular which has caused a series of complex shadows to emerge. There are some shadows visible cast from a light source off screen. The background is pure black." />
+</image-compare>
 
 Quite successful, if I do say so myself.  This is a bit of an extreme example with a very high amount of displacement, but that helps to exaggerate the impact that the post-displacement normal calculation has on the shadows and shading.
 
@@ -318,7 +325,10 @@ One thing I noticed when doing subdivision with minimal or no displacement was t
 
 I spent a good while trying to figure out if there was a bug or some other issue in my normal computation algorithm. but it turns out that this is actually correctly shading behavior for the underlying geometry.  When I re-created similar geometry manually in Blender, similar triangular artifacts appeared:
 
-<iframe src="https://homepage-external-mixins.ameo.design/subdivide/blender_artifacts_example.html" loading="lazy" style="width: 100%;aspect-ratio: 3456/1985;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+<image-compare value="43">
+  <img src="./images/subdivide/blender-artifacts-wireframe.jpg" alt="A screenshot from Blender of a simple mesh made of two flat faces meeting at a fold.  The strip along the fold is subdivided into a grid of triangles shown as a wireframe, with blue lines indicating the vertex normals." />
+  <img src="./images/subdivide/blender-artifacts-shaded.jpg" alt="The same Blender mesh rendered with smooth shading.  A zigzag pattern of triangular shading artifacts appears along the fold, matching the artifacts produced by the Three.JS normal computation." />
+</image-compare>
 
 For certain patterns of triangles, the way the normal calculation works just naturally produces these checkered patterns in the lighting.
 
@@ -336,7 +346,10 @@ To address this, I marked the sharp edges before displacement and retain that sh
 
 3D modellers sometimes do this manually - explicitly marking certain edges as sharp even though their angle is smooth - in order to tweak the way their models are shaded.  Here's the effect it had on some of the meshes I was testing with:
 
-<iframe src="https://homepage-external-mixins.ameo.design/subdivide/pre_sharp_edges.html" loading="lazy" style="width: 100%;aspect-ratio: 1666/1009;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+<image-compare value="23">
+  <img src="./images/subdivide/pre-sharp-edges-before.jpg" alt="A screenshot of some amorphous structures floating above a wrinkly platform with a pure black background.  Everything is composed of the same gray stone or concrete-like material.  There are prominent shadows cast from the terrain and the floating structures on each other and on the platform.  The edges of the elongated structure floating in the foreground are mostly sharp, but appear somewhat smooth - especially on the left side." />
+  <img src="./images/subdivide/pre-sharp-edges-after.jpg" alt="A screenshot of some amorphous structures floating above a wrinkly platform with a pure black background.  Everything is composed of the same gray stone or concrete-like material.  There are prominent shadows cast from the terrain and the floating structures on each other and on the platform.  There are some prominent sharp-looking edges on the elongated floating structure in the foreground." />
+</image-compare>
 
 The effect is a bit subtle, but it really helps make certain meshes look more clean and retain their original structure a bit better.
 
@@ -352,7 +365,10 @@ My original solution for this was to just interpolate the displacement normals o
 
 As it turns out, this works the best for the kind of deformation I was doing.  However, it can create a sort of "bouncy house" look to the geometry.  Here's what it looks like when every vertex is displaced outward along its normal by a constant amount using this method:
 
-<iframe src="https://homepage-external-mixins.ameo.design/subdivide/bouncy_house.html" loading="lazy" style="width: 100%;aspect-ratio: 3456/1985;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+<image-compare value="38">
+  <img src="./images/subdivide/displacement-normals-base.jpg" alt="A screenshot of a scene rendered with Three.JS.  There are several floating platforms made up of rectangular prisms floating over a void. The background is pure black." />
+  <img src="./images/subdivide/displacement-normals-interpolated.jpg" alt="A screenshot of a scene rendered with Three.JS.  There are several floating platforms made out of puffed-up-looking rectangular prisms floating over a void. They look like they've been inflated with air, kind of like a bouncy house. The background is pure black." />
+</image-compare>
 
 See what I mean?  They look like overinflated air mattresses.
 
@@ -362,7 +378,10 @@ The other method I came up with for setting displacement normals for new vertice
 
 Here's how the same scene looks using that method:
 
-<iframe src="https://homepage-external-mixins.ameo.design/subdivide/edge_normals.html" loading="lazy" style="width: 100%;aspect-ratio: 3456/1985;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+<image-compare value="38">
+  <img src="./images/subdivide/displacement-normals-base.jpg" alt="A screenshot of a scene rendered with Three.JS.  There are several floating platforms made up of rectangular prisms floating over a void. The background is pure black." />
+  <img src="./images/subdivide/displacement-normals-edge.jpg" alt="A screenshot of a scene rendered with Three.JS.  There are several floating platforms made up of rectangular prisms floating over a void.  They appear to be beveled in a way with some degree of smoothing on some edges, but with their tops remaining flat.  There are some visible lighting and other graphical artifacts on some areas of the geometry. The background is pure black." />
+</image-compare>
 
 The tops are flat now, but the geometry is less smooth and there are some large faces that get produced against the edges.
 

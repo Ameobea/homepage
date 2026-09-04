@@ -19,6 +19,7 @@ import { VFile } from 'vfile';
 import type { Element, Root as HastRoot } from 'hast';
 import type { BundledLanguage } from 'shiki';
 import { rehypeLocalImages } from './images';
+import { rehypeImageCompare } from './imageCompare';
 
 const EXCERPT_LENGTH = 400;
 
@@ -79,10 +80,14 @@ const rehypeCustomElements = () => (tree: HastRoot) => {
 
     const preset = node.properties.preset;
     const src = `https://nn.ameo.dev/?constrainedLayout=1${preset ? `&preset=${preset}` : ''}`;
-    parent.children[index] = h('details.nn-viz', { open: node.properties.defaultexpanded === 'true' }, [
-      h('summary', 'Click to open demo'),
-      h('iframe', { src, loading: 'lazy', title: 'Neural network visualization demo' }),
-    ]);
+    parent.children[index] = h(
+      'details.nn-viz',
+      { open: node.properties.defaultexpanded === 'true' },
+      [
+        h('summary', 'Click to open demo'),
+        h('iframe', { src, loading: 'lazy', title: 'Neural network visualization demo' }),
+      ]
+    );
     return SKIP;
   });
 };
@@ -106,6 +111,7 @@ const processor = unified()
     }),
     content: () => headerLinkIcon(),
   })
+  .use(rehypeImageCompare)
   .use(rehypeLocalImages)
   .use(rehypeCustomElements)
   .use(rehypeShiki, {

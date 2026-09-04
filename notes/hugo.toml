@@ -97,3 +97,8 @@ menuMore = "Show more"
 [languages.en.params.logo]
 logoText = "Notes"
 logoHomeLink = "/"
+
+# The image comparison slider's CSS/JS are shared with the main site's blog posts
+[[module.mounts]]
+source = "../src/lib/image-compare"
+target = "assets/image-compare"

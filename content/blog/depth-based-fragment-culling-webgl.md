@@ -34,7 +34,10 @@ The awesome part is that it does all of that live within the fragment shader!  Y
 
 I took code [from Shadertoy](https://www.shadertoy.com/view/MdyfDV) - which itself is an implementation of a [research paper](https://hal.inria.fr/hal-01824773) - and adapted it to work inside of a Three.JS PBR shader material.  Here's how it looks in my project:
 
-<iframe src="https://homepage-external-mixins.ameo.design/depth_based_fragment_culling/tiling_compare.html" loading="lazy" style="width: 100%;aspect-ratio: 1856/1326;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+<image-compare>
+  <img src="./images/depth_based_fragment_culling/hex-tiling-before.jpg" alt="A screenshot of a room from my WebGL/Three.JS based game without any hex tiling.  There are clear places where the textures tile and it looks bad and unrealistic even though the textures themselves are seamless" />
+  <img src="./images/depth_based_fragment_culling/hex-tiling-after.jpg" alt="A screenshot of a room from my WebGL/Three.JS based game with a tile-breaking shader in use.  The textures blend together in such a way that no tile points are visible." />
+</image-compare>
 <!-- <iframe src="http://localhost:5173/depth_based_fragment_culling/tiling_compare" loading="lazy" style="width: 100%;aspect-ratio: 1856/1326;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe> -->
 
 I'm extremely impressed with how well it works.  Pretty much any texture I've tried it with works great and the quality is amazing.
@@ -106,7 +109,10 @@ depthTexture.minFilter = THREE.NearestFilter;
 
 This is what the output of the depth pass looks like if rendered to RGBA, compared to the scene itself:
 
-<iframe src="https://homepage-external-mixins.ameo.design/depth_based_fragment_culling/depth_diffuse.html" loading="lazy" style="width: 100%;aspect-ratio: 1850/1326;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+<image-compare>
+  <img src="./images/depth_based_fragment_culling/diffuse-pass.jpg" alt="Screenshot of the fully textured final output of my scene from the exact same angle as the depth pass" />
+  <img src="./images/depth_based_fragment_culling/depth-pass.jpg" alt="The output of the depth pass for my scene displayed as RGBA.  There is a lot of banding and strange artifacts visible" />
+</image-compare>
 
 The strange coloring and banding in the depth pass output is due to the packing scheme which the depth shader uses to increase the resolution of the recorded depth data by combining it into multiples channels of the output texture.
 

@@ -141,7 +141,10 @@ The [`n8ao`](https://github.com/N8python/n8ao) screen-space ambient occlusion ef
 
 Here's a Geotoy scene rendering a 3D Hilbert curve with and without `n8ao`:
 
-<iframe src="https://homepage-external-mixins.ameo.design/tech_behind_geotoy/na8o_comparison.html" loading="lazy" style="width: 100%;aspect-ratio: 3456/2234;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+<image-compare>
+  <img src="./images/tech-behind-geotoy/n8ao-off.avif" alt="A screenshot of a 3D Hilbert curve rendered with Three.JS. The curve is textured with a white texture with blue lines on a black background without SSAO.  It appears rather bright and mostly uniformly lit with some shadows in certain areas, but not too much." />
+  <img src="./images/tech-behind-geotoy/n8ao-on.avif" alt="A screenshot of a 3D Hilbert curve rendered with Three.JS. The curve is textured with a white texture with blue lines on a black background with SSAO. It appears darker overall, with more pronounced shadows in the crevices and areas where parts of the curve are close together, giving it a greater sense of depth and dimensionality." />
+</image-compare>
 
 For me, it really makes the difference between having it feel like an artificial-looking rendering and something I could imagine holding in my hand.
 

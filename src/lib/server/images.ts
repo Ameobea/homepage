@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { h } from 'hastscript';
 import { SKIP, visit } from 'unist-util-visit';
-import type { Element, Root } from 'hast';
+import type { Element, Properties, Root } from 'hast';
 import type { VFile } from 'vfile';
 import { IMAGE_MANIFEST, REPO_ROOT } from './paths';
 import {
@@ -46,31 +46,56 @@ export const imagesUnder = (prefix: string): Record<string, ImageEntry> =>
 const isLocalSrc = (src: string) =>
   !/^([a-z][a-z0-9+.-]*:)?\/\//i.test(src) && !src.startsWith('/') && !src.startsWith('data:');
 
-export const buildImage = (entry: ImageEntry, alt: string): Element => {
-  const original = originalUrl(entry);
-  const common = {
-    alt,
-    width: entry.width,
-    height: entry.height,
-    loading: 'lazy',
-    decoding: 'async',
-  };
-  if (entry.widths.length === 0) {
-    return h('img.post-img', { src: original, ...common });
+/**
+ * Manifest entry for an `src` written relative to the markdown file; null for remote/absolute URLs
+ * and (with a warning) for local paths the image build didn't produce.
+ */
+export const resolveLocalImage = (src: string, file: VFile): ImageEntry | null => {
+  const decoded = decodeURIComponent(src);
+  if (!decoded || !isLocalSrc(decoded)) {
+    return null;
   }
+  const key = path.relative(REPO_ROOT, path.resolve(path.dirname(file.path), decoded));
+  const entry = loadManifest()[key];
+  if (!entry) {
+    console.warn(`${file.basename}: image not in manifest, leaving as-is: ${key}`);
+    return null;
+  }
+  return entry;
+};
 
-  const displayWidth = Math.min(entry.width, MAX_DISPLAY_WIDTH);
+const imgAttrs = (entry: ImageEntry, alt: string) => ({
+  alt,
+  width: entry.width,
+  height: entry.height,
+  loading: 'lazy',
+  decoding: 'async',
+});
+
+/** Responsive `<picture>` for a manifest entry, or a bare `<img>` for formats that are only copied. */
+export const buildPicture = (entry: ImageEntry, alt: string, props: Properties = {}): Element => {
+  if (entry.widths.length === 0) {
+    return h('img', { src: originalUrl(entry), ...imgAttrs(entry, alt), ...props });
+  }
   const sizes = sizesFor(MAX_DISPLAY_WIDTH);
-  return h('a.post-img-link', { href: original, target: '_blank', rel: 'noopener' }, [
-    h('picture.post-img', { style: `max-width: ${displayWidth}px` }, [
-      h('source', { type: 'image/avif', srcSet: srcset(entry, 'avif'), sizes }),
-      h('img', {
-        src: fallbackSrc(entry, MAX_DISPLAY_WIDTH),
-        srcSet: srcset(entry, 'webp'),
-        sizes,
-        ...common,
-      }),
-    ]),
+  return h('picture', props, [
+    h('source', { type: 'image/avif', srcSet: srcset(entry, 'avif'), sizes }),
+    h('img', {
+      src: fallbackSrc(entry, MAX_DISPLAY_WIDTH),
+      srcSet: srcset(entry, 'webp'),
+      sizes,
+      ...imgAttrs(entry, alt),
+    }),
+  ]);
+};
+
+export const buildImage = (entry: ImageEntry, alt: string): Element => {
+  if (entry.widths.length === 0) {
+    return buildPicture(entry, alt, { className: ['post-img'] });
+  }
+  const displayWidth = Math.min(entry.width, MAX_DISPLAY_WIDTH);
+  return h('a.post-img-link', { href: originalUrl(entry), target: '_blank', rel: 'noopener' }, [
+    buildPicture(entry, alt, { className: ['post-img'], style: `max-width: ${displayWidth}px` }),
   ]);
 };
 
@@ -79,20 +104,12 @@ export const buildImage = (entry: ImageEntry, alt: string): Element => {
  * `<picture>` markup pointing at the variants produced by `scripts/build-images.ts`.
  */
 export const rehypeLocalImages = () => (tree: Root, file: VFile) => {
-  const entries = loadManifest();
   visit(tree, 'element', (node, index, parent) => {
     if (node.tagName !== 'img' || !parent || index === undefined) {
       return;
     }
-    const src = decodeURIComponent(String(node.properties.src ?? ''));
-    if (!src || !isLocalSrc(src)) {
-      return;
-    }
-
-    const key = path.relative(REPO_ROOT, path.resolve(path.dirname(file.path), src));
-    const entry = entries[key];
+    const entry = resolveLocalImage(String(node.properties.src ?? ''), file);
     if (!entry) {
-      console.warn(`${path.basename(file.path)}: image not in manifest, leaving as-is: ${key}`);
       return;
     }
     const alt = String(node.properties.alt || entry.name.replace(/[-_]+/g, ' '));

@@ -1,0 +1,10 @@
+{{- $pos := .Get "value" | default "50" -}}
+<div class="image-compare" style="--pos: {{ $pos | safeCSS }}%">
+{{ .Inner | safeHTML }}
+<div class="image-compare-handle" role="slider" tabindex="0" aria-label="Image comparison slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ $pos }}"></div>
+</div>
+{{- if not (.Page.Store.Get "imageCompare") -}}
+{{- .Page.Store.Set "imageCompare" true }}
+<style>{{ (resources.Get "image-compare/image-compare.css").Content | safeCSS }}</style>
+<script type="module">{{ (resources.Get "image-compare/image-compare.js").Content | safeJS }}</script>
+{{- end -}}

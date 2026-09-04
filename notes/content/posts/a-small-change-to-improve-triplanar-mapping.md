@@ -47,7 +47,10 @@ It turns out that this one-line change has a lot of impact - especially for cert
 
 First of all, it makes the transition regions smaller and reduces the amount of visible overlap between different planes.  This is most obvious on smooth meshes like this sphere:
 
-<iframe src="https://homepage-external-mixins.ameo.design/triplanar_mapping_enhancement.html" loading="lazy" style="width: 100%;aspect-ratio: 847/812;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+{{< image-compare >}}
+<img src="https://i.ameo.link/cel.avif" width="847" height="812" loading="lazy" alt="A screenshot of a smooth-shaded, low-poly sphere rendered with Three.JS.  The sphere is textured with a gray rock-like texture and there are obvious areas where the texture is layered on top of itself with transparency." />
+<img src="https://i.ameo.link/cem.avif" width="847" height="812" loading="lazy" alt="A screenshot of a smooth-shaded, low-poly sphere rendered with Three.JS.  The sphere is textured with a gray rock-like texture, but there aren't any obvious areas where the texture is overlaid.  There are some areas where it fades smoothly between different colors." />
+{{< /image-compare >}}
 
 The left side shows the result of triplanar mapping with default linear weights, and the right shows the result when using the `pow(weights, vec3(8.))` change above.
 

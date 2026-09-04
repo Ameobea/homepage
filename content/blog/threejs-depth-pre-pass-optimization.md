@@ -16,7 +16,10 @@ Thanks to /u/kibakufuda and /u/cesium-sandwich <a href="https://www.reddit.com/r
 
 As I mentioned in my [previous post](https://cprimozic.net/blog/depth-based-fragment-culling-webgl/), I've been working with WebGL and Three.JS lately on a project.  My scene makes use of a [very clever algorithm](https://www.shadertoy.com/view/MdyfDV) in its fragment shader to implement seamless texture tiling without any visible grid patterns.  Here's how it looks compared to just tiling the texture normally:
 
-<iframe src="https://homepage-external-mixins.ameo.design/depth_based_fragment_culling/tiling_compare.html" loading="lazy" style="width: 100%;aspect-ratio: 1856/1326;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+<image-compare>
+  <img src="./images/depth_based_fragment_culling/hex-tiling-before.jpg" alt="A screenshot of a room from my WebGL/Three.JS based game without any hex tiling.  There are clear places where the textures tile and it looks bad and unrealistic even though the textures themselves are seamless" />
+  <img src="./images/depth_based_fragment_culling/hex-tiling-after.jpg" alt="A screenshot of a room from my WebGL/Three.JS based game with a tile-breaking shader in use.  The textures blend together in such a way that no tile points are visible." />
+</image-compare>
 <!-- <iframe src="http://localhost:5173/depth_based_fragment_culling/tiling_compare" loading="lazy" style="width: 100%;aspect-ratio: 1856/1326;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe> -->
 
 The algorithm works great and looks really good, but it has one issue: it's very computationally expensive.  It performs a lot of math to transform coordinates, and it requires three texture lookups per fragment.

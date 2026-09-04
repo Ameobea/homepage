@@ -18,7 +18,7 @@ const CONFIG = {
 // Output dirs are keyed on source bytes + this fingerprint, so a config change regenerates everything
 const CONFIG_FINGERPRINT = createHash('sha1').update(JSON.stringify(CONFIG)).digest('hex');
 
-const RESIZABLE = new Set(['.png', '.jpg', '.jpeg']);
+const RESIZABLE = new Set(['.png', '.jpg', '.jpeg', '.avif']);
 const COPY_ONLY = new Set(['.svg', '.gif', '.webp']);
 const CONCURRENCY = 4;
 
@@ -46,7 +46,10 @@ async function* walk(dir: string): AsyncGenerator<string> {
 }
 
 const variantWidths = (srcWidth: number) => [
-  ...new Set([...CONFIG.widths.filter((w) => w < srcWidth), Math.min(srcWidth, CONFIG.widths.at(-1)!)]),
+  ...new Set([
+    ...CONFIG.widths.filter((w) => w < srcWidth),
+    Math.min(srcWidth, CONFIG.widths.at(-1)!),
+  ]),
 ];
 
 const describe = async (file: string): Promise<{ key: string; entry: Entry; buf: Buffer }> => {

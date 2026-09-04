@@ -1,6 +1,7 @@
 <script lang="ts">
   import 'katex/dist/katex.min.css';
   import './post.css';
+  import '$lib/image-compare/image-compare.css';
   import PageLayout from '$lib/components/PageLayout.svelte';
   import rssIcon from '$lib/images/rss.svg';
 

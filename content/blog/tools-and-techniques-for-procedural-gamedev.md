@@ -44,7 +44,10 @@ Normally, triplanar mapping uses a linear mix of three texture lookups for each 
 
 To improve this, I run the weights through a `pow()` call with a pretty high exponent and then re-normalize the resulting vector.  This has the effect of putting more weight on the dominant axis and making the transition areas much smaller.  This drastically improves the quality of the results (left is without `pow()`, right is with):
 
-<iframe src="https://homepage-external-mixins.ameo.design/3d_procgen/triplanar_sharpening.html" loading="lazy" style="width: 100%;aspect-ratio: 2817/1728;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+<image-compare>
+  <img src="./images/3d-procgen/triplanar-sharpening-before.avif" alt="A close-up screenshot of a dark, rocky, procedurally textured surface rendered with Three.JS using standard triplanar mapping.  The texture looks blurry and ghosted in the areas where the three axis projections blend together with similar weights." />
+  <img src="./images/3d-procgen/triplanar-sharpening-after.avif" alt="The same rocky surface rendered with sharpened triplanar mapping weights.  The texture detail is crisp everywhere and the ghosting in the transition areas is gone." />
+</image-compare>
 
 As an added bonus, performing this transformation results in one axis having a weight very close to 1 and the other two axes having weights very close to zero for most places on the mesh.  This allows for an optimization that just completely skips texture lookups for weights smaller than some threshold and makes the performance overhead of triplanar mapping much lighter - barely more than normal UV-mapped texturing.
 
@@ -58,7 +61,10 @@ This is another technique that I make use of in most of my scenes in some way.  
 
 Here's an example of the effect it can have on a stripped-down scene to highlight its impact:
 
-<iframe src="https://homepage-external-mixins.ameo.design/depth_based_fragment_culling/tiling_compare.html" loading="lazy" style="width: 100%;aspect-ratio: 1856/1326;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+<image-compare>
+  <img src="./images/depth_based_fragment_culling/hex-tiling-before.jpg" alt="A screenshot of a room from my WebGL/Three.JS based game without any hex tiling.  There are clear places where the textures tile and it looks bad and unrealistic even though the textures themselves are seamless" />
+  <img src="./images/depth_based_fragment_culling/hex-tiling-after.jpg" alt="A screenshot of a room from my WebGL/Three.JS based game with a tile-breaking shader in use.  The textures blend together in such a way that no tile points are visible." />
+</image-compare>
 
 It's hard to overstate how good this effect is at making a wide range of scenes look way, way better - and all it takes is adding one extra config option to the material to turn it on.  It can make a scene go from looking like a low-effort mockup to semi-realistic all by itself.
 
@@ -136,7 +142,10 @@ This is the piece I've been working on most recently.  My original goal was to t
 
 Here's a bit of an extreme example of the kind of deformation that can be achieved using this process:
 
-<iframe src="https://homepage-external-mixins.ameo.design/subdivide/noise_displ.html" loading="lazy" style="width: 100%;aspect-ratio: 3456/1895;overflow:hidden;display: block;outline:none;border:none;box-sizing:border-box; margin-left: auto; margin-right: auto"></iframe>
+<image-compare>
+  <img src="./images/subdivide/noise-displacement-before.jpg" alt="A screenshot of a scene rendered with Three.JS.  There are several floating geometric forms above a rectangular platform.  They're composed of simple shapes with sharp angles. All the shapes and the platform are shaded with a dark gray rock or cement-like color.  There are some shadows visible cast from a light source off screen. The background is pure black." />
+  <img src="./images/subdivide/noise-displacement-after.jpg" alt="A screenshot of a scene rendered with Three.JS.  There are several floating geometric forms above a rectangular platform.  They're heavily warped and deformed in a somewhat organic-looking way.  The surface of the platform is wrinkly and irregular which has caused a series of complex shadows to emerge. There are some shadows visible cast from a light source off screen. The background is pure black." />
+</image-compare>
 
 These efforts led to me building a pretty capable software pipeline for ingesting raw geometry data, making arbitrary changes to it, and re-exporting it in a ready-to-render format - all in the browser at runtime.
 
