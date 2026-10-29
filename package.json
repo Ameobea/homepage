@@ -17,7 +17,7 @@
     "@sentry/browser": "^10.73.0",
     "@shikijs/rehype": "^4.4.3",
     "@sveltejs/adapter-static": "^3.0.5",
-    "@sveltejs/kit": "^2.53.3",
+    "@sveltejs/kit": "^3.0.0",
     "@sveltejs/vite-plugin-svelte": "^7.1.2",
     "@types/hast": "^3.0.4",
     "@types/mdast": "^4.0.4",
